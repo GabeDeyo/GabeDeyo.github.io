@@ -1,0 +1,46 @@
+.dropdown-menu a > span{
+    transition: all 0.3s ease-out;
+}
+.dropdown-menu a:hover > span{
+    padding-left: 5px;
+    color: #000;
+}
+
+
+.list-group-item-text{
+    color: inherit;
+}
+
+
+
+/* FOOTER */
+footer {
+    background: #666;
+    position: relative;
+    clear: both;
+    max-width: 100%;
+}
+
+footer ul {
+    margin: 0;
+}
+
+footer ul li {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 5px 10px 0;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+footer ul li a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+footer ul li a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+footer ul li a:active, a:focus, a:visited{
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
