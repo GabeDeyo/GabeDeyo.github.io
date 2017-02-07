@@ -1,0 +1,113 @@
+body{
+    background-color: #eee;
+}
+
+
+.navbar-inverse {
+    border: none;
+}
+
+
+/* FOOTER */
+footer {
+    background: #666;
+    position: relative;
+    clear: both;
+    max-width: 100%;
+}
+
+footer ul {
+    margin: 0;
+}
+
+footer ul li {
+    display: inline-block;
+    text-decoration: none;
+    padding: 10px 5px 10px 0;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+footer ul li a {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+footer ul li a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+footer ul li a:active, a:focus, a:visited{
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+}
+
+
+.heliList {
+    background-color: #999;
+    margin-bottom: 75px;
+
+    /*Example Div */
+    /*<div class="heliList">
+        <h2>Project Goals</h2>
+        <ul>
+            <li><p>Learn to create performant infinite or endless style games by moving the world instead of the player.</p></li>
+            <li><p>Learn to optimize your game by using object pooling to create the illusion of many objects using only a few.</p></li>
+            <li><p>Create 'cartoon style' non-realistic 2D physics using Unity's built in 2D Physics system.</p></li>
+        </ul>
+    </div>*/
+}
+.heliList li p{
+    text-decoration: none;
+    color: #111;
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    //display: block;
+}
+.heliList li p:hover {
+    padding-left: 5px;
+    background: #666;
+    cursor: default;
+    color: #000;
+}
+.heliList a{
+    color: #111;
+}
+.heliList a:hover{
+    color: #000;
+}
+.heliList .selected{
+    padding-left: 5px;
+    font-size: 110%;
+    background: #666;
+    cursor: default;
+    color: #000;
+}
+.heliList .glyphicon-remove{
+    -webkit-transition: color 0.3s ease;
+    -moz-transition: color 0.3s ease;
+    -o-transition: color 0.3s ease;
+    -ms-transition: color 0.3s ease;
+}
+.heliList .glyphicon-remove:hover{
+    color: #444;
+}
+.heliList h2 {
+    font-family: Helvetica, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    color: #000;
+}
+.heliList ul {
+    list-style-type: none;
+    margin-left: 10px;
+    padding: 0;
+}
+.heliList li {
+    font: 200 20px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px solid #777;
+}
+.heliList li:last-child {
+    border: none;
+}
