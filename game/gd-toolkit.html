@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Development</title>
+    <title>Game Developers Toolkit</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -72,25 +72,43 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center" style="text-decoration: underline;">Game Developers Toolkit</h1>
+                    <!------------------------------------------------->
 
-                <div class="jumbotron">
-                    <h1 class="text-center">Unity Engine</h1>
-                    <ul class="list-group">
-                        <!-- PERFORMANCE -->
-                        <a href="performance.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span> Performance</h3>
-                            <p class="list-group-item-text">A series of tips on the performance of the Unity Game Engine.</p>
-                        </a>
-                        <!-- NOTES -->
-                        <a href="notes.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span> Notes</h3>
-                            <p class="list-group-item-text">A series of notes on the Unity Game Engine.</p>
-                        </a>
-                    </ul>
+                    <aside>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron col-md-12 heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#adaptive-soundtracks">Adaptive Soundtracks</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="adaptive-soundtracks">
+                        <h2>XXX</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                        </ul>
+                    </div>
+
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -117,6 +135,49 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+</div>
+
+    Code Template
+
+<div class="jumbotron col-md-12 heliList">
+    <h2>Code</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>public bool coding = true;
+            <br>private Rigidbody2D rb;</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Start(){
+                <br>&nbsp; console.log('Start Function');
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Update(){
+                <br>&nbsp; console.log('Don't log here, ya dingus');
+            <br>}</code>
+        </p></li>
+    </ul>
+</div>
+
+-->
