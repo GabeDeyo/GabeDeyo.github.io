@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-menu-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-menu-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-menu-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -51,10 +51,10 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-menu-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-menu-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -73,7 +73,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center" style="text-decoration: underline;">Game Developers Toolkit</h1>
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Game Developers Toolkit</h1>
                     <!------------------------------------------------->
 
                     <aside>
@@ -94,6 +94,14 @@
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
                                 <a href="#game-feel">Game Feel &amp; Juice</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#4step-level-design">4 Step Level Design</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#redesign-death">Redesigning Death</a>
                                 </p>
                             </li>
                         </ul>
@@ -131,6 +139,7 @@
                                  heading in the right direction.
                             </p></li>
                         </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
                     <div class="jumbotron col-md-12 heliList" id="sequence-breaking">
@@ -174,21 +183,115 @@
                                 carefully designed, the player could miss information, get stuck, or get frustrated.
                             </p></li>
                         </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
                     <div class="jumbotron col-md-12 heliList" id="game-feel">
                         <h2>Game Feel &amp; Juice</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Game feel is a largely abstract and invisible art critical to making great
+                                platform/action games.</b>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Unfortunatly this feeling is hard to pin-point and usually depends on each specific
+                                game. It should help a player feel like they are truly interacting with and touching
+                                the game world.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Some pretty good examples of this in-game technique can be seen through screen shake,
+                                precice time manipulation, or almost anything to give the player feedback that their
+                                character is interacting with the world or enemies. Sound effects can play a big
+                                part in game feel as well (<a href="#adaptive-soundtrack">Adaptive Sounds</a>)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Sound effects can play a big part in game feel as well
+                                (<a href="#adaptive-soundtrack">Adaptive Sounds</a>). Simple examples of this could
+                                be tones rising with each subsequent collection of points, or simply realistic gun
+                                shot sounds rather than bland shots.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The camera can play a huge role in game feel too. It should have an intelligence
+                                about it and move around the world in a unique manner.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Ultimately, game, feel is all about doubling down on the core of your gameplay
+                                and perfecting those mechanics. It takes a lot of polish and tinkering to make it
+                                work but the end result is much better.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="4step-level-design">
+                        <h2>4 Step Level Design - Analyzing Super Mario 3D World</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>This section looks at a Japanese poem structure technique that allows players to
+                                be introduced to a mechanic, develop it, twist it, and embed that mechanic in the
+                                players arsenal.</b>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Introduction</b> - In the first stage, safely introduce the mechanic to the player
+                                where they would not be punished for failure.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Develop</b> - In the second stage, use the mechanic again in a harder system
+                                where they may have to get better until they can pass.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Twist</b> - In the third stage, turn the concept on its head to help solidify
+                                the players mastery or let them think about the concept more deeply.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Conclusion</b> - In the final stage, give the player a chance to really show off
+                                their newly honed skills with a flagpole type finish. Could be a hard way to finish
+                                the level, or use those skills in a boss fight.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This technique is helpful in the long run because the game can re-introduce concepts
+                                introduced earlier and be confident the player will remember and utilize the same
+                                skills as they used previously.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Be sure to let a mechanic mature so the player has adequate time to learn and perfect
+                                it. Also don't throw too many mechanics at a player at once, unless they have learned
+                                the previous mechanics and your just twisting the current mechanic.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="redesign-death">
+                        <h2>Redesigning Death</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
                                 <b>Big Idea</b>
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                For many years, death has been executed in relatively the same way. Player dies.
+                                Black screen. Rewind time. Try again.
+                                <br>Mostly, the only thing thats changed is games are even more lenient.
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                There are some solutions however. Many rogue like games will completely change when
+                                the player dies. Spelunky and others change their dungeons before setting you out
+                                again or have checkpoints you can access with a risk of missing crucial early items.
+                                Rogue Legacy even changes the characters lineage to help get a different playstyle.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Some even more in-depth death mechanics we can see today is Shadow of Mordor. The
+                                Nemesis System changes the core enemy groups on a players death. In this case, the
+                                player may get killed, but the enemy that kills the player really changes the
+                                enemy group dynamic.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                When killing a player, don't take everything away from them but give them the
+                                opportunity to risk winning their loot back. Some games even make you face previous
+                                versions of yourself in order to take regain your pride.
                             </p></li>
                         </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
                     <!-------------------------------------->
@@ -241,6 +344,7 @@
             XXX
         </p></li>
     </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
 </div>
 
 Code Template
@@ -263,6 +367,7 @@ Code Template
             <br>}</code>
         </p></li>
     </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
 </div>
 
 -->
