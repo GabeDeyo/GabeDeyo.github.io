@@ -1,3 +1,4 @@
+/* Dropdown Menu */
 .dropdown-menu a > span{
     transition: all 0.3s ease-out;
 }
@@ -5,13 +6,9 @@
     padding-left: 5px;
     color: #000;
 }
-
-
 .list-group-item-text{
     color: inherit;
 }
-
-
 
 /* FOOTER */
 footer {

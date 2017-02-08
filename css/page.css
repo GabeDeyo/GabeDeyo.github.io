@@ -1,12 +1,24 @@
+/* Body */
 body{
     background-color: #eee;
 }
 
-
+/* Navbar */
 .navbar-inverse {
     border: none;
 }
 
+/* Dropdown Menu */
+.dropdown-menu a > span{
+    transition: all 0.3s ease-out;
+}
+.dropdown-menu a:hover > span{
+    padding-left: 5px;
+    color: #000;
+}
+.list-group-item-text{
+    color: inherit;
+}
 
 /* FOOTER */
 footer {
@@ -40,20 +52,10 @@ footer ul li a:active, a:focus, a:visited{
     text-decoration: none;
 }
 
-
+/* Heli List */
 .heliList {
     background-color: #999;
     margin-bottom: 75px;
-
-    /*Example Div */
-    /*<div class="heliList">
-        <h2>Project Goals</h2>
-        <ul>
-            <li><p>Learn to create performant infinite or endless style games by moving the world instead of the player.</p></li>
-            <li><p>Learn to optimize your game by using object pooling to create the illusion of many objects using only a few.</p></li>
-            <li><p>Create 'cartoon style' non-realistic 2D physics using Unity's built in 2D Physics system.</p></li>
-        </ul>
-    </div>*/
 }
 .heliList li p{
     text-decoration: none;
