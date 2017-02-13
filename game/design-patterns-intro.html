@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Design Patterns</title>
+    <title>Design Patterns - Intro</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -73,7 +73,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center" style="text-decoration: underline;" id="title">Game Design Patterns</h1>
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Intro</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
@@ -92,15 +92,31 @@
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#introDecoupling">Introduce Decoupling</a>
+                                <a href="#intro-decoupling">Introduce Decoupling</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#decoupleCost">Cost of Decoupling</a>
+                                <a href="#decouple-cost">Cost of Decoupling</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#performance_speed">Performance &amp; Speed</a>
+                                <a href="#performance-speed">Performance &amp; Speed</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#program-goals">Program Goals</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#simplicity">Simplicity</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#summary">Summary</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#overview">Patterns Overview</a>
                                 </p>
                             </li>
                         </ul>
@@ -153,7 +169,7 @@
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="introDecoupling">
+                    <div class="jumbotron col-md-12 heliList" id="intro-decoupling">
                         <h2>Introduce Decoupling</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
@@ -181,7 +197,7 @@
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="decoupleCost">
+                    <div class="jumbotron col-md-12 heliList" id="decouple-cost">
                         <h2>Cost of Decoupling</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
@@ -201,17 +217,126 @@
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="performance_speed">
+                    <div class="jumbotron col-md-12 heliList" id="performance-speed">
                         <h2>Performance &amp; Speed</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                Can intricate architecture and abstraction take away from performance? Many patterns
+                                make code more flexible by relying on virtual dispatches, interfaces, pointers,
+                                messages, and other mechanisms that have at least some runtime cost.
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                We use these patterns to make our program more flexible but performance can take
+                                a hit considering how much abstraction we need. But performance is all about assumptions,
+                                and the process of optimization relies on concrete limitations. For best optimizations
+                                we need to know the exactly limitations of our program (num enemies, class types, etc.)
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                However, when considering <i>development</i> speed, flexibility is our guiding light.
+                                The faster we can try out ideas and experiment with the program, the more flexible
+                                our prototypes can become and reduce total development time. Likewise, optimization
+                                often makes code less flexible.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The takaway here is, it's easier to make a fun game fast than it is to make a fast
+                                game fun. So keep the code flexible until design settles down and tear out some
+                                abstraction to improve performance later on.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="program-goals">
+                        <h2>Program Goals</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                We have a few forces in play:<br>
+                                &nbsp; 1. We want nice architecture so the code is easier to understand over the lifetime of the project.<br>
+                                &nbsp; 2. We want fast runtime performance<br>
+                                &nbsp; 3. We want to get today's features done quickly.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                These goals are all mainly focused on some kind of speed either regarding development
+                                or the program itself. While they are all partially in opposition, thinking about
+                                all three over the course of development can help overall.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                There is no easy trade-off here, just different flavors of wrong. If there was a
+                                correct answer, everyone would do it. This is great though! We have the opportunity
+                                to find what works best for our personal style and can start mastering it.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="simplicity">
+                        <h2>Simplicity</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                One method of easing our program goal constraints is <i>Simplicity</i>. We want code
+                                that once read, is fully understand and provides a clear solution
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This is a nuanced and difficult taks unfortunatly. Finding the simplicity in a program
+                                is like pattern matching or puzzle solving. It takes effort to see through the scattering
+                                of example use cases to find the hidden order underlying them all.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Blaise Pascal - <q cite="">I would have written a shorter letter, but I did not
+                                    have the time.</q>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="summary">
+                        <h2>Summary</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Abstraction and decoupling make evolving your program faster and easier,
+                                but don't waste time doing them unless you're confident the code in question
+                                needs that flexibility.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Think about and design for performance throughout your development cycle, but put
+                                off the low-level, nitty-gritty optimizations that lock assumptions into your code
+                                until as late as possible.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Move quickly to explore your game's design space, but don't go so fast that you
+                                leave a mess behind you. You'll have to live with it, after all.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                If you are going to ditch code, don't waste time making it pretty. Rock starts
+                                trash hotel rooms because they know they're going to check out the next day.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Most of all, <b>if you want to make something fun, have fun making it!</b>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="overview">
+                        <h2>Patterns Overview</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">1. Command</a>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">2. Flyweight</a>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">3. Observer</a>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">4. Prototype</a>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">5. Singleton</a>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">6. State</a>
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
