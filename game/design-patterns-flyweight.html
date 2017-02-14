@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Flyweight</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Flyweight</h1>
+                    <!------------------------------------------------->
+
+                    <aside>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron col-md-12 heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#intro">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#thousand-instances">A Thousand Instances</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#flyweight">Flyweight</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#put-down-roots">A Place to Put Down Roots</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="intro">
+                        <h2>Introduction</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                For this interesting pattern, imagine a sprawling forest. The trees all clearly the
+                                same species, but unique in their own way. This is made possible by the <b>Flyweight</b>.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                It's easy to describe and visualize a forest, however implementation can be a pain in
+                                the ass. We're talking thosands of trees, each with detailed geometry containing thousands
+                                of polygons.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Each tree has a bunch of bits associated with it.
+                                <br>&nbsp; &bull; A mesh of polygons that define the shape of the trunk, branches, and greenery.
+                                <br>&nbsp; &bull; Textures for the bark and leaves.
+                                <br>&nbsp; &bull; Its location and orientation in the forest.
+                                <br>&nbsp; &bull; Tuning parameters like size and tint so that each tree looks different.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In code this would be: <br>
+                                <code>class Tree {
+                                    <br>&nbsp; private Mesh mesh_;
+                                    <br>&nbsp; private Texture bark_;
+                                    <br>&nbsp; private Texture leaves_;
+                                    <br>&nbsp; private Vector position_;
+                                    <br>&nbsp; private double height_;
+                                    <br>&nbsp; private double thickness_;
+                                    <br>&nbsp; private Color barkTint_;
+                                    <br>&nbsp; private Color leafTint_;
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This is clearly a lot of data, especially considering the mesh and textures are large.
+                                Throwing thousands of these at the GPU in one frame would be disasterous. Fortunatly
+                                we have a pretty slick trick in dealing with this issue.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The <b>key note</b> here is that even though the forest contains thousands of trees,
+                                most look at least similar. They will probably use the same mesh and textures. So
+                                some fields of the Tree will be the <i>same</i> between all instances. (i.e. mesh, bark, leaves)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                We can basically split the object in half then. First we'll put all common properties
+                                into a seperate class. <br>
+                                <code>class TreeModel {
+                                    <br>&nbsp; private Mesh mesh_;
+                                    <br>&nbsp; private Texture bark_;
+                                    <br>&nbsp; private Texture leaves_;
+                                <br>};</code>
+                                <br>Since there's no reason to have the same meshes and textures in memory a thousand times.
+                                Then each instance of a tree should have a reference to that shared TreeModel. Then the
+                                Tree only contains instance-specific properties. <br>
+                                <code>class Tree {
+                                    <br>&nbsp; private TreeModel* model_;
+                                    <br>&nbsp; private Vector position_;
+                                    <br>&nbsp; private double height_;
+                                    <br>&nbsp; private double thickness_;
+                                    <br>&nbsp; private Color barkTint_;
+                                    <br>&nbsp; private Color leafTint_;
+                                <br>};</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Splitting the Tree up this ways is helpful for storing data in main memory, but still
+                                doesn't solve the issue of rendering it. We need to express this resource sharing
+                                in a way that the graphics card understands.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="thousand-instances">
+                        <h2>A Thousand Instances</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                To minimize the amount of data we're sending to the GPU, we need to send the shared
+                                data - TreeModel - just <b>once</b>. Then seperatly push over the tree's unique data.
+                                Finally, tell the GPU to use that one model to render each of those instances.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Luckily, both Direct3D and OpenGL can do something called <i>instance rendering</i>.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In both API's, you provide two streams of data. The first is the blob of common
+                                data that will be rendered multiple times. The second is the list of instances and
+                                their params that will be used to vary that first chunk of data each time it's drawn.
+                                With a single drawcall, an entire forest sprouts.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="flyweight">
+                        <h2>Flyweight</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This Pattern comes into play when you have objects that need to be lightweight, generally
+                                because you have too many of them.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This pattern solves this issue by separating out an object's data into two kinds. The
+                                first kind of data is the stuff that's not specific to a single instance of that object
+                                and can be shared across many of them. Commonly known as the <i>intrinsic state</i>,
+                                but it's better understandable as "context-free" objects.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The rest of the data is <i>extrinsic state</i> information. This is data unique to
+                                just that instance. This pattern saves memory by sharing one copy of the intrisic state
+                                across every place where an object appears.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Our previous example is pretty easy to identify where the pattern is used because we
+                                have a clear separate identity for the shared state: the TreeModel.
+                                <br>But the Flyweight Pattern can be fairly elusive when used in cases where there
+                                is no real well-defined identity for the shared object. Lets look at an example to
+                                see how that works.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="put-down-roots">
+                        <h2>A Place to Put Down Roots</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The ground we had those trees rooted in was pretty diverse as well. In fact, it has
+                                patches of grass, dirt, hills, lakes, rivers, and whatever else terains have. This
+                                would be a great place to make the ground tile-based: the surface of the world is a huge
+                                grid of tiny tiles. Each tile is covered in one kind of terrain.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Each terrain type has a number of properties that affect gameplay:
+                                <br>&nbsp; &bull; A movement cost that determines how fast a player can move through it.
+                                <br>&nbsp; &bull; A flag for whether it's a watery terrain that can be crossed by boats.
+                                <br>&nbsp; &bull; A texture to render it.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                It would not be very efficient to store all of that state data in each tile of the world.
+                                Instead, a common approach is to use an enum for terrain types: <br>
+                                <code>enum Terrain {
+                                    <br>&nbsp; TERRAIN_GRASS,
+                                    <br>&nbsp; TERRAIN_HILL,
+                                    <br>&nbsp; TERRAIN_RIVER
+                                    <br>&nbsp; // Other terrains...
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Then the world would maintain a huge grid of those: <br>
+                                <code>class World {
+                                    <br>&nbsp; private Terrain tiles_[WIDTH][HEIGHT];
+                                <br>};</code>
+                                <br>Note* Here we are using a nested array to store the 2D grid. That's efficient in
+                                C/C++ because it will pack all the elements together. In Java or other memory-managed
+                                languages, doing that will actually give you an array of rows where each element is a
+                                reference to the array of columns, which may not be as memory-friendly as you'd like.
+                                <br>In either case, real code would be better served by hiding this implementation detail
+                                behind a nice 2D grid data structure. We're doing this here just to keep it simple.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In order to actually get useful data about a tile, we do something like: <br>
+                                <code>int World::getMovementCost(int x, int y) {
+                                    <br>&nbsp; switch(tiles[x][y]) {
+                                    <br>&nbsp; &nbsp; case TERRAIN_GRASS: return 1;
+                                    <br>&nbsp; &nbsp; case TERRAIN_HILL: return 3;
+                                    <br>&nbsp; &nbsp; case TERRAIN_RIVER: return 2;
+                                    <br>&nbsp; &nbsp; //Other terrains...
+                                    <br>&nbsp; }
+                                <br>}
+                                <br>bool World::isWater(int x, int y){
+                                    <br>&nbsp; switch(tiles[x][y]) {
+                                    <br>&nbsp; &nbsp; case TERRAIN_GRASS: return false;
+                                    <br>&nbsp; &nbsp; case TERRAIN_HILL: return false;
+                                    <br>&nbsp; &nbsp; case TERRAIN_RIVER: return true;
+                                    <br>&nbsp; &nbsp; //Other terrains...
+                                    <br>&nbsp; }
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                I know I just spent a dick ton amount of time getting that setup, but it's ugly.
+                                We should be thinking of movement cost and wetness as data about the terrain, but
+                                here it's embedded in code. Worse, the data for a single terrain type is smeared
+                                across a bunch of methods. It would be nice to keep things encapsulated together.
+                                That is what objects are design for after all.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                It would be better if our terrain was designed like so: <br>
+                                <code>class Terrain {
+                                    <br>&nbsp; public Terrain(int movementCost, bool isWater, Texture texture) :
+                                    movementCost_(movementCost), isWater_(isWater), texture_(texture) {}
+                                    <br>&nbsp; public int getMovementCost() const { return movementCost_; }
+                                    <br>&nbsp; public bool isWater() const { return isWater_; }
+                                    <br>&nbsp; public const Texture&amp; getTexture() const { return texture_; }
+                                    <br>&nbsp; private int movementCost_;
+                                    <br>&nbsp; private bool isWater_;
+                                    <br>&nbsp; private Texture texture_;
+                                <br>}</code>
+                                <br>Note* all methods are const. Because the same object is used in multiple contexts,
+                                if you were to modify it, the changes would appear in multiple places simultaneously.
+                                <br>That's probably not what you want. Sharing objects to save memory should be an
+                                optimization that doesn't affect the visible behavior of the app. Because of this,
+                                Flyweight objects are almost always immutable.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Notice in the Terrain class, there is actually <i>nothing</i> specific to where
+                                the tile is. In flyweight terms, all of a terrain's state is "intrisic" or "context-free".
+                                Given that, there's no reason to have more than one of each terrain type. Every
+                                grass tile on the ground is identical to every other one. Instead of having the world
+                                be a grid of enums or Terrain objects, it will be a grid of pointers to Terrain objects.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Each tile that uses the same terrain will point to the same terrain instance: <br>
+                                <code>class World {
+                                    <br>&nbsp; private Terrain* tiles_[WIDTH][HEIGHT];
+                                    <br>&nbsp; //Other stuff...
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Since the terrain instances are used in multiple places, their lifetimes would be a
+                                little more complex to manage if you were to dynamically allocate them.
+                                Instead, we'll just store them directly in the world: <br>
+                                <code>class World {
+                                    <br>&nbsp; public World() : grassTerrain_(1, false, GRASS_TEXTURE), hillTerrain_(3, false, HILL_TERRAIN), riverTerrain_(2, true, RIVER_TERRAIN) {}
+                                    <br>&nbsp; private Terrain grassTerrain_;
+                                    <br>&nbsp; private Terrain hillTerrain_;
+                                    <br>&nbsp; private Terrain riverTerrain_;
+                                    <br>&nbsp; //Others if needed
+                                <br>};</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                And paint the ground like this: <br>
+                                <code>void World::generateTerrain() {
+                                    <br>&nbsp; //Fill the ground with grass.
+                                    <br>&nbsp; for(int x = 0; x < WIDTH; x++) {
+                                        <br>&nbsp; &nbsp; for(int y = 0; y < HEIGHT; y++) {
+                                            <br>&nbsp; &nbsp; &nbsp; //Sprinkle some hills.
+                                            <br>&nbsp; &nbsp; &nbsp; if(random(10) == 0){
+                                                <br>&nbsp; &nbsp; &nbsp; &nbsp; tiles_[x][y] = &amp;hillTerrain_;
+                                            <br>&nbsp; &nbsp; &nbsp; } else {
+                                                <br>&nbsp; &nbsp; &nbsp; &nbsp; tiles_[x][y] = &amp;grassTerrain_;
+                                            <br>&nbsp; &nbsp; &nbsp; }
+                                        <br>&nbsp; &nbsp; }
+                                    <br>&nbsp; }
+                                    <br>&nbsp; //Lay a river
+                                    <br>&nbsp; int x = random(WIDTH);
+                                    <br>&nbsp; for(int y = 0; y < HEIGHT; y++){
+                                        <br>&nbsp; &nbsp; tiles_[x][y] = &amp;riverTerrain_;
+                                    <br>&nbsp; }
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Now instead of methods on World for accessing the terrain properties, we can expose
+                                the Terrain object directly: <br>
+                                <code>const Terrain&amp; World::getTile(int x, int y) const {
+                                    <br>&nbsp; return *tiles_[x][y];
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This way, World is no longer coupled to all sorts of details of terrains. If you
+                                want some property of the tile, you can get it right from that object: <br>
+                                <code>in cost = world.getTile(2, 3).getMovementCost();</code>
+                                <br>So we're back to the pleasant API of working with real objects, and we did this
+                                with almost no overhead - a pointer is often no larger than an enum.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+    Code Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>Code</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>public bool coding = true;
+            <br>private Rigidbody2D rb;</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Start(){
+                <br>&nbsp; console.log('Start Function');
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Update(){
+                <br>&nbsp; console.log('Don't log here, ya dingus');
+            <br>}</code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+-->

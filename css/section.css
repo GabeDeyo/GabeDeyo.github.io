@@ -10,6 +10,27 @@
     color: inherit;
 }
 
+a{
+    color: #111;
+}
+a:hover{
+    color: inherit;
+}
+a:visited{
+    color: inherit;
+}
+a:focus{
+    color: inherit;
+}
+
+li{
+    color: #111;
+}
+a:hover li {
+    text-decoration: underline;
+}
+
+
 /* FOOTER */
 footer {
     background: #666;
