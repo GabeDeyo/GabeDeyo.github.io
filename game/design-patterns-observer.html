@@ -96,6 +96,14 @@
                                 <a href="#how-it-works">How It Works</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#too-slow">It's Too Slow?</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#dynamic-allocation">It Does Too Much Dynamic Allocation?</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -177,13 +185,204 @@
                         <h2>How It Works</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                <b>The Observer</b><br>
+                                We'll start with the base Observer class. <br>
+                                <code>class Observer {
+                                    <br>&nbsp; public virtual ~Observer() {}
+                                    <br>&nbsp; public virtual void onNotify(const Entity&amp; entity, Event event) = 0;
+                                <br>};</code>
+                                <br>The params of onNotify() are up to you, which unfortunaly makes the Observer pattern
+                                non ready-made pattern easily pasted into your current code.The typical patterns are the
+                                object htat sent the notification and a generic "data" parameter you stuff other details into.
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                Any concrete class that implements this becomes an observer. For now that would be our
+                                achievement example.<br>
+                                <code>class Achievement : public Observer {
+                                    <br>&nbsp; public virtual void onNotify(const Entity&amp; entity, Event event ) {
+                                        <br>&nbsp; &nbsp; switch(event) {
+                                            <br>&nbsp; &nbsp; &nbsp; case EVENT_ENTITY_FELL:
+                                                <br>&nbsp; &nbsp; &nbsp; &nbsp; if(entity.isHer() &amp;&amp; heroIsOnBridge_) {
+                                                    <br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unlock(ACHIEVEMENT_FELL_OFF_BRIDGE);
+                                                <br>&nbsp; &nbsp; &nbsp; &nbsp; }
+                                                <br>&nbsp; &nbsp; &nbsp; &nbsp; break;
+                                        <br>&nbsp; &nbsp; }
+                                    <br>&nbsp; }
+                                    <br>&nbsp; private void unlock(Achievement achievement) {
+                                        <br>&nbsp; &nbsp; //Unlock something if not already unlocked...
+                                    <br>&nbsp; }
+                                    <br>&nbsp; private bool heroIsOnBridge_;
+                                <br>};</code>
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                <b>The Subject</b><br>
+                                The notification method is invoked by the object being observed, this object is the
+                                "subject". It has two jobs. <br>
+                                <b>First Job</b> - Hold the list of observers that are waiting for communication: <br>
+                                <code>class Subject {
+                                    <br>&nbps; private Observer* observers_[MAX_OBSERVERS];
+                                    <br>&nbps; private in numObservers_;
+                                <br>}</code>
+                                <br>In real code, we should use a dynamically-sized collection instead of an array.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The important part is that the subject exposes a <i>public</i> API for modifying that list: <br>
+                                <code>class Subject {
+                                    <br>&nbsp; public void addObserver(Observer* observer) { //Add to array }
+                                    <br>&nbsp; public void removeObserver(Observer* observer) { //Remove from array }
+                                    <br>&nbsp; //Other stuff...
+                                <br>};</code>
+                                <br>This allows outside code to control who recieves notifications. The subject communicates
+                                with the observers, but it isn't <i>coupled</i> to them.
+                                <br>It is also important that the subject has a list of observers instead of a single one.
+                                This makes sure that observers aren't implicitly coupled to each other.
+                                <br>Since we wouldn't want two or more systems interfering with each other, supporting a
+                                list of observers ensures that each observer is treated independently from the others. As
+                                far as they know, each is the only thing in the program with eyes on the subject.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Second Job</b> - The other job of the subject is sending notifications. <br>
+                                <code>class Subject {
+                                    <br>&nbsp; protected void notify(const Entity&amp; entity, Event event) {
+                                        <br>&nbsp; &nbsp; for(int i = 0; i < numObservers_; i++) {
+                                            <br>&nbsp; &nbsp; &nbsp; observers_[i]->onNotify(entity, event);
+                                        <br>&nbsp; &nbsp; }
+                                    <br>&nbsp; }
+                                    <br>&nbsp; // Other Stuff
+                                <br>}</code>
+                                <br>Note* this code assumes observers don't modify the list in their onNotify() methods.
+                                A more robust implemementation would either prevent or gracefully handle ocncurrent modification
+                                like that.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Observable Physics</b><br>
+                                With the observer and subject, we can hook all this into our physics engine so it can
+                                send notifications and the achievement system can wire itself up to receive them. <br>
+                                <code>class Physics : public Subject {
+                                    <br>&nbsp; public void updateEntity(Entity&amp; entity);
+                                <br>}</code>
+                                <br>This lets us make notify() in Subject protected. So the derived physics engine can use
+                                it to send notifications, but outside code cannot. While addObserver() and removeObserver()
+                                 are public, so anything that can get to the physics system can observe it.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Now when the physics engine does something noteworthy, it calls notify() which walks the
+                                observer list and gives them a heads up.
+                                <br>In real code, we use avoid using inheritance here. Instea, we'd make Physics have an
+                                instance of Subject. Instead of observing the physics engine itself, the subject would be a seperate
+                                "falling event" object. Observers could register themselves using something like: <code>physics.entityFell().addObserver(this);</code>
+                                <br>To us this is the difference between the observer systems and event systems. With the former,
+                                you observe the thing that did something interesting. With the latter, you observe an
+                                object that represents the interesting thing that happens.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                So this is pretty simple. Just one class that maintains a list of pointers to instances
+                                of some interface. It's hard to believe that something so straightforeward is the
+                                communication backbone of countless programs and app frameworks.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Now when the physics engine does something noteworthy, it calls notify() which walks the
+                                observer list and gives them a heads up.
+                                <br>In real code, we use avoid using inheritance here. Instea, we'd make Physics have an
+                                instance of Subject. Instead of observing the physics engine itself, the subject would be a seperate
+                                "falling event" object. Observers could register themselves using something like: <code>physics.entityFell().addObserver(this);</code>
+                                <br>To us this is the difference between the observer systems and event systems. With the former,
+                                you observe the thing that did something interesting. With the latter, you observe an
+                                object that represents the interesting thing that happens.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="too-slow">
+                        <h2>It's Too Slow?</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The Observer Pattern gets a bad rap here, mostly because it's associated with
+                                concepts such as "events", "messages", and even "data binding". These systems are
+                                known to be slow(often deliberately). They involve things like queueing or doing dynamic
+                                allocation for each notificiation.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                But we've seen how it works. Sending a notification is simply walking a list and calling
+                                some virtual methods. Granted, it's a bit slower than a statically dispatched call, but
+                                this cost is negligible.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Too Fast?</b><br>
+                                It is important to note that the Observer pattern is synchronous. The subject invokes
+                                its observers directly, which means it doesn't resume its own work until all of the
+                                observers directly, which means it doesn't resume its own work until all of the
+                                observers have returned from their notification methods. A slow observer can block
+                                a subject.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This isn't that bad, but just needs to be something you're aware of. If you're responding
+                                to an event asynchronously, you need to finish and return control as quickly as possible
+                                so that the event doesn't lock up. When you have slow work to do, push it onto another
+                                thread or a work queue.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                You do need to be careful mixing observers with threading and explicit locks though.
+                                If an observer tries to grab a lock that the subject has, you can deadlock the game.
+                                In a highly threaded engine, you may be better off with asynchronous communication using
+                                an Event Queue.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="dynamic-allocation">
+                        <h2>It Does Too Much Dynamic Allocation?</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Many programmer have moved to garbage collected languages, and dynamic allocation
+                                isn't the hazard it used to be. However when it comes to performance-critical software,
+                                like games, memory allocation still matters. Dynamic allocation takes time, as does
+                                reclaiming memory, even if it happens automatically.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In real implementations, the observer list is almost always a dynamically allocated
+                                collection that grows and shrinks as observers are added and removed. That memory churn
+                                spooks programmers.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                We need to notice that it only allocates memory when observers are being wired up.
+                                Sending a notification requires no memory allocation whatsoever -  it's just a method
+                                call. If you hook up your observers at the start of the game and don't mess with them
+                                much, the amount of allocation is minimal.
+                                <br>But worst case, we can go through a way to implement adding and removing observers
+                                without dynamic allocation at all.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Linked Observers</b><br>
+                                So far, Subject owns a list of pointers to each Observer watching it. The Observer class
+                                itself has no reference to this list. It's just a pure virtual interface. Interfaces are preffered
+                                over concrete, stateful classes, so that's generally a good thing.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                If we're willing, we could put a bit of state in Observer, we can solve our allocation problems
+                                by threading the subject's list through the observers themselves. Instead of the subject having
+                                a separate collection of pointers, the observer objects become nodes in a linked list:
+                                <br>Subject/Head_ -> Observer/Next_ -> Observer/Next_
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                To implememnt this, first we'll get rid of the array in Subject and replace it with a
+                                pointer to the head of the list of observers: <br>
+                                <code>class Subject {
+                                    <br>&nbsp; Subject() : head_(NULL) {}
+                                    <br>&nbsp; //Methods
+                                    <br>&nbsp; private Observer* head_;
+                                <br>};</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Then we'll extend Observer with a pointer to the next observer in the list: <br>
+                                <code>class Observer {
+                                    <br>&nbsp; friend class Subject;
+                                    <br>&nbsp; public Observer() : next_(NULL) {}
+                                    <br>&nbsp; //Other stuff
+                                    <br>&nbsp; private Observer* next_;
+                                <br>};</code>
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
