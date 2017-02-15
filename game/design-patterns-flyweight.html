@@ -100,6 +100,14 @@
                                 <a href="#put-down-roots">A Place to Put Down Roots</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#performance">What About Performance?</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#links">Links</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -365,6 +373,68 @@
                                 <code>in cost = world.getTile(2, 3).getMovementCost();</code>
                                 <br>So we're back to the pleasant API of working with real objects, and we did this
                                 with almost no overhead - a pointer is often no larger than an enum.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="performance">
+                        <h2>What About Performance?</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                We say there is "almost" no overhead because performance bean counters will
+                                rightfully want to know how this compares to using an enum. Referencing the
+                                terrain by pointer implies an indirect lookup. To get to some terrain data
+                                like the movement cost, you first have to follow the pointer in the grid to find
+                                the terrain object and then find the movement cost there. Chasing a pointer
+                                like this can cause a cache miss, which can slow things down.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                As always, the golden rule of optimization is <i>profile first</i>. Modern
+                                computer hardware is too complex for performance to be a game of pure reason
+                                anymore. In the tests for this chapter, there was no penalty for using a
+                                flyweight over an enum. Flyweights were actually noticeably faster. But
+                                that's entirely dependent on how other data is laid out in memory.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                What I am confident of is that using flyweight objects shoudn't be dismissed
+                                out of hand. They give you the advantages of an object-oriented style without
+                                the expense of tons of objects. If you find yourself creating an enum and doing
+                                lots of switches on it, consider this pattern instead. If you're worried about
+                                performance, at least profile first before changing your code to a less maintainable style.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="links">
+                        <h2>Links</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">Factory Method</a>
+                                <br>In the tile example, we just eagerly created an instance for each terrain type
+                                and stored it in World. That made it easy to find and reuse the shared instances.
+                                In many cases, though, you won't want to create all of the flyweights up front.
+                                <br>If you can't predict which ones you actually need, it's better to create them on
+                                demand. To get the advantage of sharing, when you request one, you first see if
+                                you've already created an identical one. If so, you just return that instance.
+                                <br>This usually means that you have to encapsulate construction behind some
+                                interface that can first look for an existing object. Hiding a constructor like
+                                this is an example of the Factory Method pattern.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">Object Pool</a>
+                                <br>In order to return a previously created flyweight, you'll have to keep track
+                                of the pool of ones that you've already instantiated. As the name implies, that
+                                means that an object pool might be a helpful place to store them.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <a href="#">State</a>
+                                <br>When you're using the State pattern, you often have "state" objects that
+                                don't have any fields specific to the machine that the state is being used in.
+                                The state's identity and methods are enough to be useful. In that case, you can
+                                apply this pattern and reuse that same state instance in multiple state machines
+                                at the same time without any problems.
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Observer</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Observer</h1>
+                    <!------------------------------------------------->
+
+                    <aside>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron col-md-12 heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#observer">Observer</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#achievement">Achievement Unlocked</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#how-it-works">How It Works</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="observer">
+                        <h2>Observer</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                One of the most popular and utelized computer architectures is the Model-View-Controller
+                                architecture, and underlying that is the Observer pattern. It's so important that Java
+                                built it into it's core library and C# has it available right in the language (event).
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                The Observer Pattern is the most widely used pattern availble, but the game development
+                                world can be strangely sheltered at times, so maybe this seems new. We'll start off
+                                with an example to get familiarized.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This is a long and important one, so strap in!
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="achievement">
+                        <h2>Achievement Unlocked</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Let's add an achievement syste to a game. It features many badges players can unlock
+                                by completing various milestones. This is tricky to implement cleanly because we
+                                have such a wide range of achievements that are unlocked by different behaviors. If
+                                we're not careful, our achievement code could become entangled with everything.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                What we need here is our code to be concerned with one facet of the game nicely
+                                lumped in one place. The challenge here is that achievements are triggered by
+                                many aspects of gameplay. How can that work without coupling the achievement code
+                                to all of them?
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Enter the <b>Observer Pattern</b>. It lets one piece of code announce that something interesting
+                                happened without actually caring who receives the notification.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Example. We've got a block of physics code that handles gravity and tracks which
+                                bodies are relaxing on nice flat surfaces and which are plummeting toward sure
+                                demise. To implement a "Fall off a Bridge" badge, we could just jam the achievement
+                                code right here, but that's messy, instead, we should do this:
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                We could just jam the achievement code right here, but that's messy, instead, we should do this: <br>
+                                <code>void Physics::updateEntity(Entity&amp; entity){
+                                    <br>&nbsp; bool wasOnSurface = entity.isOnSurface();
+                                    <br>&nbsp; entity.accelerate(GRAVITY);
+                                    <br>&nbsp; entity.update();
+                                    <br>&nbsp; if(wasOnSurface &amp;&amp; !entity.isOnSurface()){
+                                        <br>&nbsp; &nbsp; notify(entity, EVENT_START_FALL);
+                                    <br>&nbsp; }
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This code essentially says, "I don't know who's listening, but this thing just fell,
+                                do what you need to."
+                                <br>The achievement system registers itself so that whenever the physics code sends
+                                a notification, the achievement system receives it. It can then check to see if
+                                the falling body in this case is our achievement hero, and if his prior perch happened
+                                to be a bridge. If so, it unlocks the proper achievement, plus it does all of this with
+                                no involvement from the physics code.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In face, we can change the set of achievements or tear out the entire achievement
+                                system without touching a line of the physics engine. It will still send out its notifications,
+                                oblivious to the fact that nothing is receiving them anymore.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="how-it-works">
+                        <h2>How It Works</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+    Code Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>Code</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>public bool coding = true;
+            <br>private Rigidbody2D rb;</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Start(){
+                <br>&nbsp; console.log('Start Function');
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Update(){
+                <br>&nbsp; console.log('Don't log here, ya dingus');
+            <br>}</code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+-->
