@@ -163,7 +163,61 @@
                                 <br>}</code>
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                Once all our monsters support that, we no longer need a spawner class for each
+                                monster class. Instead we define a single one: <br>
+                                <code>class Spawner {
+                                    <br>&nbps; public Spawner(Monster* prototype) : prototype_(prototype) {}
+                                    <br>&nbps; public Monster* spawnMonster() { return prototype_clone(); }
+                                    <br>&nbps; private Monster* prototype_;
+                                <br>};</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This internally holds a monster, a hidden one whose sole purpose is to be used
+                                by the spawner as a template to stamp out more monsters like it, sort of like
+                                a queen bee who never leaves the hive. <br>
+                                [Spawner(Monster)<-"Prototype"] -> clone() -> Monster.. Monster.. Monster..
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                To create a ghost spawner, we create a prototypal ghost instance and then
+                                create a spawner holding that prototype: <br>
+                                <code>Monster* ghostPrototype = new Ghost(15, 3);
+                                <br>Spawner* ghostSpawner = new Spawner(ghostPrototype);</code>
+                                <br>One great part about this pattern is that it doesn't just clone the class
+                                of the prototype, it clones its state too. This means we could make a spawner for
+                                fast ghost, weak ghosts, or slow ghosts just by creating an appropriate prototype ghost.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>How Well Does It Work?</b><br>
+                                So we don't have to create a separate spawner class for each monster. However,
+                                we do have to implement clone() in each monster class. That's about as much code
+                                as the spawners.
+                                <br>There are also some nasty semantic rathoes when you write a correct clone().
+                                Does it do a deep clone or shallow?
+                                <br>Also, not only does this not look like it's saving us much code in this
+                                contrived problem, there's the fact that it's a contrived problem. We had to take
+                                as a given that we have separate classes for each monster. These days, that's definitely
+                                not the way most game engines roll.
+                                <br>Most of us learned the hard way that big hierarchies like this are a pain to manage,
+                                which is why we instead use patterns like <b>Componenet</b> and <b>Type Object</b>
+                                to model different kinds of entities without enshrining each in its own class.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Spawn Functions</b><br>
+                                Even if we do have different classes for each monster, there are other ways to strip it down.
+                                Instead of making separate spawner classes for each monster, we could make spawn functions, like so: <br>
+                                <code>Monster* spawnGhost () {
+                                    <br>&nbsp; return new Ghost();
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                This is less boilerplate than rolling a whole class for constructing a monster
+                                of some type. Then the one spawner class can simply store a function pointer: <br>
+                                <code>typedef Monster* (*SpawnCallback)();
+                                <br>class Spawner {
+                                    <br>&nbps; public Spawner(SpawnCallback spawn) : spawn_(spawn) {}
+                                    <br>&nbps; public Monster* spawnMonster() { return spawn_() }
+                                    <br>&nbps; private SpawnCallback spawn_;
+                                <br>};</code>
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
