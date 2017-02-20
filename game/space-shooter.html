@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Space Shooter (Unity)</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Space Shooter (Unity)</h1>
+                    <!------------------------------------------------->
+
+                    <aside>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron col-md-12 heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#setup">Setup</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#player">Player</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#camera-lighting">Camera &amp; Lighting</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#background">Background</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#move-player">Move the Player</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#creating-shots">Creating Shots</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#shooting-shots">Shooting Shots</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="setup">
+                        <h2>Setup</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a new "Space Shooter" project and import SpaceShooter assets.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Change build target to Web Player.
+                                <br>In Project Settings - Player, change default width/height to 600/900
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Change Game View to 600/900.
+                                <br>Change layout so that Scene and Game Windows take up full vertical space somewhere.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="player">
+                        <h2>Player</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                In Models, drag the vehicle_player_ship into the scene as "Player".
+                                <br>Reset position.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a rigidbody to the player and deselect "Use Gravity"
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a Mesh Collider to the player.
+                                <br>Add the imported mesh collider to the player.
+                                <br>Make this a Trigger Collider
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add the Engine prefab to the player.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="camera-lighting">
+                        <h2>Camera &amp; Lighting</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Reset the Main Camera.
+                                <br>Rotate to (90, 0, 0) and position to (0, 10, 5)
+                                <br>Change Projection to Orthographic and set Orthographic Size to 10
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Change background color to black.
+                                <br>In render settings, change ambient light to black.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a Directional Light as "Main Light"
+                                <br>Reset position and rotation.
+                                <br>Manually rotate towards (20-ish, -115-ish)
+                                <br>Increase intensity to 0.75
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Duplicate the Main Light as "Fill Light" and reset completely.
+                                <br>Rotate to (5, 125, 0)
+                                <br>Reduce intensity to 0.5
+                                <br>Change color to (128, 192, 192)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Duplicate Main Light again as "Rim Light" and reset completely.
+                                <br>Change color to white.
+                                <br>Rotate to (-15, 65, 0)
+                                <br>Drop Intensity to 0.25
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create an empty "Lighting" object and reset.
+                                <br>Drop all the lights into this object.
+                                <br>Move Lighting to (0, 100, 0) to get it out of the way.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="background">
+                        <h2>Background</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a quad and name "Background" and reset.
+                                <br>Change rotation to (90, 0, 0)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Select the nebula image and drop it onto the Background.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Scale Background to the same ratio of the image (1:2)
+                                <br>Scale to (15, 30, 1)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Change Shader to Unlit/Texture
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drop Y position to -10
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="move-player">
+                        <h2>Move the Player</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Make a Scripts folder and make a "PlayerController" script.
+                                <br>Attach to player
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>PlayerController</i><br>
+                                <code>[System.Serializable]
+                                    <br>public class Boundary {
+                                    <br>&nbsp; public float xMin, xMax, zMin, zMax;
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>PlayerController</i><br>
+                                <code>public float speed;
+                                    <br>public float tilt;
+                                    <br>public Boundary boundary;
+                                </code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>PlayerController</i><br>
+                                <code>void FixedUpdate() {
+                                    <br>&nbsp; float moveHorizontal = Input.GetAxis("Horizontal");
+                                    <br>&nbsp; float moveVertical = Input.GetAxis("Vertical");
+                                    <br>&nbsp; Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
+                                    <br>&nbsp; rigidbody.velocity = movement * speed;
+                                    <br>&nbsp; rigidbody.position = new Vector3(
+                                        <br>&nbsp; &nbsp; Mathf.Clamp(rigidbody.position.x, boundary.xMin, boundary.xMax),
+                                        <br>&nbsp; &nbsp; 0f,
+                                        <br>&nbsp; &nbsp; Mathf.Clamp(rigidbody.position.z, boundary.zMin, boundary.zMax)
+                                    <br>&nbsp; );
+                                    <br>&nbsp; rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidbody.velocity.x * -tilt);
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Give the boundary values (-6, 6) width and (-4, 8) height.
+                                <br>Set tilt to 4.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="creating-shots">
+                        <h2>Creating Shots</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create an Empty as "Bolt" and reset.
+                                <br>Create a Quad as "VFX" as a child of Bolt and reset.
+                                <br>Rotate VFX to (90, 0, 0).
+                                <br>Remove the box collider from VFX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a new Material as "fx_bolt_orange" and select the appropriate texture for it.
+                                <br>Apply this material to the VFX object.
+                                <br>Change the shader to Mobile/Particles/Additive
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a Rigidbody to the Bolt.
+                                <br>Turn off gravity
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a Capsule Collider to the Bolt.
+                                <br>Change direction to z-axis
+                                <br>Rescale appropriately
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a "Mover" script to the Bolt.
+                                <i>Mover</i><br>
+                                <code>public float speed;</code>
+                                <code>void Start() {
+                                    <br>&nbsp; rigidbody.velocity = trasform.forward;
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>Mover</i><br>
+                                <code>void Start() {
+                                    <br>&nbsp; rigidbody.velocity = trasform.forward;
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Make this Bolt a prefab.
+                                <br>Set speed value to 20
+                                <br>Delete bolt from the scene.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="shooting-shots">
+                        <h2>Shooting Shots</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+    Code Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>Code</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>public bool coding = true;
+            <br>private Rigidbody2D rb;</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Start(){
+                <br>&nbsp; console.log('Start Function');
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>void Update(){
+                <br>&nbsp; console.log('Don't log here, ya dingus');
+            <br>}</code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+-->
