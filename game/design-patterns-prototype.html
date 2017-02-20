@@ -92,6 +92,10 @@
                                 <a href="#prototype-implementation">Prototype Implementation</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#prototype-paradigm">The Prototype Language Paradigm</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -218,6 +222,73 @@
                                     <br>&nbps; public Monster* spawnMonster() { return spawn_() }
                                     <br>&nbps; private SpawnCallback spawn_;
                                 <br>};</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Finally, to create a spawner for ghosts, you do: <br>
+                                <code>Spawner* ghostSpawner = new Spawner(spawnGhost);</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>Templates</b><br>
+                                Our spawner class needs to construct instances of some type, but we don't want to hard
+                                code some specific monster class. The natural solution then is to make it a <i>type
+                                parameter</i>, which <b>templates</b> let us do: <br>
+                                <code>class Spawner {
+                                    <br>&nbsp; public virtual ~Spawner(){}
+                                    <br>&nbsp; public virtual Monster* spawnMonster() = 0;
+                                <br>}
+                                <br>template &lt;class T&gt;
+                                <br>class SpawnerFor : public Spawner {
+                                    <br>&nbsp; public virtual Monster* spawnMonster() { return new T(); }
+                                <br>}</code>
+                                <br>Using it looks like: <br>
+                                <code>Spawner* ghostSpawner = new SpawnerFor&lt;Ghost&gt;();</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Templates are a popular tool in languages nowadays. The Spawner class here is so that
+                                code that doesn't care what kind of monster a spawner creates can just use it and
+                                work with pointers to Monster.
+                                <br>If we only had the SpawnerFor&lt;T&gt; class, there would be no single supertype
+                                the instantiations of that template all shared, so any code that worked with spawners of
+                                any monster type would itself need to take a template parameter.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <b>First-Class Types</b><br>
+                                The previous two solutions address the need to have a class, Spawner, which is
+                                parameterized by a type. In C++, types aren't generally first-class, so that requires
+                                some gymnastics. If you're using a dynamically-typed language like JS, Python, or Ruby
+                                where classes are regular object you can pass around, you can solve this more directly.
+                                <br>In some ways, the <b>Type Object</b> pattern is another workaround for the lack of
+                                first-class types. That pattern can still be useful even in languages with them, though
+                                because it lets you define what a "type" is. You may want different semantics
+                                than what the language's built-in classes provide.
+                                <br>When you make a spawner, just pass in the class of monster that it should construct.
+                                The actual runtime object that represents the monster's class.
+                                <br>With all of these options, we still can't say we've found a case where the Prototype
+                                pattern was the best answer. Until we go deeper and explore the prototype as a
+                                language paradigm.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="prototype-paradigm">
+                        <h2>The Prototype Language Paradigm</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Many people take "OOP" as synonymous with "classes". Definitions of OOP tend to feel
+                                like credos of opposing religious denominations, but a fairly non-contentious take
+                                on it is that OOP <i>let you define</i> "objects" which bundle data and code together.
+                                Compared to structured languages like C and functional languages like Scheme, the
+                                defining characteristic of OOP is that it tightly binds state and behavior together.
+                                <br>You may think classes are the one and only way to do that, but a handful of
+                                programmers beg to differe. Some of those guys create a language called <i>Self</i>
+                                and while as OOP as can be, it has no classes.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                XXX
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
