@@ -112,6 +112,18 @@
                                 <a href="#shooting-shots">Shooting Shots</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#boundary">Boundary</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#hazards">Creating Hazards</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#explosions">Explosions</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -312,13 +324,137 @@
                         <h2>Shooting Shots</h2>
                         <ul>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                <i>PlayerController</i><br>
+                                <code>public GameObject shot;
+                                    <br>public Transform shotSpawn;
+                                    <br>public float fireRate;
+                                    <br>private float nextFire;
+                                </code>
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                <i>PlayerController</i><br>
+                                <code>void Update() {
+                                    <br>&nbps; if(Input.GetButtonDown("Fire1") &amp;&amp; Time.time > nextFire) {
+                                    <br>&nbsp; &nbsp; nextFire = Time.time + fireRate;
+                                    <br>&nbps; &nbps; Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+                                    <br>&nbps; }
+                                <br>}</code>
                             </p></li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                XXX
+                                Create Empty called "Shot Spawn" as a spawn point.
+                                <br>Drag onto the player.
+                                <br>Position appropriatly (0, 0, 1.25)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Give shot prefab to prefab location, and shot spawn to location.
+                                <br>Use 0.25 as fire rate.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="boundary">
+                        <h2>Boundary</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create an empty cube as "Boundary".
+                                <br>Set position to (0, 0, 5)
+                                <br>Set scale to (15, 1, 20)
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a script called "DestroyByBoundary" and attach to Boundary.
+                                <i>DestroyByBoundary</i><br>
+                                <code>void OnTriggerExit(Collider other) {
+                                    Destroy(other.gameObject);
+                                <br>}</code>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="hazards">
+                        <h2>Hazards</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create an Empty as "Asteroid" and position to (0, 0, 8)
+                                <br>Drag the first asteroid model onto Asteroid.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a Rigidbody  to Asteroid
+                                <br>Set without gravity.
+                                <br>Set Anular Drag to 0
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a Capsule Collider to the Asteroid.
+                                <br>Scale correctly
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a "Random Rotator" script and add to Asteroid.<br>
+                                <i>Random Rotator</i><br>
+                                <code>public float tumble;</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>Random Rotator</i><br>
+                                <code>void Start() {
+                                    <br>&nbsp; rigidbody.angularVelocity = Random.insideUnitSphere * tumble;
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a "DestroyByContact" script to the Asteroid <br>
+                                <i>DestoryByContact</i><br>
+                                <code>void OnTriggerEnter(Collider other){
+                                    <br>&nbsp; Destory(other.gameObject);
+                                    <br>&nbsp; Destroy(gameObject);
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Give the Boundary a tag of "Boundary"
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByContact</i><br>
+                                <code>void OnTriggerEnter(Collider other) {
+                                    <br>&nbsp; if(other.tag == "Boundary") {
+                                    <br>&nbsp; &nbsp; return;
+                                    <br>&nbsp; }
+                                    <br>&nbsp; Destroy(other.gameObject);
+                                    <br>&nbsp; Destroy(gameObject);
+                                <br>}</code>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="explosions">
+                        <h2>Explosions</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByContact</i><br>
+                                <code>public GameObject explosion;
+                                    <br>public GameObject playerExplosion;
+                                </code>
+                                <br>Drag first explosion fx to explosion slot.
+                                <br>Drag player explosion fx to explosion slot.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByContact</i><br>
+                                <code>void OnTriggerEnter(Collider other) {
+                                    <br>&nbsp; if(other.tag == "Boundary") {
+                                    <br>&nbsp; &nbsp; return;
+                                    <br>&nbsp; }
+                                    <br>&nbsp; Instantiate(explosion, transform.position, transform.rotation);
+                                    <br>&nbsp; if(other.tag == "Player") {
+                                    <br>&nbsp; &nbsp; Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+                                    <br>&nbsp; }
+                                    <br>&nbsp; Destroy(other.gameObject);
+                                    <br>&nbsp; Destroy(gameObject);
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                !Give the Player the "Player" tag!
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drag the Mover script to the Asteroid
+                                <br>Bring speed down to -5
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
