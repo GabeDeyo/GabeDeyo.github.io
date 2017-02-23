@@ -124,6 +124,14 @@
                                 <a href="#explosions">Explosions</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#game-controller">Game Controller</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#spawn-waves">Spawn Waves</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -455,6 +463,101 @@
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
                                 Drag the Mover script to the Asteroid
                                 <br>Bring speed down to -5
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="game-controller">
+                        <h2>Game Controller</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a new Empty "Game Controller" object and reset.
+                                <br>Set tag to "GameController"
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Add a "Game Controller" script to the object.
+                                <i>Game Controller</i><br>
+                                <code>public GameObject hazard;
+                                    <br>public Vector3 spawnValues;
+                                </code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>Game Controller</i><br>
+                                <code>void Start() {
+                                    <br>&nbsp; SpawnWaves();
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>Game Controller</i><br>
+                                <code>void SpawnWaves() {
+                                    <br>&nbsp; Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                                    <br>&nbsp; Quaternion spawnRotation = Quaternion.identity;
+                                    <br>&nbsp; Instantiate(hazard, spawnPosition, spawnRotation);
+                                <br>}</code>
+                                <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                    Give spawnValues (6, 0, 15) and the game object an asteroid
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="spawn-waves">
+                        <h2>Spawn Waves</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>GameController</i><br>
+                                <code>public GameObject hazard;
+                                    <br>public Vector3 spawnValues;
+                                    <br>public int hazardCount;
+                                    <br>public float spawnWait;
+                                    <br>public float startWait;
+                                    <br>public float waveWait;
+                                </code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>GameController</i><br>
+                                <code>void Start() {
+                                    <br>&nbsp; StartCoroutine(SpawnWaves());
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>GameController</i><br>
+                                <code>IEnumerator SpawnWaves() {
+                                    <br>&nbsp; yield return new WaitForSeconds(startWait);
+                                    <br>&nbps; while(true) {
+                                        <br>&nbsp; &nbsp; for(int i = 0; i < hazardCount; i++) {
+                                        <br>&nbsp; &nbsp; &nbsp; Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                                        <br>&nbsp; &nbsp; &nbsp; Quaternion spawnRotation = Quaternion.identity;
+                                        <br>&nbsp; &nbsp; &nbsp; Instantiate(hazard, spawnPosition, spawnRotation);
+                                        <br>&nbsp; &nbsp; &nbsp; yield return new WaitForSeconds(spawnWait);
+                                        <br>&nbsp; &nbsp; }
+                                        <br>&nbsp; &nbsp; yield return new WaitForSeconds(waveWait);
+                                    <br>&nbps; }
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Set hazard count to 10
+                                <br>Spawn wait to 0.5
+                                <br>Start wait to 1
+                                <br>Wave wait to 4
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a new script called "DestroyByTime"
+                                <code>public float lifetime;</code>
+                                <code>void Start() {
+                                    <br>&nbsp; Destroy(gameObject, lifetime);
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByTime</i>
+                                <code>void Start() {
+                                    <br>&nbsp; Destroy(gameObject, lifetime);
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Find the asteroid vfx and attach this script to all those prefabs
+                                <br>Set the lifetime to all of them to 2.
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
