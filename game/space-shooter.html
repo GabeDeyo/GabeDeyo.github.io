@@ -132,6 +132,22 @@
                                 <a href="#spawn-waves">Spawn Waves</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#audio">Audio</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#scoring">Scoring</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#end-game">End Game</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#final-goals">Final Goals</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -558,6 +574,169 @@
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
                                 Find the asteroid vfx and attach this script to all those prefabs
                                 <br>Set the lifetime to all of them to 2.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="audio">
+                        <h2>Audio</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Make sure 3D sound is OFF for all sounds in the folder.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drag and drop an explosion_asteroid sound to the explosion_asteroid vfx prefab.
+                                <br>Make sure play on awake is on.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drag and drop the explosion_player sound to the explosion_player vfx prefab.
+                                <br>Make sure play on awake is on.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drag and drop the weapon_player to the Player object.
+                                <br>Deselect play on awake.
+                                <i>PlayerController</i><br>
+                                <code>if(Input.GetButton("Fire1") &amp;&amp; Time.time > nextFire) {
+                                    <br>&nbsp; //Other information
+                                    <br>&nbsp; audio.Play();
+                                <br>}</code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Drag and drop the music_background to the GameController object.
+                                <br>Make sure play on awake is on and Loop is also on.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                On the Player object, bring the Audio Source volume down to 0.5.
+                                <br>On the GameController, bring the Audio Source volume down to 0.5.
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="scoring">
+                        <h2>Scoring</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a new GUI Text in the scene as Score Text.
+                                <br>Change text to Score Text.
+                                <br>Position and anchor in the Upper Left corner with an appropriate offset.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>GameController</i><br>
+                                <code>public GUIText scoreText;
+                                    <br>private int score;
+                                </code><br>
+                                <code>void Start() {
+                                    <br>&nbsp; score = 0;
+                                    <br>&nbsp; UpdateScore();
+                                <br>}</code><br>
+                                <code>void UpdateScore() {
+                                    <br>&nbsp; scoreText.text = "Score: " + score;
+                                <br>}</code><br>
+                                <code>public void AddScore(int newScoreValue) {
+                                    <br>&nbsp; score += newScoreValue;
+                                    <br>&nbsp; UpdateScore();
+                                <br>}</code>
+                                <br>Give Score Text to scoreText field.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByContact</i><br>
+                                <code>//Below both if statements
+                                    <br>public int scoreValue;
+                                    <br>private GameController gameController;
+                                    <br>void Start() {
+                                    <br>&nbsp; GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+                                    <br>&nbsp; if(gameControllerObject != null) {
+                                    <br>&nbsp; &nbsp; gameController = gameControllerObject.GetComponent<GameController>();
+                                    <br>&nbsp; }
+                                    <br>&nbsp; else { Debug.Log("No Game Controller") }
+                                    <br>}
+                                    <br>gameController.AddScore(scoreValue);
+                                </code>
+                                <br>Set Score Value to 10
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="end-game">
+                        <h2>End Game</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create an Empty Display Text object and reset.
+                                <br>Add Score Text to Display Text.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a GUI Text as Restart Text.
+                                <br>Set position to (1, 1, 0)
+                                <br>Set anchor to upper right and alignment to right.
+                                <br>Give an appropriate pixel offset padding.
+                                <br>Add to Display Text.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Create a GUI Text as GameOverText and position at (0.5, 0.6, 0)
+                                <br>Add to Display Text.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>GameController</i><br>
+                                <code>public GUIText restartText;
+                                    <br>public GUIText gameOverText;
+                                    <br>private bool gameOver;
+                                    <br>private bool restart;
+                                </code><br>
+                                <code>void Start(){
+                                    <br>&nbsp; gameOver = false;
+                                    <br>&nbsp; restart = false;
+                                    <br>&nbsp; restartText.text = "";
+                                    <br>&nbsp; gameOverText.text = "";
+                                <br>}</code><br>
+                                <code>public void GameOver(){
+                                    <br>&nbsp; gameOverText.text = "Game Over!";
+                                    <br>&nbsp; gameOver = true;
+                                <br>}</code><br>
+                                <code>//In SpawnWaves, after yield return new WaitForSeconds(waveWait)
+                                    <br> if(gameOver) {
+                                        <br>&nbsp; restartText.text = "Press 'R' to Restart".
+                                        <br>&nbsp; restart = true;
+                                        <br>&nbsp; break;
+                                    <br> }
+                                </code><br>
+                                <code>void Update() {
+                                    <br>&nbsp; if(restart) {
+                                        <br>&nbsp; &nbsp; if(Input.GetKeyDown(KeyCodeR)) {
+                                            <br>&nbsp; &nbsp; &nbsp; Application.LoadLevel(Application.loadedLevel);
+                                        <br>&nbsp; &nbsp; }
+                                    <br>&nbsp; }
+                                <br>}</code>
+                                <br>Apply appropriate objects to their respective fields.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                <i>DestroyByContact</i><br>
+                                <code>//After instantiation of the player explosion
+                                    <br>gameController.GameOver();
+                                </code>
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                Select both the restart text and score text.
+                                <br>Change font-size to 20 (GameOVer text to 25)
+                                <br>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+                    </div>
+
+                    <div class="jumbotron col-md-12 heliList" id="final-goals">
+                        <h2>Final Goals</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                1. Make Game in Unity
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                2. Go through extended training: Adding enemies, hazards, scrolling background and more.
+                            </p></li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                                3. Go through mobile training: Converting this game to mobile.
                             </p></li>
                         </ul>
                         <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
