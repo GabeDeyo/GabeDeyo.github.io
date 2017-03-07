@@ -89,7 +89,7 @@
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#creational">Creational</a>
+                                <a href="#creational">Creational Design Patterns</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
@@ -117,7 +117,7 @@
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#structural">Structural</a>
+                                <a href="#structural">Structural Design Patterns</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
@@ -148,1019 +148,1315 @@
                                 <a href="#proxy">Proxy</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#behavioral">Behavioral Design Patterns</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#chain-of-responsibility">Chain of Responsibility</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#Command">Command</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="introduction">
-                        <h2>Introduction</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Design patterns are solutions to recurring problems; <b>guidelines on how to tackle
-                                certain problems.</b> They are not classes, packages or librares that you can plug
-                                in and make magic happen. These are, rather, guidelines on how to tackle problems
-                                in certain situations.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>In software engineering, a software design pattern is a general reusable solution to
-                                a commonly occurring problem within a given context in software design. It is not a finished
-                                design that can be transformed directly into source or machine code. It is a description
-                                or template for how to solve a problem that can be used in many different situations.</i>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>*Warning*</b>
-                                <br>&nbsp; &bull; Design patterns are not silver bullters to all your problems.
-                                <br>&nbsp; &bull; Do not try to force them; bad things are supposed to happen, if done so.
-                                Keep in mind that design patterns are solutions to problems, not solution finding problems.
-                                <br>&nbsp; &bull; If used in a correct place in a correct manner, they can prove to be a
-                                savior; or else they can result in a worse mess of code.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Types of Design Patterns</b>
-                                <br>&nbsp; &bull; <a href="#creational">Creational</a>
-                                <br>&nbsp; &bull; Structural
-                                <br>&nbsp; &bull; Behavioral
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="introduction">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Design patterns are solutions to recurring problems; <b>guidelines on how to tackle
+            certain problems.</b> They are not classes, packages or librares that you can plug
+            in and make magic happen. These are, rather, guidelines on how to tackle problems
+            in certain situations.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>In software engineering, a software design pattern is a general reusable solution to
+            a commonly occurring problem within a given context in software design. It is not a finished
+            design that can be transformed directly into source or machine code. It is a description
+            or template for how to solve a problem that can be used in many different situations.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>*Warning*</b>
+            <br>&nbsp; &bull; Design patterns are not silver bullters to all your problems.
+            <br>&nbsp; &bull; Do not try to force them; bad things are supposed to happen, if done so.
+            Keep in mind that design patterns are solutions to problems, not solution finding problems.
+            <br>&nbsp; &bull; If used in a correct place in a correct manner, they can prove to be a
+            savior; or else they can result in a worse mess of code.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Types of Design Patterns</b>
+            <br>&nbsp; &bull; <a href="#creational">Creational</a>
+            <br>&nbsp; &bull; Structural
+            <br>&nbsp; &bull; Behavioral
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="creational">
-                        <h2>Creational</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Creational patterns are focused towards how to instantiate an object or group
-                                of related objects.</b>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Sub-Patterns</b>
-                                <br>&nbsp; &bull; <a href="#simple-factory">Simple Factory</a>
-                                <br>&nbsp; &bull; <a href="#factory-method">Factory Method</a>
-                                <br>&nbsp; &bull; <a href="#abstract-factory">Abstract Factory</a>
-                                <br>&nbsp; &bull; <a href="#builder">Builder</a>
-                                <br>&nbsp; &bull; <a href="#prototype">Prototype</a>
-                                <br>&nbsp; &bull; <a href="#singelton">Singleton</a>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="creational">
+    <h2>Creational Design Patterns</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Creational patterns are focused towards how to instantiate an object or group
+            of related objects.</b>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Sub-Patterns</b>
+            <br>&nbsp; &bull; <a href="#simple-factory">Simple Factory</a>
+            <br>&nbsp; &bull; <a href="#factory-method">Factory Method</a>
+            <br>&nbsp; &bull; <a href="#abstract-factory">Abstract Factory</a>
+            <br>&nbsp; &bull; <a href="#builder">Builder</a>
+            <br>&nbsp; &bull; <a href="#prototype">Prototype</a>
+            <br>&nbsp; &bull; <a href="#singelton">Singleton</a>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="simple-factory">
-                        <h2>Simple Factory</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Consider, you are building a house and you need doors. It would be a mess if
-                                every time you need a door, you put on your carpenter clothes and start making a
-                                door in your house. Instead you should get it made from a <b>factory</b>.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Simple Factory patterns simply generate an instance for client without exposing
-                                any instantiation logic to the client.</i>
-                                <br>In OOP, a factory is an object for creating other objects - formally a factory
-                                is a function or method that returns objects of a varying prototype or class from
-                                some method call, which is assumed to be "new".
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Lets stick with our door analogy.
-                                <br>First of all we have a door interface and the implementation:<br>
-                                <code>interface Door {
-                                    <br>&nbsp; public function getWidth() : float;
-                                    <br>&nbsp; public function getHeight() : float;
-                                <br>}
-                                <br>class WoodenDoor implements Door {
-                                    <br>&nbsp; protected $width;
-                                    <br>&nbsp; protected $height;
-                                    <br>&nbsp; public function __construct(float $width, float $height) {
-                                        <br>&nbsp; &nbsp; $this->width = $width;
-                                        <br>&nbsp; &nbsp; $this->height = $height;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getWidth() : float {
-                                        <br>&nbsp; &nbsp; return $this->width;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getHeight() : float {
-                                        <br>&nbsp; &nbsp; return $this->height;
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Then we need our <b>door factory</b> that makes the door and returns it: <br>
-                                <code>class DoorFactory {
-                                    <br>&nbsp; public static function makeDoor($width, $height) : Door {
-                                        <br>&nbsp; &nbsp; return new WoodenDoor($width, $height);
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use it like so: <br>
-                                <code>$door = DoorFactory::makeDoor(100, 200);
-                                <br>echo 'Width: ' . $door->getWidth();
-                                <br>echo 'Height: ' . $door->getHeight();</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>When to Use?</b>
-                                <br>When creating an object is not just a few assignments and involves some logic,
-                                it makes sense to put it in a dedicated factory instead of repeating the same code
-                                everywhere.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="simple-factory">
+    <h2>Simple Factory</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Consider, you are building a house and you need doors. It would be a mess if
+            every time you need a door, you put on your carpenter clothes and start making a
+            door in your house. Instead you should get it made from a <b>factory</b>.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Simple Factory patterns simply generate an instance for client without exposing
+            any instantiation logic to the client.</i>
+            <br>In OOP, a factory is an object for creating other objects - formally a factory
+            is a function or method that returns objects of a varying prototype or class from
+            some method call, which is assumed to be "new".
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Lets stick with our door analogy.
+            <br>First of all we have a door interface and the implementation:<br>
+            <code>interface Door {
+                <br>&nbsp; public function getWidth() : float;
+                <br>&nbsp; public function getHeight() : float;
+            <br>}
+            <br>class WoodenDoor implements Door {
+                <br>&nbsp; protected $width;
+                <br>&nbsp; protected $height;
+                <br>&nbsp; public function __construct(float $width, float $height) {
+                    <br>&nbsp; &nbsp; $this->width = $width;
+                    <br>&nbsp; &nbsp; $this->height = $height;
+                <br>&nbsp; }
+                <br>&nbsp; public function getWidth() : float {
+                    <br>&nbsp; &nbsp; return $this->width;
+                <br>&nbsp; }
+                <br>&nbsp; public function getHeight() : float {
+                    <br>&nbsp; &nbsp; return $this->height;
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we need our <b>door factory</b> that makes the door and returns it: <br>
+            <code>class DoorFactory {
+                <br>&nbsp; public static function makeDoor($width, $height) : Door {
+                    <br>&nbsp; &nbsp; return new WoodenDoor($width, $height);
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so: <br>
+            <code>$door = DoorFactory::makeDoor(100, 200);
+            <br>echo 'Width: ' . $door->getWidth();
+            <br>echo 'Height: ' . $door->getHeight();</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>When to Use?</b>
+            <br>When creating an object is not just a few assignments and involves some logic,
+            it makes sense to put it in a dedicated factory instead of repeating the same code
+            everywhere.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="factory-method">
-                        <h2>Factory Method</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Consider the case of a hiring manager. It is impossible for one person to interview
-                                for each of the positions. Based on the job opening, she has to decide and delegate
-                                the interview steps to different people.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Factory Methods provide a way to delegate the instantiation logic to child classes.</i>
-                                <br>In class-based programming, the factory method pattern is a creational patter that
-                                uses factory methods to deal with the problem of creating objects without having to specify
-                                the exact class of the object that will be created. This is done by creating objects
-                                by calling a factory method - either specified in an interface and implemented by child
-                                classes, or implemented in a base class and optionally overridden by derived classes - rather
-                                than by calling a constructor.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Hiring Manager example <br>
-                                <code>interface Interviewer {
-                                    <br>&nbsp; public function askQuestion();
-                                <br>}
-                                <br>class Developer implements Interviewer {
-                                    <br>&nbsp; public function askQuestion() {
-                                        <br>&nbsp; &nbsp; echo 'Ask about design patterns';
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class CommunityExecutive implements Interviewer {
-                                    <br>&nbsp; public function askQuestion() {
-                                        <br>&nbsp; &nbsp; echo 'Ask about community building';
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We'll then need our <b>Hiring Manager</b> <br>
-                                <code>abstract class HiringManager {
-                                    <br>&nbsp; //Factory Method
-                                    <br>&nbsp; abstract public function makeInterviewer() : Interviewer;
-                                    <br>&nbsp; public function takeInterview(){
-                                        <br>&nbsp; &nbsp; $interviewer = $this->makeInterviewer();
-                                        <br>&nbsp; &nbsp; $interviewer->askQuestions();
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Now any child can extend it and provide the required interviewer: <br>
-                                <code>class DevelopmentManager extends HiringManager {
-                                    <br>&nbsp; public function makeInterviewer() : Interviewer {
-                                        <br>&nbsp; &nbsp; return new Developer();
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class MarketingManager extends HiringManager {
-                                    <br>&nbsp; public function makeInterviewer() : Interviewer {
-                                        <br>&nbsp; &nbsp; return new CommunityExecutive();
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use them like so: <br>
-                                <code>$devManager = new DevelopmentManager();
-                                    <br>$devManager->takeInterview(); // Output: Ask about design patterns
-                                    <br>$marketingManager = new MarketingManager();
-                                    <br>$marketingManager->takeInterview(); // Output: Ask about community building
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>When to Use?</b>
-                                <br>Useful when ther is some generic processing in a class but the required sub-class is
-                                dynamically decided at runtime. Or putting it in other words, when the client doesn't
-                                know what exact sub-class it might need.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="factory-method">
+    <h2>Factory Method</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Consider the case of a hiring manager. It is impossible for one person to interview
+            for each of the positions. Based on the job opening, she has to decide and delegate
+            the interview steps to different people.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Factory Methods provide a way to delegate the instantiation logic to child classes.</i>
+            <br>In class-based programming, the factory method pattern is a creational patter that
+            uses factory methods to deal with the problem of creating objects without having to specify
+            the exact class of the object that will be created. This is done by creating objects
+            by calling a factory method - either specified in an interface and implemented by child
+            classes, or implemented in a base class and optionally overridden by derived classes - rather
+            than by calling a constructor.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Hiring Manager example <br>
+            <code>interface Interviewer {
+                <br>&nbsp; public function askQuestion();
+            <br>}
+            <br>class Developer implements Interviewer {
+                <br>&nbsp; public function askQuestion() {
+                    <br>&nbsp; &nbsp; echo 'Ask about design patterns';
+                <br>&nbsp; }
+            <br>}
+            <br>class CommunityExecutive implements Interviewer {
+                <br>&nbsp; public function askQuestion() {
+                    <br>&nbsp; &nbsp; echo 'Ask about community building';
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We'll then need our <b>Hiring Manager</b> <br>
+            <code>abstract class HiringManager {
+                <br>&nbsp; //Factory Method
+                <br>&nbsp; abstract public function makeInterviewer() : Interviewer;
+                <br>&nbsp; public function takeInterview(){
+                    <br>&nbsp; &nbsp; $interviewer = $this->makeInterviewer();
+                    <br>&nbsp; &nbsp; $interviewer->askQuestions();
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now any child can extend it and provide the required interviewer: <br>
+            <code>class DevelopmentManager extends HiringManager {
+                <br>&nbsp; public function makeInterviewer() : Interviewer {
+                    <br>&nbsp; &nbsp; return new Developer();
+                <br>&nbsp; }
+            <br>}
+            <br>class MarketingManager extends HiringManager {
+                <br>&nbsp; public function makeInterviewer() : Interviewer {
+                    <br>&nbsp; &nbsp; return new CommunityExecutive();
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use them like so: <br>
+            <code>$devManager = new DevelopmentManager();
+                <br>$devManager->takeInterview(); // Output: Ask about design patterns
+                <br>$marketingManager = new MarketingManager();
+                <br>$marketingManager->takeInterview(); // Output: Ask about community building
+            </code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>When to Use?</b>
+            <br>Useful when ther is some generic processing in a class but the required sub-class is
+            dynamically decided at runtime. Or putting it in other words, when the client doesn't
+            know what exact sub-class it might need.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="abstract-factory">
-                        <h2>Abstract Factory</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Extending our door example from <b>Simple Factory</b>. Based on your needs you
-                                might get a wooden door from a wooden door shop, iron door from an iron shop or a
-                                PVC door from the relevant shop. Plus you might need a guy with different kind of
-                                specialties to fit the door, for example a carpenter for wooden door, welder for
-                                iron door etc. As you can see there is a dependency between the doors now, wooden
-                                door needs carpenter, iron door needs a welder etc.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>A factory of factories; a factory that groups the individual but related/dependent
-                                factories together without specifying their concrete classes.</i>
-                                <br>The abstract factory pattern provides a way to encapsulate a group of individual
-                                factories that have a common theme without specifying their concrete class.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Extending our door example to be abstract <br>
-                                <code>interface Door {
-                                    <br>&nbsp; public function getDescription();
-                                <br>}
-                                <br>class WoodenDoor implements Door {
-                                    <br>&nbsp; public function getDescription() {
-                                        <br>&nbsp; &nbsp; echo 'I am a wooden door';
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class IronDoor implements Door {
-                                    <br>&nbsp; public function getDescription() {
-                                        <br>&nbsp; &nbsp; echo 'I am an iron door';
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We then have some fitting experts for each door type: <br>
-                                <code>interface DoorFittingExpers {
-                                    <br>&nbsp; public function getDescription();
-                                <br>}
-                                <br>class Welder implements DoorFittingExpert {
-                                    <br>&nbsp; public function getDescription() {
-                                        <br>&nbsp; &nbsp; echo 'I can only fit iron doors';
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class Carpenter implements DoorFittingExpert {
-                                    <br>&nbsp; public function getDescription() {
-                                        <br>&nbsp; &nbsp; echo 'I can only fit wooden doors';
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Now we have our abstract factory that would let us make a family of related objects i.e.
-                                wooden door factory would create a wooden dor and wooden door fitting expert, and the same
-                                for iron door factory: <br>
-                                <code>interface DoorFactory {
-                                    <br>&nbsp; public function makeDoor() : Door;
-                                    <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert;
-                                <br>}
-                                <br>class WoodenDoorFactory implements DoorFactory {
-                                    <br>&nbsp; public function makedoor() : Door {
-                                        <br>&nbsp; &nbsp; return new WoodenDoor();
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert{
-                                        <br>&nbsp; &nbsp;
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class IronDoorFactory implements DoorFactory {
-                                    <br>&nbsp; public function makeDoor() : Door {
-                                        <br>&nbsp; &nbsp; return new IronDoor();
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert {
-                                        <br>&nbsp; &nbsp; return new Welder();
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use that like so: <br>
-                                <code>$woodenFactory = new WoodenDoorFactory();
-                                    <br>$door = $woodenFactory->makeDoor();
-                                    <br>$expert = $woodenFactory->makeFittingExpert();
-                                    <br>$door->getDescription(); // Output: I am a wooden door
-                                    <br>$expert->getDescription(); // Output: I can only fit wooden doors
-                                    <br> //Same for Iron Factory
-                                    <br>$ironFactory = new IronFactory();
-                                    <br>$door = $ironFactory->makeDoor();
-                                    <br>$expert = $ironFactory->makeFittingExpert();
-                                    <br>$door->getDescription(); // Output: I am an iron door
-                                    <br>$expert->getDescription(); // Output: I can only fit iron doors
-                                </code>
-                                <br>As you can see the woden door factory has encapsulated the carpenter and the
-                                wooden door also iron door factory has encapsulated the iron door and welder. And
-                                thus it has helped us make sure that for each of the created doors, we do not
-                                get a wrong fitting expert.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>When to Use?</b>
-                                <br>When there are interrelated dependencies with not-that-simple creation logic involved.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="abstract-factory">
+    <h2>Abstract Factory</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Extending our door example from <b>Simple Factory</b>. Based on your needs you
+            might get a wooden door from a wooden door shop, iron door from an iron shop or a
+            PVC door from the relevant shop. Plus you might need a guy with different kind of
+            specialties to fit the door, for example a carpenter for wooden door, welder for
+            iron door etc. As you can see there is a dependency between the doors now, wooden
+            door needs carpenter, iron door needs a welder etc.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>A factory of factories; a factory that groups the individual but related/dependent
+            factories together without specifying their concrete classes.</i>
+            <br>The abstract factory pattern provides a way to encapsulate a group of individual
+            factories that have a common theme without specifying their concrete class.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Extending our door example to be abstract <br>
+            <code>interface Door {
+                <br>&nbsp; public function getDescription();
+            <br>}
+            <br>class WoodenDoor implements Door {
+                <br>&nbsp; public function getDescription() {
+                    <br>&nbsp; &nbsp; echo 'I am a wooden door';
+                <br>&nbsp; }
+            <br>}
+            <br>class IronDoor implements Door {
+                <br>&nbsp; public function getDescription() {
+                    <br>&nbsp; &nbsp; echo 'I am an iron door';
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We then have some fitting experts for each door type: <br>
+            <code>interface DoorFittingExpers {
+                <br>&nbsp; public function getDescription();
+            <br>}
+            <br>class Welder implements DoorFittingExpert {
+                <br>&nbsp; public function getDescription() {
+                    <br>&nbsp; &nbsp; echo 'I can only fit iron doors';
+                <br>&nbsp; }
+            <br>}
+            <br>class Carpenter implements DoorFittingExpert {
+                <br>&nbsp; public function getDescription() {
+                    <br>&nbsp; &nbsp; echo 'I can only fit wooden doors';
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we have our abstract factory that would let us make a family of related objects i.e.
+            wooden door factory would create a wooden dor and wooden door fitting expert, and the same
+            for iron door factory: <br>
+            <code>interface DoorFactory {
+                <br>&nbsp; public function makeDoor() : Door;
+                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert;
+            <br>}
+            <br>class WoodenDoorFactory implements DoorFactory {
+                <br>&nbsp; public function makedoor() : Door {
+                    <br>&nbsp; &nbsp; return new WoodenDoor();
+                <br>&nbsp; }
+                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert{
+                    <br>&nbsp; &nbsp;
+                <br>&nbsp; }
+            <br>}
+            <br>class IronDoorFactory implements DoorFactory {
+                <br>&nbsp; public function makeDoor() : Door {
+                    <br>&nbsp; &nbsp; return new IronDoor();
+                <br>&nbsp; }
+                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert {
+                    <br>&nbsp; &nbsp; return new Welder();
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use that like so: <br>
+            <code>$woodenFactory = new WoodenDoorFactory();
+                <br>$door = $woodenFactory->makeDoor();
+                <br>$expert = $woodenFactory->makeFittingExpert();
+                <br>$door->getDescription(); // Output: I am a wooden door
+                <br>$expert->getDescription(); // Output: I can only fit wooden doors
+                <br> //Same for Iron Factory
+                <br>$ironFactory = new IronFactory();
+                <br>$door = $ironFactory->makeDoor();
+                <br>$expert = $ironFactory->makeFittingExpert();
+                <br>$door->getDescription(); // Output: I am an iron door
+                <br>$expert->getDescription(); // Output: I can only fit iron doors
+            </code>
+            <br>As you can see the woden door factory has encapsulated the carpenter and the
+            wooden door also iron door factory has encapsulated the iron door and welder. And
+            thus it has helped us make sure that for each of the created doors, we do not
+            get a wrong fitting expert.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>When to Use?</b>
+            <br>When there are interrelated dependencies with not-that-simple creation logic involved.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="builder">
-                        <h2>Builder</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Imagine you are at Hardee's and you order a specific deal. They hand it to you
-                                without question. This is an example of a <b>simple factory</b>. But there are cases
-                                when the creation logic might involve more steps. For example, you need to customize
-                                your sandwich from subway which provides several options for creation. Here is where
-                                the <b>Builder Patter</b> comes to help.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Allows you to create different flavors of an object while avoiding constructor
-                                pollution. Useful when there could be several flavors of an object. Or when there
-                                are a lot of steps involved in creation of an object.</i>
-                                <br>The builder pattern is an object creation software design pattern with the intention
-                                of finding a solution to the telescoping constructor anti-pattern.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Having said that, let me add a bit about what the telescoping constructor anti-pattern is.
-                                At one point or the other we have all seen a constructor like this: <br>
-                                <code>public function __constructor($size, $cheese = true, $pepperoni = true, $tomato = false,
-                                    $lettuce = true) { }</code>
-                                <br>As you can see; the number of constructor parameters can quickly get out of hand and it might
-                                be hard to understand the arraangement of parameters. Plus this parameter list could keep growing
-                                if you would want to add more option later. This is the telescoping constructor anti-pattern
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - We'll use this good burger example. <br>
-                                <code>class Burger {
-                                    <br>&nbsp; protected $size;
-                                    <br>&nbsp; protected $cheese = false;
-                                    <br>&nbsp; protected $pepperoni = false;
-                                    <br>&nbsp; protected $lettuce = false;
-                                    <br>&nbsp; protected $tomato = false;
-                                    <br>&nbsp; public function __constructor(BurgerBuilder $builder){
-                                    <br>&nbsp; &nbsp; $this->size = $builder->size;
-                                    <br>&nbsp; &nbsp; $this->cheese = $builder->cheese;
-                                    <br>&nbsp; &nbsp; $this->pepperoni = $builder->pepperoni
-                                    <br>&nbsp; &nbsp; $this->lettuce = $builder->lettuce
-                                    <br>&nbsp; &nbsp; $this->tomato = $builder->tomato
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We then need our <b>builder</b>: <br>
-                                <code>class BurgerBuilder {
-                                    <br>&nbsp; public $size;
-                                    <br>&nbsp; public $cheese = false;
-                                    <br>&nbsp; public $pepporoni = false;
-                                    <br>&nbsp; public $lettuce = false;
-                                    <br>&nbsp; public $tomato = false;
-                                    <br>&nbsp; public function __constructor(int $size){
-                                    <br>&nbsp; &nbsp; $this->size = $size;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function addPepporoni(){
-                                    <br>&nbsp; &nbsp; $this->pepporoni = true;
-                                    <br>&nbsp; &nbsp; return $this;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; //Same add functions for other bools...
-                                    <br>&nbsp; public function build() : Burger {
-                                    <br>&nbsp; &nbsp; return new Burger($this);
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use it like so: <br>
-                                <code>$burger = (new BurgerBuilder(14))->addPepporoni()->addLetuce()->addTomato()->build();</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>When to Use?</b>
-                                <br>When there could be several flavors of an object and to avoid the constructor telescoping. The
-                                key difference from the factory pattern is that; factory pattern is to be used when the creation is
-                                a one step process while the builder pattern is to be used when the creation is a multi-step process.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="builder">
+    <h2>Builder</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Imagine you are at Hardee's and you order a specific deal. They hand it to you
+            without question. This is an example of a <b>simple factory</b>. But there are cases
+            when the creation logic might involve more steps. For example, you need to customize
+            your sandwich from subway which provides several options for creation. Here is where
+            the <b>Builder Patter</b> comes to help.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Allows you to create different flavors of an object while avoiding constructor
+            pollution. Useful when there could be several flavors of an object. Or when there
+            are a lot of steps involved in creation of an object.</i>
+            <br>The builder pattern is an object creation software design pattern with the intention
+            of finding a solution to the telescoping constructor anti-pattern.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Having said that, let me add a bit about what the telescoping constructor anti-pattern is.
+            At one point or the other we have all seen a constructor like this: <br>
+            <code>public function __constructor($size, $cheese = true, $pepperoni = true, $tomato = false,
+                $lettuce = true) { }</code>
+            <br>As you can see; the number of constructor parameters can quickly get out of hand and it might
+            be hard to understand the arraangement of parameters. Plus this parameter list could keep growing
+            if you would want to add more option later. This is the telescoping constructor anti-pattern
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - We'll use this good burger example. <br>
+            <code>class Burger {
+                <br>&nbsp; protected $size;
+                <br>&nbsp; protected $cheese = false;
+                <br>&nbsp; protected $pepperoni = false;
+                <br>&nbsp; protected $lettuce = false;
+                <br>&nbsp; protected $tomato = false;
+                <br>&nbsp; public function __constructor(BurgerBuilder $builder){
+                <br>&nbsp; &nbsp; $this->size = $builder->size;
+                <br>&nbsp; &nbsp; $this->cheese = $builder->cheese;
+                <br>&nbsp; &nbsp; $this->pepperoni = $builder->pepperoni
+                <br>&nbsp; &nbsp; $this->lettuce = $builder->lettuce
+                <br>&nbsp; &nbsp; $this->tomato = $builder->tomato
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We then need our <b>builder</b>: <br>
+            <code>class BurgerBuilder {
+                <br>&nbsp; public $size;
+                <br>&nbsp; public $cheese = false;
+                <br>&nbsp; public $pepporoni = false;
+                <br>&nbsp; public $lettuce = false;
+                <br>&nbsp; public $tomato = false;
+                <br>&nbsp; public function __constructor(int $size){
+                <br>&nbsp; &nbsp; $this->size = $size;
+                <br>&nbsp; }
+                <br>&nbsp; public function addPepporoni(){
+                <br>&nbsp; &nbsp; $this->pepporoni = true;
+                <br>&nbsp; &nbsp; return $this;
+                <br>&nbsp; }
+                <br>&nbsp; //Same add functions for other bools...
+                <br>&nbsp; public function build() : Burger {
+                <br>&nbsp; &nbsp; return new Burger($this);
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so: <br>
+            <code>$burger = (new BurgerBuilder(14))->addPepporoni()->addLetuce()->addTomato()->build();</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>When to Use?</b>
+            <br>When there could be several flavors of an object and to avoid the constructor telescoping. The
+            key difference from the factory pattern is that; factory pattern is to be used when the creation is
+            a one step process while the builder pattern is to be used when the creation is a multi-step process.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="prototype">
-                        <h2>Prototype</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Remember Dolly? She was cloned! We won't get into the detail but the key point
-                                here is that it is all about cloning.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Create objects based on an existing object through cloning.</i>
-                                <br>The prototype pattern is a creational design pattern in software development. It
-                                is used when the type of objects to create is determined by a prototypical instance,
-                                which is cloned to produce new objects.
-                                <br>In short, it allows you to create a copy of an existing object and modify it to
-                                your needs, instead of going through the trouble of creating an object from scratch
-                                and setting it up.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - With PHP, it can be done using clone() <br>
-                                <code>class Sheep {
-                                    <br>&nbsp; protected $name;
-                                    <br>&nbsp; protected $category;
-                                    <br>&nbsp; public function __construct(string $name, string $category = 'Mountain Sheep') {
-                                    <br>&nbsp; &nbsp; $this->name = $name;
-                                    <br>&nbsp; &nbsp; $this->category = $category;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function setName(string $name) {
-                                    <br>&nbsp; &nbsp; $this->name = $name;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getName() {
-                                    <br>&nbsp; &nbsp; return $this->name;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function setCategory(string $category) {
-                                    <br>&nbsp; &nbsp; $this->category = $category;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getCategory() {
-                                    <br>&nbsp; &nbsp; return $this->category;
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use it like so: <br>
-                                <code>$original = new Sheep('Jolly');
-                                    <br>echo $original->getName(); //Jolly
-                                    <br>echo $original->getCategory(); //Mountain Sheep
-                                    <br>//Clone and modify what is required
-                                    <br>$cloned = clone $original;
-                                    <br>$cloned->setName('Dolly');
-                                    <br>echo $cloned->getName(); //Dolly
-                                    <br>echo $cloned->getCategory(); //Mountain Sheep
-                                </code>
-                                <br>Also you could use the magic method __clone to modify the cloning behavior
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>When to Use?</b>
-                                <br>When an object is required that is similar to existing object or when the creation
-                                would be expensive as compared to cloning.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="prototype">
+    <h2>Prototype</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Remember Dolly? She was cloned! We won't get into the detail but the key point
+            here is that it is all about cloning.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Create objects based on an existing object through cloning.</i>
+            <br>The prototype pattern is a creational design pattern in software development. It
+            is used when the type of objects to create is determined by a prototypical instance,
+            which is cloned to produce new objects.
+            <br>In short, it allows you to create a copy of an existing object and modify it to
+            your needs, instead of going through the trouble of creating an object from scratch
+            and setting it up.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - With PHP, it can be done using clone() <br>
+            <code>class Sheep {
+                <br>&nbsp; protected $name;
+                <br>&nbsp; protected $category;
+                <br>&nbsp; public function __construct(string $name, string $category = 'Mountain Sheep') {
+                <br>&nbsp; &nbsp; $this->name = $name;
+                <br>&nbsp; &nbsp; $this->category = $category;
+                <br>&nbsp; }
+                <br>&nbsp; public function setName(string $name) {
+                <br>&nbsp; &nbsp; $this->name = $name;
+                <br>&nbsp; }
+                <br>&nbsp; public function getName() {
+                <br>&nbsp; &nbsp; return $this->name;
+                <br>&nbsp; }
+                <br>&nbsp; public function setCategory(string $category) {
+                <br>&nbsp; &nbsp; $this->category = $category;
+                <br>&nbsp; }
+                <br>&nbsp; public function getCategory() {
+                <br>&nbsp; &nbsp; return $this->category;
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so: <br>
+            <code>$original = new Sheep('Jolly');
+                <br>echo $original->getName(); //Jolly
+                <br>echo $original->getCategory(); //Mountain Sheep
+                <br>//Clone and modify what is required
+                <br>$cloned = clone $original;
+                <br>$cloned->setName('Dolly');
+                <br>echo $cloned->getName(); //Dolly
+                <br>echo $cloned->getCategory(); //Mountain Sheep
+            </code>
+            <br>Also you could use the magic method __clone to modify the cloning behavior
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>When to Use?</b>
+            <br>When an object is required that is similar to existing object or when the creation
+            would be expensive as compared to cloning.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="singleton">
-                        <h2>Singleton</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>There can only be one president of a country at a time. The same president has
-                                to be brought to action, whenever duty calls. The President here is the singleton.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Ensures that only one object of a particular class is ever created.</i>
-                                <br>In software engineering, the singleton pattern is a software design pattern that
-                                restricts the instantiation of a class to one object. This is useful when exactly one
-                                object is needed to coordinate actions across the system.
-                                <br>Note* Singleton pattern is actually considered an anti-pattern and overuse of it
-                                should be avoided. It is not necessarily bad and could have some valid use-cases but
-                                should be used with caution because it introduces a global state in your application
-                                and change to it in one place could affect in the other areas and it could become pretty
-                                long and difficult to debug. The other bad thing about them is that it makes your code
-                                tightly coupled plus it mocking the singleton could be difficult.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - To create a singleton, make the constructor private, disable cloning,
-                                disable extension and create a static variable to house the instance: <br>
-                                <code>final class President {
-                                    <br>&nbsp; private static $instance;
-                                    <br>&nbsp; private function __construct(){ // Hide the constructor }
-                                    <br>&nbsp; public static function getInstance() : President {
-                                    <br>&nbsp; &nbsp; if(!self::$instance) {
-                                    <br>&nbsp; &nbsp; &nbsp; self::$instance = new self();
-                                    <br>&nbsp; &nbsp; }
-                                    <br>&nbsp; &nbsp; return self::$instance;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; private function __clone() { //Disable cloning }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use it like so: <br>
-                                <code>$president1 = President::getInstance();
-                                    <br>$president2 = President::getInstance();
-                                    <br>var_dump($president1 === $president2); //True
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="singleton">
+    <h2>Singleton</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>There can only be one president of a country at a time. The same president has
+            to be brought to action, whenever duty calls. The President here is the singleton.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Ensures that only one object of a particular class is ever created.</i>
+            <br>In software engineering, the singleton pattern is a software design pattern that
+            restricts the instantiation of a class to one object. This is useful when exactly one
+            object is needed to coordinate actions across the system.
+            <br>Note* Singleton pattern is actually considered an anti-pattern and overuse of it
+            should be avoided. It is not necessarily bad and could have some valid use-cases but
+            should be used with caution because it introduces a global state in your application
+            and change to it in one place could affect in the other areas and it could become pretty
+            long and difficult to debug. The other bad thing about them is that it makes your code
+            tightly coupled plus it mocking the singleton could be difficult.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - To create a singleton, make the constructor private, disable cloning,
+            disable extension and create a static variable to house the instance: <br>
+            <code>final class President {
+                <br>&nbsp; private static $instance;
+                <br>&nbsp; private function __construct(){ // Hide the constructor }
+                <br>&nbsp; public static function getInstance() : President {
+                <br>&nbsp; &nbsp; if(!self::$instance) {
+                <br>&nbsp; &nbsp; &nbsp; self::$instance = new self();
+                <br>&nbsp; &nbsp; }
+                <br>&nbsp; &nbsp; return self::$instance;
+                <br>&nbsp; }
+                <br>&nbsp; private function __clone() { //Disable cloning }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so: <br>
+            <code>$president1 = President::getInstance();
+                <br>$president2 = President::getInstance();
+                <br>var_dump($president1 === $president2); //True
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="structural">
-                        <h2>Structural</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Structural patterns are mostly concerned with object composition or in other
-                                words how the entities can use each other. Or yet another explanation would be,
-                                they help in answering "How to build a software component"</b>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                In software engineering, structural design patterns are design patterns that ease
-                                the design by identifying a simple way to realize relationships between entities.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Sub-Patterns</b>
-                                <br>&nbsp; &bull; <a href="#adapter">Adapter</a>
-                                <br>&nbsp; &bull; <a href="#bridge">Bridge</a>
-                                <br>&nbsp; &bull; <a href="#composite">Composite</a>
-                                <br>&nbsp; &bull; <a href="#decorator">Decorator</a>
-                                <br>&nbsp; &bull; <a href="#facade">Facade</a>
-                                <br>&nbsp; &bull; <a href="#flyweight">Flyweight</a>
-                                <br>&nbsp; &bull; <a href="#proxy">Proxy</a>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="structural">
+    <h2>Structural</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Structural patterns are mostly concerned with object composition or in other
+            words how the entities can use each other. Or yet another explanation would be,
+            they help in answering "How to build a software component"</b>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In software engineering, structural design patterns are design patterns that ease
+            the design by identifying a simple way to realize relationships between entities.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Sub-Patterns</b>
+            <br>&nbsp; &bull; <a href="#adapter">Adapter</a>
+            <br>&nbsp; &bull; <a href="#bridge">Bridge</a>
+            <br>&nbsp; &bull; <a href="#composite">Composite</a>
+            <br>&nbsp; &bull; <a href="#decorator">Decorator</a>
+            <br>&nbsp; &bull; <a href="#facade">Facade</a>
+            <br>&nbsp; &bull; <a href="#flyweight">Flyweight</a>
+            <br>&nbsp; &bull; <a href="#proxy">Proxy</a>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="adapter">
-                        <h2>Adapter</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Consider that you have some pictures in your memory card and you need to transfer
-                                them to your computer. In order to transfer them you need some kind of adapter that
-                                is compatible with your computer ports so that you can attach memory card to your
-                                computer. In this case card reader is an adapter. Another example would be the
-                                famous power adapter; a three legged plug can't be connected to a two pronged outlet,
-                                it needs to use a power adapter that makes it compatible with the two pronged outlet.
-                                Yet another example would be a translator translating words spoken by one person to another.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Adapter pattern lets you wrap an otherwise incompatible object in an adapter to
-                                make it compatible with another class.</i>
-                                <br>In software engineering, the adapter pattern is a software design pattern that
-                                allows the interface of an existing class to be used as another interface. It is
-                                often used to make existing classes work with others without modifying their source code.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Consider a game where there is a hunter and he hunts lions. First
-                                we have an interface Lion that all types of lions have to implement: <br>
-                                <code>interface Lion {
-                                    <br>&nbps; public function roar();
-                                <br>}
-                                <br>class AfricanLion implements Lion {
-                                    <br>&nbps; public function roar() {}
-                                <br>}
-                                <br>class AsianLion implements Lion {
-                                    <br>&nbps; public function roar() {}
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Then Hunter expects any implementation of Lion interface to hunt: <br>
-                                <code>class Hunter {
-                                    <br>&nbsp; public function hunt(Lion $lion) {}
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Now let's say we need to add a WildDog in our game so that the hunter can hunt that also.
-                                But we can't do that directly because dog has a different interface. To make it
-                                compatible for our hunter, we will have to create an adapter that is compatible: <br>
-                                <code>class WildDog {
-                                    <br>&nbsp; public function bark() {}
-                                <br>}
-                                <br>//Adapter around wild dog to make it compatible with our game.
-                                <br>class WildDogAdapter implements Lion {
-                                    <br>&nbsp; protected $dog;
-                                    <br>&nbsp; public function __construct(WildDog $dog) {
-                                    <br>&nbsp; &nbsp; $this->dog = $dog;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function roar() {
-                                    <br>&nbsp; &nbsp; $this->dog->bark();
-                                    <br>&nbsp; }
-                                <br>}
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                And now the WildDog can be used in our game using WilddogAdapter: <br>
-                                <code>$wildDog = new WildDog();
-                                    <br>$wildDogAdapter = new WildDogAdapter($wildDog);
-                                    <br>$hunter = new Hunter();
-                                    <br>$hunter->hunt($wildDogAdapter);
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="adapter">
+    <h2>Adapter</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Consider that you have some pictures in your memory card and you need to transfer
+            them to your computer. In order to transfer them you need some kind of adapter that
+            is compatible with your computer ports so that you can attach memory card to your
+            computer. In this case card reader is an adapter. Another example would be the
+            famous power adapter; a three legged plug can't be connected to a two pronged outlet,
+            it needs to use a power adapter that makes it compatible with the two pronged outlet.
+            Yet another example would be a translator translating words spoken by one person to another.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Adapter pattern lets you wrap an otherwise incompatible object in an adapter to
+            make it compatible with another class.</i>
+            <br>In software engineering, the adapter pattern is a software design pattern that
+            allows the interface of an existing class to be used as another interface. It is
+            often used to make existing classes work with others without modifying their source code.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Consider a game where there is a hunter and he hunts lions. First
+            we have an interface Lion that all types of lions have to implement: <br>
+            <code>interface Lion {
+                <br>&nbps; public function roar();
+            <br>}
+            <br>class AfricanLion implements Lion {
+                <br>&nbps; public function roar() {}
+            <br>}
+            <br>class AsianLion implements Lion {
+                <br>&nbps; public function roar() {}
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then Hunter expects any implementation of Lion interface to hunt: <br>
+            <code>class Hunter {
+                <br>&nbsp; public function hunt(Lion $lion) {}
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now let's say we need to add a WildDog in our game so that the hunter can hunt that also.
+            But we can't do that directly because dog has a different interface. To make it
+            compatible for our hunter, we will have to create an adapter that is compatible: <br>
+            <code>class WildDog {
+                <br>&nbsp; public function bark() {}
+            <br>}
+            <br>//Adapter around wild dog to make it compatible with our game.
+            <br>class WildDogAdapter implements Lion {
+                <br>&nbsp; protected $dog;
+                <br>&nbsp; public function __construct(WildDog $dog) {
+                <br>&nbsp; &nbsp; $this->dog = $dog;
+                <br>&nbsp; }
+                <br>&nbsp; public function roar() {
+                <br>&nbsp; &nbsp; $this->dog->bark();
+                <br>&nbsp; }
+            <br>}
+            </code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            And now the WildDog can be used in our game using WilddogAdapter: <br>
+            <code>$wildDog = new WildDog();
+                <br>$wildDogAdapter = new WildDogAdapter($wildDog);
+                <br>$hunter = new Hunter();
+                <br>$hunter->hunt($wildDogAdapter);
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="bridge">
-                        <h2>Bridge</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Consider you have a website with different pages and you are supposed to allow
-                                the user to change the theme. What would you do? Create multiple copies of each of
-                                the ages for each of the themes or would you just create seperate theme and load
-                                them based on the user's preferences? Bridge pattern help with the latter.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Bridge pattern is about preferring composition over inheritance. Implementation
-                                details are pushed from a hierarchy to another object with a seperate hierarchy.</i>
-                                <br>The bridge pattern is a design pattern used in software engineering that is meant to
-                                "decouple an abstraction from its implementation so that the two can vary independently."
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Translating our WebPage example from above. Here we have
-                                the WebPage hierarchy: <br>
-                                <code>interface WebPage {
-                                    <br>&nbsp; public function __construct(Theme $theme);
-                                    <br>&nbsp; public function getContent();
-                                <br>}
-                                <br>class About implements WebPage {
-                                    <br>&nbsp; protected $theme;
-                                    <br>&nbsp; public function __construct(Theme $theme) {
-                                    <br>&nbsp; &nbsp; $this->theme = $theme;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getContent() {
-                                    <br>&nbsp; &nbsp; return "About page in " . $this->theme->getColor();
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class Careers implements WebPage {
-                                    <br>&nbsp; protected $theme;
-                                    <br>&nbsp; public function __construct(Theme $theme) {
-                                    <br>&nbsp; &nbsp; $this->theme = $theme;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getContent() {
-                                    <br>&nbsp; &nbsp; return "Careers page in " . $this->theme->getColor();
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Then there is a separate theme hierarchy: <br>
-                                <code>interface Theme {
-                                    <br>&nbps; public function getColor();
-                                <br>}
-                                <br>class DarkTheme implements Theme {
-                                    <br>&nbps; public function getColor() {
-                                    <br>&nbps; &nbps; return 'Dark Black';
-                                    <br>&nbps; }
-                                <br>}
-                                <br>class LightTheme implements Theme {
-                                    <br>&nbps; public function getColor() {
-                                    <br>&nbps; &nbps; return 'Off White';
-                                    <br>&nbps; }
-                                <br>}
-                                <br>class AquaTheme implements Theme {
-                                    <br>&nbps; public function getColor() {
-                                    <br>&nbps; &nbps; return 'Light Blue';
-                                    <br>&nbps; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Then we can use both hierarchies like so: <br>
-                                <code>$darkTheme = new DarkTheme();
-                                    <br>$about = new About($darkTheme);
-                                    <br>$careers = new Careers($darkTheme);
-                                    <br>echo $about->getContent(); // "About page in Dark Black"
-                                    <br>echo $careers->getcontent(); // "Careers page in Dark Black"
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="bridge">
+    <h2>Bridge</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Consider you have a website with different pages and you are supposed to allow
+            the user to change the theme. What would you do? Create multiple copies of each of
+            the ages for each of the themes or would you just create seperate theme and load
+            them based on the user's preferences? Bridge pattern help with the latter.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Bridge pattern is about preferring composition over inheritance. Implementation
+            details are pushed from a hierarchy to another object with a seperate hierarchy.</i>
+            <br>The bridge pattern is a design pattern used in software engineering that is meant to
+            "decouple an abstraction from its implementation so that the two can vary independently."
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Translating our WebPage example from above. Here we have
+            the WebPage hierarchy: <br>
+            <code>interface WebPage {
+                <br>&nbsp; public function __construct(Theme $theme);
+                <br>&nbsp; public function getContent();
+            <br>}
+            <br>class About implements WebPage {
+                <br>&nbsp; protected $theme;
+                <br>&nbsp; public function __construct(Theme $theme) {
+                <br>&nbsp; &nbsp; $this->theme = $theme;
+                <br>&nbsp; }
+                <br>&nbsp; public function getContent() {
+                <br>&nbsp; &nbsp; return "About page in " . $this->theme->getColor();
+                <br>&nbsp; }
+            <br>}
+            <br>class Careers implements WebPage {
+                <br>&nbsp; protected $theme;
+                <br>&nbsp; public function __construct(Theme $theme) {
+                <br>&nbsp; &nbsp; $this->theme = $theme;
+                <br>&nbsp; }
+                <br>&nbsp; public function getContent() {
+                <br>&nbsp; &nbsp; return "Careers page in " . $this->theme->getColor();
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then there is a separate theme hierarchy: <br>
+            <code>interface Theme {
+                <br>&nbps; public function getColor();
+            <br>}
+            <br>class DarkTheme implements Theme {
+                <br>&nbps; public function getColor() {
+                <br>&nbps; &nbps; return 'Dark Black';
+                <br>&nbps; }
+            <br>}
+            <br>class LightTheme implements Theme {
+                <br>&nbps; public function getColor() {
+                <br>&nbps; &nbps; return 'Off White';
+                <br>&nbps; }
+            <br>}
+            <br>class AquaTheme implements Theme {
+                <br>&nbps; public function getColor() {
+                <br>&nbps; &nbps; return 'Light Blue';
+                <br>&nbps; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we can use both hierarchies like so: <br>
+            <code>$darkTheme = new DarkTheme();
+                <br>$about = new About($darkTheme);
+                <br>$careers = new Careers($darkTheme);
+                <br>echo $about->getContent(); // "About page in Dark Black"
+                <br>echo $careers->getcontent(); // "Careers page in Dark Black"
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="composition">
-                        <h2>Composition</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Examples</b>
-                                <br>Every organization is composed of employees. Each of the employees has some features i.e.
-                                has a salary, has some responsibilities, may or may not report to someone, may or may
-                                not have some subordinates etc.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Composite pattern lets clients to treat the individual objects in a uniform manner.</i>
-                                <br>If software engineering, the composite pattern is a partitioning design pattern. The
-                                composite pattern describes that a group of objects is to be treated in the same way as
-                                a single instance of an object. The intent of a composite is to "compose" objects into tree
-                                structures to represent part-whole hierarchies. Implementing the composite pattern lets
-                                clients treat individual objects and compositions uniformly.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Taking our employees example above, here we have different employee types: <br>
-                                <code>interface Employee {
-                                    <br>&nbsp; public function __construct(string $name, float $salary);
-                                    <br>&nbsp; public function getName() : string;
-                                    <br>&nbsp; public function setSalary(float $salary);
-                                    <br>&nbsp; public function getSalary() : float;
-                                    <br>&nbsp; public function getRoles() : array;
-                                <br>}
-                                <br>class Developer implements Employee {
-                                    <br>&nbsp; protected $salary;
-                                    <br>&nbsp; protected $name;
-                                    <br>&nbsp; public function __construct(string $name, float $salary) {
-                                    <br>&nbsp; &nbsp; $this->name = $name;
-                                    <br>&nbsp; &nbsp; $this->salary = $salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getName() : string {
-                                    <br>&nbsp; &nbsp; return $this->name;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function setSalary(float $salary) {
-                                    <br>&nbsp; &nbsp; $this->salary = $salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getSalary() : float {
-                                    <br>&nbsp; &nbsp; return $this->salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getRoles() : array {
-                                    <br>&nbsp; &nbsp; return $this->roles;
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class Designer implements Employee {
-                                    <br>&nbsp; protected $salary;
-                                    <br>&nbsp; protected $name;
-                                    <br>&nbsp; public function __construct(string $name, float $salary) {
-                                    <br>&nbsp; &nbsp; $this->name = $name;
-                                    <br>&nbsp; &nbsp; $this->salary = $salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getName() : string {
-                                    <br>&nbsp; &nbsp; return $this->name;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function setSalary(float $salary) {
-                                    <br>&nbsp; &nbsp; $this->salary = $salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getSalary() : float {
-                                    <br>&nbsp; &nbsp; return $this->salary;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getRoles() : array {
-                                    <br>&nbsp; &nbsp; return $this->roles;
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Then we have an organization which consists of several different types of employees: <br>
-                                <code>class Organization {
-                                    <br>&nbsp; protected $employees;
-                                    <br>&nbsp; public function addEmployee(Employee $employee) {
-                                    <br>&nbsp; &nbsp; $this->employees[] = $employee;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getNetSalaries() : float {
-                                    <br>&nbsp; &nbsp; $netSalary = 0;
-                                    <br>&nbsp; &nbsp; foreach($this->employees as $employee) {
-                                    <br>&nbsp; &nbsp; &nbsp; $netSalary += $employee->getSalary();
-                                    <br>&nbsp; &nbsp; }
-                                    <br>&nbsp; &nbsp; return $netSalary;
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use it like so: <br>
-                                <code>//Prepare the employees
-                                    <br>$john = new Developer('John Doe', 12000);
-                                    <br>$jane = new Designer('Jane', 10000);
-                                    <br>//Add them to the organization
-                                    <br>$organization = new Organization();
-                                    <br>$organization->addEmployee($john);
-                                    <br>$organization->addEmployee($jane);
-                                    <br>echo "Net Salaries: " . $organization->getNetSalaries(); // Net Salaries: 22000
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="composition">
+    <h2>Composition</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Examples</b>
+            <br>Every organization is composed of employees. Each of the employees has some features i.e.
+            has a salary, has some responsibilities, may or may not report to someone, may or may
+            not have some subordinates etc.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Composite pattern lets clients to treat the individual objects in a uniform manner.</i>
+            <br>If software engineering, the composite pattern is a partitioning design pattern. The
+            composite pattern describes that a group of objects is to be treated in the same way as
+            a single instance of an object. The intent of a composite is to "compose" objects into tree
+            structures to represent part-whole hierarchies. Implementing the composite pattern lets
+            clients treat individual objects and compositions uniformly.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Taking our employees example above, here we have different employee types: <br>
+            <code>interface Employee {
+                <br>&nbsp; public function __construct(string $name, float $salary);
+                <br>&nbsp; public function getName() : string;
+                <br>&nbsp; public function setSalary(float $salary);
+                <br>&nbsp; public function getSalary() : float;
+                <br>&nbsp; public function getRoles() : array;
+            <br>}
+            <br>class Developer implements Employee {
+                <br>&nbsp; protected $salary;
+                <br>&nbsp; protected $name;
+                <br>&nbsp; public function __construct(string $name, float $salary) {
+                <br>&nbsp; &nbsp; $this->name = $name;
+                <br>&nbsp; &nbsp; $this->salary = $salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getName() : string {
+                <br>&nbsp; &nbsp; return $this->name;
+                <br>&nbsp; }
+                <br>&nbsp; public function setSalary(float $salary) {
+                <br>&nbsp; &nbsp; $this->salary = $salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getSalary() : float {
+                <br>&nbsp; &nbsp; return $this->salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getRoles() : array {
+                <br>&nbsp; &nbsp; return $this->roles;
+                <br>&nbsp; }
+            <br>}
+            <br>class Designer implements Employee {
+                <br>&nbsp; protected $salary;
+                <br>&nbsp; protected $name;
+                <br>&nbsp; public function __construct(string $name, float $salary) {
+                <br>&nbsp; &nbsp; $this->name = $name;
+                <br>&nbsp; &nbsp; $this->salary = $salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getName() : string {
+                <br>&nbsp; &nbsp; return $this->name;
+                <br>&nbsp; }
+                <br>&nbsp; public function setSalary(float $salary) {
+                <br>&nbsp; &nbsp; $this->salary = $salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getSalary() : float {
+                <br>&nbsp; &nbsp; return $this->salary;
+                <br>&nbsp; }
+                <br>&nbsp; public function getRoles() : array {
+                <br>&nbsp; &nbsp; return $this->roles;
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have an organization which consists of several different types of employees: <br>
+            <code>class Organization {
+                <br>&nbsp; protected $employees;
+                <br>&nbsp; public function addEmployee(Employee $employee) {
+                <br>&nbsp; &nbsp; $this->employees[] = $employee;
+                <br>&nbsp; }
+                <br>&nbsp; public function getNetSalaries() : float {
+                <br>&nbsp; &nbsp; $netSalary = 0;
+                <br>&nbsp; &nbsp; foreach($this->employees as $employee) {
+                <br>&nbsp; &nbsp; &nbsp; $netSalary += $employee->getSalary();
+                <br>&nbsp; &nbsp; }
+                <br>&nbsp; &nbsp; return $netSalary;
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so: <br>
+            <code>//Prepare the employees
+                <br>$john = new Developer('John Doe', 12000);
+                <br>$jane = new Designer('Jane', 10000);
+                <br>//Add them to the organization
+                <br>$organization = new Organization();
+                <br>$organization->addEmployee($john);
+                <br>$organization->addEmployee($jane);
+                <br>echo "Net Salaries: " . $organization->getNetSalaries(); // Net Salaries: 22000
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="decorator">
-                        <h2>Decorator</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Imagine you run a car service shop offering multiple services. Now how do you
-                                calculate the bill to be charged? You pick one service and dynamically keep adding
-                                to it the prices for the provided services till you get the final cost. Here each
-                                type of service is a decorator.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Decorator pattern lets you dynamically change the behavior of an object at run
-                                    time by wrapping them in an object of a decorator class.</i>
-                                <br>In OOP, the decorator pattern is a design pattern that allows behavior to be
-                                added to an individual object, either statically or dynamically, without affecting the
-                                behavior of other objects from the same class. The decorator pattern is often useful
-                                for adhering to the Single Responsibility Principle, as it allows functionality to be
-                                divided between classes with unique areas of concern.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Lets take coffee as an example. First of all we have a simple
-                                coffee implementing the coffee interface: <br>
-                                <code>interface Coffee {
-                                    <br>&nbsp; public function getCost();
-                                    <br>&nbsp; public function getDescription();
-                                <br>}
-                                <br>class SimpleCoffee implements Coffee {
-                                    <br>&nbsp; public function getCost() {
-                                    <br>&nbsp; &nbsp; return 10;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getDescription() {
-                                    <br>&nbsp; &nbsp; return 'Simple Coffee';
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We want to make the code extensible to allow options to modify it if required.
-                                Lets make some add-ons (decorators) <br>
-                                <code>class MilkCoffee implements Coffee {
-                                    <br>&nbsp; protected $coffee;
-                                    <br>&nbsp; public function __construct(Coffee $coffee) {
-                                    <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getCost() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getCost() + 2;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getDescription() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', milk';
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class WhipCoffee implements Coffee {
-                                    <br>&nbsp; protected $coffee;
-                                    <br>&nbsp; public function __construct(Coffee $coffee) {
-                                    <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getCost() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getCost() + 5;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getDescription() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', whip';
-                                    <br>&nbsp; }
-                                <br>}
-                                <br>class VanillaCoffee implements Coffee {
-                                    <br>&nbsp; protected $coffee;
-                                    <br>&nbsp; public function __construct(Coffee $coffee) {
-                                    <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getCost() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getCost() + 3;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function getDescription() {
-                                    <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', vanilla';
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can now make coffee like so: <br>
-                                <code>$someCoffee = new SimpleCoffee();
-                                    <br>echo $someCoffee->getCost(); // 10
-                                    <br>echo $someCoffee->getDescription(); // Simple Coffee
-                                    <br>$someCoffee = new MilkCoffee($someCoffee);
-                                    <br>echo $someCoffee->getCost(); // 12
-                                    <br>echo $someCoffee->getDescription(); // Simple Coffee, milk
-                                    <br>$someCoffee = new WhipCoffee($someCoffee);
-                                    <br>echo $someCoffee->getCost(); // 17
-                                    <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip
-                                    <br>$someCoffee = new VanillaCoffee($someCoffee);
-                                    <br>echo $someCoffee->getCost(); // 20
-                                    <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip, vanilla
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="decorator">
+    <h2>Decorator</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Imagine you run a car service shop offering multiple services. Now how do you
+            calculate the bill to be charged? You pick one service and dynamically keep adding
+            to it the prices for the provided services till you get the final cost. Here each
+            type of service is a decorator.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Decorator pattern lets you dynamically change the behavior of an object at run
+                time by wrapping them in an object of a decorator class.</i>
+            <br>In OOP, the decorator pattern is a design pattern that allows behavior to be
+            added to an individual object, either statically or dynamically, without affecting the
+            behavior of other objects from the same class. The decorator pattern is often useful
+            for adhering to the Single Responsibility Principle, as it allows functionality to be
+            divided between classes with unique areas of concern.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Lets take coffee as an example. First of all we have a simple
+            coffee implementing the coffee interface: <br>
+            <code>interface Coffee {
+                <br>&nbsp; public function getCost();
+                <br>&nbsp; public function getDescription();
+            <br>}
+            <br>class SimpleCoffee implements Coffee {
+                <br>&nbsp; public function getCost() {
+                <br>&nbsp; &nbsp; return 10;
+                <br>&nbsp; }
+                <br>&nbsp; public function getDescription() {
+                <br>&nbsp; &nbsp; return 'Simple Coffee';
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We want to make the code extensible to allow options to modify it if required.
+            Lets make some add-ons (decorators) <br>
+            <code>class MilkCoffee implements Coffee {
+                <br>&nbsp; protected $coffee;
+                <br>&nbsp; public function __construct(Coffee $coffee) {
+                <br>&nbsp; &nbsp; $this->coffee = $coffee;
+                <br>&nbsp; }
+                <br>&nbsp; public function getCost() {
+                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 2;
+                <br>&nbsp; }
+                <br>&nbsp; public function getDescription() {
+                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', milk';
+                <br>&nbsp; }
+            <br>}
+            <br>class WhipCoffee implements Coffee {
+                <br>&nbsp; protected $coffee;
+                <br>&nbsp; public function __construct(Coffee $coffee) {
+                <br>&nbsp; &nbsp; $this->coffee = $coffee;
+                <br>&nbsp; }
+                <br>&nbsp; public function getCost() {
+                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 5;
+                <br>&nbsp; }
+                <br>&nbsp; public function getDescription() {
+                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', whip';
+                <br>&nbsp; }
+            <br>}
+            <br>class VanillaCoffee implements Coffee {
+                <br>&nbsp; protected $coffee;
+                <br>&nbsp; public function __construct(Coffee $coffee) {
+                <br>&nbsp; &nbsp; $this->coffee = $coffee;
+                <br>&nbsp; }
+                <br>&nbsp; public function getCost() {
+                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 3;
+                <br>&nbsp; }
+                <br>&nbsp; public function getDescription() {
+                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', vanilla';
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can now make coffee like so: <br>
+            <code>$someCoffee = new SimpleCoffee();
+                <br>echo $someCoffee->getCost(); // 10
+                <br>echo $someCoffee->getDescription(); // Simple Coffee
+                <br>$someCoffee = new MilkCoffee($someCoffee);
+                <br>echo $someCoffee->getCost(); // 12
+                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk
+                <br>$someCoffee = new WhipCoffee($someCoffee);
+                <br>echo $someCoffee->getCost(); // 17
+                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip
+                <br>$someCoffee = new VanillaCoffee($someCoffee);
+                <br>echo $someCoffee->getCost(); // 20
+                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip, vanilla
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="facade">
-                        <h2>Facade</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>How do you turn on the computer? "Hit the power button" you think. That is what you
-                                believe because you are using a simple interface that computer provides on the outside,
-                                internally it has to do a lot of stuff to make it happen. This simple interface to the
-                                complex subsystem is a facade.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Facade pattern provides a simplified interface to a complex subsystem.</i>
-                                <br>A facade is an object that provides a simplified interface to a larger body
-                                of code, such as a class library.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Taking our computer example from above. Here we have our computer class: <br>
-                                <code>class Computer {
-                                    <br>&nbsp; public function getElectricShock() { echo 'Ouch!'; }
-                                    <br>&nbsp; public function makeSound() { echo 'Beep Beep'; }
-                                    <br>&nbsp; public function showLoadingScreen() { echo 'Loading..'; }
-                                    <br>&nbsp; public function bam() { echo 'Ready to be used.'; }
-                                    <br>&nbsp; public function closeEverything() { echo 'Bup bup bup buzzzz!'; }
-                                    <br>&nbsp; public function sooth() { echo "zzzzz"; }
-                                    <br>&nbsp; public function pullCurrent() { echo 'HAAAH!'; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can now implement our facade: <br>
-                                <code>class ComputerFacade {
-                                    <br>&nbsp; protected $computer;
-                                    <br>&nbsp; public function __construct(Computer $computer) {
-                                    <br>&nbsp; &nbsp; $this->computer = $computer;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function turnOn() {
-                                    <br>&nbsp; &nbsp; $this->computer->getElectricShock();
-                                    <br>&nbsp; &nbsp; $this->computer->makeSound();
-                                    <br>&nbsp; &nbsp; $this->computer->showLoadingScreen();
-                                    <br>&nbsp; &nbsp; $this->computer->bam();
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function turnOff() {
-                                    <br>&nbsp; &nbsp; $this->computer->closeEverything();
-                                    <br>&nbsp; &nbsp; $this->computer->pullCurrent();
-                                    <br>&nbsp; &nbsp; $this->computer->sooth();
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Now we can use this facade like so: <br>
-                                <code>$computer = new Computer(new Computer());
-                                    <br>$computer->turnOn(); // Ouch! Beep Beep Loading... Ready to be used.
-                                    <br>$computer->turnOff(); // Bup bup buzz Haaah zzzzzz
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="facade">
+    <h2>Facade</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>How do you turn on the computer? "Hit the power button" you think. That is what you
+            believe because you are using a simple interface that computer provides on the outside,
+            internally it has to do a lot of stuff to make it happen. This simple interface to the
+            complex subsystem is a facade.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Facade pattern provides a simplified interface to a complex subsystem.</i>
+            <br>A facade is an object that provides a simplified interface to a larger body
+            of code, such as a class library.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Taking our computer example from above. Here we have our computer class: <br>
+            <code>class Computer {
+                <br>&nbsp; public function getElectricShock() { echo 'Ouch!'; }
+                <br>&nbsp; public function makeSound() { echo 'Beep Beep'; }
+                <br>&nbsp; public function showLoadingScreen() { echo 'Loading..'; }
+                <br>&nbsp; public function bam() { echo 'Ready to be used.'; }
+                <br>&nbsp; public function closeEverything() { echo 'Bup bup bup buzzzz!'; }
+                <br>&nbsp; public function sooth() { echo "zzzzz"; }
+                <br>&nbsp; public function pullCurrent() { echo 'HAAAH!'; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can now implement our facade: <br>
+            <code>class ComputerFacade {
+                <br>&nbsp; protected $computer;
+                <br>&nbsp; public function __construct(Computer $computer) {
+                <br>&nbsp; &nbsp; $this->computer = $computer;
+                <br>&nbsp; }
+                <br>&nbsp; public function turnOn() {
+                <br>&nbsp; &nbsp; $this->computer->getElectricShock();
+                <br>&nbsp; &nbsp; $this->computer->makeSound();
+                <br>&nbsp; &nbsp; $this->computer->showLoadingScreen();
+                <br>&nbsp; &nbsp; $this->computer->bam();
+                <br>&nbsp; }
+                <br>&nbsp; public function turnOff() {
+                <br>&nbsp; &nbsp; $this->computer->closeEverything();
+                <br>&nbsp; &nbsp; $this->computer->pullCurrent();
+                <br>&nbsp; &nbsp; $this->computer->sooth();
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we can use this facade like so: <br>
+            <code>$computer = new Computer(new Computer());
+                <br>$computer->turnOn(); // Ouch! Beep Beep Loading... Ready to be used.
+                <br>$computer->turnOff(); // Bup bup buzz Haaah zzzzzz
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="flyweight">
-                        <h2>Flyweight</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Did you ever have fresh tea from some stall? They often make more than one cup that
-                                you demanded and save the rest for any other customer so to save the resources e.g. gas etc.
-                                Flyweight pattern is all about that i.e. sharing.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>The Flyweight pattern is used to minimize memory usage or computational expenses by
-                                sharing as much possible with similar objects.</i>
-                                <br>In computer programming, flyweight is a software design pattern. A flyweight is an
-                                object that minimizes memory use by sharing as much data as possible with similar objects;
-                                it is a way to use objects; it is a way to use objects in large numbers when a simple
-                                repeated representation would use an unacceptable amount of memory.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Translating our tea example from above. First of all we have tea types and tea maker: <br>
-                                <code>// Anything that will be cached is flyweight. Types of tea here will be flyweights.
-                                <br>class KarakTea {}
-                                <br>// Acts as a factory and saves the tea
-                                <br>class TeaMaker {
-                                    <br>&nbsp; protected $availableTea = [];
-                                    <br>&nbsp; public function make($preference) {
-                                    <br>&nbsp; &nbsp; if(empty($this->availableTea[$preference])) {
-                                    <br>&nbsp; &nbsp; &nbsp; $this->availableTea[$preference] = new KarakTea();
-                                    <br>&nbsp; &nbsp; }
-                                    <br>&nbsp; &nbsp; return $this->availableTea[$preference];
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We'll also need the TeaShop which takes orders and serves them: <br>
-                                <code>class TeaShop {
-                                    <br>&nbsp; protected $orders;
-                                    <br>&nbsp; protected $teaMakers;
-                                    <br>&nbsp; public function __construct(TeaMaker $teaMaker) {
-                                    <br>&nbsp; &nbsp; $this->teaMaker = $teaMaker;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function takeOrder(string $teaType, int $table) {
-                                    <br>&nbsp; &nbsp; $this->orders[$table] = $this->teaMaker->make($teaType);
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function serve() {
-                                    <br>&nbsp; &nbsp; foreach($this->orders as $table => $tea) {
-                                    <br>&nbsp; &nbsp; &nbsp; echo "Serving tea to table# " . $table;
-                                    <br>&nbsp; &nbsp; }
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                We can then use this like so: <br>
-                                <code>$teaMaker = new TeaMaker();
-                                    <br>$shop = new TeaShop($teaMaker);
-                                    <br>$shop->takeOrder('less suger', 1);
-                                    <br>$shop->takeOrder('more silk', 2);
-                                    <br>$shop->takeOrder('without sugar', 5);
-                                    <br>$shop->serve();
-                                    <br>//Serving tea to table# 1
-                                    <br>//Serving tea to table# 2
-                                    <br>//Serving tea to table# 5
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="flyweight">
+    <h2>Flyweight</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Did you ever have fresh tea from some stall? They often make more than one cup that
+            you demanded and save the rest for any other customer so to save the resources e.g. gas etc.
+            Flyweight pattern is all about that i.e. sharing.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>The Flyweight pattern is used to minimize memory usage or computational expenses by
+            sharing as much possible with similar objects.</i>
+            <br>In computer programming, flyweight is a software design pattern. A flyweight is an
+            object that minimizes memory use by sharing as much data as possible with similar objects;
+            it is a way to use objects; it is a way to use objects in large numbers when a simple
+            repeated representation would use an unacceptable amount of memory.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Translating our tea example from above. First of all we have tea types and tea maker: <br>
+            <code>// Anything that will be cached is flyweight. Types of tea here will be flyweights.
+            <br>class KarakTea {}
+            <br>// Acts as a factory and saves the tea
+            <br>class TeaMaker {
+                <br>&nbsp; protected $availableTea = [];
+                <br>&nbsp; public function make($preference) {
+                <br>&nbsp; &nbsp; if(empty($this->availableTea[$preference])) {
+                <br>&nbsp; &nbsp; &nbsp; $this->availableTea[$preference] = new KarakTea();
+                <br>&nbsp; &nbsp; }
+                <br>&nbsp; &nbsp; return $this->availableTea[$preference];
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We'll also need the TeaShop which takes orders and serves them: <br>
+            <code>class TeaShop {
+                <br>&nbsp; protected $orders;
+                <br>&nbsp; protected $teaMakers;
+                <br>&nbsp; public function __construct(TeaMaker $teaMaker) {
+                <br>&nbsp; &nbsp; $this->teaMaker = $teaMaker;
+                <br>&nbsp; }
+                <br>&nbsp; public function takeOrder(string $teaType, int $table) {
+                <br>&nbsp; &nbsp; $this->orders[$table] = $this->teaMaker->make($teaType);
+                <br>&nbsp; }
+                <br>&nbsp; public function serve() {
+                <br>&nbsp; &nbsp; foreach($this->orders as $table => $tea) {
+                <br>&nbsp; &nbsp; &nbsp; echo "Serving tea to table# " . $table;
+                <br>&nbsp; &nbsp; }
+                <br>&nbsp; }
+            <br>}</code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use this like so: <br>
+            <code>$teaMaker = new TeaMaker();
+                <br>$shop = new TeaShop($teaMaker);
+                <br>$shop->takeOrder('less suger', 1);
+                <br>$shop->takeOrder('more silk', 2);
+                <br>$shop->takeOrder('without sugar', 5);
+                <br>$shop->serve();
+                <br>//Serving tea to table# 1
+                <br>//Serving tea to table# 2
+                <br>//Serving tea to table# 5
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="proxy">
-                        <h2>Proxy</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Real World Example</b>
-                                <br>Have you ever used an access to go through a door? There are multiple options
-                                to open that door i.e. it can be opened either using access card or by pressing a
-                                button that bypasses the security. The door's main functionality is to open but there
-                                is a proxy added on top of it to add some functionality. Let me better explain it using
-                                code example below.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Using the proxy pattern, a class represents the functionality of another class.</i>
-                                <br>A proxy, in its most general form, is a class functioning as an interface to something
-                                else. A proxy is a wrapper or agent object that is being called by the client to access
-                                the real serving object behind the scenes. Use of the proxy can simply be forwarding
-                                to the real object, or can provide additional logic. In the proxy extra functionality
-                                can be provided, for example caching when operation on the real object are resource
-                                intensive, or checking preconditions before operations on the real object are invoked.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Programming</b> - Taking our security door example from above. Firstly we have the
-                                door interface and an implementation of door: <br>
-                                <code>interface Door {
-                                    <br>&nbsp; public function open();
-                                    <br>&nbsp; public function close();
-                                <br>}
-                                <br>class LabDoor implements Door {
-                                    <br>&nbsp; public function open() {
-                                    <br>&nbsp; &nbsp; echo "Opening lab door";
-                                    <br>&nbsp; }
-                                    <br>&nbsp; public function close() {
-                                    <br>&nbsp; &nbsp; echo "Closing the lab door";
-                                    <br>&nbsp; }
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="proxy">
+    <h2>Proxy</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Have you ever used an access to go through a door? There are multiple options
+            to open that door i.e. it can be opened either using access card or by pressing a
+            button that bypasses the security. The door's main functionality is to open but there
+            is a proxy added on top of it to add some functionality. Let me better explain it using
+            code example below.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Using the proxy pattern, a class represents the functionality of another class.</i>
+            <br>A proxy, in its most general form, is a class functioning as an interface to something
+            else. A proxy is a wrapper or agent object that is being called by the client to access
+            the real serving object behind the scenes. Use of the proxy can simply be forwarding
+            to the real object, or can provide additional logic. In the proxy extra functionality
+            can be provided, for example caching when operation on the real object are resource
+            intensive, or checking preconditions before operations on the real object are invoked.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Taking our security door example from above. Firstly we have the
+            door interface and an implementation of door:
+            <pre>
+            interface Door {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function open();
+                public funtion close();
+            }
+            class LabDoor implements Door {
+                public function open(){
+                    echo "Opening lab door";
+                }
+                public function close(){
+                    echo "Closing the lab door";
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have a proxy to secure any doors that we want:
+            <pre>
+            class Security {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $door;
+
+                public function __construct(Door $door) {
+                    $this->door = $door;
+                }
+
+                public function open($password) {
+                    if($this->authenticate($password)) {
+                        $this->door->open();
+                    } else {
+                        echo "Big no! Not gonna happen.";
+                    }
+                }
+
+                public function authenticate($password) {
+                    return $password === '$ecr3t';
+                }
+
+                public function close() {
+                    $this->door->close();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can use it like so:
+            <pre>
+            $door = new Security(new LabDoor());<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $door->open('invalid'); // Big no! Not gonna happen.
+
+            $door->open('$ecr3t'); // Opening lab door
+            $door->close(); // Closing lab door
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Another real world example would be some sort of data-mapper implementation. For example,
+            I recently made an ODM (Object Data Mapper) for MongoDB using this pattern where I wrote
+            a proxy around mongo classes while utilizing the magic method __call(). All the method
+            calls were proxied to the original mongo class and result retrieved was returnedas it
+            is but in case of <i>find</i> or <i>findOne</i> data was mapped to the required class
+            objects and the object was returned instead of Cursor.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="behavioral">
+    <h2>Behavioral Design Patterns</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Behavioral Patterns are concerned with assignment of responsibilities between objects.
+            What makes them different from structural patterns is they don't just specify the
+            structure but also outline the patterns for message passing/communication between
+            them. Or in other words, they assist in answering "How to run a behavior in software component?"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In software engineering, behavioral design patterns are design patterns that identify
+            common communication patterns between objects and realize these patterns. By doing so,
+            these patterns increase flexibility in carrying out this communication.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Sub-Patterns</b>
+            <br>&nbsp; &bull; <a href="chain-of-responsibility">Chain of Responsibility</a>
+            <br>&nbsp; &bull; <a href="command">Command</a>
+            <br>&nbsp; &bull; <a href="iterator">Iterator</a>
+            <br>&nbsp; &bull; <a href="mediator">Mediator</a>
+            <br>&nbsp; &bull; <a href="memento">Memento</a>
+            <br>&nbsp; &bull; <a href="observer">Observer</a>
+            <br>&nbsp; &bull; <a href="visitor">Visitor</a>
+            <br>&nbsp; &bull; <a href="strategy">Strategy</a>
+            <br>&nbsp; &bull; <a href="state">State</a>
+            <br>&nbsp; &bull; <a href="template-method">Template Method</a>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="chain-of-responsibility">
+    <h2>Chain of Responsibility</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Examples</b>
+            <br>Lets say you have 3 payment methods (A, B, and C) setup in your account; each having
+            a different amount in it. A has $100, B has $300, and C has $1000 and the preference for payment
+            is chosen as A then B then C. You try to purchase something that is worth $210. Using Chain
+            of Responsiblity, first of all acount A will be checked if it can make the purchase, if yes
+            purchase will be made and the chain will be broken. If not, request will move forward to account
+            B checking for amount if yes chain will be broken otherwise the request will keep forwarding
+            till it finds the suitable handler. Here A, B and C are links of the chain and the whole phenomenon
+            is Chain of Responsibility.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>It helps building a chain of objects. Request enters from one end and keeps going from
+            object to object till it finds the suitable handler.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In object oriented design, the chain-of-responsibility pattern is a design pattern
+            consisting of a source of command objects and a series of processing objects. Each
+            processing object contains logic that defines the type of command objects that it can
+            handle; the rest are passed tot he next processing object in the chain.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Translating the account example above, first we have a base
+            account having the logic for chaining the accounts together and some accounts:
+            <pre>
+            abstract class Account {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $successor;
+                protected $balance;
+
+                public function setNext(Account $account) {
+                    $this->successor = $account;
+                }
+
+                public function pay(float $amountToPay) {
+                    if($this->canPay($amountToPay)) {
+                        echo sprintf('Paid %s using %s' . PHP_EOL, $amountToPay, get_called_class());
+                    } else if($this->successor) {
+                        echo sprintf('Cannot pay using %s. Proceeding ..' . PHP_EOL, get_called_class());
+                        $this->successor->pay($amountToPay);
+                    } else {
+                        throw ew Exception('None of the accounts have enough balance.');
+                    }
+                }
+            }
+
+            class Bank extends Account {
+                protected $balance;
+                public function __construct(float $balance) {
+                    $this->balance = $balance;
+                }
+            }
+
+            class Paypal extends Account {
+                protected $balance;
+                public function __construct(float $balance) {
+                    $this->balance = $balance;
+                }
+            }
+
+            class Bitcoin extends Account {
+                protected $balance;
+                public function __construct(float $balance) {
+                    $this->balance = $balance;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we can prepare the chain using the links defined above:
+            <pre>
+                //Prepare like so: bank->paypal->bitcoin<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                $bank = new Bank(100);
+                $paypal = new Paypal(200);
+                $bitcoin = new Bitcoin(300);
+
+                $bank->setNext($paypal);
+                $paypal->setNext($bitcoin);
+
+                // Try to pay with first priority i.e. bank
+                $bank->pay(259);
+                //Output will be...
+                // Cannot pay using bank. Proceeding ..
+                // Cannot pay using paypal. Proceeding .
+                // Paid 259 using Bitcoin!
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="command">
+    <h2>Command</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>A generic example would be you ordering food at a restaurant. You(Client) ask the
+            waiter(Invoker) to bring some food(Command) and waiter simply forwards the request to
+            the chef(Receiver) who has the knowledge of what and how to cook. Another example would be
+            you(Client) switching on(Command) the television(Receiver) using a remote controll(Invoker)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Allows you to encapsulate actions in objects. The key idea behind this pattern is to
+            provide the means to decouple client fromreceiver.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In object-oriented programming, the command pattern is a behavioral design pattern in
+            which an object is used to encapsulate all information needed to perform an action or
+            trigger an event at a later time. This information includes the method name, the object
+            that owns the method and values for the method parameters.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - First of all we need the receiver that has the implementation
+            of every action that could be performed:
+            <pre>
+            //Receiver<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Bulb {
+                public function turnOn() {
+                    echo "Bulb has been lit";
+                }
+
+                public function turnOff() {
+                    echo "Darkness!";
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have an interface that each of the commands are going to implement and then
+            we need a set of commands:
+            <pre>
+            interface Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function execute();
+                public function undo();
+                public function redo();
+            }
+            //Command
+            class TurnOn implements Command {
+                protected $bulb;
+
+                public function __construct(Bulb $bulb) {
+                    $this->bulb = $bulb;
+                }
+
+                public function execute() {
+                    $this->bulb->turnOn();
+                }
+
+                public function undo() {
+                    $this->bulb->turnOff();
+                }
+
+                public function redo() {
+                    $this->execute();
+                }
+            }
+            class TurnOff implements Command {
+                protected $bulb;
+
+                public function __construct(Bulb $bulb) {
+                    $this->bulb = $bulb;
+                }
+
+                public function execute() {
+                    $this->bulb->turnOff();
+                }
+
+                public function undo() {
+                    $this->bulb->turnOn();
+                }
+
+                public function redo() {
+                    $this->execute();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have the Invoker with whom the client will interact to process any commands:
+            <pre>
+            //Invoker<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class RemoteControl {
+                public function submit(Command $command) {
+                    $command->execute();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so:
+            <pre>
+            $bulb = new Bulb();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            $turnOn = new TurnOn($bulb);
+            $turnOff = new TurnOff($bulb);
+
+            
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
                     <!-------------------------------------->
                 </div>
@@ -1217,25 +1513,34 @@
 
     Code Template
 
-<div class="jumbotron col-md-12 heliList" id="">
-    <h2>Code</h2>
-    <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>public bool coding = true;
-            <br>private Rigidbody2D rb;</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Start(){
-                <br>&nbsp; console.log('Start Function');
-            <br>}</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Update(){
-                <br>&nbsp; console.log('Don't log here, ya dingus');
-            <br>}</code>
-        </p></li>
-    </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-</div>
+    <div class="jumbotron col-md-12 heliList" id="code">
+        <h2>Code Test</h2>
+        <ul>
+            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Vars</i>
+    <pre>
+    public int one;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+    public bool gameOver;
+    </pre>
+            </p></li>
+            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Start</i>
+    <pre>
+    void Start(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+    // Start Function
+    }
+    </pre>
+            </p></li>
+            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Update</i>
+    <pre>
+    void Update(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+    // Update Function
+    }
+    </pre>
+            </p></li>
+        </ul>
+        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    </div>
 
 -->

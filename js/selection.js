@@ -2,8 +2,18 @@ $('p').find('.glyphicon-remove').click(function () {
   $(this).parent().removeClass('selected');
   $(this).hide();
 });
+$('pre').find('.glyphicon-remove').click(function () {
+  $(this).parent().removeClass('selected');
+  $(this).hide();
+});
 
 $('p').mousedown(function (e) {
+  if (!$(this).hasClass('selected')) {
+    $(this).addClass('selected');
+    $(this).find('span').show();
+  }
+});
+$('pre').mousedown(function (e) {
   if (!$(this).hasClass('selected')) {
     $(this).addClass('selected');
     $(this).find('span').show();

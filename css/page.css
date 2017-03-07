@@ -65,12 +65,27 @@ footer ul li a:active, a:focus, a:visited{
     -o-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
     -ms-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
     transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
-    //display: block;
+}
+.heliList li pre{
+    text-decoration: none;
+    color: #111;
+    font-size: 18px;
+    -webkit-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -moz-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -o-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    -ms-transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
+    transition: font-size 0.3s ease, background-color 0.3s ease, padding-left 0.3s ease;
 }
 .heliList li p:hover {
     padding-left: 5px;
     background: #666;
     cursor: default;
+    color: #000;
+}
+.heliList li pre:hover {
+    padding-left: 5px;
+    background: #666;
+    cursor: default;;
     color: #000;
 }
 .heliList a{
