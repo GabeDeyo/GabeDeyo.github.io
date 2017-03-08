@@ -157,7 +157,31 @@
                                 </p>
                             </li>
                             <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#Command">Command</a>
+                                <a href="#command">Command</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#iterator">Iterator</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#mediator">Mediator</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#memento">Memento</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#observer">Observer</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#visitor">Visitor</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#strategy">Strategy</a>
                                 </p>
                             </li>
                         </ul>
@@ -1451,8 +1475,544 @@
             $turnOn = new TurnOn($bulb);
             $turnOff = new TurnOff($bulb);
 
-            
+            $remote = new RemoteControl();
+            $remote->submit($turnOn); //Bulb has been lit!
+            $remote->submit($turnOff); //Darkness!
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Command pattern can also be used to implement a transaction based system. Where you
+            keep maintaining the history of commands as soon as you execute them. If the final
+            command is successfully executed, all good otherwise just iterate through the history
+            and keep executing undo on all the executed commands.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="iterator">
+    <h2>Iterator</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>An old radio set will be a good example of iterator, where user could start
+            at some channel and then use next or previous buttons to go through the respective
+            channels. Or take an example of an MP3 player or a TV set where you could press
+            the next and previous buttons to go through channels, songs or radio stations.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>It presents a way to access the elements of an object without exposing the underlying
+            presentation.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In object-oriented programming, the iterator pattern is a design pattern in which an
+            iterator is used to traverse a container and access the container's elements. The
+            iterator pattern decouples algorithms from containers; in some cases, algorithms
+            are necessarily container-specific and thus cannot be decoupled.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - In PHP it is quite easy to implement using SPL (Standard PHP Library). Translating
+            our radio station example from above. First of all we have a RadioStation:
+            <pre>
+                class RadioStation {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                    protected $frequency;
+
+                    public function __construct(float $frequency) {
+                        $this->frequency = $frequency;
+                    }
+
+                    public function getFrequency(): float {
+                        return $this->frequency;
+                    }
+                }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we need our <i>Iterator</i>:
+            <pre>
+            use Countable;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            use Iterator;
+
+            class StationList implements Countable, Iterator {
+                /** @var RadioStation[] $stations */
+                protected $stations = [];
+
+                /** @var int $counter */
+                protected $counter;
+
+                public function addStation(RadioStation $station) {
+                    $this->stations[] = $station;
+                }
+
+                public function removeStation(RadioStation $toRemove) {
+                    $toRemoveFrequency = $toRemove->getFrequency();
+                    $this->stations = array_filter($this->stations, function (RadioStation $station) use ($toRemoveFrequency) {
+                        return $station->getFrequency() !== $toRemoveFrequency;
+                    });
+                }
+
+                public function count(): int {
+                    return count($this->stations);
+                }
+
+                public function current(): RadioStation {
+                    return $this->stations[$this->counter];
+                }
+
+                public function key() {
+                    return $this->counter;
+                }
+
+                public function next() {
+                    $this->counter++;
+                }
+
+                public function rewind() {
+                    $this->counter = 0;
+                }
+
+                public function valid(): bool {
+                    return isset($this->stations[$this->counter]);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so:
+            <pre>
+            $stationList = new StationList();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            $stationList->addStation(new RadioStation(89));
+            $stationList->addStation(new RadioStation(101));
+            $stationList->addStation(new RadioStation(102));
+            $stationList->addStation(new RadioStation(103.2));
+
+            foreach($stationList as $station) {
+                echo $station->getFrequency() .PHP_EOL;
+            }
+
+            $stationList->removeStation(new RadioStation(89)); // Will remove station 89
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="mediator">
+    <h2>Mediator</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>A general example would be when you talk with someone on your mobile phone, there is a
+            network provider sitting between you and them and your conversation goes through it
+            instead of being directly sent. In this case network provider is mediator.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Mediator pattern adds a third party object (mediator) to control the interaction
+            between two objects (colleagues). It helps reduce the coupling between the classes
+            communicating with each other. Because now they don't need to have knowledge of
+            each other's implementation.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In software engineering, the mediator pattern defines an object that encapsulates how a set
+            of objects interact. This pattern is considered to be a behavioral pattern due to the
+            way it can alter the program's running behavior.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Here is the simplest example of a chat room (mediator) with users
+            (colleagues) sending messages to each other. First of all, we have the mediator i.e.
+            the ChatRoom:
+            <pre>
+            interface ChatRoomMediator {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function showMessage(User $user, string $message);
+            }
+
+            //Mediator
+            class ChatRoom implements ChatRoomMediator {
+                public function showMessage(User $user, string $message) {
+                    $time = date('M d, y H:i');
+                    $sender = $user->getName();
+
+                    echo $time . '[' . $sender . ']' . $message;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have the users (colleagues):
+            <pre>
+            class User {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $name;
+                protected $chatMediator;
+
+                public function __construct(string $name, ChatRoomMediator $chatMediator) {
+                    $this->name = $name;
+                    $this->chatMediator = $chatMediator;
+                }
+
+                public function getName() {
+                    return $this->name;
+                }
+
+                public function send($message) {
+                    $this->chatMediator->showMessage($this, $message);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use like so:
+            <pre>
+            $meidator = new ChatRoom();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            $john = new User('John Doe', $mediator);
+            $jane = new User('Jane Doe', $mediator);
+
+            $john->send('Hi there!');
+            $jane->send('Hello');
+
+            //Output:
+            // Feb 14, 10:58 [John]: Hi there!
+            // Feb 14, 10:58 [Jane]: Hello
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="memento">
+    <h2>Memento</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Take the example of calculator (originator), where you perform some calculation
+            and the last calculation is saved in memory (memento) so that you can get back to
+            it and maybe get it resotred using some action buttons (caretaker).
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Memento pattern is about capturing and storing the current state of an object in
+            a manner that it can be resotred later on in a smooth manner.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            The memento pattern is a software design pattern that provides the ability to restore
+            an object to its previous state (undo via rollback).
+            <br><b>Usually useful when you need to provide some sort of undo functionality.</b>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Lets take an example of a text editor which keeps saving the state
+            from time to time and that you can restore if you want. First of all we have our
+            memento object that will be able to hold the editor state:
+            <pre>
+            class EditorMemento {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $content;
+
+                public function __construct(string $content) {
+                    $this->content = $content;
+                }
+
+                public function getContent() {
+                    return $this->content;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have our editor (originator) that is going to use the memento object:
+            <pre>
+            class Editor {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $content = '';
+
+                public function type(string $words) {
+                    $this->content = $this->content . ' ' . $words;
+                }
+
+                public function getContent() {
+                    return $this->content;
+                }
+
+                public function save() {
+                    return new EditorMemento($this->content);
+                }
+
+                public function restore(EditorMemento $memento) {
+                    $this->content = $memento->getContent();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can use like so:
+            <pre>
+            $editor = new Editor();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            //Type some stuff
+            $editor->type('This is the first sentence.');
+            $editor->type('This is the second.');
+
+            // Save the state to restore to : This is the first sentence. This is the second.
+            $saved = $editor->save();
+
+            //Type some more
+            $editor->type('And this is the third');
+
+            //Ouput: Content before Saving
+            echo $editor->getContent(); //This is the first sentence. This is the second. And this is the third.
+
+            // Restoring to last saved state
+            $editor->restore($saved);
+
+            $editor->getContent(); // This is the first sentence. This is second.
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="observer">
+    <h2>Observer</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>A good example would be job seekers where they subscribe to some job posting
+            site and they are notified whenever there is a matching job opportunity.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Defines a dependency between objects so that whenever an object changes its
+            state, all its dependents are notified.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            The observer pattern is a software design pattern in which an object (subject) maintains
+            a list of its dependents (observers) and notifies them automatically of any state changes,
+            usually by calling on of their methods.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Translating our job example from above. First of all we have job
+            seekers that need to be notified for a job posting:
+            <pre>
+            class JobPost {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $title;
+
+                public function __construct(string $title) {
+                    $this->title = $title;
+                }
+
+                public function getTitle() {
+                    return $this->title;
+                }
+            }
+            class JobSeeker implements Observer {
+                protected $name;
+
+                public function __construct(string $name) {
+                    $this->name = $name;
+                }
+
+                public function onJobPosted(JobPost $job) {
+                    // Do something with the job posting
+                    echo 'Hi ' . $this->name . '! New job posted: ' . $job->getTitle();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have our job postings to which the job seekers will subscribe:
+            <pre>
+            class JobPostings implements Observable {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $observers = [];
+
+                protected function notify(JobPost $jobPosting) {
+                    foreach($this->observers as $observer) {
+                        $observer->onJobPosted($jobPosting);
+                    }
+                }
+
+                public function attach(Observer $observer) {
+                    $this->observers[] = $observer;
+                }
+
+                public function addJob(JobPost $jobPosting) {
+                    $this->notify($jobPosting);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can use it like so:
+            <pre>
+            //Create subscribers<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $johnDoe = new JobSeeker('John Doe');
+            $janeDoe = new JobSeeker('Jane Doe');
+
+            //Create publisher and attach subscribers
+            $jobPostings = new JobPostings();
+            $jobPostings->attach($johnDoe);
+            $jobPostings->attach($janeDoe);
+
+            //Add a new job and see if subscribers get notified
+            $jobPostings->addJob(new Job('software Engineer'));
+
+            //Output:
+            //Hi John Doe! New job posted: Software Engineer
+            //Hi Jane Doe! New job posted: Software Engineer
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="visitor">
+    <h2>Visitor</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Consider someone visiting Dubai. They just need a way (visa) to enter Dubai. After
+            arrival, they can come and visit any place in Dubai on their own without having to
+            ask for permission or to some leg work in order to visit any place here; just let
+            them know of a place and they can visit it. Visitor pattern lets you do just that, it
+            helps you add places to visit so that they can visit as much as they can without having to
+            do any leg work.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Visitor pattern lets you add further operations to objects without having to modify them.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In object-oriented programming and software programming, the visitor design pattern is a way
+            of separating an algorithm from an object structure on which it operates. A practical result of
+            this separation is the ability to add new operations to existing object structures without
+            modifying those structures. It is one way to follow the open/closed principle.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Let's take an example of a zoo simulation where we have several
+            different kinds of animals and we have to make them Sound. Let's translate this using
+            the visitor patter:
+            <pre>
+            //Visitee<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            interface Animal {
+                public function accept(AnimalOperation $operation);
+            }
+
+            //Visitor
+            interface AnimalOperation {
+                public function visitMonkey(Monkey $monkey);
+                public function visitLion(Lion $lion);
+                public functon visitDolphin(Dolphin $dolphin);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we need our implementation for the animals:
+            <pre>
+            class Monkey implements Animal {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function shout() {
+                    echo 'Ooh oo aa aa!';
+                }
+
+                public function accept(AnimalOperation $operation) {
+                    $operation->visitMonkey($this);
+                }
+            }
+
+            class Lion implements Animal {
+                public function roar() {
+                    echo 'Roaaar!';
+                }
+
+                public function accept(AnimalOperation $operation) {
+                    $operation->visitLion($this);
+                }
+            }
+
+            class Dolphin implements Animal {
+                public function speak() {
+                    echo 'Tuut tuttu tuutt!';
+                }
+
+                public function accept(AnimalOperation $operation) {
+                    $operation->visitDolphin($this);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now let's implement the visitor:
+            <pre>
+            class Speak implements AnimalOperation {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function visitMonkey(Monkey $monkey) {
+                    $monkey->shout();
+                }
+
+                public function visitLion(Lion $lion) {
+                    $lion->roar();
+                }
+
+                public function visitDolphin(Dolphin $dolphin) {
+                    $dolphin->speak();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we can use like so:
+            <pre>
+            $monkey = new Monkey();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $lion = new Lion();
+            $dolphin = new Dolphin();
+
+            $speak = new Speak();
+
+            $monkey->accept($speak); //Ooh oo aa aa!
+            $lion->accept($speak); //Roaaar!
+            $dolphin->accept($speak); //Tuut tutt tuutt!
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We could have done this simply by having a inheritance hierarchy for the animals but then we
+            would have to modify the animals whenever we would have to add new actions to animals. But
+            now we will not have to change them.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            For example, let's say we are asked to add the jump behavior to the animals, we
+            can simply add that by creating a new visitor:
+            <pre>
+                class Jump implements AnimalOperation {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                    public function visitMonkey(Monkey $monkey) {
+                        echo 'Jumped 20 feet high! on to the tree!';
+                    }
+
+                    public function visitLion(Lion $lion) {
+                        echo 'Jumped 7 feet! Back on the ground!';
+                    }
+
+                    public function visitDolphin(Dolphin $dolphin) {
+                        echo 'Walked on water a little and disappeared';
+                    }
+                }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we can use like so:
+            <pre>
+            $jump = new Jump();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            $monkey->accept($speak); // Ooh oo aa aa!;
+            $monkey->accept($jump); // Jumped 20 feet high! on to the tree!
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="strategy">
+    <h2>Strategy</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
