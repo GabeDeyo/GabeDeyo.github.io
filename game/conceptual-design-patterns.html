@@ -184,6 +184,14 @@
                                 <a href="#strategy">Strategy</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#state">State</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#template-method">Template Method</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -2006,13 +2014,271 @@
     <h2>Strategy</h2>
     <ul>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            <b>Real World Example</b>
+            <br>Consider the example of sorting, we implemented bubble sort but the data started to
+            grow and bubble sort started to get slow. In order to tackle this we implemented Quick
+            sort. But now although the quick sort algorithm was doing better for large data sets,
+            it was very slow for smaller data sets. In order to handle this we implemented a strategy
+            where for small datasets, bubble sort will be used and for larger, quick sort.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            <i>Strategy pattern allows you to switch the algorithm or strategy based on the situation.</i>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            In computer programming, the strategy pattern (policy pattern) is a behavioural software
+            design pattern that enables an algorithm's behavior to be selected at runtime.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Translating our example from above. First of all we have our strategy
+            interface and different strategy implementations:
+            <pre>
+            interface SortStrategy {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function sort(array $dataset): array;
+            }
+
+            class BubbleSortStrategy implements SortStrategy {
+                public function sort(array $dataset): array {
+                    echo "Sorting using bubble sort";
+                    // Do sorting
+                    return $dataset;
+                }
+            }
+
+            class QuickSortStrategy implements SortStrategy {
+                public function sort(array $dataset): array {
+                    echo "Sorting using quick sort";
+                    // Do sorting
+                    return $dataset;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            And then we have our client that is going to use any strategy:
+            <pre>
+            class Sorter {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $sorter;
+
+                public function __construct(SortStrategy $sorter) {
+                    $this->sorter = $sorter;
+                }
+
+                public function sort(arra $dataset): array {
+                    return $this->sorter->sort($dataset);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            And now we can use like so:
+            <pre>
+                $dataset = [1, 5, 4, 3, 2, 8]<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+                $sorter = new Sorter(new BubbleSortStrategy());
+                $sorter->sort($dataset); //Output: Sorting using bubble sort
+
+                $sorter = new Sorter(new QuickSortStrategy());
+                $sorter->sort($dataset); //Output: Sorting using quick sort
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="state">
+    <h2>State</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Real World Example</b>
+            <br>Imagine you are using some drawing application, you choose the paint brush to draw.
+            Now the brush changes its behavior based on the selected color, so ou have chosen red color
+            and it will draw in red, or blue is selected then paint in blue.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>It lets you change the behavior of a class when the state changes.</i>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            The State pattern is a behavioral software design pattern that implements a state machine
+            in an object-oriented way. With the state pattern, a state machine is implemented by implementing
+            each individual state as a derived class of the state pattern interface, and implementing
+            state transitions by invoking methods defined by the pattern's superclass. The state
+            pattern can be interpreted as a strategy pattern which is able to switch the current
+            strategy through invocations of methods defined in the pattern's interface.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Let's take an example of text editor, it lets you change the state of text
+            that is typed, so if you select bold, it writes in bold, and the same for other mechanics.
+            First of all we have our state interface and some state implementations:
+            <pre>
+            interface WritingState {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function write(string $words);
+            }
+
+            class UpperCase implements WritingState {
+                public function write(string $words) {
+                    echo strtoupper($words);
+                }
+            }
+
+            class LowerCase implements WritingState {
+                public function write(string $words) {
+                    echo strtlower($words);
+                }
+            }
+
+            class Default implements WritingState {
+                public function write(string $words) {
+                    echo $words;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we have the editor:
+            <pre>
+            class TextEditor {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $state;
+
+                public function __construct(WritingState $state) {
+                    $this->state = $state;
+                }
+
+                public function setState(WritingState $state) {
+                    $this->state = $state;
+                }
+
+                public function type(string $words) {
+                    $this->state->write($words);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use it like so:
+            <pre>
+            $editor = new TextEditor(new Default());<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            $editor->type('First line');
+
+            $editor->setState(new UpperCase());
+
+            $editor->type('Second line');
+
+            $editor->setState(new LowerCase());
+
+            $editor->type('Third line');
+
+            //Output:
+            //First line
+            //SECOND LINE
+            //third line
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="template-method">
+    <h2>Template Method</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Suppose we are getting some house built. The steps for building might look like this.
+            <br>Prepare base of house -> Build walls -> Add roof -> Add other floors
+            <br>The order of these steps could never be changed, but each step could be modified,
+            for example walls can be made of wood or polyester or stone.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Template method defines the skeleton of how a certain algorithm could be performed,
+            but defers the implementation of those steps to the children classes.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In software engineering, the template method pattern is a behavioral desgn pattern
+            that defines the program skeleton of an algorithm in an option, deferring some
+            steps to subclasses. It lets on redefine certain steps of an algorithm without
+            changing the algorithm's structure.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Programming</b> - Imagine we have a build tool that helps us test, lint, build,
+            generate build reports and deploy our app on the test server. First of all we have
+            our base class that specifies the skeleton for the build algorithm:
+            <pre>
+            abstract class Builder {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                //Template method
+                final public function build() {
+                    $this->test();
+                    $this->lint();
+                    $this->assemble();
+                    $this->deploy();
+                }
+
+                abstract public function test();
+                abstract public function lint();
+                abstract public function assemble();
+                abstract public function deploy();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Then we can have our implementations:
+            <pre>
+            class AndroidBuilder extends Builder {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function test() {
+                    echo 'Running android tests';
+                }
+
+                public function lint() {
+                    echo 'Linting the android code';
+                }
+
+                public function assemble() {
+                    echo 'Assembling the android build';
+                }
+
+                public function deploy() {
+                    echo 'Deploying android build to server';
+                }
+            }
+
+            class IosBuilder extends Builder {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function test() {
+                    echo 'Running ios tests';
+                }
+
+                public function lint() {
+                    echo 'Linting the ios code';
+                }
+
+                public function assemble() {
+                    echo 'Assembling the ios build';
+                }
+
+                public function deploy() {
+                    echo 'Deploying ios build to server';
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            We can then use like so:
+            <pre>
+            $androidBuilder = new AndroidBuilder();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $androidBuilder->build();
+
+            //Output:
+            //Running android tests
+            //Linting the android code
+            //Assembling the android build
+            //Deploying android build to server
+
+            $iosBuild = new IosBuilder();
+            $iosbuild->build();
+
+            //Output:
+            //Running ios tests
+            //Linting the ios code
+            //Assembling the ios build
+            //Deploying ios build to server
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
