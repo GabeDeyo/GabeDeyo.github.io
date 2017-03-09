@@ -109,31 +109,39 @@
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Imageine our game has enemies swarming the hero, entering by way of "spawners", with a
             different spawner for each type of enemy.
-            <br>For this example, lets say we have classes for each type of enemy in the game: <br>
-            <code>class Monster {
-                <br>&nbsp; //Monster stuff
-            <br>}
-            <br>class Ghost : public Monster {};
-            <br>class Demon : public Monster {};
-            <br>class Sorcerer : public Monster {};</code>
+            <br>For this example, lets say we have classes for each type of enemy in the game:
+            <pre>
+            class Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                //Monster stuff
+            }
+
+            class Ghost : public Monster {};
+            class Demon : public Monster {};
+            class Sorcerer : public Monster {};
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             A spawner constructs instances of one particular monster type. To support every monster
             in the game, we could brute-force it by having a spawner class for each moster class,
             leading to a parallel class hierarchy:
             <br>Ghost/Demon/Sorcerer ->(inherit from) Monster ... GhostSpawner/DemonSpawner/SorcererSpawner -> Spawner
-            <br>Implementing would look like this: <br>
-            <code>class Spawner {
-                <br>&nbsp; public virtual ~Spawner() {}
-                <br>&nbsp; public virtual Monster* spawnMonster() = 0;
-            <br>};
-            <br>class GhostSpawner : public Spawner {
-                <br>&nbsp; public virtual Monster* spawnMonster() { return new Ghost(); }
-            <br>};
-            <br>class DemonSpawner : public Spawner() {
-                <br>&nbsp; public virtual Monster* spawnMonster() { return new Demon(); }
-            <br>}
-            <br>//And so on.</code>
+            <br>Implementing would look like this:
+            <pre>
+            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public virtual ~Spawner() {}
+                public virtual Monster* spawnMonster() = 0;
+            }
+
+            class GhostSpawner : public Spawner {
+                public virtual Monster* spawnMonster() { return new Ghost(); }
+            }
+
+            class DemonSpawner : public Spawner() {
+                public virtual Monster* spawnMonster() { return new Demon(); }
+            }
+
+            //And so on.
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             This will clearly result in many classes, lots of boilerplate, redundancy, lots of duplication...
@@ -151,33 +159,41 @@
     <ul>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             To implement this pattern, we're going to give our base class, Monster, an abstract
-            clone() method: <br>
-            <code>class Monster {
-                <br>&nbsp; public virtual ~Monster() {}
-                <br>&nbsp; public virtual Monster* clone() = 0;
-                <br>&nbsp; //Other Stuff
-            <br>}</code>
+            clone() method:
+            <pre>
+            class Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public virtual ~Monster() {}
+                public virtual Monster* clone() = 0;
+                //Other Stuff
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Each monster subclass provides an implementation that returns a new object identical
-            in class and state to it. For example: <br>
-            <code>class Ghost : public Monster {
-                <br>&nbsp; public Ghost(int health, int speed) : health_(health), speed_(speed) {}
-                <br>&nbsp; public virtual Monster* clone() {
-                    <br>&nbsp; &nbsp; return new Ghost(health_, speed_);
-                <br>&nbsp; }
-                <br>&nbsp; private int health_;
-                <br>&nbsp; private int speed_;
-            <br>}</code>
+            in class and state to it. For example:
+            <pre>
+            class Ghost : public Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public Ghost(int health, int speed) : health_(health), speed_(speed) {}
+
+                public virtual Monster* clone() {
+                    return new Ghost(health_, speed_);
+                }
+
+                private int health_;
+                private int speed_;
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Once all our monsters support that, we no longer need a spawner class for each
-            monster class. Instead we define a single one: <br>
-            <code>class Spawner {
-                <br>&nbps; public Spawner(Monster* prototype) : prototype_(prototype) {}
-                <br>&nbps; public Monster* spawnMonster() { return prototype_clone(); }
-                <br>&nbps; private Monster* prototype_;
-            <br>};</code>
+            monster class. Instead we define a single one:
+            <pre>
+            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public Spawner(Monster* prototype) : prototype_(prototype) {}
+                public Monster* spawnMonster() { return prototype_clone(); }
+                private Monster* prototype_;
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             This internally holds a monster, a hidden one whose sole purpose is to be used
@@ -187,9 +203,11 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             To create a ghost spawner, we create a prototypal ghost instance and then
-            create a spawner holding that prototype: <br>
-            <code>Monster* ghostPrototype = new Ghost(15, 3);
-            <br>Spawner* ghostSpawner = new Spawner(ghostPrototype);</code>
+            create a spawner holding that prototype:
+            <pre>
+            Monster* ghostPrototype = new Ghost(15, 3);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Spawner* ghostSpawner = new Spawner(ghostPrototype);
+            </pre>
             <br>One great part about this pattern is that it doesn't just clone the class
             of the prototype, it clones its state too. This means we could make a spawner for
             fast ghost, weak ghosts, or slow ghosts just by creating an appropriate prototype ghost.
@@ -212,40 +230,51 @@
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Spawn Functions</b><br>
             Even if we do have different classes for each monster, there are other ways to strip it down.
-            Instead of making separate spawner classes for each monster, we could make spawn functions, like so: <br>
-            <code>Monster* spawnGhost () {
-                <br>&nbsp; return new Ghost();
-            <br>}</code>
+            Instead of making separate spawner classes for each monster, we could make spawn functions, like so:
+            <pre>
+            Monster* spawnGhost() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                return new Ghost();
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             This is less boilerplate than rolling a whole class for constructing a monster
-            of some type. Then the one spawner class can simply store a function pointer: <br>
-            <code>typedef Monster* (*SpawnCallback)();
-            <br>class Spawner {
-                <br>&nbps; public Spawner(SpawnCallback spawn) : spawn_(spawn) {}
-                <br>&nbps; public Monster* spawnMonster() { return spawn_() }
-                <br>&nbps; private SpawnCallback spawn_;
-            <br>};</code>
+            of some type. Then the one spawner class can simply store a function pointer:
+            <pre>
+            typedef Monster* (*SpawnCallback)();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Spawner {
+                public Spawner(SpawnCallback spawn) : spawn_(spawn) {}
+                public Monster* spawnMonster() { return spawn_() }
+                private SpawnCallback spawn_;
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Finally, to create a spawner for ghosts, you do: <br>
-            <code>Spawner* ghostSpawner = new Spawner(spawnGhost);</code>
+            Finally, to create a spawner for ghosts, you do:
+            <pre>
+            Spawner* ghostSpawner = new Spawner(spawnGhost);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Templates</b><br>
             Our spawner class needs to construct instances of some type, but we don't want to hard
             code some specific monster class. The natural solution then is to make it a <i>type
-            parameter</i>, which <b>templates</b> let us do: <br>
-            <code>class Spawner {
-                <br>&nbsp; public virtual ~Spawner(){}
-                <br>&nbsp; public virtual Monster* spawnMonster() = 0;
-            <br>}
-            <br>template &lt;class T&gt;
-            <br>class SpawnerFor : public Spawner {
-                <br>&nbsp; public virtual Monster* spawnMonster() { return new T(); }
-            <br>}</code>
-            <br>Using it looks like: <br>
-            <code>Spawner* ghostSpawner = new SpawnerFor&lt;Ghost&gt;();</code>
+            parameter</i>, which <b>templates</b> let us do:
+            <pre>
+            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public virtual ~Spawner(){}
+                public virtual Monster* spawnMonster() = 0;
+            }
+
+            template &lt;class T&gt;
+
+            class SpawnerFor : public Spawner {
+                public virtual Monster* spawnMonster() { return new T(); }
+            }
+
+            //Useing it looks like:
+            Spawner* ghostSpawner = new SpawnerFor&lt;Ghost&gt;();
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Templates are a popular tool in languages nowadays. The Spawner class here is so that
@@ -304,7 +333,6 @@
     </main>
 
     <!-------------------------------------------------------------------------->
-
 
     <!-- FOOTER -->
     <footer class="navbar navbar-inverse navbar-fixed-bottom">
