@@ -71,7 +71,6 @@
         </nav>
     </header>
 
-
     <!-------------------------------------------------------------------------->
 
     <!-- MAIN -->
@@ -80,7 +79,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center" style="text-decoration: underline;" id="title">Unity Notes</h1>
-                    <!------------------------------------------------->
 
                     <aside>
                         <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
@@ -128,184 +126,184 @@
                         </ul>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="awakeStart">
-                        <h2>Awake &amp; Start</h2>
-                        <ul>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Awake
-                                    <br>&nbsp; &bull; Called first, even if script is NOT enabled.
-                                    <br>&nbsp; &bull; Used for references between scripts and initializations.
-                                </p>
-                            </li>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Start
-                                    <br>&nbsp; &bull; Called after Awake, immediately before the first Update. But only if script is enabled.
-                                </p>
-                            </li>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Example
-                                    <br>&nbsp; An enemy character could enter the game. The ammo count would be set in Awake,
-                                    <br>&nbsp; while the ability to shoot would be called in Start.
-                                </p>
-                            </li>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    * Only called once in the entire lifetime of a GameObject.
-                                </p>
-                            </li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="awakeStart">
+    <h2>Awake &amp; Start</h2>
+    <ul>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Awake
+                <br>&nbsp; &bull; Called first, even if script is NOT enabled.
+                <br>&nbsp; &bull; Used for references between scripts and initializations.
+            </p>
+        </li>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Start
+                <br>&nbsp; &bull; Called after Awake, immediately before the first Update. But only if script is enabled.
+            </p>
+        </li>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Example
+                <br>&nbsp; An enemy character could enter the game. The ammo count would be set in Awake,
+                <br>&nbsp; while the ability to shoot would be called in Start.
+            </p>
+        </li>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                * Only called once in the entire lifetime of a GameObject.
+            </p>
+        </li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="cullingMask">
-                        <h2>Render specic layers using Camera Culling Mask</h2>
-                        <ul>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Use camera culling mask to choose which layers the game view will render.
-                                </p>
-                            </li>
-                            <li>
-                                <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Note* these objects will be rendered in the scene view but not the game view.
-                                </p>
-                            </li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="cullingMask">
+    <h2>Render specic layers using Camera Culling Mask</h2>
+    <ul>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Use camera culling mask to choose which layers the game view will render.
+            </p>
+        </li>
+        <li>
+            <p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Note* these objects will be rendered in the scene view but not the game view.
+            </p>
+        </li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="layersBitmasks">
-                        <h2>Limit physics interactions using Layers and Bitmasks</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <code>
-                                    public Collider[] neighbors; // Get a list of colliders in an Array
-                                    <br>public float distance = 10; // Start distance for it to look inside, based on level scale
-                                    <br>public int waypointMask = 1 << 8; //Place value of 1(true) as the value of layer 8.
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <code>
-                                    void Start(){
-                                        <br>&nbsp;getNeighbors(); // Find surrounding waypoints
-                                    <br>}
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <code>
-                                    // Get nearby waypoints based on a sphere of distance that increases
-                                    until it has 3 neighbors. This object will be in the list,
-                                    and we want at least 2 other connected neighbors.<br>
-                                    <br>void getNeighbors(){
-                                        <br>&nbsp;while(neighbors.Length < 3){
-                                            <br>&nbsp;&nbsp;//Search in a sphere of radius distance for other colliders
-                                            <br>&nbsp;&nbsp;neighbors = Physics.OverlapSphere(this.transform.position, distance, waypointMask);
-                                            <br>&nbsp;&nbsp;//If we haven't found enough neighbors, increase the search size
-                                            <br>&nbsp;&nbsp;distance += 10;
-                                        <br>&nbsp;}
-                                    <br>}
-                                </code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="layersBitmasks">
+    <h2>Limit physics interactions using Layers and Bitmasks</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>
+                public Collider[] neighbors; // Get a list of colliders in an Array
+                <br>public float distance = 10; // Start distance for it to look inside, based on level scale
+                <br>public int waypointMask = 1 << 8; //Place value of 1(true) as the value of layer 8.
+            </code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>
+                void Start(){
+                    <br>&nbsp;getNeighbors(); // Find surrounding waypoints
+                <br>}
+            </code>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <code>
+                // Get nearby waypoints based on a sphere of distance that increases
+                until it has 3 neighbors. This object will be in the list,
+                and we want at least 2 other connected neighbors.<br>
+                <br>void getNeighbors(){
+                    <br>&nbsp;while(neighbors.Length < 3){
+                        <br>&nbsp;&nbsp;//Search in a sphere of radius distance for other colliders
+                        <br>&nbsp;&nbsp;neighbors = Physics.OverlapSphere(this.transform.position, distance, waypointMask);
+                        <br>&nbsp;&nbsp;//If we haven't found enough neighbors, increase the search size
+                        <br>&nbsp;&nbsp;distance += 10;
+                    <br>&nbsp;}
+                <br>}
+            </code>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="calcBitmasks">
-                        <h2>Calculating the Value of a Bitmask and Combining Bitmasks</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Set individually layers appropriatly. In example case - NorthWaypoints(9), SouthWaypoints(10)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Take 2 to the power of the layer. This is the number of the bitmask.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                 * Used to control how our layers interact and how physics interacts between layers.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="calcBitmasks">
+    <h2>Calculating the Value of a Bitmask and Combining Bitmasks</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set individually layers appropriatly. In example case - NorthWaypoints(9), SouthWaypoints(10)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Take 2 to the power of the layer. This is the number of the bitmask.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+             * Used to control how our layers interact and how physics interacts between layers.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="renderModes">
-                        <h2>Render Modes</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Select the specific render mode in Scene View tool bar
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>1. RGB</b>, normal view, seeing all colors
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>2. Alpha</b>, set everything to black or white.
-                                <br>Helpful for seeing places where you can see through the level.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>3. Overdraw</b>, shows you a sillouette of everything being overdrawn.
-                                <br>Lighter or more saturation means more overdraw.
-                                <br>Helpful for seeing things that should be culled.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>4. Mipmaps</b>, show resolution ideals for textures.
-                                <br>When you are further away, mipmaped textures will drop in resolution.
-                                <br>Red shows too much resolution, blue is not enough resolution. White is okay.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="renderModes">
+    <h2>Render Modes</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Select the specific render mode in Scene View tool bar
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>1. RGB</b>, normal view, seeing all colors
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>2. Alpha</b>, set everything to black or white.
+            <br>Helpful for seeing places where you can see through the level.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>3. Overdraw</b>, shows you a sillouette of everything being overdrawn.
+            <br>Lighter or more saturation means more overdraw.
+            <br>Helpful for seeing things that should be culled.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>4. Mipmaps</b>, show resolution ideals for textures.
+            <br>When you are further away, mipmaped textures will drop in resolution.
+            <br>Red shows too much resolution, blue is not enough resolution. White is okay.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="cubeMaps">
-                        <h2>Cube Maps</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <b>Use cube maps to make reflective materials.</b>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create new Material and set it's shader to be reflective/diffuse
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a Cubemap in project view. Name Material and Cubemap to "Sky"
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Apply Cubemap textures to the cubemap. (Get from somewhere)
-                                <br>Apply this Cubemap to the Sky Material.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Set tone to something less blown out or more visual with main color of material.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                IF using this as a skybox,
-                                <br>set shader to RenderFX/Skybox Cubed
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                In Edit/RenderSetting, plug in that skybox
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="cubeMaps">
+    <h2>Cube Maps</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <b>Use cube maps to make reflective materials.</b>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create new Material and set it's shader to be reflective/diffuse
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a Cubemap in project view. Name Material and Cubemap to "Sky"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Apply Cubemap textures to the cubemap. (Get from somewhere)
+            <br>Apply this Cubemap to the Sky Material.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set tone to something less blown out or more visual with main color of material.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            IF using this as a skybox,
+            <br>set shader to RenderFX/Skybox Cubed
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In Edit/RenderSetting, plug in that skybox
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="cloth">
-                        <h2>Unity Cloth</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                For testing, bring in something to collide with like a sphere or cube.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Bring in a cloth which helps it simulate in Unity.
-                                <br>The cloth renderer helps us see the cloth.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                *Issues may arise if items colliding with cloth are too small.
-                                <br>They will rip right through.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Worth experimenting with all of the properties of the cloth.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="cloth">
+    <h2>Unity Cloth</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            For testing, bring in something to collide with like a sphere or cube.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Bring in a cloth which helps it simulate in Unity.
+            <br>The cloth renderer helps us see the cloth.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            *Issues may arise if items colliding with cloth are too small.
+            <br>They will rip right through.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Worth experimenting with all of the properties of the cloth.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
                     <!-------------------------------------->
                 </div>
@@ -313,7 +311,6 @@
     </main>
 
     <!-------------------------------------------------------------------------->
-
 
     <!-- FOOTER -->
     <footer class="navbar navbar-inverse navbar-fixed-bottom">
@@ -355,29 +352,6 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             XXX
-        </p></li>
-    </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-</div>
-
-    Code Template
-
-<div class="jumbotron col-md-12 heliList">
-    <h2>Code</h2>
-    <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>public bool coding = true;
-            <br>private Rigidbody2D rb;</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Start(){
-                <br>&nbsp; console.log('Start Function');
-            <br>}</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Update(){
-                <br>&nbsp; console.log('Don't log here, ya dingus');
-            <br>}</code>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>

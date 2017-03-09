@@ -1,6 +1,6 @@
 /* Body */
 body{
-    background-color: #eee;
+    background-color: #333;
 }
 
 /* Navbar */
@@ -54,7 +54,6 @@ footer ul li a:active, a:focus, a:visited{
 
 /* Heli List */
 .heliList {
-    background-color: #999;
     margin-bottom: 75px;
 }
 .heliList li p{

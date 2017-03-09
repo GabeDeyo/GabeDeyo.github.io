@@ -71,7 +71,6 @@
         </nav>
     </header>
 
-
     <!-------------------------------------------------------------------------->
 
     <!-- MAIN -->
@@ -121,225 +120,247 @@
                         </ul>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="setup">
-                        <h2>Game Setup</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create new 3D "Roller Ball" project. Use 3D default project settings.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create new "Mini Game" scene.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a Plane object and name "Ground". Place at (0, 0, 0).
-                                <br>In Gizmos, deselect Show Grid option.
-                                <br>Rescale terrain to (2, 1, 2)?
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create Sphere object and place at (0, 0.5, 0)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create Materials folder and create a Material as Background
-                                <br>Change Albedo to a nice dark blue. (0, 32, 64)
-                                <br>Apply material to Plane object.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Rotate the default light to give the player a better shape.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="setup">
+    <h2>Game Setup</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create new 3D "Roller Ball" project. Use 3D default project settings.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create new "Mini Game" scene.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a Plane object and name "Ground". Place at (0, 0, 0).
+            <br>In Gizmos, deselect Show Grid option.
+            <br>Rescale terrain to (2, 1, 2)?
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create Sphere object and place at (0, 0.5, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create Materials folder and create a Material as Background
+            <br>Change Albedo to a nice dark blue. (0, 32, 64)
+            <br>Apply material to Plane object.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Rotate the default light to give the player a better shape.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="move-ball">
-                        <h2>Move the Ball</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create Scripts folder and add "PlayerController" script to the Player
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add rigidbody to the Player
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>private Rigidbody rb;
-                                    <br>public float speed;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void Start() {
-                                    <br>&nbsp; rb = GetComponenet<Rigidbody>();
-                                    <br>}
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void FixedUpdate() {
-                                <br>&nbsp; float moveHorizontal = Input.GetAxis("Horizontal");
-                                <br>&nbsp; float moveVertical = Input.GetAxis("Vertical");
-                                <br>&nbsp; Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-                                <br>&nbsp; rb.AddForce(movement * speed);
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="move-ball">
+    <h2>Move the Ball</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create Scripts folder and add "PlayerController" script to the Player
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add rigidbody to the Player
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            private Rigidbody rb;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public float speed;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                &nbsp; rb = GetComponenet<Rigidbody>();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void FixedUpdate() {
+                float moveHorizontal = Input.GetAxis("Horizontal");
+                float moveVertical = Input.GetAxis("Vertical");
+                Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
+                rb.AddForce(movement * speed);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="move-camera">
-                        <h2>Move the Camera</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Lift camera to (0, 10, -10), and rotate to (45, 0, 0)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make a new "CameraController" script and add to camera.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>CameraController</i><br>
-                                <code>public GameObject player;
-                                <br>private Vector3 offset;</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>CameraController</i><br>
-                                <code>void Start(){
-                                    <br>&nbsp; offset = transform.position - player.transform.position;
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>CameraController</i><br>
-                                <code>void LateUpdate(){
-                                    <br>&nbsp; transform.position = player.transform.position + offset;
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="move-camera">
+    <h2>Move the Camera</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Lift camera to (0, 10, -10), and rotate to (45, 0, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new "CameraController" script and add to camera.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>CameraController</i>
+            <pre>
+            public GameObject player;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            private Vector3 offset;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>CameraController</i>
+            <pre>
+                void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                    offset = transform.position - player.transform.position;
+                }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>CameraController</i>
+            <pre>
+                void LateUpdate() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                    transform.position = player.transform.position + offset;
+                }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="play-area">
-                        <h2>Setting up Play Area</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create new empty "Walls" object.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create new cube "WestWall" as a child of Walls.
-                                <br>Change scale to (0.5, 2, 20.5), push into place.
-                                <br>Repeat for other walls.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="play-area">
+    <h2>Setting up Play Area</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create new empty "Walls" object.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create new cube "WestWall" as a child of Walls.
+            <br>Change scale to (0.5, 2, 20.5), push into place.
+            <br>Repeat for other walls.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="collectables">
-                        <h2>Creating Collectable Objects</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new cube as "Pick Up".
-                                <br>Move to (x, 0.5, z)
-                                <br>Rotate to (45, 45, 45)
-                                <br>Scale to (0.5, 0.5, 0.5)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new script called "Rotator" and attach to Pick Up.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Rotator</i><br>
-                                <code>void Update(){
-                                    <br>&nbsp; transform.Rotate(new Vector3(15, 30, 45) * Time.deltaTime);
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make Pick Up a Prefab asset in a new Resources folder.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make a new empty Pick Ups object.
-                                <br>Make Pick Up object a child of Pick Ups
-                                <br>Duplicate and spread Pick Ups around.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make a new Pick Up material and apply to the Pick Up prefab.
-                                <br>Make it yellow or gold or some shit.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="collectables">
+    <h2>Creating Collectable Objects</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new cube as "Pick Up".
+            <br>Move to (x, 0.5, z)
+            <br>Rotate to (45, 45, 45)
+            <br>Scale to (0.5, 0.5, 0.5)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new script called "Rotator" and attach to Pick Up.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Rotator</i>
+            <pre>
+            void Update(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                transform.Rotate(new Vector3(15, 30, 45) * Time.deltaTime);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make Pick Up a Prefab asset in a new Resources folder.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new empty Pick Ups object.
+            <br>Make Pick Up object a child of Pick Ups
+            <br>Duplicate and spread Pick Ups around.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new Pick Up material and apply to the Pick Up prefab.
+            <br>Make it yellow or gold or some shit.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="collecting">
-                        <h2>Collecting Pick Ups</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Change Pick Ups to have trigger colliders
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void OnTriggerEnter(Collider other){
-                                    <br>&nbsp; if(other.gameObject.CompareTag("Pick Up")){
-                                        <br>&nbsp;&nbsp; other.gameObject.SetActive(false);
-                                    <br>&nbsp;}
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Set the tag of the Pick Up prefab to "Pick Up"
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="collecting">
+    <h2>Collecting Pick Ups</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Change Pick Ups to have trigger colliders
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void OnTriggerEnter(Collider other){
+                if(other.gameObject.CompareTag("Pick Up")){
+                    other.gameObject.SetActive(false);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set the tag of the Pick Up prefab to "Pick Up"
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="score-text">
-                        <h2>Score &amp; Text</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Text component as "Count Text".
-                                <br>Change color to white.
-                                <br>Set placeholder text as "Count Text"
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Set anchor, pivot, and position to the upper left corner.
-                                <br>Set position to (10, -10, 0)
-                                <br>Associate this text with PlayerController countText.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Text component as "Win Text"
-                                <br>Change to white.
-                                <br>Change size to 24.
-                                <br>Change alignment to center/middle
-                                <br>Set text to Win Text
-                                <br>Change position to (0, 75, 0);
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>public Text countText;
-                                    <br>public Text winText;
-                                    <br>private int count;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void Start(){
-                                    <br>&nbsp; count = 0;
-                                    <br>&nbsp; SetCountText();
-                                    <br>&nbsp; winText = "";
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void OnTriggerEnter(Collider other){
-                                    <br>&nbsp; count = count + 1;
-                                    <br>&nbsp; SetCountText();
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void SetCountText(){
-                                    <br>&nbsp; counText = "Count: " + count.ToString()
-                                    <br>&nbsp; if(count >= 12){
-                                        <br>&nbsp;&nbsp; winText.text = "You Win!";
-                                    <br>&nbsp;}
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="score-text">
+    <h2>Score &amp; Text</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Text component as "Count Text".
+            <br>Change color to white.
+            <br>Set placeholder text as "Count Text"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set anchor, pivot, and position to the upper left corner.
+            <br>Set position to (10, -10, 0)
+            <br>Associate this text with PlayerController countText.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Text component as "Win Text"
+            <br>Change to white.
+            <br>Change size to 24.
+            <br>Change alignment to center/middle
+            <br>Set text to Win Text
+            <br>Change position to (0, 75, 0);
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            public Text countText;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public Text winText;
+            private int count;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                count = 0;
+                SetCountText();
+                winText = "";
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void OnTriggerEnter(Collider other){
+                count = count + 1;
+                SetCountText();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void SetCountText(){
+                counText = "Count: " + count.ToString();
+
+                if(count >= 12){
+                    winText.text = "You Win!";
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
                     <!-------------------------------------->
                 </div>
@@ -347,7 +368,6 @@
     </main>
 
     <!-------------------------------------------------------------------------->
-
 
     <!-- FOOTER -->
     <footer class="navbar navbar-inverse navbar-fixed-bottom">
@@ -389,29 +409,6 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             XXX
-        </p></li>
-    </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-</div>
-
-    Code Template
-
-<div class="jumbotron col-md-12 heliList" id="">
-    <h2>Code</h2>
-    <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>public bool coding = true;
-            <br>private Rigidbody2D rb;</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Start(){
-                <br>&nbsp; console.log('Start Function');
-            <br>}</code>
-        </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <code>void Update(){
-                <br>&nbsp; console.log('Don't log here, ya dingus');
-            <br>}</code>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>

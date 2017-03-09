@@ -71,7 +71,6 @@
         </nav>
     </header>
 
-
     <!-------------------------------------------------------------------------->
 
     <!-- MAIN -->
@@ -80,7 +79,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns for Humans</h1>
-                    <!------------------------------------------------->
 
                     <aside>
                         <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
@@ -272,39 +270,49 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Programming</b> - Lets stick with our door analogy.
-            <br>First of all we have a door interface and the implementation:<br>
-            <code>interface Door {
-                <br>&nbsp; public function getWidth() : float;
-                <br>&nbsp; public function getHeight() : float;
-            <br>}
-            <br>class WoodenDoor implements Door {
-                <br>&nbsp; protected $width;
-                <br>&nbsp; protected $height;
-                <br>&nbsp; public function __construct(float $width, float $height) {
-                    <br>&nbsp; &nbsp; $this->width = $width;
-                    <br>&nbsp; &nbsp; $this->height = $height;
-                <br>&nbsp; }
-                <br>&nbsp; public function getWidth() : float {
-                    <br>&nbsp; &nbsp; return $this->width;
-                <br>&nbsp; }
-                <br>&nbsp; public function getHeight() : float {
-                    <br>&nbsp; &nbsp; return $this->height;
-                <br>&nbsp; }
-            <br>}</code>
+            <br>First of all we have a door interface and the implementation:
+            <pre>
+            interface Door {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getWidth() : float;
+                public function getHeight() : float;
+            }
+
+            class WoodenDoor implements Door {
+                protected $width;
+                protected $height;
+
+                public function __construct(float $width, float $height) {
+                    $this->width = $width;
+                    $this->height = $height;
+                }
+
+                public function getWidth() : float {
+                    return $this->width;
+                }
+
+                public function getHeight() : float {
+                    return $this->height;
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Then we need our <b>door factory</b> that makes the door and returns it: <br>
-            <code>class DoorFactory {
-                <br>&nbsp; public static function makeDoor($width, $height) : Door {
-                    <br>&nbsp; &nbsp; return new WoodenDoor($width, $height);
-                <br>&nbsp; }
-            <br>}</code>
+            Then we need our <b>door factory</b> that makes the door and returns it:
+            <pre>
+            class DoorFactory {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public static function makeDoor($width, $height) : Door {
+                    return new WoodenDoor($width, $height);
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use it like so: <br>
-            <code>$door = DoorFactory::makeDoor(100, 200);
-            <br>echo 'Width: ' . $door->getWidth();
-            <br>echo 'Height: ' . $door->getHeight();</code>
+            We can then use it like so:
+            <pre>
+            $door = DoorFactory::makeDoor(100, 200);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            echo 'Width: ' . $door->getWidth(); //100
+            echo 'Height: ' . $door->getHeight(); //200
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>When to Use?</b>
@@ -335,52 +343,62 @@
             than by calling a constructor.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - Hiring Manager example <br>
-            <code>interface Interviewer {
-                <br>&nbsp; public function askQuestion();
-            <br>}
-            <br>class Developer implements Interviewer {
-                <br>&nbsp; public function askQuestion() {
-                    <br>&nbsp; &nbsp; echo 'Ask about design patterns';
-                <br>&nbsp; }
-            <br>}
-            <br>class CommunityExecutive implements Interviewer {
-                <br>&nbsp; public function askQuestion() {
-                    <br>&nbsp; &nbsp; echo 'Ask about community building';
-                <br>&nbsp; }
-            <br>}</code>
+            <b>Programming</b> - Hiring Manager example:
+            <pre>
+            interface Interviewer {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function askQuestion();
+            }
+
+            class Developer implements Interviewer {
+                public function askQuestion() {
+                    echo 'Ask about design patterns.';
+                }
+            }
+
+            class CommunityExecutive implements Interviewer {
+                public function askQuestion() {
+                    echo 'Ask about community building';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We'll then need our <b>Hiring Manager</b> <br>
-            <code>abstract class HiringManager {
-                <br>&nbsp; //Factory Method
-                <br>&nbsp; abstract public function makeInterviewer() : Interviewer;
-                <br>&nbsp; public function takeInterview(){
-                    <br>&nbsp; &nbsp; $interviewer = $this->makeInterviewer();
-                    <br>&nbsp; &nbsp; $interviewer->askQuestions();
-                <br>&nbsp; }
-            <br>}</code>
+            We'll then need our <b>Hiring Manager</b>:
+            <pre>
+            abstract class HiringManager {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                //Factory Method
+                abstract public function makeInterviewer() ; Interviewer;
+
+                public function takeInterview() {
+                    $interviewer = $this->makeInterviewer();
+                    $interviewer->askQuestion();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Now any child can extend it and provide the required interviewer: <br>
-            <code>class DevelopmentManager extends HiringManager {
-                <br>&nbsp; public function makeInterviewer() : Interviewer {
-                    <br>&nbsp; &nbsp; return new Developer();
-                <br>&nbsp; }
-            <br>}
-            <br>class MarketingManager extends HiringManager {
-                <br>&nbsp; public function makeInterviewer() : Interviewer {
-                    <br>&nbsp; &nbsp; return new CommunityExecutive();
-                <br>&nbsp; }
-            <br>}</code>
+            Now any child can extend it and provide the required interviewer:
+            <pre>
+            class DevelopmentManager extends HiringManager {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function makeInterviewer() : Interviewer {
+                    return new Developer();
+                }
+            }
+
+            class MarketingManager extends HiringManager {
+                public function makeInterviewer() : Interviewer {
+                    return new CommunityExecutive();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use them like so: <br>
-            <code>$devManager = new DevelopmentManager();
-                <br>$devManager->takeInterview(); // Output: Ask about design patterns
-                <br>$marketingManager = new MarketingManager();
-                <br>$marketingManager->takeInterview(); // Output: Ask about community building
-            </code>
+            We can then use them like so:
+            <pre>
+            $devManager = new DevelopmentManager();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $marketingManager = new MarketingManager();
+            $marketingManager->takeInterview(); //Ask about community building
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>When to Use?</b>
@@ -411,77 +429,90 @@
             factories that have a common theme without specifying their concrete class.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - Extending our door example to be abstract <br>
-            <code>interface Door {
-                <br>&nbsp; public function getDescription();
-            <br>}
-            <br>class WoodenDoor implements Door {
-                <br>&nbsp; public function getDescription() {
-                    <br>&nbsp; &nbsp; echo 'I am a wooden door';
-                <br>&nbsp; }
-            <br>}
-            <br>class IronDoor implements Door {
-                <br>&nbsp; public function getDescription() {
-                    <br>&nbsp; &nbsp; echo 'I am an iron door';
-                <br>&nbsp; }
-            <br>}</code>
+            <b>Programming</b> - Extending our door example to be abstract:
+            <pre>
+            interface Door {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getDescription();
+            }
+
+            class WoodenDoor implements Door {
+                public function getDescription() {
+                    echo 'I am a wooden door';
+                }
+            }
+
+            class IronDoor implements Door {
+                public function getDescription() {
+                    echo 'I am an iron door';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We then have some fitting experts for each door type: <br>
-            <code>interface DoorFittingExpers {
-                <br>&nbsp; public function getDescription();
-            <br>}
-            <br>class Welder implements DoorFittingExpert {
-                <br>&nbsp; public function getDescription() {
-                    <br>&nbsp; &nbsp; echo 'I can only fit iron doors';
-                <br>&nbsp; }
-            <br>}
-            <br>class Carpenter implements DoorFittingExpert {
-                <br>&nbsp; public function getDescription() {
-                    <br>&nbsp; &nbsp; echo 'I can only fit wooden doors';
-                <br>&nbsp; }
-            <br>}</code>
+            We then have some fitting experts for each door type:
+            <pre>
+            interface DoorFittingExpert {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getDescription();
+            }
+
+            class Welder implements DoorFittingExpert() {
+                public function getDescription() {
+                    echo 'I can only fit iron doors';
+                }
+            }
+
+            class Carpenter implements DoorFittingExpert {
+                public function getDescription() {
+                    echo 'I can only fit wooden doors';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Now we have our abstract factory that would let us make a family of related objects i.e.
             wooden door factory would create a wooden dor and wooden door fitting expert, and the same
-            for iron door factory: <br>
-            <code>interface DoorFactory {
-                <br>&nbsp; public function makeDoor() : Door;
-                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert;
-            <br>}
-            <br>class WoodenDoorFactory implements DoorFactory {
-                <br>&nbsp; public function makedoor() : Door {
-                    <br>&nbsp; &nbsp; return new WoodenDoor();
-                <br>&nbsp; }
-                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert{
-                    <br>&nbsp; &nbsp;
-                <br>&nbsp; }
-            <br>}
-            <br>class IronDoorFactory implements DoorFactory {
-                <br>&nbsp; public function makeDoor() : Door {
-                    <br>&nbsp; &nbsp; return new IronDoor();
-                <br>&nbsp; }
-                <br>&nbsp; public function makeFittingExpert() : DoorFittingExpert {
-                    <br>&nbsp; &nbsp; return new Welder();
-                <br>&nbsp; }
-            <br>}</code>
+            for iron door factory:
+            <pre>
+            interface DoorFactory {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function makeDoor() : Door;
+                public function makeFittingExpert() : DoorFittingExpert;
+            }
+
+            class WoodenDoorFactory implements DoorFactory {
+                public function makeDoor() : Door {
+                    return new WoodenDoor();
+                }
+                public function makeFittingExpert() ; DoorFittingExpert {
+                    return new Carpenter();
+                }
+            }
+
+            class IronDoorFactory implements DoorFactory {
+                public function makeDoor() : Door {
+                    return new IronDoor();
+                }
+                public function makeFittingExpert() ; DoorFittingExpert {
+                    return new Welder();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use that like so: <br>
-            <code>$woodenFactory = new WoodenDoorFactory();
-                <br>$door = $woodenFactory->makeDoor();
-                <br>$expert = $woodenFactory->makeFittingExpert();
-                <br>$door->getDescription(); // Output: I am a wooden door
-                <br>$expert->getDescription(); // Output: I can only fit wooden doors
-                <br> //Same for Iron Factory
-                <br>$ironFactory = new IronFactory();
-                <br>$door = $ironFactory->makeDoor();
-                <br>$expert = $ironFactory->makeFittingExpert();
-                <br>$door->getDescription(); // Output: I am an iron door
-                <br>$expert->getDescription(); // Output: I can only fit iron doors
-            </code>
-            <br>As you can see the woden door factory has encapsulated the carpenter and the
+            We can then use that like so:
+            <pre>
+            $woodenFactory = new WoodenDoorFactory();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $door = $woodenFactory->makeDoor();
+            $expert = $woodenFactory->makeFittingExpert();
+            $door->getDescription(); //I am a wooden door
+            $expert->getDescription(); //I can only fit wooden doors
+
+            $ironFactory = new IronFactory();
+            $door = $ironFactory->makeDoor();
+            $expert = $ironFactory->makeFittingExpert();
+            $door->getDescription(); //I am an iron door
+            $expert->getDescription(); //I can only fit iron doors
+            </pre>
+            As you can see the woden door factory has encapsulated the carpenter and the
             wooden door also iron door factory has encapsulated the iron door and welder. And
             thus it has helped us make sure that for each of the created doors, we do not
             get a wrong fitting expert.
@@ -515,53 +546,66 @@
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Having said that, let me add a bit about what the telescoping constructor anti-pattern is.
             At one point or the other we have all seen a constructor like this: <br>
-            <code>public function __constructor($size, $cheese = true, $pepperoni = true, $tomato = false,
-                $lettuce = true) { }</code>
+            <pre>
+            <span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>public function __constructor($size, $cheese = true, $pepperoni = true, $tomato = false, $lettuce = true) {
+
+            }
+            </pre>
             <br>As you can see; the number of constructor parameters can quickly get out of hand and it might
             be hard to understand the arraangement of parameters. Plus this parameter list could keep growing
             if you would want to add more option later. This is the telescoping constructor anti-pattern
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - We'll use this good burger example. <br>
-            <code>class Burger {
-                <br>&nbsp; protected $size;
-                <br>&nbsp; protected $cheese = false;
-                <br>&nbsp; protected $pepperoni = false;
-                <br>&nbsp; protected $lettuce = false;
-                <br>&nbsp; protected $tomato = false;
-                <br>&nbsp; public function __constructor(BurgerBuilder $builder){
-                <br>&nbsp; &nbsp; $this->size = $builder->size;
-                <br>&nbsp; &nbsp; $this->cheese = $builder->cheese;
-                <br>&nbsp; &nbsp; $this->pepperoni = $builder->pepperoni
-                <br>&nbsp; &nbsp; $this->lettuce = $builder->lettuce
-                <br>&nbsp; &nbsp; $this->tomato = $builder->tomato
-                <br>&nbsp; }
-            <br>}</code>
+            <b>Programming</b> - We'll use this good burger example.
+            <pre>
+            class Burger {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $size;
+                protected $cheese = false;
+                protected $pepperoni = false;
+                protected $lettuce = false;
+                protected $tomato = false;
+
+                public function __construct(BurgerBuilder $builder) {
+                    $this->size = $builder->size;
+                    $this->cheese = $builder->cheese;
+                    $this->pepperoni = $builder->pepperoni;
+                    $this->lettuce = $builder->lettuce;
+                    $this->tomato = $builder->tomato;
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We then need our <b>builder</b>: <br>
-            <code>class BurgerBuilder {
-                <br>&nbsp; public $size;
-                <br>&nbsp; public $cheese = false;
-                <br>&nbsp; public $pepporoni = false;
-                <br>&nbsp; public $lettuce = false;
-                <br>&nbsp; public $tomato = false;
-                <br>&nbsp; public function __constructor(int $size){
-                <br>&nbsp; &nbsp; $this->size = $size;
-                <br>&nbsp; }
-                <br>&nbsp; public function addPepporoni(){
-                <br>&nbsp; &nbsp; $this->pepporoni = true;
-                <br>&nbsp; &nbsp; return $this;
-                <br>&nbsp; }
-                <br>&nbsp; //Same add functions for other bools...
-                <br>&nbsp; public function build() : Burger {
-                <br>&nbsp; &nbsp; return new Burger($this);
-                <br>&nbsp; }
-            <br>}</code>
+            We then need our <b>builder</b>:
+            <pre>
+            class BurgerBuilder {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public $size;
+                public $cheese = false;
+                public $pepperoni = false;
+                public $lettuce = false;
+                public $tomato = false;
+
+                public function __ construct(int $size) {
+                    $this->size = $size;
+                }
+
+                public function addPepperoni() {
+                    $this->pepperoni = true;
+                    return $this;
+                }
+                // Same function for other toppings..
+
+                public function build() : Burger {
+                    return new Burger($this);
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use it like so: <br>
-            <code>$burger = (new BurgerBuilder(14))->addPepporoni()->addLetuce()->addTomato()->build();</code>
+            We can then use it like so:
+            <pre>
+            $burger = (new BurgerBuilder(14))->addPepporoni()->addLetuce()->addTomato()->build();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>When to Use?</b>
@@ -591,40 +635,49 @@
             and setting it up.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - With PHP, it can be done using clone() <br>
-            <code>class Sheep {
-                <br>&nbsp; protected $name;
-                <br>&nbsp; protected $category;
-                <br>&nbsp; public function __construct(string $name, string $category = 'Mountain Sheep') {
-                <br>&nbsp; &nbsp; $this->name = $name;
-                <br>&nbsp; &nbsp; $this->category = $category;
-                <br>&nbsp; }
-                <br>&nbsp; public function setName(string $name) {
-                <br>&nbsp; &nbsp; $this->name = $name;
-                <br>&nbsp; }
-                <br>&nbsp; public function getName() {
-                <br>&nbsp; &nbsp; return $this->name;
-                <br>&nbsp; }
-                <br>&nbsp; public function setCategory(string $category) {
-                <br>&nbsp; &nbsp; $this->category = $category;
-                <br>&nbsp; }
-                <br>&nbsp; public function getCategory() {
-                <br>&nbsp; &nbsp; return $this->category;
-                <br>&nbsp; }
-            <br>}</code>
+            <b>Programming</b> - With PHP, it can be done using clone():
+            <pre>
+                class Sheep {
+                    protected $name;
+                    protected $category;
+
+                    public function __construct(string $name, string $category = 'Mountain Sheep') {
+                        $this->name = $name;
+                        $this->category = $category;
+                    }
+
+                    public function setName(string $name) {
+                        $this->name = $name;
+                    }
+
+                    public function getName() {
+                        return $this->name;
+                    }
+
+                    public function setCategory(string $category) {
+                        $this->category = $category;
+                    }
+
+                    public function getCategory() {
+                        return $this->category;
+                    }
+                }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use it like so: <br>
-            <code>$original = new Sheep('Jolly');
-                <br>echo $original->getName(); //Jolly
-                <br>echo $original->getCategory(); //Mountain Sheep
-                <br>//Clone and modify what is required
-                <br>$cloned = clone $original;
-                <br>$cloned->setName('Dolly');
-                <br>echo $cloned->getName(); //Dolly
-                <br>echo $cloned->getCategory(); //Mountain Sheep
-            </code>
-            <br>Also you could use the magic method __clone to modify the cloning behavior
+            We can then use it like so:
+            <pre>
+            $original = new Sheep('Jolly');<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            echo $original->getName(); //Jolly
+            echo $original->getCategory(); //Mountain Sheep
+
+            //Clone and modify what is required
+            $cloned = clone $original;
+            $cloned->setName('Dolly');
+            echo $cloned->getName(); //Dolly
+            echo $cloned->getCategory(); //Mountain Sheep
+            </pre>
+            Also you could use the magic method __clone to modify the cloning behavior
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>When to Use?</b>
@@ -657,25 +710,30 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Programming</b> - To create a singleton, make the constructor private, disable cloning,
-            disable extension and create a static variable to house the instance: <br>
-            <code>final class President {
-                <br>&nbsp; private static $instance;
-                <br>&nbsp; private function __construct(){ // Hide the constructor }
-                <br>&nbsp; public static function getInstance() : President {
-                <br>&nbsp; &nbsp; if(!self::$instance) {
-                <br>&nbsp; &nbsp; &nbsp; self::$instance = new self();
-                <br>&nbsp; &nbsp; }
-                <br>&nbsp; &nbsp; return self::$instance;
-                <br>&nbsp; }
-                <br>&nbsp; private function __clone() { //Disable cloning }
-            <br>}</code>
+            disable extension and create a static variable to house the instance:
+            <pre>
+            final class President {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                private static $instance;
+                private function __construct() { // Hide the constructor }
+
+                public function getInstance() : President {
+                    if(!self::$instance) {
+                        self::$instance = new self();
+                    }
+                    return self::$instance;
+                }
+
+                private function __clone() { //Disable cloning }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use it like so: <br>
-            <code>$president1 = President::getInstance();
-                <br>$president2 = President::getInstance();
-                <br>var_dump($president1 === $president2); //True
-            </code>
+            We can then use it like so:
+            <pre>
+            $president1 = President::getInstance();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $president2 = President::getInstance();
+            var_dump($president1 === $president2); //True
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -729,49 +787,59 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Programming</b> - Consider a game where there is a hunter and he hunts lions. First
-            we have an interface Lion that all types of lions have to implement: <br>
-            <code>interface Lion {
-                <br>&nbps; public function roar();
-            <br>}
-            <br>class AfricanLion implements Lion {
-                <br>&nbps; public function roar() {}
-            <br>}
-            <br>class AsianLion implements Lion {
-                <br>&nbps; public function roar() {}
-            <br>}</code>
+            we have an interface Lion that all types of lions have to implement:
+            <pre>
+            interface Lion {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function roar();
+            }
+
+            class AfricanLion implements Lion {
+                public function roar() {}
+            }
+
+            class AsianLion implements Lion {
+                public function roar() {}
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Then Hunter expects any implementation of Lion interface to hunt: <br>
-            <code>class Hunter {
-                <br>&nbsp; public function hunt(Lion $lion) {}
-            <br>}</code>
+            Then Hunter expects any implementation of Lion interface to hunt:
+            <pre>
+            class Hunter {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function hunt(Lion $lion) {}
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             Now let's say we need to add a WildDog in our game so that the hunter can hunt that also.
             But we can't do that directly because dog has a different interface. To make it
-            compatible for our hunter, we will have to create an adapter that is compatible: <br>
-            <code>class WildDog {
-                <br>&nbsp; public function bark() {}
-            <br>}
-            <br>//Adapter around wild dog to make it compatible with our game.
-            <br>class WildDogAdapter implements Lion {
-                <br>&nbsp; protected $dog;
-                <br>&nbsp; public function __construct(WildDog $dog) {
-                <br>&nbsp; &nbsp; $this->dog = $dog;
-                <br>&nbsp; }
-                <br>&nbsp; public function roar() {
-                <br>&nbsp; &nbsp; $this->dog->bark();
-                <br>&nbsp; }
-            <br>}
-            </code>
+            compatible for our hunter, we will have to create an adapter that is compatible:
+            <pre>
+            class WildDog {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function bark() {}
+            }
+
+            class WildDogAdapter implements Lion {
+                protected $dog;
+
+                public function __construct(WildDog $dog) {
+                    $this->dog = $dog;
+                }
+
+                public function roar() {
+                    $this->dog->bark();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            And now the WildDog can be used in our game using WilddogAdapter: <br>
-            <code>$wildDog = new WildDog();
-                <br>$wildDogAdapter = new WildDogAdapter($wildDog);
-                <br>$hunter = new Hunter();
-                <br>$hunter->hunt($wildDogAdapter);
-            </code>
+            And now the WildDog can be used in our game using WilddogAdapter:
+            <pre>
+            $wildDog = new WildDog();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $wildDogAdapter = new WildDogAdapter($wildDog);
+            $hunter = new Hunter();
+            $hunter->hunt($wildDogAdapter);
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -795,59 +863,73 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Programming</b> - Translating our WebPage example from above. Here we have
-            the WebPage hierarchy: <br>
-            <code>interface WebPage {
-                <br>&nbsp; public function __construct(Theme $theme);
-                <br>&nbsp; public function getContent();
-            <br>}
-            <br>class About implements WebPage {
-                <br>&nbsp; protected $theme;
-                <br>&nbsp; public function __construct(Theme $theme) {
-                <br>&nbsp; &nbsp; $this->theme = $theme;
-                <br>&nbsp; }
-                <br>&nbsp; public function getContent() {
-                <br>&nbsp; &nbsp; return "About page in " . $this->theme->getColor();
-                <br>&nbsp; }
-            <br>}
-            <br>class Careers implements WebPage {
-                <br>&nbsp; protected $theme;
-                <br>&nbsp; public function __construct(Theme $theme) {
-                <br>&nbsp; &nbsp; $this->theme = $theme;
-                <br>&nbsp; }
-                <br>&nbsp; public function getContent() {
-                <br>&nbsp; &nbsp; return "Careers page in " . $this->theme->getColor();
-                <br>&nbsp; }
-            <br>}</code>
+            the WebPage hierarchy:
+            <pre>
+            interface WebPage {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function __construct(Theme $theme);
+                public function getContent();
+            }
+
+            class About implements WebPage {
+                protected $theme;
+
+                public function __construct(Theme $theme) {
+                    $this->theme = $theme;
+                }
+
+                public function getContent() {
+                    return "About page in " . $this->theme->getColor()
+                }
+            }
+
+            class Careers implements WebPage {
+                protected $theme;
+
+                public function __construct(Theme $theme) {
+                    $this->theme = $theme;
+                }
+
+                public function getContent() {
+                    return "Careers page in " . $this->theme->getColor();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Then there is a separate theme hierarchy: <br>
-            <code>interface Theme {
-                <br>&nbps; public function getColor();
-            <br>}
-            <br>class DarkTheme implements Theme {
-                <br>&nbps; public function getColor() {
-                <br>&nbps; &nbps; return 'Dark Black';
-                <br>&nbps; }
-            <br>}
-            <br>class LightTheme implements Theme {
-                <br>&nbps; public function getColor() {
-                <br>&nbps; &nbps; return 'Off White';
-                <br>&nbps; }
-            <br>}
-            <br>class AquaTheme implements Theme {
-                <br>&nbps; public function getColor() {
-                <br>&nbps; &nbps; return 'Light Blue';
-                <br>&nbps; }
-            <br>}</code>
+            Then there is a separate theme hierarchy:
+            <pre>
+            interface Theme {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getColor();
+            }
+
+            class DarkTheme implements Theme {
+                public function getColor() {
+                    return 'Dark Black';
+                }
+            }
+
+            class LightTheme implements Theme {
+                public function getcolor() {
+                    return 'Off White';
+                }
+            }
+
+            class AquaTheme implements Theme {
+                public function getColor() {
+                    return 'Light Blue';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Then we can use both hierarchies like so: <br>
-            <code>$darkTheme = new DarkTheme();
-                <br>$about = new About($darkTheme);
-                <br>$careers = new Careers($darkTheme);
-                <br>echo $about->getContent(); // "About page in Dark Black"
-                <br>echo $careers->getcontent(); // "Careers page in Dark Black"
-            </code>
+            Then we can use both hierarchies like so:
+            <pre>
+            $darkTheme = new DarkTheme();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $about = new About($darkTheme);
+            $careers = new Careers($darkTheme);
+            echo $about->getContent(); // "About page in Dark Black"
+            echo $careers->getcontent(); // "Careers page in Dark Black"
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -871,82 +953,103 @@
             clients treat individual objects and compositions uniformly.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - Taking our employees example above, here we have different employee types: <br>
-            <code>interface Employee {
-                <br>&nbsp; public function __construct(string $name, float $salary);
-                <br>&nbsp; public function getName() : string;
-                <br>&nbsp; public function setSalary(float $salary);
-                <br>&nbsp; public function getSalary() : float;
-                <br>&nbsp; public function getRoles() : array;
-            <br>}
-            <br>class Developer implements Employee {
-                <br>&nbsp; protected $salary;
-                <br>&nbsp; protected $name;
-                <br>&nbsp; public function __construct(string $name, float $salary) {
-                <br>&nbsp; &nbsp; $this->name = $name;
-                <br>&nbsp; &nbsp; $this->salary = $salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getName() : string {
-                <br>&nbsp; &nbsp; return $this->name;
-                <br>&nbsp; }
-                <br>&nbsp; public function setSalary(float $salary) {
-                <br>&nbsp; &nbsp; $this->salary = $salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getSalary() : float {
-                <br>&nbsp; &nbsp; return $this->salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getRoles() : array {
-                <br>&nbsp; &nbsp; return $this->roles;
-                <br>&nbsp; }
-            <br>}
-            <br>class Designer implements Employee {
-                <br>&nbsp; protected $salary;
-                <br>&nbsp; protected $name;
-                <br>&nbsp; public function __construct(string $name, float $salary) {
-                <br>&nbsp; &nbsp; $this->name = $name;
-                <br>&nbsp; &nbsp; $this->salary = $salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getName() : string {
-                <br>&nbsp; &nbsp; return $this->name;
-                <br>&nbsp; }
-                <br>&nbsp; public function setSalary(float $salary) {
-                <br>&nbsp; &nbsp; $this->salary = $salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getSalary() : float {
-                <br>&nbsp; &nbsp; return $this->salary;
-                <br>&nbsp; }
-                <br>&nbsp; public function getRoles() : array {
-                <br>&nbsp; &nbsp; return $this->roles;
-                <br>&nbsp; }
-            <br>}</code>
+            <b>Programming</b> - Taking our employees example above, here we have different employee types:
+            <pre>
+            interface Employee {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function __construct(string $name, float $salary);
+                public function getName() : string;
+                public function setSalary(float $salary);
+                public function getSalary() : float;
+                public function getRoles() : array;
+            }
+
+            class Developer implements Employee {
+                protected $salary;
+                protected $name;
+
+                public function __construct(string $name, float $salary) {
+                    $this->name = $name;
+                    $this->salary = $salary;
+                }
+
+                public function getName() : string {
+                    return $this->name;
+                }
+
+                public function setSalary(float $salary) {
+                    $this->salary = $salary;
+                }
+
+                public function getSalary() : float {
+                    return $this->salary;
+                }
+
+                public function getRoles() : array {
+                    return $this->roles;
+                }
+            }
+
+            class Designer implements Employee {
+                protected $salary;
+                protected $name;
+
+                public function __construct(string $name, float $salary) {
+                    $this->name = $name;
+                    $this->salary = $salary;
+                }
+
+                public function getName() : string {
+                    return $this->name;
+                }
+
+                public function setSalary(float $salary) {
+                    $this->salary = $salary;
+                }
+
+                public function getSalary() : float {
+                    return $this->salary;
+                }
+
+                public function getRoles() : array {
+                    return $this->roles;
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Then we have an organization which consists of several different types of employees: <br>
-            <code>class Organization {
-                <br>&nbsp; protected $employees;
-                <br>&nbsp; public function addEmployee(Employee $employee) {
-                <br>&nbsp; &nbsp; $this->employees[] = $employee;
-                <br>&nbsp; }
-                <br>&nbsp; public function getNetSalaries() : float {
-                <br>&nbsp; &nbsp; $netSalary = 0;
-                <br>&nbsp; &nbsp; foreach($this->employees as $employee) {
-                <br>&nbsp; &nbsp; &nbsp; $netSalary += $employee->getSalary();
-                <br>&nbsp; &nbsp; }
-                <br>&nbsp; &nbsp; return $netSalary;
-                <br>&nbsp; }
-            <br>}</code>
+            Then we have an organization which consists of several different types of employees:
+            <pre>
+            class Organization {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $employees;
+
+                public function addEmployee(Employee $employee) {
+                    $this->employees[] = $employee;
+                }
+
+                public function getNetSalaries() : float {
+                    $netSalary = 0;
+                    foreach($this->employees as $employee) {
+                        $netSalary += $employee->getSalary();
+                    }
+                    return $netSalary;
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use it like so: <br>
-            <code>//Prepare the employees
-                <br>$john = new Developer('John Doe', 12000);
-                <br>$jane = new Designer('Jane', 10000);
-                <br>//Add them to the organization
-                <br>$organization = new Organization();
-                <br>$organization->addEmployee($john);
-                <br>$organization->addEmployee($jane);
-                <br>echo "Net Salaries: " . $organization->getNetSalaries(); // Net Salaries: 22000
-            </code>
+            We can then use it like so:
+            <pre>
+            //Prepare the employees<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $john = new Developer('John Doe', 12000);
+            $jane = new Designer('Jane', 10000);
+
+            //Add them to the organization
+            $organization = new Organization();
+            $organization->addEmployee($john);
+            $organization->addEmployee($jane);
+
+            echo "Net Salaries: " . $organization->getNetSalaries(); // Net Salaries: 22000
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -973,75 +1076,96 @@
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             <b>Programming</b> - Lets take coffee as an example. First of all we have a simple
-            coffee implementing the coffee interface: <br>
-            <code>interface Coffee {
-                <br>&nbsp; public function getCost();
-                <br>&nbsp; public function getDescription();
-            <br>}
-            <br>class SimpleCoffee implements Coffee {
-                <br>&nbsp; public function getCost() {
-                <br>&nbsp; &nbsp; return 10;
-                <br>&nbsp; }
-                <br>&nbsp; public function getDescription() {
-                <br>&nbsp; &nbsp; return 'Simple Coffee';
-                <br>&nbsp; }
-            <br>}</code>
+            coffee implementing the coffee interface:
+            <pre>
+            interface Coffee {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getCost();
+                public function getDescription();
+            }
+
+            class SimpleCoffee implements Coffee {
+                public function getCost() {
+                    return 10;
+                }
+
+                public function getDescription() {
+                    return 'Simple Coffee';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
             We want to make the code extensible to allow options to modify it if required.
-            Lets make some add-ons (decorators) <br>
-            <code>class MilkCoffee implements Coffee {
-                <br>&nbsp; protected $coffee;
-                <br>&nbsp; public function __construct(Coffee $coffee) {
-                <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                <br>&nbsp; }
-                <br>&nbsp; public function getCost() {
-                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 2;
-                <br>&nbsp; }
-                <br>&nbsp; public function getDescription() {
-                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', milk';
-                <br>&nbsp; }
-            <br>}
-            <br>class WhipCoffee implements Coffee {
-                <br>&nbsp; protected $coffee;
-                <br>&nbsp; public function __construct(Coffee $coffee) {
-                <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                <br>&nbsp; }
-                <br>&nbsp; public function getCost() {
-                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 5;
-                <br>&nbsp; }
-                <br>&nbsp; public function getDescription() {
-                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', whip';
-                <br>&nbsp; }
-            <br>}
-            <br>class VanillaCoffee implements Coffee {
-                <br>&nbsp; protected $coffee;
-                <br>&nbsp; public function __construct(Coffee $coffee) {
-                <br>&nbsp; &nbsp; $this->coffee = $coffee;
-                <br>&nbsp; }
-                <br>&nbsp; public function getCost() {
-                <br>&nbsp; &nbsp; return $this->coffee->getCost() + 3;
-                <br>&nbsp; }
-                <br>&nbsp; public function getDescription() {
-                <br>&nbsp; &nbsp; return $this->coffee->getDescription() . ', vanilla';
-                <br>&nbsp; }
-            <br>}</code>
+            Lets make some add-ons (decorators):
+            <pre>
+            class MilkCoffee implements Coffee {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $coffee;
+
+                public function __construct(Coffee $coffee) {
+                    $this->coffee = $coffee;
+                }
+
+                public function getCost() {
+                    return $this->coffee->getCost() + 2;
+                }
+
+                public function getDescription() {
+                    return $this->coffee->getDescription() . ', milk';
+                }
+            }
+
+            class WhipCoffee implements Coffee {
+                protected $coffee;
+
+                public function __construct(Coffee $coffee) {
+                    $this->coffee = $coffee;
+                }
+
+                public function getCost() {
+                    return $this->coffee->getCost() + 5;
+                }
+
+                public function getDescription() {
+                    return $this->coffee->getDescription() . ', whip';
+                }
+            }
+
+            class VanillaCoffee implements Coffee {
+                protected $coffee;
+
+                public function __construct(Coffee $coffee) {
+                    $this->coffee = $coffee;
+                }
+
+                public function getCost() {
+                    return $this->coffee->getCost() + 3;
+                }
+
+                public function getDescription() {
+                    return $this->coffee->getDescription() . ', vanilla';
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can now make coffee like so: <br>
-            <code>$someCoffee = new SimpleCoffee();
-                <br>echo $someCoffee->getCost(); // 10
-                <br>echo $someCoffee->getDescription(); // Simple Coffee
-                <br>$someCoffee = new MilkCoffee($someCoffee);
-                <br>echo $someCoffee->getCost(); // 12
-                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk
-                <br>$someCoffee = new WhipCoffee($someCoffee);
-                <br>echo $someCoffee->getCost(); // 17
-                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip
-                <br>$someCoffee = new VanillaCoffee($someCoffee);
-                <br>echo $someCoffee->getCost(); // 20
-                <br>echo $someCoffee->getDescription(); // Simple Coffee, milk, whip, vanilla
-            </code>
+            We can now make coffee like so:
+            <pre>
+            $someCoffee = new SimpleCoffee();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            echo $someCoffee->getCost(); // 10
+            echo $someCoffee->getDescription(); // Simple Coffee
+
+            $someCoffee = new MilkCoffee($someCoffee);
+            echo $someCoffee->getCost(); // 12
+            echo $someCoffee->getDescription(); // Simple Coffee, milk
+
+            $someCoffee = new WhipCoffee($someCoffee);
+            echo $someCoffee->getCost(); // 17
+            echo $someCoffee->getDescription(); // Simple Coffee, milk, whip
+
+            $someCoffee = new VanillaCoffee($someCoffee);
+            echo $someCoffee->getCost(); // 20
+            echo $someCoffee->getDescription(); // Simple Coffee, milk, whip, vanilla
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -1063,43 +1187,51 @@
             of code, such as a class library.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <b>Programming</b> - Taking our computer example from above. Here we have our computer class: <br>
-            <code>class Computer {
-                <br>&nbsp; public function getElectricShock() { echo 'Ouch!'; }
-                <br>&nbsp; public function makeSound() { echo 'Beep Beep'; }
-                <br>&nbsp; public function showLoadingScreen() { echo 'Loading..'; }
-                <br>&nbsp; public function bam() { echo 'Ready to be used.'; }
-                <br>&nbsp; public function closeEverything() { echo 'Bup bup bup buzzzz!'; }
-                <br>&nbsp; public function sooth() { echo "zzzzz"; }
-                <br>&nbsp; public function pullCurrent() { echo 'HAAAH!'; }
-            <br>}</code>
+            <b>Programming</b> - Taking our computer example from above. Here we have our computer class:
+            <pre>
+            class Computer {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                public function getElectricShock() { echo 'Ouch!'; }
+                public function makeSound() { echo 'Beep Beep'; }
+                public function showLoadingScreen() { echo 'Loading..'; }
+                public function bam() { echo 'Ready to be used.'; }
+                public function closeEverything() { echo 'Bup bup bup buzzzz!'; }
+                public function sooth() { echo "zzzzz"; }
+                public function pullCurrent() { echo 'HAAAH!'; }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can now implement our facade: <br>
-            <code>class ComputerFacade {
-                <br>&nbsp; protected $computer;
-                <br>&nbsp; public function __construct(Computer $computer) {
-                <br>&nbsp; &nbsp; $this->computer = $computer;
-                <br>&nbsp; }
-                <br>&nbsp; public function turnOn() {
-                <br>&nbsp; &nbsp; $this->computer->getElectricShock();
-                <br>&nbsp; &nbsp; $this->computer->makeSound();
-                <br>&nbsp; &nbsp; $this->computer->showLoadingScreen();
-                <br>&nbsp; &nbsp; $this->computer->bam();
-                <br>&nbsp; }
-                <br>&nbsp; public function turnOff() {
-                <br>&nbsp; &nbsp; $this->computer->closeEverything();
-                <br>&nbsp; &nbsp; $this->computer->pullCurrent();
-                <br>&nbsp; &nbsp; $this->computer->sooth();
-                <br>&nbsp; }
-            <br>}</code>
+            We can now implement our facade:
+            <pre>
+            class ComputerFacade {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $computer;
+
+                public function __construct(Computer $computer) {
+                    $this->computer = $computer;
+                }
+
+                public function turnOn() {
+                    $this->computer->getElectricShock();
+                    $this->computer->makeSound();
+                    $this->computer->showLoadingScreen();
+                    $this->computer->bam();
+                }
+
+                public function turnOff() {
+                    $this->computer->closeEverything();
+                    $this->computer->pullCurrent();
+                    $this->computer->sooth();
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Now we can use this facade like so: <br>
-            <code>$computer = new Computer(new Computer());
-                <br>$computer->turnOn(); // Ouch! Beep Beep Loading... Ready to be used.
-                <br>$computer->turnOff(); // Bup bup buzz Haaah zzzzzz
-            </code>
+            Now we can use this facade like so:
+            <pre>
+            $computer = new Computer(new Computer());<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $computer->turnOn(); // Ouch! Beep Beep Loading... Ready to be used.
+            $computer->turnOff(); // Bup bup buzz Haaah zzzzzz
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
@@ -1123,50 +1255,59 @@
             repeated representation would use an unacceptable amount of memory.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Translating our tea example from above. First of all we have tea types and tea maker: <br>
-            <code>// Anything that will be cached is flyweight. Types of tea here will be flyweights.
-            <br>class KarakTea {}
-            <br>// Acts as a factory and saves the tea
-            <br>class TeaMaker {
-                <br>&nbsp; protected $availableTea = [];
-                <br>&nbsp; public function make($preference) {
-                <br>&nbsp; &nbsp; if(empty($this->availableTea[$preference])) {
-                <br>&nbsp; &nbsp; &nbsp; $this->availableTea[$preference] = new KarakTea();
-                <br>&nbsp; &nbsp; }
-                <br>&nbsp; &nbsp; return $this->availableTea[$preference];
-                <br>&nbsp; }
-            <br>}</code>
+            Translating our tea example from above. First of all we have tea types and tea maker:
+            <pre>
+            <span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>// Anything that will be cached is flyweight. Types of tea here will be flyweights.
+            class KarakTea {}
+            // Acts as a factory and saves the tea
+            class TeaMaker {
+                protected $availableTea = [];
+
+                public function make($preference) {
+                    if(empty($this->availableTea[$preference])) {
+                        $this->availableTea[$preference] = new KarakTea();
+                    }
+                    return $this->availableTea[$preference];
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We'll also need the TeaShop which takes orders and serves them: <br>
-            <code>class TeaShop {
-                <br>&nbsp; protected $orders;
-                <br>&nbsp; protected $teaMakers;
-                <br>&nbsp; public function __construct(TeaMaker $teaMaker) {
-                <br>&nbsp; &nbsp; $this->teaMaker = $teaMaker;
-                <br>&nbsp; }
-                <br>&nbsp; public function takeOrder(string $teaType, int $table) {
-                <br>&nbsp; &nbsp; $this->orders[$table] = $this->teaMaker->make($teaType);
-                <br>&nbsp; }
-                <br>&nbsp; public function serve() {
-                <br>&nbsp; &nbsp; foreach($this->orders as $table => $tea) {
-                <br>&nbsp; &nbsp; &nbsp; echo "Serving tea to table# " . $table;
-                <br>&nbsp; &nbsp; }
-                <br>&nbsp; }
-            <br>}</code>
+            We'll also need the TeaShop which takes orders and serves them:
+            <pre>
+            class TeaShop {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                protected $orders;
+                protected $teaMakers;
+
+                public function __construct(TeaMaker $teaMaker) {
+                    $this->teaMaker = $teaMaker;
+                }
+
+                public function takeOrder(string $teaType, int $table) {
+                    $this->orders[$table] = $this->teaMaker->make($teaType);
+                }
+
+                public function serve() {
+                    foreach($this->orders as $table => $tea) {
+                        echo "Serving tea to table# " . $table;
+                    }
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            We can then use this like so: <br>
-            <code>$teaMaker = new TeaMaker();
-                <br>$shop = new TeaShop($teaMaker);
-                <br>$shop->takeOrder('less suger', 1);
-                <br>$shop->takeOrder('more silk', 2);
-                <br>$shop->takeOrder('without sugar', 5);
-                <br>$shop->serve();
-                <br>//Serving tea to table# 1
-                <br>//Serving tea to table# 2
-                <br>//Serving tea to table# 5
-            </code>
+            We can then use this like so:
+            <pre>
+            $teaMaker = new TeaMaker();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            $shop = new TeaShop($teaMaker);
+            $shop->takeOrder('less suger', 1);
+            $shop->takeOrder('more silk', 2);
+            $shop->takeOrder('without sugar', 5);
+            $shop->serve();
+            //Serving tea to table# 1
+            //Serving tea to table# 2
+            //Serving tea to table# 5
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>

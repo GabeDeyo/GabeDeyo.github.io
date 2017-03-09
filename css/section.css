@@ -1,3 +1,7 @@
+body{
+    background-color: #333;
+}
+
 /* Dropdown Menu */
 .dropdown-menu a > span{
     transition: all 0.3s ease-out;

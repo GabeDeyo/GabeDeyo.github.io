@@ -71,7 +71,6 @@
         </nav>
     </header>
 
-
     <!-------------------------------------------------------------------------->
 
     <!-- MAIN -->
@@ -80,7 +79,6 @@
             <div class="row">
                 <div class="col-md-12">
                     <h1 class="text-center" style="text-decoration: underline;" id="title">Space Shooter (Unity)</h1>
-                    <!------------------------------------------------->
 
                     <aside>
                         <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
@@ -154,608 +152,644 @@
                                 <a href="#final-goals">Final Goals</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
-                                <a href="#code">Code Test</a>
-                                </p>
-                            </li>
                         </ul>
                     </div>
 
-                    <div class="jumbotron col-md-12 heliList" id="setup">
-                        <h2>Setup</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new "Space Shooter" project and import SpaceShooter assets.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Change build target to Web Player.
-                                <br>In Project Settings - Player, change default width/height to 600/900
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Change Game View to 600/900.
-                                <br>Change layout so that Scene and Game Windows take up full vertical space somewhere.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="setup">
+    <h2>Setup</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new "Space Shooter" project and import SpaceShooter assets.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Change build target to Web Player.
+            <br>In Project Settings - Player, change default width/height to 600/900
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Change Game View to 600/900.
+            <br>Change layout so that Scene and Game Windows take up full vertical space somewhere.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="player">
-                        <h2>Player</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                In Models, drag the vehicle_player_ship into the scene as "Player".
-                                <br>Reset position.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a rigidbody to the player and deselect "Use Gravity"
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Mesh Collider to the player.
-                                <br>Add the imported mesh collider to the player.
-                                <br>Make this a Trigger Collider
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add the Engine prefab to the player.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="player">
+    <h2>Player</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In Models, drag the vehicle_player_ship into the scene as "Player".
+            <br>Reset position.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a rigidbody to the player and deselect "Use Gravity"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Mesh Collider to the player.
+            <br>Add the imported mesh collider to the player.
+            <br>Make this a Trigger Collider
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add the Engine prefab to the player.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="camera-lighting">
-                        <h2>Camera &amp; Lighting</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Reset the Main Camera.
-                                <br>Rotate to (90, 0, 0) and position to (0, 10, 5)
-                                <br>Change Projection to Orthographic and set Orthographic Size to 10
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Change background color to black.
-                                <br>In render settings, change ambient light to black.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a Directional Light as "Main Light"
-                                <br>Reset position and rotation.
-                                <br>Manually rotate towards (20-ish, -115-ish)
-                                <br>Increase intensity to 0.75
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Duplicate the Main Light as "Fill Light" and reset completely.
-                                <br>Rotate to (5, 125, 0)
-                                <br>Reduce intensity to 0.5
-                                <br>Change color to (128, 192, 192)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Duplicate Main Light again as "Rim Light" and reset completely.
-                                <br>Change color to white.
-                                <br>Rotate to (-15, 65, 0)
-                                <br>Drop Intensity to 0.25
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create an empty "Lighting" object and reset.
-                                <br>Drop all the lights into this object.
-                                <br>Move Lighting to (0, 100, 0) to get it out of the way.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="camera-lighting">
+    <h2>Camera &amp; Lighting</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Reset the Main Camera.
+            <br>Rotate to (90, 0, 0) and position to (0, 10, 5)
+            <br>Change Projection to Orthographic and set Orthographic Size to 10
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Change background color to black.
+            <br>In render settings, change ambient light to black.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a Directional Light as "Main Light"
+            <br>Reset position and rotation.
+            <br>Manually rotate towards (20-ish, -115-ish)
+            <br>Increase intensity to 0.75
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Duplicate the Main Light as "Fill Light" and reset completely.
+            <br>Rotate to (5, 125, 0)
+            <br>Reduce intensity to 0.5
+            <br>Change color to (128, 192, 192)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Duplicate Main Light again as "Rim Light" and reset completely.
+            <br>Change color to white.
+            <br>Rotate to (-15, 65, 0)
+            <br>Drop Intensity to 0.25
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an empty "Lighting" object and reset.
+            <br>Drop all the lights into this object.
+            <br>Move Lighting to (0, 100, 0) to get it out of the way.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="background">
-                        <h2>Background</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a quad and name "Background" and reset.
-                                <br>Change rotation to (90, 0, 0)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Select the nebula image and drop it onto the Background.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Scale Background to the same ratio of the image (1:2)
-                                <br>Scale to (15, 30, 1)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Change Shader to Unlit/Texture
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drop Y position to -10
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="background">
+    <h2>Background</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a quad and name "Background" and reset.
+            <br>Change rotation to (90, 0, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Select the nebula image and drop it onto the Background.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Scale Background to the same ratio of the image (1:2)
+            <br>Scale to (15, 30, 1)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Change Shader to Unlit/Texture
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drop Y position to -10
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="move-player">
-                        <h2>Move the Player</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make a Scripts folder and make a "PlayerController" script.
-                                <br>Attach to player
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>
-                                    [System.Serializable]
-                                    <br>public class Boundary {
-                                        <br>&nbsp; public float xMin, xMax, zMin, zMax;
-                                    <br>}
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>
-                                    public float speed;
-                                    <br>public float tilt;
-                                    <br>public Boundary boundary;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>
-                                    void FixedUpdate() {
-                                        <br>&nbsp; float moveHorizontal = Input.GetAxis("Horizontal");
-                                        <br>&nbsp; float moveVertical = Input.GetAxis("Vertical");
-                                        <br>&nbsp; Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
-                                        <br>&nbsp; rigidbody.velocity = movement * speed;
-                                        <br>&nbsp; rigidbody.position = new Vector3(
-                                            <br>&nbsp; &nbsp; Mathf.Clamp(rigidbody.position.x, boundary.xMin, boundary.xMax),
-                                            <br>&nbsp; &nbsp; 0f,
-                                            <br>&nbsp; &nbsp; Mathf.Clamp(rigidbody.position.z, boundary.zMin, boundary.zMax)
-                                        <br>&nbsp; );
-                                        <br>&nbsp; rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidbody.velocity.x * -tilt);
-                                    <br>}
-                            </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Give the boundary values (-6, 6) width and (-4, 8) height.
-                                <br>Set tilt to 4.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="move-player">
+    <h2>Move the Player</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a Scripts folder and make a "PlayerController" script.
+            <br>Attach to player
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            [System.Serializable]<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public class Boundary {
+                public float xMin, xMax, zMin, zMax;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            public float speed;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public float tilt;
+            public Boundary boundary;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void FixedUpdate() {
+                float moveHorizontal = Input.GetAxis("Horizontal");
+                float moveVertical = Input.GetAxis("Vertical");
 
-                    <div class="jumbotron col-md-12 heliList" id="creating-shots">
-                        <h2>Creating Shots</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create an Empty as "Bolt" and reset.
-                                <br>Create a Quad as "VFX" as a child of Bolt and reset.
-                                <br>Rotate VFX to (90, 0, 0).
-                                <br>Remove the box collider from VFX
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new Material as "fx_bolt_orange" and select the appropriate texture for it.
-                                <br>Apply this material to the VFX object.
-                                <br>Change the shader to Mobile/Particles/Additive
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Rigidbody to the Bolt.
-                                <br>Turn off gravity
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Capsule Collider to the Bolt.
-                                <br>Change direction to z-axis
-                                <br>Rescale appropriately
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a "Mover" script to the Bolt.
-                                <i>Mover</i><br>
-                                <code>public float speed;</code>
-                                <code>void Start() {
-                                    <br>&nbsp; rigidbody.velocity = trasform.forward;
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Mover</i><br>
-                                <code>void Start() {
-                                    <br>&nbsp; rigidbody.velocity = trasform.forward;
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make this Bolt a prefab.
-                                <br>Set speed value to 20
-                                <br>Delete bolt from the scene.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+                Vector3 movement = new Vector3(moveHorizontal, 0f, moveVertical);
 
-                    <div class="jumbotron col-md-12 heliList" id="shooting-shots">
-                        <h2>Shooting Shots</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>public GameObject shot;
-                                    <br>public Transform shotSpawn;
-                                    <br>public float fireRate;
-                                    <br>private float nextFire;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>PlayerController</i><br>
-                                <code>void Update() {
-                                    <br>&nbps; if(Input.GetButtonDown("Fire1") &amp;&amp; Time.time > nextFire) {
-                                    <br>&nbsp; &nbsp; nextFire = Time.time + fireRate;
-                                    <br>&nbps; &nbps; Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-                                    <br>&nbps; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create Empty called "Shot Spawn" as a spawn point.
-                                <br>Drag onto the player.
-                                <br>Position appropriatly (0, 0, 1.25)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Give shot prefab to prefab location, and shot spawn to location.
-                                <br>Use 0.25 as fire rate.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+                rigidbody.velocity = movement * speed;
+                rigidbody.position = new Vector3( Mathf.Clamp(rigidbody.position.x, boundary.xMin, boundary.xMax), 0f, Mathf.Clamp(rigidbody.position.z, boundary.zMin, boundary.zMax));
+                rigidbody.rotation = Quaternion.Euler(0.0f, 0.0f, rigidbody.velocity.x * -tilt);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Give the boundary values (-6, 6) width and (-4, 8) height.
+            <br>Set tilt to 4.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="boundary">
-                        <h2>Boundary</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create an empty cube as "Boundary".
-                                <br>Set position to (0, 0, 5)
-                                <br>Set scale to (15, 1, 20)
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a script called "DestroyByBoundary" and attach to Boundary.
-                                <i>DestroyByBoundary</i><br>
-                                <code>void OnTriggerExit(Collider other) {
-                                    Destroy(other.gameObject);
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="creating-shots">
+    <h2>Creating Shots</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty as "Bolt" and reset.
+            <br>Create a Quad as "VFX" as a child of Bolt and reset.
+            <br>Rotate VFX to (90, 0, 0).
+            <br>Remove the box collider from VFX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new Material as "fx_bolt_orange" and select the appropriate texture for it.
+            <br>Apply this material to the VFX object.
+            <br>Change the shader to Mobile/Particles/Additive
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Rigidbody to the Bolt.
+            <br>Turn off gravity
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Capsule Collider to the Bolt.
+            <br>Change direction to z-axis
+            <br>Rescale appropriately
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a "Mover" script to the Bolt.
+            <i>Mover</i>
+            <pre>
+            public float speed;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
 
-                    <div class="jumbotron col-md-12 heliList" id="hazards">
-                        <h2>Hazards</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create an Empty as "Asteroid" and position to (0, 0, 8)
-                                <br>Drag the first asteroid model onto Asteroid.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Rigidbody  to Asteroid
-                                <br>Set without gravity.
-                                <br>Set Anular Drag to 0
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a Capsule Collider to the Asteroid.
-                                <br>Scale correctly
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a "Random Rotator" script and add to Asteroid.<br>
-                                <i>Random Rotator</i><br>
-                                <code>public float tumble;</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Random Rotator</i><br>
-                                <code>void Start() {
-                                    <br>&nbsp; rigidbody.angularVelocity = Random.insideUnitSphere * tumble;
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a "DestroyByContact" script to the Asteroid <br>
-                                <i>DestoryByContact</i><br>
-                                <code>void OnTriggerEnter(Collider other){
-                                    <br>&nbsp; Destory(other.gameObject);
-                                    <br>&nbsp; Destroy(gameObject);
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Give the Boundary a tag of "Boundary"
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByContact</i><br>
-                                <code>void OnTriggerEnter(Collider other) {
-                                    <br>&nbsp; if(other.tag == "Boundary") {
-                                    <br>&nbsp; &nbsp; return;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; Destroy(other.gameObject);
-                                    <br>&nbsp; Destroy(gameObject);
-                                <br>}</code>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+            void Start() {
+                rigidbody.velocity = trasform.forward * speed;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make this Bolt a prefab.
+            <br>Set speed value to 20
+            <br>Delete bolt from the scene.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="explosions">
-                        <h2>Explosions</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByContact</i><br>
-                                <code>public GameObject explosion;
-                                    <br>public GameObject playerExplosion;
-                                </code>
-                                <br>Drag first explosion fx to explosion slot.
-                                <br>Drag player explosion fx to explosion slot.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByContact</i><br>
-                                <code>void OnTriggerEnter(Collider other) {
-                                    <br>&nbsp; if(other.tag == "Boundary") {
-                                    <br>&nbsp; &nbsp; return;
-                                    <br>&nbsp; }
-                                    <br>&nbsp; Instantiate(explosion, transform.position, transform.rotation);
-                                    <br>&nbsp; if(other.tag == "Player") {
-                                    <br>&nbsp; &nbsp; Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-                                    <br>&nbsp; }
-                                    <br>&nbsp; Destroy(other.gameObject);
-                                    <br>&nbsp; Destroy(gameObject);
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                !Give the Player the "Player" tag!
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drag the Mover script to the Asteroid
-                                <br>Bring speed down to -5
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="shooting-shots">
+    <h2>Shooting Shots</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            public GameObject shot;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public Transform shotSpawn;
+            public float fireRate;
+            private float nextFire;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>PlayerController</i>
+            <pre>
+            void Update() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                if(Input.GetButtonDown("Fire1") &amp;&amp; Time.time > nextFire) {
+                    nextFire = Time.time + fireRate;
+                    Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create Empty called "Shot Spawn" as a spawn point.
+            <br>Drag onto the player.
+            <br>Position appropriatly (0, 0, 1.25)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Give shot prefab to prefab location, and shot spawn to location.
+            <br>Use 0.25 as fire rate.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="game-controller">
-                        <h2>Game Controller</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new Empty "Game Controller" object and reset.
-                                <br>Set tag to "GameController"
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Add a "Game Controller" script to the object.
-                                <i>Game Controller</i><br>
-                                <code>public GameObject hazard;
-                                    <br>public Vector3 spawnValues;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Game Controller</i><br>
-                                <code>void Start() {
-                                    <br>&nbsp; SpawnWaves();
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>Game Controller</i><br>
-                                <code>void SpawnWaves() {
-                                    <br>&nbsp; Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                                    <br>&nbsp; Quaternion spawnRotation = Quaternion.identity;
-                                    <br>&nbsp; Instantiate(hazard, spawnPosition, spawnRotation);
-                                <br>}</code>
-                                <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                    Give spawnValues (6, 0, 15) and the game object an asteroid
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="boundary">
+    <h2>Boundary</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an empty cube as "Boundary".
+            <br>Set position to (0, 0, 5)
+            <br>Set scale to (15, 1, 20)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a script called "DestroyByBoundary" and attach to Boundary.
+            <i>DestroyByBoundary</i>
+            <pre>
+            void OnTriggerExit(Collider other) {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Destroy(other.gameObject);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="spawn-waves">
-                        <h2>Spawn Waves</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>GameController</i><br>
-                                <code>public GameObject hazard;
-                                    <br>public Vector3 spawnValues;
-                                    <br>public int hazardCount;
-                                    <br>public float spawnWait;
-                                    <br>public float startWait;
-                                    <br>public float waveWait;
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>GameController</i><br>
-                                <code>void Start() {
-                                    <br>&nbsp; StartCoroutine(SpawnWaves());
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>GameController</i><br>
-                                <code>IEnumerator SpawnWaves() {
-                                    <br>&nbsp; yield return new WaitForSeconds(startWait);
-                                    <br>&nbps; while(true) {
-                                        <br>&nbsp; &nbsp; for(int i = 0; i < hazardCount; i++) {
-                                        <br>&nbsp; &nbsp; &nbsp; Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
-                                        <br>&nbsp; &nbsp; &nbsp; Quaternion spawnRotation = Quaternion.identity;
-                                        <br>&nbsp; &nbsp; &nbsp; Instantiate(hazard, spawnPosition, spawnRotation);
-                                        <br>&nbsp; &nbsp; &nbsp; yield return new WaitForSeconds(spawnWait);
-                                        <br>&nbsp; &nbsp; }
-                                        <br>&nbsp; &nbsp; yield return new WaitForSeconds(waveWait);
-                                    <br>&nbps; }
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Set hazard count to 10
-                                <br>Spawn wait to 0.5
-                                <br>Start wait to 1
-                                <br>Wave wait to 4
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new script called "DestroyByTime"
-                                <code>public float lifetime;</code>
-                                <code>void Start() {
-                                    <br>&nbsp; Destroy(gameObject, lifetime);
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByTime</i>
-                                <code>void Start() {
-                                    <br>&nbsp; Destroy(gameObject, lifetime);
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Find the asteroid vfx and attach this script to all those prefabs
-                                <br>Set the lifetime to all of them to 2.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="hazards">
+    <h2>Hazards</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty as "Asteroid" and position to (0, 0, 8)
+            <br>Drag the first asteroid model onto Asteroid.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Rigidbody  to Asteroid
+            <br>Set without gravity.
+            <br>Set Anular Drag to 0
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Capsule Collider to the Asteroid.
+            <br>Scale correctly
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a "Random Rotator" script and add to Asteroid.<br>
+            <i>Random Rotator</i>
+            <pre>
+            public float tumble;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Random Rotator</i>
+            <pre>
+            void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                rigidbody.angularVelocity = Random.insideUnitSphere * tumble;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a "DestroyByContact" script to the Asteroid <br>
+            <i>DestoryByContact</i>
+            <pre>
+            void OnTriggerEnter(Collider other){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Destory(other.gameObject);
+                Destroy(gameObject);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Give the Boundary a tag of "Boundary"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>DestroyByContact</i>
+            <pre>
+            void OnTriggerEnter(Collider other) {
+                if(other.tag == "Boundary") {
+                    return;
+                }
 
-                    <div class="jumbotron col-md-12 heliList" id="audio">
-                        <h2>Audio</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Make sure 3D sound is OFF for all sounds in the folder.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drag and drop an explosion_asteroid sound to the explosion_asteroid vfx prefab.
-                                <br>Make sure play on awake is on.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drag and drop the explosion_player sound to the explosion_player vfx prefab.
-                                <br>Make sure play on awake is on.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drag and drop the weapon_player to the Player object.
-                                <br>Deselect play on awake.
-                                <i>PlayerController</i><br>
-                                <code>if(Input.GetButton("Fire1") &amp;&amp; Time.time > nextFire) {
-                                    <br>&nbsp; //Other information
-                                    <br>&nbsp; audio.Play();
-                                <br>}</code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Drag and drop the music_background to the GameController object.
-                                <br>Make sure play on awake is on and Loop is also on.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                On the Player object, bring the Audio Source volume down to 0.5.
-                                <br>On the GameController, bring the Audio Source volume down to 0.5.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
-                    <div class="jumbotron col-md-12 heliList" id="scoring">
-                        <h2>Scoring</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a new GUI Text in the scene as Score Text.
-                                <br>Change text to Score Text.
-                                <br>Position and anchor in the Upper Left corner with an appropriate offset.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>GameController</i><br>
-                                <code>public GUIText scoreText;
-                                    <br>private int score;
-                                </code><br>
-                                <code>void Start() {
-                                    <br>&nbsp; score = 0;
-                                    <br>&nbsp; UpdateScore();
-                                <br>}</code><br>
-                                <code>void UpdateScore() {
-                                    <br>&nbsp; scoreText.text = "Score: " + score;
-                                <br>}</code><br>
-                                <code>public void AddScore(int newScoreValue) {
-                                    <br>&nbsp; score += newScoreValue;
-                                    <br>&nbsp; UpdateScore();
-                                <br>}</code>
-                                <br>Give Score Text to scoreText field.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByContact</i><br>
-                                <code>//Below both if statements
-                                    <br>public int scoreValue;
-                                    <br>private GameController gameController;
-                                    <br>void Start() {
-                                    <br>&nbsp; GameObject gameControllerObject = GameObject.FindWithTag("GameController");
-                                    <br>&nbsp; if(gameControllerObject != null) {
-                                    <br>&nbsp; &nbsp; gameController = gameControllerObject.GetComponent<GameController>();
-                                    <br>&nbsp; }
-                                    <br>&nbsp; else { Debug.Log("No Game Controller") }
-                                    <br>}
-                                    <br>gameController.AddScore(scoreValue);
-                                </code>
-                                <br>Set Score Value to 10
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+<div class="jumbotron col-md-12 heliList" id="explosions">
+    <h2>Explosions</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>DestroyByContact</i>
+            <pre>
+            public GameObject explosion;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public GameObject playerExplosion;
+            </pre>
+            Drag first explosion fx to explosion slot.
+            <br>Drag player explosion fx to explosion slot.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>DestroyByContact</i>
+            <pre>
+            void OnTriggerEnter(Collider other) {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                if(other.tag == "Boundary") {
+                    return;
+                }
 
-                    <div class="jumbotron col-md-12 heliList" id="end-game">
-                        <h2>End Game</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create an Empty Display Text object and reset.
-                                <br>Add Score Text to Display Text.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a GUI Text as Restart Text.
-                                <br>Set position to (1, 1, 0)
-                                <br>Set anchor to upper right and alignment to right.
-                                <br>Give an appropriate pixel offset padding.
-                                <br>Add to Display Text.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Create a GUI Text as GameOverText and position at (0.5, 0.6, 0)
-                                <br>Add to Display Text.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>GameController</i><br>
-                                <code>public GUIText restartText;
-                                    <br>public GUIText gameOverText;
-                                    <br>private bool gameOver;
-                                    <br>private bool restart;
-                                </code><br>
-                                <code>void Start(){
-                                    <br>&nbsp; gameOver = false;
-                                    <br>&nbsp; restart = false;
-                                    <br>&nbsp; restartText.text = "";
-                                    <br>&nbsp; gameOverText.text = "";
-                                <br>}</code><br>
-                                <code>public void GameOver(){
-                                    <br>&nbsp; gameOverText.text = "Game Over!";
-                                    <br>&nbsp; gameOver = true;
-                                <br>}</code><br>
-                                <code>//In SpawnWaves, after yield return new WaitForSeconds(waveWait)
-                                    <br> if(gameOver) {
-                                        <br>&nbsp; restartText.text = "Press 'R' to Restart".
-                                        <br>&nbsp; restart = true;
-                                        <br>&nbsp; break;
-                                    <br> }
-                                </code><br>
-                                <code>void Update() {
-                                    <br>&nbsp; if(restart) {
-                                        <br>&nbsp; &nbsp; if(Input.GetKeyDown(KeyCodeR)) {
-                                            <br>&nbsp; &nbsp; &nbsp; Application.LoadLevel(Application.loadedLevel);
-                                        <br>&nbsp; &nbsp; }
-                                    <br>&nbsp; }
-                                <br>}</code>
-                                <br>Apply appropriate objects to their respective fields.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                <i>DestroyByContact</i><br>
-                                <code>//After instantiation of the player explosion
-                                    <br>gameController.GameOver();
-                                </code>
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                Select both the restart text and score text.
-                                <br>Change font-size to 20 (GameOVer text to 25)
-                                <br>
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+                Instantiate(explosion, transform.position, transform.rotation);
 
-                    <div class="jumbotron col-md-12 heliList" id="final-goals">
-                        <h2>Final Goals</h2>
-                        <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                1. Make Game in Unity
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                2. Go through extended training: Adding enemies, hazards, scrolling background and more.
-                            </p></li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-                                3. Go through mobile training: Converting this game to mobile.
-                            </p></li>
-                        </ul>
-                        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-                    </div>
+                if(other.tag == "Player") {
+                    Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
+                }
+
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Give the Player the "Player" tag
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag the Mover script to the Asteroid
+            <br>Bring speed down to -5
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="game-controller">
+    <h2>Game Controller</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new Empty "Game Controller" object and reset.
+            <br>Set tag to "GameController"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a "Game Controller" script to the object.
+            <i>Game Controller</i>
+            <pre>
+            public GameObject hazard;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public Vector3 spawnValues;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Game Controller</i>
+            <pre>
+            void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                SpawnWaves();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>Game Controller</i>
+            <pre>
+            void SpawnWaves() {
+                Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                Quaternion spawnRotation = Quaternion.identity;
+                Instantiate(hazard, spawnPosition, spawnRotation);
+            }
+            </pre>
+            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                Give spawnValues (6, 0, 15) and the game object an asteroid
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="spawn-waves">
+    <h2>Spawn Waves</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>GameController</i>
+            <pre>
+            public GameObject hazard;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public Vector3 spawnValues;
+            public int hazardCount;
+            public float spawnWait;
+            public float startWait;
+            public float waveWait;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>GameController</i>
+            <pre>
+            void Start() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                StartCoroutine(SpawnWaves());
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>GameController</i>
+            <pre>
+            IEnumerator SpawnWaves() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                yield return new WaitForSeconds(startWait);
+
+                while(true) {
+                    for(int i = 0; i < hazardCount; i++) {
+                        Vector3 spawnPosition = new Vector3(Random.Range(-spawnValues.x, spawnValues.x), spawnValues.y, spawnValues.z);
+                        Quaternion spawnRotation = Quaternion.identity;
+                        Instantiate(hazard, spawnPosition, spawnRotation);
+
+                        yield return new WaitForSeconds(spawnWait);
+                    }
+                    yield return new WaitForSeconds(waveWait);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set hazard count to 10
+            <br>Spawn wait to 0.5
+            <br>Start wait to 1
+            <br>Wave wait to 4
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new script called "DestroyByTime"
+            <pre>
+            public float lifetime;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+
+            void Start() {
+                Destroy(gameObject, lifetime);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Find the asteroid vfx and attach this script to all those prefabs
+            <br>Set the lifetime to all of them to 2.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="audio">
+    <h2>Audio</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make sure 3D sound is OFF for all sounds in the folder.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag and drop an explosion_asteroid sound to the explosion_asteroid vfx prefab.
+            <br>Make sure play on awake is on.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag and drop the explosion_player sound to the explosion_player vfx prefab.
+            <br>Make sure play on awake is on.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag and drop the weapon_player to the Player object.
+            <br>Deselect play on awake.
+            <i>PlayerController</i>
+            <pre>
+            if(Input.GetButton("Fire1") &amp;&amp; Time.time > nextFire) {
+                //Other information
+                audio.Play();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag and drop the music_background to the GameController object.
+            <br>Make sure play on awake is on and Loop is also on.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            On the Player object, bring the Audio Source volume down to 0.5.
+            <br>On the GameController, bring the Audio Source volume down to 0.5.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="scoring">
+    <h2>Scoring</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new GUI Text in the scene as Score Text.
+            <br>Change text to Score Text.
+            <br>Position and anchor in the Upper Left corner with an appropriate offset.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>GameController</i>
+            <pre>
+            public GUIText scoreText;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            private int score;
+
+            void Start() {
+                score = 0;
+                UpdateScore();
+            }
+
+            void UpdateScore() {
+                scoreText.text = "Score: " + score;
+            }
+
+            public void AddScore(int newScoreValue) {
+                score += newScoreValue;
+                UpdateScore();
+            }
+            </pre>
+            Give Score Text to scoreText field.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>DestroyByContact</i>
+            <pre>
+            //Below both if statements<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public int scoreValue;
+            private GameController gameController;
+
+            void Start() {
+                GameObject gameControllerObject = GameObject.FindWithTag("GameController");
+
+                if(gameControllerObject != null) {
+                    gameController = gameControllerObject.GetComponent<GameController>();
+                } else {
+                    Debug.Log("No Game Controller")
+                }
+
+                gameController.AddScore(scoreValue);
+            }
+            </pre>
+            Set Score Value to 10
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="end-game">
+    <h2>End Game</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty Display Text object and reset.
+            <br>Add Score Text to Display Text.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a GUI Text as Restart Text.
+            <br>Set position to (1, 1, 0)
+            <br>Set anchor to upper right and alignment to right.
+            <br>Give an appropriate pixel offset padding.
+            <br>Add to Display Text.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a GUI Text as GameOverText and position at (0.5, 0.6, 0)
+            <br>Add to Display Text.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>GameController</i>
+            <pre>
+            public GUIText restartText;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public GUIText gameOverText;
+            private bool gameOver;
+            private bool restart;
+
+            void Start() {
+                gameOver = false;
+                restart = false;
+                restartText.text = "";
+                gameOverText.text = "";
+            }
+
+            public void GameOver(){
+                gameOverText.text = "Game Over!";
+                gameOver = true;
+            }
+
+            //In SpawnWaves, after yield return new WaitForSeconds(waveWait)
+            if(gameOver) {
+                restartText.text = "Press 'R' to Restart".
+                restart = true;
+                break;
+            }
+
+            void Update() {
+                if(restart) {
+                    if(Input.GetKeyDown(KeyCodeR)) {
+                        Application.LoadLevel(Application.loadedLevel);
+                    }
+                }
+            }
+            </pre>
+            Apply appropriate objects to their respective fields.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            <i>DestroyByContact</i>
+            <pre>
+            //After instantiation of the player explosion
+            gameController.GameOver();
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Select both the restart text and score text.
+            <br>Change font-size to 20 (GameOVer text to 25)
+            <br>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="final-goals">
+    <h2>Final Goals</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            1. Make Game in Unity
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            2. Go through extended training: Adding enemies, hazards, scrolling background and more.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            3. Go through mobile training: Converting this game to mobile.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
 
 
                     <!-------------------------------------->
@@ -764,7 +798,6 @@
     </main>
 
     <!-------------------------------------------------------------------------->
-
 
     <!-- FOOTER -->
     <footer class="navbar navbar-inverse navbar-fixed-bottom">
@@ -810,37 +843,5 @@
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
 </div>
-
-    Code Template
-
-    <div class="jumbotron col-md-12 heliList" id="code">
-        <h2>Code Test</h2>
-        <ul>
-            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <i>Vars</i>
-    <pre>
-    public int one;<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-    public bool gameOver;
-    </pre>
-            </p></li>
-            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <i>Start</i>
-    <pre>
-    void Start(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-    // Start Function
-    }
-    </pre>
-            </p></li>
-            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            <i>Update</i>
-    <pre>
-    void Update(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-    // Update Function
-    }
-    </pre>
-            </p></li>
-        </ul>
-        <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
-    </div>
 
 -->
