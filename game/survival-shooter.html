@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Survival Shooter Implementation</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="text-center" style="text-decoration: underline;" id="title">Survival Shooter Implementation</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron col-md-12 heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#setup">Setup</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#player">Player Character</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#camera">Camera</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#enemy-1">Enemy 1</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="setup">
+    <h2>Setup</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            2 by 3 layout will work best for this project with the project below the heirarchy window.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag the environment prefab into the scene and reset.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag the Lights prefab into the scene and reset if you want.
+            <br>Drab those up if you want.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a Quad and reset as "Floor".
+            <br>Rotate to (90, 0, 0) and scale to (100, 100, 1);
+            <br>Remove the Mesh Renderer component.
+            <br>Set the Floors layer to "Floor".
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty "BackgroundMusic".
+            <br>Add an audio source to it or drag the "Background Music" audio.
+            <br>Uncheck play on awake and Check loop.
+            <br>Put volume to 0.1.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="player">
+    <h2>Player Character</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Drag the Player model into the scene and reset.
+            <br>Set tag to "Player"
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In the Animation folder, create an Animator Controller as "PlayerAC".
+            <br>Drag onto the player. Should fill in the Controller option.
+            <br>Open the PlayerAC. Drag each Player clip from model into Animator.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set Idle clip to default.
+            <br>Add "Bool" parameter named "IsWalking".
+            <br>Add "Trigger" parameter named "Die".
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make transition from Idle -> Move.
+            <br>Set condition to IsWalking, and leave as true.
+            <br>Make transition from Move -> Idle.
+            <br>Set condition to IsWalking, and set as false.
+            <br>Make transition from AnyState -> Die
+            <br>Set condition to Die.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add Rigidbody to Player.
+            <br>Set Drag and Angular Drag to "inf"
+            <br>Set position constraints to Y-constrained
+            <br>Set rotation constraints to X/Z-constrained
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add Capsule Collider to the Player.
+            <br>Center at (0.2, 0.6, 0).
+            <br>Set radius to (0.5) and height to (1.2)
+            <br>Make sure direction is y-axis.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add "Player Hurt" audio to Player.
+            <br>Do not play on awake.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a "PlayerMovement" script to the player.
+            <pre>
+            <span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>//PlayerMovement
+            public float speed = 6f;
+
+            private Vector3 movement;
+            private Animator anim;
+            private Rigidbody rb;
+            private int floorMask;
+            private float camRayLength = 100f;
+
+            void Awake(){
+                floorMask = LayerMask.GetMask("Floor");
+                anim = GetComponent<Animator>();
+                rb = GetComponent<Rigidbody>();
+            }
+
+            void FixedUpdate() {
+                float h = Input.GetAxisRaw("Horizontal"); //-1, 0, or 1
+                float v = Input.GetAxisRaw("Vertical");
+
+                Move(h, v);
+                Turning();
+                Animating(h, v);
+            }
+
+            void Move(float h, float v) {
+                movement.Set(h, 0f, v);
+
+                movement = movement.normalized * speed * Time.deltaTime;
+
+                rb.MovePosition(transform.position + movement);
+            }
+
+            void Turning() {
+                Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                RaycastHit floorHit;
+
+                if(Physics.Raycast(camRay, out floorHit, camRayLength, floorMask)) {
+                    Vector3 playerToMouse = floorHit.point - transform.position;
+                    playerToMouse.y = 0f;
+
+                    Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+                    rb.MoveRotation(newRotation);
+                }
+            }
+
+            void Animating(float h, float v) {
+                bool walking = h!=0f || v!=0f;
+                anim.SetBool("IsWalking", walking);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Turn the Player into a prefab.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="camera">
+    <h2>Camera</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Move camera to (1, 15, -22), and rotate to (30, 0, 0)
+            <br>Set to orthographic view with 4.5 orthographic size.
+            <br>Set background color to black.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a "CameraFollow" script and attach to main camera.
+            <pre>
+            <span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>//CameraFollow
+            public Transform target;
+            public float smoothing = 5f;
+
+            private Vector3 offset;
+
+            void Start() {
+                offset = transform.position - target.position;
+            }
+
+            void FixedUpdate() {
+                Vector3 targetCamPos = target.position + offset;
+                transform.position = Vector3.Lerp(transform.position, targetCamPos, smoothing * Time.deltaTime);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Attach the appropriate object to those fields.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="enemy-1">
+    <h2>Enemy 1</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+-->
