@@ -1,6 +1,9 @@
 body{
     background-color: #333;
 }
+h1{
+    text-align: center;
+}
 
 /* Dropdown Menu */
 .dropdown-menu a > span{
@@ -65,4 +68,8 @@ footer ul li a:hover {
 footer ul li a:active, a:focus, a:visited{
     color: rgba(255, 255, 255, 0.7);
     text-decoration: none;
+}
+
+h3 .glyphicon-chevron-right{
+    float: right;
 }

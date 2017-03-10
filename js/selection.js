@@ -1,3 +1,9 @@
+(function() {
+    $('.glyphicon-chevron-right').addClass('glyphicon');
+    $('.glyphicon-remove').addClass('glyphicon');
+    $('.glyphicon-menu-up').addClass('glyphicon');
+})();
+
 $('p').find('.glyphicon-remove').click(function () {
   $(this).parent().removeClass('selected');
   $(this).hide();

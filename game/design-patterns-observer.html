@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -51,16 +51,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -78,45 +78,45 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Observer</h1>
+                    <h1 id="title">Design Patterns - Observer</h1>
 
                     <aside>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
                     </aside>
 
-                    <div class="jumbotron col-md-12 heliList">
+                    <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#observer">Observer</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#achievement">Achievement Unlocked</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#how-it-works">How It Works</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#too-slow">It's Too Slow?</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#dynamic-allocation">It Does Too Much Dynamic Allocation?</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#remaining-problems">Remaining Problems</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#observers-today">Observers Today</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#observers-tomorrow">Observers Tomorrow</a>
                                 </p>
                             </li>
@@ -126,52 +126,52 @@
 <div class="jumbotron col-md-12 heliList" id="observer">
     <h2>Observer</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             One of the most popular and utelized computer architectures is the Model-View-Controller
             architecture, and underlying that is the Observer pattern. It's so important that Java
             built it into it's core library and C# has it available right in the language (event).
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The Observer Pattern is the most widely used pattern availble, but the game development
             world can be strangely sheltered at times, so maybe this seems new. We'll start off
             with an example to get familiarized.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This is a long and important one, so strap in!
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="achievement">
     <h2>Achievement Unlocked</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Let's add an achievement syste to a game. It features many badges players can unlock
             by completing various milestones. This is tricky to implement cleanly because we
             have such a wide range of achievements that are unlocked by different behaviors. If
             we're not careful, our achievement code could become entangled with everything.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             What we need here is our code to be concerned with one facet of the game nicely
             lumped in one place. The challenge here is that achievements are triggered by
             many aspects of gameplay. How can that work without coupling the achievement code
             to all of them?
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Enter the <b>Observer Pattern</b>. It lets one piece of code announce that something interesting
             happened without actually caring who receives the notification.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Example. We've got a block of physics code that handles gravity and tracks which
             bodies are relaxing on nice flat surfaces and which are plummeting toward sure
             demise. To implement a "Fall off a Bridge" badge, we could just jam the achievement
             code right here, but that's messy, instead, we should do this:
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We could just jam the achievement code right here, but that's messy, instead, we should do this:
             <pre>
-            void Physics::updateEntity(Entity&amp; entity){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            void Physics::updateEntity(Entity&amp; entity){<span class="glyphicon-remove"></span>
                 bool wasOnSurface = entity.isOnSurface();
                 entity.accelerate(GRAVITY);
                 entity.update();
@@ -182,7 +182,7 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This code essentially says, "I don't know who's listening, but this thing just fell,
             do what you need to."
             <br>The achievement system registers itself so that whenever the physics code sends
@@ -191,23 +191,23 @@
             to be a bridge. If so, it unlocks the proper achievement, plus it does all of this with
             no involvement from the physics code.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             In face, we can change the set of achievements or tear out the entire achievement
             system without touching a line of the physics engine. It will still send out its notifications,
             oblivious to the fact that nothing is receiving them anymore.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="how-it-works">
     <h2>How It Works</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>The Observer</b><br>
             We'll start with the base Observer class:
             <pre>
-            class Observer {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Observer {<span class="glyphicon-remove"></span>
                 public virtual ~Observer() {}
                 public virtual void onNotify(const Entity&amp; entity, Event event) = 0;
             }
@@ -216,11 +216,11 @@
             non ready-made pattern easily pasted into your current code.The typical patterns are the
             object htat sent the notification and a generic "data" parameter you stuff other details into.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Any concrete class that implements this becomes an observer. For now that would be our
             achievement example:
             <pre>
-            class Achievement : public Observer {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Achievement : public Observer {<span class="glyphicon-remove"></span>
                 public virtual void onNotify(const Entity&amp; entity, Event event ) {
                     switch(event) {
                         case EVENT_ENTITY_FELL:
@@ -239,23 +239,23 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>The Subject</b><br>
             The notification method is invoked by the object being observed, this object is the
             "subject". It has two jobs. <br>
             <b>First Job</b> - Hold the list of observers that are waiting for communication:
             <pre>
-            class Subject {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Subject {<span class="glyphicon-remove"></span>
                 private Observer* observers_[MAX_OBSERVERS];
                 private in numObservers_;
             }
             </pre>
             In real code, we should use a dynamically-sized collection instead of an array.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The important part is that the subject exposes a <i>public</i> API for modifying that list:
             <pre>
-                class Subject {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                class Subject {<span class="glyphicon-remove"></span>
                     public void addObserver(Observer* observer) { //Add to array }
                     public void removeObserver(Observer* observer) { //Remove from array }
                     //Other stuff...
@@ -269,10 +269,10 @@
             list of observers ensures that each observer is treated independently from the others. As
             far as they know, each is the only thing in the program with eyes on the subject.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Second Job</b> - The other job of the subject is sending notifications:
             <pre>
-                class Subject {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                class Subject {<span class="glyphicon-remove"></span>
                     protected void notify(const Entity&amp; entity, Event event) {
                         for(int i = 0; i < numObservers_; i++) {
                             observers_[i]->onNotify(entity, event);
@@ -285,12 +285,12 @@
             A more robust implemementation would either prevent or gracefully handle ocncurrent modification
             like that.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Observable Physics</b><br>
             With the observer and subject, we can hook all this into our physics engine so it can
             send notifications and the achievement system can wire itself up to receive them:
             <pre>
-                class Physics : public Subject {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                class Physics : public Subject {<span class="glyphicon-remove"></span>
                     public void updateEntity(Entity&amp; entity);
                 }
             </pre>
@@ -298,52 +298,52 @@
             it to send notifications, but outside code cannot. While addObserver() and removeObserver()
              are public, so anything that can get to the physics system can observe it.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now when the physics engine does something noteworthy, it calls notify() which walks the
             observer list and gives them a heads up.
             <br>In real code, we use avoid using inheritance here. Instea, we'd make Physics have an
             instance of Subject. Instead of observing the physics engine itself, the subject would be a seperate
             "falling event" object. Observers could register themselves using something like:
-            <pre>physics.entityFell().addObserver(this);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span></pre>
+            <pre>physics.entityFell().addObserver(this);<span class="glyphicon-remove"></span></pre>
             To us this is the difference between the observer systems and event systems. With the former,
             you observe the thing that did something interesting. With the latter, you observe an
             object that represents the interesting thing that happens.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             So this is pretty simple. Just one class that maintains a list of pointers to instances
             of some interface. It's hard to believe that something so straightforeward is the
             communication backbone of countless programs and app frameworks.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now when the physics engine does something noteworthy, it calls notify() which walks the
             observer list and gives them a heads up.
             <br>In real code, we use avoid using inheritance here. Instea, we'd make Physics have an
             instance of Subject. Instead of observing the physics engine itself, the subject would be a seperate
             "falling event" object. Observers could register themselves using something like:
-            <pre>physics.entityFell().addObserver(this);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span></pre>
+            <pre>physics.entityFell().addObserver(this);<span class="glyphicon-remove"></span></pre>
             <br>To us this is the difference between the observer systems and event systems. With the former,
             you observe the thing that did something interesting. With the latter, you observe an
             object that represents the interesting thing that happens.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="too-slow">
     <h2>It's Too Slow?</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The Observer Pattern gets a bad rap here, mostly because it's associated with
             concepts such as "events", "messages", and even "data binding". These systems are
             known to be slow(often deliberately). They involve things like queueing or doing dynamic
             allocation for each notificiation.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             But we've seen how it works. Sending a notification is simply walking a list and calling
             some virtual methods. Granted, it's a bit slower than a statically dispatched call, but
             this cost is negligible.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Too Fast?</b><br>
             It is important to note that the Observer pattern is synchronous. The subject invokes
             its observers directly, which means it doesn't resume its own work until all of the
@@ -351,37 +351,37 @@
             observers have returned from their notification methods. A slow observer can block
             a subject.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This isn't that bad, but just needs to be something you're aware of. If you're responding
             to an event asynchronously, you need to finish and return control as quickly as possible
             so that the event doesn't lock up. When you have slow work to do, push it onto another
             thread or a work queue.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             You do need to be careful mixing observers with threading and explicit locks though.
             If an observer tries to grab a lock that the subject has, you can deadlock the game.
             In a highly threaded engine, you may be better off with asynchronous communication using
             an Event Queue.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="dynamic-allocation">
     <h2>It Does Too Much Dynamic Allocation?</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Many programmer have moved to garbage collected languages, and dynamic allocation
             isn't the hazard it used to be. However when it comes to performance-critical software,
             like games, memory allocation still matters. Dynamic allocation takes time, as does
             reclaiming memory, even if it happens automatically.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             In real implementations, the observer list is almost always a dynamically allocated
             collection that grows and shrinks as observers are added and removed. That memory churn
             spooks programmers.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We need to notice that it only allocates memory when observers are being wired up.
             Sending a notification requires no memory allocation whatsoever -  it's just a method
             call. If you hook up your observers at the start of the game and don't mess with them
@@ -389,33 +389,33 @@
             <br>But worst case, we can go through a way to implement adding and removing observers
             without dynamic allocation at all.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Linked Observers</b><br>
             So far, Subject owns a list of pointers to each Observer watching it. The Observer class
             itself has no reference to this list. It's just a pure virtual interface. Interfaces are preffered
             over concrete, stateful classes, so that's generally a good thing.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             If we're willing, we could put a bit of state in Observer, we can solve our allocation problems
             by threading the subject's list through the observers themselves. Instead of the subject having
             a separate collection of pointers, the observer objects become nodes in a linked list:
             <br>Subject/Head_ -> Observer/Next_ -> Observer/Next_
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             To implememnt this, first we'll get rid of the array in Subject and replace it with a
             pointer to the head of the list of observers:
             <pre>
-            class Subject {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Subject {<span class="glyphicon-remove"></span>
                 Subject() : head_(NULL) {}
                 //Methods
                 private Observer* head_;
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Then we'll extend Observer with a pointer to the next observer in the list:
             <pre>
-            class Observer {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Observer {<span class="glyphicon-remove"></span>
                 friend class Subject;
                 public Observer() : next_(NULL) {}
                 //Other stuff
@@ -423,13 +423,13 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Observe we're making Subject a friend Class here. The subject owns the API for
             adding and removing observers, but the lsit will be managing is now inside the
             Observer class itself. The simplest way to give it the ability to poke at that
             list is by making it a friend.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Registering a new observer is just wiring it into the list. We'll take the
             easy option and insert it at the front:
             <pre>
@@ -439,7 +439,7 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The other option would be to add it to the other side of the linked list. Doing
             that adds a bit more complexity. Subject has to either walk the list to find
             the end or keep a separate tail_ pointer that always points to the last node.
@@ -454,7 +454,7 @@
             matter, it means those two observers have some subtle coupling that could
             end up biting you in the ass.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Let's get removal working:
             <pre>
             void Subject::removeObserver(Observer* observer) {
@@ -477,27 +477,27 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Removing a node from a linked list usually requires a bit of ugly special
             case handling for removing the very first node, like you see above. There's
             a more elegant solution using a pointer to a pointer.
             <br>I didn't do this here because it is confusing, however it's a worthwhile
             exercise to do.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Removing a node from a linked list usually requires a bit of ugly special
             case handling for removing the very first node, like you see above. There's
             a more elegant solution using a pointer to a pointer.
             <br>I didn't do this here because it is confusing, however it's a worthwhile
             exercise to do.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Because we have a singly linked list, we have to walk it to find the observer
             we're removing. We'd have to do the same thing if we were using a regular array
             that matte. If we used a <i>doubly</i> linked list, we can remove an observer in constant
             time. Do that in real code.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The final task here is sending the notification. Which is as simple as walking
             down the list:
             <pre>
@@ -517,7 +517,7 @@
             a flag indicating whether the subject should keep walking the list or stop.
             If you do that, you're pretty close to having the Chain of Responsibility pattern.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             So this isn't too bad. A subject can have as many observers as it wants, without
             a single whiff of dynamic memory. Registering and unregistering is as fast as it
             was with a simple array. We have sacrificed one small feature, though.
@@ -531,14 +531,14 @@
             another more complex solution you can use that still doesn't require dynamic allocation.
             It's too long to cram here, but I'll sketch it out and let you fill the blanks...
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>A Pool of List Nodes</b><br>
             Like before, each subject will have a linked list of observers. However, those list
             nodes won't be the observer objects themselves. Instead, they'll separate little "list node"
             objects that contain a pointer to the observer and then a pointer to the next node in the list.
             <br>Subject/Head_ -> Node/Next_Observer_ -> Observer &amp;&amp; -> Node/Next_Observer_ -> Obsever
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Since multiple nodes can all point to the same observer, that means an observer can
             be in more than one subject's list at the same time. We're back to being able to observe
             multiple subject simultaneously.
@@ -547,7 +547,7 @@
             of list nodes to work with, and you can use and reuse them as you need without having to hit an
             actual memory allocator.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Linked lists come in two flavors. In the one you learned in school, you have a node object
             that contanis the data. In our previous exapmle, that was flipped around; the data(observer) contained
             the node(next_pointer).
@@ -557,13 +557,13 @@
             makes sense.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="remaining-problems">
     <h2>Remaining Problems</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now we've covered some of the larger issues with this pattern. We've seen
             it's simple, fast, and can be made to play nice with memory management.
             But does this mean you should use observers all the time?
@@ -573,14 +573,14 @@
             patterns to the wrong problem and end up making it worse.
             <br>Two challenges remain, on technical and one focused on maintainability.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Destroying Subject and Observers</b><br>
             The sample code we walked through is solid, but it side-steps an important issue:
             what happens when you delete a subject or an observer? If you call <i>delete</i>
             on some observer, a subject may still be pointing to it. That's now a dangling pointer
             into deallocated memory. When that subject tried to send a notification, it's no bueno.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Destroying the subject is easier since in most implementations, the observer
             doesn't have any references to it. But even then, sending the subject's bit to the memory
             manager's recycle bin may cause some problems. Those observers may still be expecting to
@@ -599,14 +599,14 @@
             complexity, though. It means each observer will need a list of the subjects it's observing. You
             end up with pointers going in both directions.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Garbage Collector</b>
             <br> Dont' think these issues don't apply to you if you happen to use a GC. Imagine this:
             you've got some UI screen that shows a bunch of stats about the player's character
             like health and mana. When the player brings up the screen, you instantiate a new object
             for it. When they close it, you just forget about the object and let the GC clean it up.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Every time the character takes a punch to the face, it sends a notification. The UI
             screen observes that and updates the little health bar. Sweet, now what happens when
             the player dismisses the screen, but you don't unregister the object?
@@ -622,7 +622,7 @@
              can end up with zombie UI objects lingering in memory. The lesson here is to be
              disciplined about registration.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Maintainability Confusion</b>
             <br> A deeper issue with the Observer pattern is a direct consequence of its intended
             purpose. We use it because it helps us loosen the coupling between two pieces of
@@ -657,26 +657,26 @@
             require much knowledge of the other.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="observers-today">
     <h2>Observers Today</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The Observer Pattern got popular back at the same time of OOP(1994), so it's no
             surprise that it's class heavy. But mainstream coders are now more comfortable
             with functional-programming. Having to implement an entire interface just to
             receive a notification doesn't fit today's aesthetic.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             It currently feels heavyweight and riid. It is. For example, you can't have a single
             class that uses different notification methods for different subjects.
             <br>A more modern approach is for an "observer" to be only a reference to a method.
             In languages with first-class functions, and expecially ones with closures, this
             is a much more common way to do observers.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             For example, C# has "events" baked into the language. With those, the observer
             you register is a "delegate", which is that language's term for a reference to a
             method. In JS's event system, observers can be objects supporting a special
@@ -686,13 +686,13 @@
             pointers as observers instead of instances of some Observer interface.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="observers-tomorrow">
     <h2>observers-tomorrow</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Event systems and other observers-like patterns are incredibly common these days.
             They're a well-worn path. But if you write a few large apps using them, you
             start to notice something. A lot of the code in your observers ends up looking
@@ -704,7 +704,7 @@
             gone under a number of different names: "dataflow programming", "functional
             reactive programming", etc.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             While there has been some successes, usually in limited domains like audio processing
             or chip design, the Holy Grail has yet to be found. In the meantime, a less ambitious
             approach has started gaining traction. Many recent application frameworks now use
@@ -714,7 +714,7 @@
             declarative dataflow graph. What it does do is automate the busywork where you're taking
             a UI element or calculated property to reflect a change to some value.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Like other declarative systems, data binding is probably a bit too slow and complex
             to fit inside the core of a game engine. But I would be surprised if I didn't see
             it start making inroads into less critical areas of the game like UI.
@@ -724,7 +724,7 @@
             the two most important criteria for a solution.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
                     <!-------------------------------------->
@@ -766,17 +766,17 @@
 <div class="jumbotron col-md-12 heliList" id="">
     <h2>XXX</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 -->

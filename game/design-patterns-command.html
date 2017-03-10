@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -51,16 +51,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -78,38 +78,38 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Command</h1>
+                    <h1 id="title">Design Patterns - Command</h1>
                     <!------------------------------------------------->
 
                     <aside>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
                     </aside>
 
-                    <div class="jumbotron col-md-12 heliList">
+                    <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#command">Command</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#configInput">Configuring Input</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#direct-actors">Directions for Actors</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#undo-redo">Undo &amp; Redo</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#classy-disfunction">Classy &amp; Disfunctional?</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#links">Links</a>
                                 </p>
                             </li>
@@ -119,34 +119,34 @@
 <div class="jumbotron col-md-12 heliList" id="command">
     <h2>Command</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Formal definition - Encapsulate a request as an object, thereby letting users parameterize clients
             with different requests, queue or log requests, and support undoable operations.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             A more useable definition for our case is stated - <b>A command is a reified method call</b>
             <br>Reify - Make (something abstract) more concrete or real.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The main focus of this pattern is taking some concept and turning it into a piece of data -
             an object - that you can stick in a variable, pass to a function, etc.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             A more accurate definition for Commands is - Commands are an object-oriented replacment
             for callbacks. This concept is easily recognized through examples.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             A fairly easy way to identify the Command Pattern you see an interface with a single
             method that doesn't return anything.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="configInput">
     <h2>Configuring Input</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Lets figure out a piece of code that reads in raw user input, and translates it into
             meaningful actions. Our controller scheme:
             <br>&nbsp; A -> Swap Weapon
@@ -154,10 +154,10 @@
             <br>&nbsp; Y -> Fire Gun
             <br>&nbsp; X -> Jump
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             A most simple implementation can be seen here:
             <pre>
-            void InputHandler::handleInput() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            void InputHandler::handleInput() {<span class="glyphicon-remove"></span>
                 if(isPressed(BUTTON_X)) jump();
                 else if(isPressed(BUTTON_Y)) fireGun();
                 else if(isPressed(BUTTON_A)) swapWeapon();
@@ -165,7 +165,7 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Observe some of the issues that arise from this simple block.
             <br>&nbsp; Gets called once per frame by the game loop.
             <br>&nbsp; We need to manually assign inputs to actions.
@@ -174,19 +174,19 @@
             a lot like assigning a variable, so we need an object that we can use to represent a
             game action. Enter the <b>Command Pattern</b>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We need to define a <b>base class</b> that represents a triggerable game command:
             <pre>
-            class Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Command {<span class="glyphicon-remove"></span>
                 public virtual ~Command(){}
                 public virtual void execute() = 0;
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We then need <b>subclasses</b> for each of the different actions we have:
             <pre>
-            class JumpCommand : public Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class JumpCommand : public Command {<span class="glyphicon-remove"></span>
                 public virtual void execute() { jump(); }
             }
 
@@ -197,10 +197,10 @@
             //And so on..
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             In an <b>input handler</b>, we store a pointer to a command for each button:
             <pre>
-            class InputHandler {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class InputHandler {<span class="glyphicon-remove"></span>
                 public void handleInput();
 
                 // Methods to bind commands...
@@ -211,10 +211,10 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now the <b>input handler</b> just delegates to those:
             <pre>
-            void InputHandler::handleInput(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            void InputHandler::handleInput(){<span class="glyphicon-remove"></span>
                 if(isPressed(BUTTON_X)) buttonX_->execute();
                 else if(isPressed(BUTTON_Y)) buttonY_->execute();
                 else if(isPressed(BUTTON_A)) buttonA_->execute();
@@ -222,7 +222,7 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now there is a layer of indirection. Notice we don't check for NULL here. This
             assumes each button will have <i>some</i> command wired tto it. If we even wanted
             a button that did nothing, we would need to simply do nothing in it's execute function.
@@ -232,24 +232,24 @@
             <br>&nbsp; X -> Jump Command
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="direct-actors">
     <h2>Directions for Actors</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             After analyzing the previous input section, we can see some drawbacks.
             <br>&nbsp; &bull; The command classes assume the functions jump, fire, etc.
             implicitly know how to find the player's avatar and apply themselves.
             <br>&nbsp; &bull; That assumed coupling limits the usefulness of those commands.
             <br>&nbsp; &bull; The <i>only</i> thing the Jump Command can make jump is the player.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We should loosen those restrictions. Instead calling functions that find the
             commanded object themselves, we'll pass in the object that we want to order around.
             <pre>
-            class Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Command {<span class="glyphicon-remove"></span>
                 public virtual ~Command() {}
                 public virtual execute(GameActor&amp; actor) = 0;
             }
@@ -257,23 +257,23 @@
             Here, <b>GameActor</b> is our "game object" class that represents a chararacter
             in the game world.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We pass it in to execute() so that the derived command can invoke
             methods on an actor of our choice.
             <pre>
-                class JumpCommand : public Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                class JumpCommand : public Command {<span class="glyphicon-remove"></span>
                     public virtual void execute(GameActor&amp; actor){
                         actor.jump();
                     }
                 }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Now we can use this one class to make any character jump. We're just missing the
             piece between the input handler and the command that takes the command and invokes it
             on the correct object. First, we change handleInput() to return commands:
             <pre>
-            Command* InputHandler::handleInput(){<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Command* InputHandler::handleInput(){<span class="glyphicon-remove"></span>
                 if(isPressed(BUTTON_X)) return buttonX_;
                 if(isPressed(BUTTON_Y)) return buttonY_;
                 if(isPressed(BUTTON_A)) return buttonA_;
@@ -286,11 +286,11 @@
             to pass in. Here's where we take advantage of the fact that the command is a
             reified call - we can delay when the call is executed.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             So we need some code that takes that command and runs it on the actor representing
             the player:
             <pre>
-            Command* command = inputHandler.handleInput() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Command* command = inputHandler.handleInput() {<span class="glyphicon-remove"></span>
                 if(command){
                     command->execute(actor);
                 }
@@ -302,14 +302,14 @@
             we have a cool ability: <b>we can let the player control any actor in the game now
             by changing the actor we execute the command on.</b>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This is not a very common feature, but there is a similar use case that does pop up.
             We know we can command the player-driven character, but what about other actors in
             the world? Those are driven by the game's AI, so we can use this same command as the
             interface between the AI engine and the actors; the code simply emits <i>Command</i>
             objects.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Decoupling of AI that selects commands and actor code that performs them gives us
             flexibility.
             <br>&nbsp; &bull; Use different AI modules for different actors.
@@ -317,7 +317,7 @@
             <br>&nbsp; &bull; Want an aggressive character? Just plug-in an aggresive AI to generate commands for it.
             <br>&nbsp; &bull; Need a demo where character runs in auto-pilot? Bolt the AI to the player's character!
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             By making commands that control an actor first-class objects, we've removed the
             tight coupling of a direct mothod call. Instead, think of it as a <i>queue or stream
              of commands:</i>
@@ -327,21 +327,21 @@
              one end from the consumer on the other.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="undo-redo">
     <h2>Undo &amp; Redo</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             The most common use of this pattern is Undo. If a command can do something, it's a
             small step to undo it. One place we'd see this in action is with a strategy game.
             The player fat-fingers to move a unit and needs to undo it.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Here's what moving a unit command could look like:
             <pre>
-                class MoveUnitCommand : public Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                class MoveUnitCommand : public Command {<span class="glyphicon-remove"></span>
                     public MoveUnitCommand(Unity* unity, int x, int y) : unit_(unit), x_(x), y_(y) {}
                     public virtual void execute(){
                         unit_ -> moveTo(x_, y_);
@@ -354,7 +354,7 @@
             Note* this command is NOT being abstracted from the actor, instead it is bound
             to the unit being moved.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Difference in previous Input Commands and Move Unit Command:
             <br>&nbsp; &bull; Input Commands were reusable objects that represented things that
             could be done.
@@ -364,9 +364,9 @@
             <br>&nbsp; &bull; That means that the input handling code will be <i>creating</i> an instance
             of this everytime the player chooses a move. Let handle that.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <pre>
-            Command* handleInput() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Command* handleInput() {<span class="glyphicon-remove"></span>
                 Unit* unit = getSelectedUnit();
 
                 if(isPressed(BUTTON_UP)){
@@ -387,21 +387,21 @@
             </pre>
             The fact that commands are one-use-only will be an advantage soon.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             To make commands undoable, we need to add onto our Command class:
             <pre>
-            class Command {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Command {<span class="glyphicon-remove"></span>
                 public virtual ~Command() {}
                 void virtual execute() = 0;
                 void virtual undo() = 0;
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             An undo() method reverses the game state changed by the corresponding execute()
             method. Here's our previous command with undo support:
             <pre>
-            class MoveUnitCommand : public Commad {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class MoveUnitCommand : public Commad {<span class="glyphicon-remove"></span>
                 public MoveUnitCommand(Unit* unit, int x, int y) : unit_(unit), xBefore(0), yBefore(0), x_(x), y_(y) {}
 
                 public virtual void execute(){
@@ -421,7 +421,7 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             So we added more state to the class. We are remembering the unit's previous position
             with xBefore and yBefore. We could also support multi leveled undo/redo actions.
             Instead of remembering the last command, we could keep a list of commands and
@@ -431,38 +431,38 @@
             if the player selects "Redo". If the player chooses a new command after undoing
             a command, everything in the list after current command is discarded.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Redo may not be too common in games, but <i>re-play</i> is. A horrible way to re-play
             something would be to record every frame. A much better way would be to record the
             set of commands every entity performed each frame. To replay the game, the engine just
             runs through the normal game simulation, executing the pre-recorded commands.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="classy-disfunction">
     <h2>Classy &amp; Disfunctional?</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Commands can be similar to first-class functions or closures, however each example
             above is in C++ because the language has limited support for first-class functions.
             This is not to say Commands can't be done in other languages. If you are able to
             use real closures, do it.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Check out this Command in JavaScript:
             <pre>
-            function makeMoveUnitCommand(unit, x, y) {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            function makeMoveUnitCommand(unit, x, y) {<span class="glyphicon-remove"></span>
                 //This function here is the command object:
                 return function(){ unit.moveTo(x, y); }
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             We can even add undo support using a pair of closures:
             <pre>
-                function makeMoveUnitCommand(unit, x, y) {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+                function makeMoveUnitCommand(unit, x, y) {<span class="glyphicon-remove"></span>
                     var xBefore, yBefore;
                     return {
                         execute: function(){ xBefore = unit.x(); yBefore = unit.y(); unit.moveTo(x, y); }
@@ -472,34 +472,34 @@
             </pre>
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="links">
     <h2>Links</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <a href="#">Subclass Sandbox</a>
             <br>You may end up with a lot of different command classes. In order to make it easier
             to implement those, it's often helpful to define a concrete base class with a bunch
             of convenient high-level mothods that the derived commands can compose to define their
             behavior. That turns the command's main execute() method into the Subclass Sandbox pattern.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <a href="#">Chain of Responsibility</a>
             <br>In our examples, we explicitly chose which actor would handle a command. In some cases,
             especially where your object model is hierarchical, it may no be so cut-and-dried. An
             object may respond to a command, or it may decide to pawn it off on some subordinate object.
             If you do that, you've got yourself the Chain of Responsibility pattern.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <a href="design-patterns-flyweight.html">Flyweight</a>
             <br>Some commands are stateless chunks of pure behavior like the JumpCommand in the first
             example. In cases like that, having more than one instance of that class wastes memory since
             all instances are equivalent. The Flyweight pattern addresses that.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
                     <!-------------------------------------->
@@ -541,17 +541,17 @@
 <div class="jumbotron col-md-12 heliList" id="">
     <h2>XXX</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 -->

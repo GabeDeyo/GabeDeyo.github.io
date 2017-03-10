@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Singleton</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Singleton</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#intro">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#singleton">Singleton</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#why">Why We Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#why-not">Why We Regret Using It</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#what-to-do">What Can We Do Instead</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#whats-left">What's Left for Singleton</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="intro">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            This chapter will be different. This chapter will show you how <b>not</b> to use
+            a design pattern.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Despite noble intentions, the Singleton pattern usually does more harm than good.
+            It is stressed that the pattern should be used sparingly, but that message is often
+            lost in translation to the game industry.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Like any pattern, using Singleton where it doesn't belong is about as helpful as treating
+            a bullet wound with a splint. Since it is so overused, most of this chapter will be
+            about avoiding singletons, but first what is it?
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When the industry moved to OOP from C, one problem that arose was "how do I get an
+            instance?" They had some method they wanted to call but didn't have an instance
+            of the object that provides that method on hand. Singletons (in other words, making
+            it global) was an easy way out.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="singleton">
+    <h2>Singleton</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            A Singleton is summarized like so:
+            <br><b>Ensure a class has one instance, and provide a global point of access to it.</b>
+            <br>We'll need to split that and consider each half seperatly.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Restricting a class to one instance.</b>
+            <br>There are times when a class cannot perform correctly if there is more than one
+            instance of it. The common case is when the class interacts with an external system
+            that maintains its own global state.
+            <br>Consider a class that wraps an underlying file system API. Because file operations
+            can take a while to complete, our class performs operations asynchronously. This
+            means multiple operations can be running concurrently, so they must be coordinated
+            with each other. If we start one call to create a file and another one to delete that
+            same file, our wrapper needs to be aware of both to make sure they don't interfere with
+            each other.
+            <br>To do this, a call into our wrapper needs to have access to every previous operation.
+            If users could freely create instance of our class, one instance would have no way
+            of knowing about operations that other instances started. Enter the singleton. It
+            provides a way for a class to ensure at compile time that there is only a single
+            instance of the class.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Providing a global point of access</b>
+            <br>Severla different systems in the game will use our file system wrapper: logging,
+            content loading, game state saving, etc. If those systems can't create their own
+            instance of our file system wrapper, how can they get ahold of one?
+            <br>Singleton provides a solution to this too. In addition to creating a single
+            instance, it also providesa globally available method to get it. This way, anyone
+            anywhere can get their paws on our blessed instance. All together, the classic
+            implementation looks like this:
+            <pre>
+            class FileSystem {<span class="glyphicon-remove"></span>
+                public static FileSystem&amp; instance() {
+                    //Lazy initialize
+                    if(instance_ == NULL) instance_ = new FileSystem();
+                    return *instance_;
+                }
+
+                private Filesystem() {}
+                private static Filesystem* instance_;
+            }
+            </pre>
+            The static instance_ member holds an instance of the class, and the private constructor
+            ensures that it is the only one. the public static instance() method grants access to the
+            instance from anywhere in the codebase. It is also responsible for instantiating the singleton
+            anywhere in the codebase. It is also responsible for instantiating the singleton lazily the first
+            time someone asks for it.
+            <br>A modern take looks like this:
+            <pre>
+            class FileSystem {<span class="glyphicon-remove"></span>
+                public static FileSystem&amp; instance() {
+                    static FileSystem *instance = new fileSystem();
+                    return *instance;
+                }
+
+                private FileSystem() {}
+            }
+            </pre>
+            C++ 11 mandates that the initializer for a local static variable is only run once,
+            even in the presence of concurrency. So, assuming you've got a modern C++ compiler,
+            this code is thread-safe where the first example is not.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="why">
+    <h2>Why We Use It</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            So this is good. Our file system wrapper is available wherever we need it without
+            the tedium of passing it around everywhere. The class itself cleverly ensures we
+            won't make a mess of things by instantiating a couple of instances. It's got other
+            nice features as well:
+            <br><b>It doesn't create the instance if no one uses it.</b> Saving memory and CPU
+            cycles is always good. Since the singleton is initialized only when it's first accessed,
+            it won't be instantiated at all if the game never asks for it.
+            <br><b>It's initialized at runtime.</b> A common alternative to Singleton is a class with
+            static member variables. I like simple solutions, so I use static classes instead of
+            singletons when possible, but there's one limitation static members have: automatic
+            initialization. The compiler initializes statics before main() is called. This means
+            they can't use information known only once the program is up and running(ex. configuration
+            loaded from a file). It also means they can't reliably depend on each other -  the compiler
+            does not gaurantee the order in which statics are initialized relative to each other.
+            <br>Lazy initalization solves both of those problems. The singleton will be initialized
+            as late as possible, so by that time any information it needs should be availble. As long
+            as they don't have circular dependencies, one singleton can even refer to another when
+            initializing itself.
+            <br><b>You can subclass the singleton.</b> This is a powerful but often overlooked
+            capability. Let's say we need our file system wrapper to be cross-platform. To make
+            this work, we want it to be an abstract interface for a file system with subclasses
+            that implement the interface for each platform. Here is the base class:
+            <pre>
+            class FileSystem{<span class="glyphicon-remove"></span>
+                public virtual ~FileSystem() {}
+                public virtual char* readFile(char* path) = 0;
+                public void writeFile(char* path, char* contents) = 0;
+            }
+            </pre>
+            Then we define derived classes for a couple of platforms:
+            <pre>
+            class PS3FileSystems : public FileSystem {<span class="glyphicon-remove"></span>
+                public virtual char* readFile(char* path) {
+                    // Use Sony file IO API...
+                }
+
+                public virtual void writeFile(char* path, char* contents) {
+                    // Use Sonly file IO API...
+                }
+            }
+
+            class WiiFileSystems : public FileSystem {
+                public virtual char* readFile(char* path) {
+                    // Use Nintendo file IO API...
+                }
+
+                public virtual void writeFile(char* path, char* contents) {
+                    // Use Nintendo file IO API...
+                }
+            }
+            </pre>
+            Next we turn FileSystem into a singleton:
+            <pre>
+            class FileSystem {<span class="glyphicon-remove"></span>
+                public static FileSystem&amp; instance();
+                public virtual ~FileSystem() {}
+                public virtual char* readFile(char* path) = 0;
+                public virtual void writeFile(char* path, char* contents) = 0;
+
+                protected FileSystem() {}
+            }
+            </pre>
+            Now the clever part is how the instance is created:
+            <pre>
+            FileSystem&amp; FileSystem::instance() {<span class="glyphicon-remove"></span>
+                #if PLATFORM == PLAYSTATION3
+                    static FileSystem *instance = new PS3FileSystem();
+                #elif PLATFORM == WII
+                    static FileSystem *instance = new WiiFileSystem();
+                #endif
+
+                return *instance;
+            }
+            </pre>
+            With a simple compiler switch, we bind our file system wrapper to the appropriate concrete type. Our entire codebase can access the file system using FileSystem::instance() without being coupled to any platform specific code. That coupling is instead encapsulated within the implementation file for the FileSystem class itself.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This takes us about as far as most of us go when it comes to solving a problem like this. We've got a file system wrapper. It work reliably. It's avaiable globally so every place that needs it can go get it. It's time to check in the code and celebrate with beers.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="why-not">
+    <h2>Why We Regret Using It</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In the short term, the Singleton pattern is relatively benign. Like many design choices, we pay the cost in the long term. Once we've cast a few unnecesary singletons into cold hard code, here's the trouble we've bought ourselves:
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>It's a global variable</b>
+            <br>When games were still written by a couple guys in a garage, pushing the hardware was more important than ivoer-tower software engineering principles. Old-school C and assembly coders used globals and statics without any trouble and shipped good games. As games got bigger and more complex, architecture and maintainability started to become the bottleneck. We struggled to ship games not because of hardware limitations, but because of productivity limitations.
+            <br>So we moved to languages like C++ and started applying some of the hard-earned wisdom of ourforebears. One lesson we learned is that global variables are bad for a variety of reasons:
+            <br><b>They make it harder to reason about code.</b> Say we're tracking down a bug in a function someone else wrote. If that function doesn't touch any global state, we can wrap our heads around it by understanding the body of the function and the arguments being passed to it.
+            <br>Now, imaginge right in the middle of that function is a call to SomeClass::getSomeGlobalData(). To figure out what's going on, we have to hunt through the entire codebase to see what touches that global data. You don't really hate global state until you've had to grep a million lines of code at three in the morning trying to find the one errant call that's setting a static variable to the wrong value.
+            <br><b>They encourage coupling.</b> The new coder on your team isn't familiar with your game's beautifully maintainble loosely coupled architecture, but he's just been given his first task: make boulders play sounds when they crash onto the ground. You and I know we don't want the physics code to be coupled to audio of all things, but he's just trying to get the task done. Unfortunately for us, the instance of our AudioPlayer is globally visible. So, one little #include later, and our new guy has comprimised a carefully constructed architecture.
+            <br>Wihtout a global instance of the audio player, even if he did #include the header, he still wouldn't be able to do anything with it. That difficulty sends a clear message to him that those two modules should not know about each other and that he needs to find another way to solve his problem. By controlling access to instances, you control coupling.
+            <br><b>They aren't concurrency-friendly.</b> The days of games running on a simple-core CPU are pretty much over. Code today must at the very least work in a multi-threaded way even if it doesn't take full advantage of concurrency. when we make something global, we've created a chunk of memory that every thread can see and poke at, whether or not they know what other threads are doing to it. that path leads to deadlocks, race conditions, and other hell-to-fix thread-synchronization bugs.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Issues like these are enough to scare us away from declaring a global variable, and thus the Singleton pattern too, but that still doesn't tell us how we should design the game. How do you architect a game without global state?
+            <br>There are some extensive answers to that question (most of this book in many ways is an answer to that), but they aren't apparent or easy to come by. In the meantime, we have to get games out the door. The Singleton pattern looks like a panacea. It's in a book on object-oriented design patterns, so it must be architectually sound, right? Ad it lets us design software the way we have been doing for years.
+            <br>Unfortunately, it's more placebo than cure. If you scan the list of problems that globals cause, you'll notice that the Singleton pattern doesn't solve any of them. That's because a singleton is global state - it's just encapsulated in a class.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>It solves two problems even when you just have one</b>
+            <br>The word "and" in the description of singleton is a bit strange. Is this pattern a solution to one problem or two? What if we have only one of those? Ensuring a single instance is useful, but who says we want to let everyone poke at it? Likewise, global access is convenient, but that's true even for a class that allows multiple instances.
+            <br>The latter of those two problems, convenient access, is almost always why we turn to the Singleton pattern. Consider a logging class. Most modules in the game can benefit from being able to log diagnostic information. However, passing an instance of our Log class to every single function clutters the method signature and distracts from the intent of the code.
+            <br>The obvious fix is to make our Log class a singleton. Every function can then go straight to the class itself to get an instance. But when we do that, we inadvertently aquire a strange little restriction. All of the sudden, we can no longer create more than one logger.
+            <br>At first, this isn't a problem. We're writing only a single log file, so we only need one instance anyway. Then deep in the development cycle, we run into trouble. Everyone on the team has been using the logger for their own diagnostics, and the log file has become a massive dumping ground. Programmers have to wade through pages of text just to find the one entry they care about.
+            <br>We'd like to fix this by partitioning the log into multiple files. To do this, we'll have separate loggers for different game domains: online, UI, audio, gameplay. But we can't. Not only does our Log class no longer allow us to create multiple instances, that design limitation is entrenched in every single call site that uses it:
+            <pre>
+            Log::instance().write("Some event");<span class="glyphicon-remove"></span>
+            </pre>
+            In order to make our Log class support multiple instantiation (like it originally did), we'll have to fix both the class itself and every line of code that mentions it. Our convenient access isn't so convenient anymore.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Lazy initialization takes control away from you</b>
+            <br>In the desktop PC world of virtual memory and software performance requirements, lazy initialization is a smart trick. Games are a different animal. Initializing a system can tak time: allocating memory, loading resources, etc. If initializing the audio system takes a few hundred milliseconds, we need to control when that's going to happen. If we let it lazy-initialize itself the first time a sound plays, that could be in the middle of an action packed part of a game, causing visibly dropped frames and stuttering gameplay.
+            <br>Likewise, games generally need to closely control how memory is laid out in the heap to avoid fragmentation. If our audio system allocates a chunk of heap when it initializes, we want to know when that initialization is going to happen, so that we can control where in the heap that memory will live.
+            <br>Because of these two problems, most games I've seen don't rely on lazy initialization. Instead, they implement the Singleton pattern like this:
+            <pre>
+            class FileSystem {<span class="glyphicon-remove"></span>
+                public static FileSystem&amp; instance() { return instance_; }
+
+                private FileSystem() {}
+                private static FileSystem instance_;
+            }
+            </pre>
+            That solves the lazy initialization problem, but at the expense of discarding several singleton features that do make it better than a raw global variable. With a static instance, we can no longer use polymorphism, and the class must be constructible at static initialization time. Nor can we free the memory that the instance is using when not needed.
+            <br>Instead of creating a singleton, what we really have here is a simple static class. That isn't necessarily a bad thing, but if a static class is all you need, why not get rid of the instance() method entirely and use static functions instead? Calling Foo::bar() is simpler than Foo::instance().bar(), and also makes it clear that you really are dealing with static memory.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="what-to-do">
+    <h2>What Can We Do Instead</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            If we've learned anything at this point, you'll think twice before you pull Singletons out of the toolbox. But you still have a problem that needs solving. What tool <i>should</i> you pull out? Depending on what you're trying to do, I have a few options to consider, but first...
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>See if you need the class at all</b>
+            <br>Many of the singleton classes I see in games are "managers" - those nebulous classes that exist just to babysit other objects. I've seen codebases where it seems like every class has a manager: Monster, MonsterManager, Particle, ParticleManager, Sound, SoundManager, ManagerManager. Sometimes, for variety, they'll throw a "System" or "Engine" in there, but it's still the same idea.
+            <br>While caretaker classes are sometimes useful, often they just reflect unfamiliarity with OOP. Consider these two contrived classes:
+            <pre>
+            class Bullet {<span class="glyphicon-remove"></span>
+                public int getX() const { return x_; }
+                public int getY() const { return y_; }
+                public void setX(int x) { x_ = x; }
+                public void setY(int y) { y_ = y; }
+
+                private int x_, y_;
+            }
+
+            class BulletManager {
+                public Bullet* create(int x, int y) {
+                    Bullet* bullet = new Bullet();
+                    bullet->setX(x);
+                    bullet->setY(y);
+
+                    return bullet;
+                }
+
+                bool isOnScreen(Bullet&amp; bullet) {
+                    return bullet.getX() >= 0 &amp;&amp;
+                            bullet.getX() < SCREEN_WIDTH &amp;&amp;
+                            bullet.getY() >= 0 &amp;&amp;
+                            bullet.getY() < SCREEN_HEIGHT;
+                }
+
+                void move(Bullet&amp; bullet) {
+                    bullet.setX(bullet.getX() + 5);
+                }
+            }
+            </pre>
+            Maybe this example is dumb, but i've seen plenty of code that reveals a design just like this after you scrape away the details. If you look at this code, it's natural to think BulletManager should be a singleton. After all, anything that has a Bullet will need the manager too, and how many instances of BulletManager do you need?
+            <br>The answer here is <i>zero</i>, actually. Here's how we solve the "singleton" problem for our manager class:
+            <pre>
+            class Bullet {<span class="glyphicon-remove"></span>
+                public Bullet(int x, int y) : x_(x), y_(y) {}
+
+                public bool isOnScreen() {
+                    return x_ >= 0 &amp;&amp; x_ < SCREEN_WIDTH &amp;&amp;
+                          y_ >= 0 &amp;&amp; y_ < SCREEN_HEIGHT;
+                }
+
+                public void move() { x_ += 5; }
+
+                private int x_, y_;
+            }
+            </pre>
+            There we go. No manager, no problem. Poorly designed singletons are often "helpers" that add functionality to another class. If you can, just move all of that behavior into the class it helps. After all, OOP is about letting objects take care of themselves.
+            <br>Outside of managers, though, there are other problems, there are some alternative solutions to consider.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>To limit a class to a single instance</b>
+            <br>This is one half of what the Singleton pattern gives you. As in our file system example, it can be critical to ensure there's only a single instance of a class. However, that doesn't necessarily mean we also want to provice public, global access to that instance. We may want to restrict access to certain areas of the code or even make it private to a single class. In those cases, providing a public global access point weakens the architecture.
+            <br>We want a way to ensure single instantiation without providing global access. There are a couple of ways to accomplish this. Here's one:
+            <pre>
+            class FileSystem {<span class="glyphicon-remove"></span>
+                public FileSystem() {
+                    assert(!instantiated_);
+                    instantiated_ = true;
+                }
+
+                public ~FileSystem() { instantiated_ = false; }
+
+                private static bool instantiated_;
+            }
+
+            bool FileSystem::instantiated_ = false;
+            </pre>
+            This class allows anyone to construct it, but will assert and fail if you try to construct more than one instance. As long as the right code creates the instance first, then we've ensured no other code can either get at that instance or create their own. The class ensures the single instantiation requirement it cares about, but it doesn't dictate how the class should be used.
+            <br>The downside with this implementation is that the check to prevent multiple instantiation is only done at runtime. The Singleton pattern, in contrast, gaurantees a single instance at compile time by the very nature of the class's structure.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>To provide convenient access to an instance</b>
+            <br>Convenient access is the main reason we reach for singletons. They make it easy to get our hands on an object we need to use in a lot of different places. That ease comes at a cost, though - it becomes equally easy to get our hands on the object in places where we don't want it being used.
+            <br>The general rule is that we want variables to be as narrowly scoped as possible whilst getting the job done. The smaller the scope an object has, the fewer places we need to keepin our head while we're working with it. Before we take the shotgun approach of a singleton object with global scope, let's consider other ways our codebase can get access to an object:
+            <br><b>Pass it in.</b>The simplest solution, and often the best, is to simply pass the object you need as an argument to the functions that need it. It's worth considering before we discard it as too cumbersome.
+            <br>Consider a function for rendering objects. In order to render, it needs access to an object that represents the graphics device and maintains the render state. It's very common to simply pass that in to all of the rendering functions, usually as a parameter named something like context.
+            <br>On the other hand, some objects don't belong in the signature of a method. For example, a function that handles AI may need to also write to a log file, but logging isn't its core concern. It would be strange to see Log show up in its argument list, so for cases like that we'll want to consider other options.
+            <br><b>Get it from the base class.</b> Many game architectures have shallow but wide inheritance hierarchies, often only one level deep. For example, you may have
+            a base GameObject class with derived classes for each enemy or object in the game. With architectures like this, a large portion of the game code will live in these "leaf" derived classes. This means that all these classes already have access to the same thing: their GameObject base class. We can use that to our advantage:
+            <pre>
+            class GameObject {<span class="glyphicon-remove"></span>
+                protected Log&amp; getLog() { return log_; }
+
+                private static Log&amp; log_;
+            }
+
+            class Enemy : public GameObject {
+                void doSomething() {
+                    getLog().write("I can log!");
+                }
+            }
+            </pre>
+            <p>This ensures nothing outside of GameObject has access to its Log object, but every derived entity does using getLog(). This pattern of letting derived objects implement themselves in terms of protected methods provided to them is covered in the <a href="design-patterns-subclass-sandbox.html">Subclass Sandbox</a> chapter.</p>
+            <p><b>Get it from something already global.</b> The goal of removing all global state is admirable, but rarely practical. Most codebases will still have a couple of globally available objects, such a single Game or World object representing the entire game state.</p>
+            <p>We can reduce the number of global classes by piggybacking on existing ones like that. Instead of making singletons out of Log, FileSystems, and AudioPlayer, do this:</p>
+            <pre>
+            class Game {<span class="glyphicon-remove"></span>
+                public static Game&amp; instance() { return instance_; }
+
+                 //Functions to set log_, et. al. ...
+
+                 Log&amp;         getLog()         { return *log_; }
+                 FileSystem&amp;  getFileSystem()  { return *fileSystem_; }
+                 AudioPlayer&amp; getAudioPlayer() { return *audioPlayer_; }
+
+                 private static Game instance_;
+
+                 Log         *log_;
+                 FileSystem  *fileSystem;
+                 AudioPlayer *audioPlayer_;
+            }
+            </pre>
+            <p>With this, only Game is globally available. Functions can get to the other systems through it:</p>
+            <pre>
+                <span class="glyphicon-remove"></span>Game::instance().getAudioPlayer().play(VERY_LOUD_BANG);
+            </pre>
+            <p>If, later, the architecture is changed to support multiple Game instances (perhaps for streaming or testing purposes), Log, FileSystem, and AudioPlayer are all unaffected - they won't even know the difference. The downside with this, of course, is that more code ends up getting coupled to Game itself. If a class just needs to play sound, our example still requires it to know about the world in order to get to the audio player.
+            <br>We solve this with a hybrid solution. Code that already knows about Game can simply access AudioPlayer directly from it. For code that doesn't, we provide access to AudioPlayer using one of the other options described here.
+            <br><b>Get it from a Service Locator.</b> So far, we're assuming the global class is some regular concrete class like Game. Another option is to define a class whose sole reason for being is to give global access to objects. This common pattern is called a <a href="design-patterns-service-locator.html">Service Locator</a>.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="whats-left">
+    <h2>What's Left for Singleton</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The question remains, where <i>should</i> we use the real Singleton pattern? Honestly, i've never used the full implementation in a game. To ensure single instantiation, I usually just use a static class. I that doesn't work, I'll use a static flag checkat runtime that only one instance of the class is constructed.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There are a couple of other chapters in this book that can also help here. The <a href="design-patterns-subclass-sandbox.html">Subclass Sandbox</a> pattern gives instances of a class access to some shared state without making it globally available. The <a href="design-patterns-service-locator">Service Locator</a> pattern <i>does</i> make an object globally available, but it gives you more flexibility with how that object is configured.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->

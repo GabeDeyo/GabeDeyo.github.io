@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -51,16 +51,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -78,26 +78,30 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 class="text-center" style="text-decoration: underline;" id="title">Design Patterns - Prototype</h1>
+                    <h1 id="title">Design Patterns - Prototype</h1>
 
                     <aside>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default pull-right" name="button" id="clearAll">Clear All</button>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
                     </aside>
 
-                    <div class="jumbotron col-md-12 heliList">
+                    <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#prototype">Prototype</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#prototype-implementation">Prototype Implementation</a>
                                 </p>
                             </li>
-                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                            <li><p><span class="glyphicon-remove"></span>
                                 <a href="#prototype-paradigm">The Prototype Language Paradigm</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#data-modeling">Prototypes for Data Modeling</a>
                                 </p>
                             </li>
                         </ul>
@@ -106,12 +110,12 @@
 <div class="jumbotron col-md-12 heliList" id="prototype">
     <h2>Prototype</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            Imageine our game has enemies swarming the hero, entering by way of "spawners", with a
+        <li><p><span class="glyphicon-remove"></span>
+            Imagine our game has enemies swarming the hero, entering by way of "spawners", with a
             different spawner for each type of enemy.
             <br>For this example, lets say we have classes for each type of enemy in the game:
             <pre>
-            class Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Monster {<span class="glyphicon-remove"></span>
                 //Monster stuff
             }
 
@@ -120,14 +124,14 @@
             class Sorcerer : public Monster {};
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             A spawner constructs instances of one particular monster type. To support every monster
             in the game, we could brute-force it by having a spawner class for each moster class,
             leading to a parallel class hierarchy:
             <br>Ghost/Demon/Sorcerer ->(inherit from) Monster ... GhostSpawner/DemonSpawner/SorcererSpawner -> Spawner
             <br>Implementing would look like this:
             <pre>
-            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Spawner {<span class="glyphicon-remove"></span>
                 public virtual ~Spawner() {}
                 public virtual Monster* spawnMonster() = 0;
             }
@@ -143,7 +147,7 @@
             //And so on.
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This will clearly result in many classes, lots of boilerplate, redundancy, lots of duplication...
             <br>The <b>Prototype</b> pattern offers a solution. They key idea is that an object can spawn
             other objects similar to itself. If you have one ghost, you can make more ghosts from it.
@@ -151,28 +155,28 @@
             prototypal monster used to generate other versions of itself.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="prototype-implementation">
     <h2>Prototype Implementation</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             To implement this pattern, we're going to give our base class, Monster, an abstract
             clone() method:
             <pre>
-            class Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Monster {<span class="glyphicon-remove"></span>
                 public virtual ~Monster() {}
                 public virtual Monster* clone() = 0;
                 //Other Stuff
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Each monster subclass provides an implementation that returns a new object identical
             in class and state to it. For example:
             <pre>
-            class Ghost : public Monster {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Ghost : public Monster {<span class="glyphicon-remove"></span>
                 public Ghost(int health, int speed) : health_(health), speed_(speed) {}
 
                 public virtual Monster* clone() {
@@ -184,40 +188,40 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Once all our monsters support that, we no longer need a spawner class for each
             monster class. Instead we define a single one:
             <pre>
-            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Spawner {<span class="glyphicon-remove"></span>
                 public Spawner(Monster* prototype) : prototype_(prototype) {}
                 public Monster* spawnMonster() { return prototype_clone(); }
                 private Monster* prototype_;
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This internally holds a monster, a hidden one whose sole purpose is to be used
             by the spawner as a template to stamp out more monsters like it, sort of like
             a queen bee who never leaves the hive. <br>
             [Spawner(Monster)<-"Prototype"] -> clone() -> Monster.. Monster.. Monster..
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             To create a ghost spawner, we create a prototypal ghost instance and then
             create a spawner holding that prototype:
             <pre>
-            Monster* ghostPrototype = new Ghost(15, 3);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Monster* ghostPrototype = new Ghost(15, 3);<span class="glyphicon-remove"></span>
             Spawner* ghostSpawner = new Spawner(ghostPrototype);
             </pre>
             <br>One great part about this pattern is that it doesn't just clone the class
             of the prototype, it clones its state too. This means we could make a spawner for
             fast ghost, weak ghosts, or slow ghosts just by creating an appropriate prototype ghost.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>How Well Does It Work?</b><br>
             So we don't have to create a separate spawner class for each monster. However,
             we do have to implement clone() in each monster class. That's about as much code
             as the spawners.
-            <br>There are also some nasty semantic rathoes when you write a correct clone().
+            <br>There are also some nasty semantic ratholes when you write a correct clone().
             Does it do a deep clone or shallow?
             <br>Also, not only does this not look like it's saving us much code in this
             contrived problem, there's the fact that it's a contrived problem. We had to take
@@ -227,21 +231,21 @@
             which is why we instead use patterns like <b>Componenet</b> and <b>Type Object</b>
             to model different kinds of entities without enshrining each in its own class.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Spawn Functions</b><br>
             Even if we do have different classes for each monster, there are other ways to strip it down.
             Instead of making separate spawner classes for each monster, we could make spawn functions, like so:
             <pre>
-            Monster* spawnGhost() {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Monster* spawnGhost() {<span class="glyphicon-remove"></span>
                 return new Ghost();
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             This is less boilerplate than rolling a whole class for constructing a monster
             of some type. Then the one spawner class can simply store a function pointer:
             <pre>
-            typedef Monster* (*SpawnCallback)();<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            typedef Monster* (*SpawnCallback)();<span class="glyphicon-remove"></span>
             class Spawner {
                 public Spawner(SpawnCallback spawn) : spawn_(spawn) {}
                 public Monster* spawnMonster() { return spawn_() }
@@ -249,34 +253,33 @@
             }
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Finally, to create a spawner for ghosts, you do:
             <pre>
-            Spawner* ghostSpawner = new Spawner(spawnGhost);<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Spawner* ghostSpawner = new Spawner(spawnGhost);<span class="glyphicon-remove"></span>
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>Templates</b><br>
             Our spawner class needs to construct instances of some type, but we don't want to hard
             code some specific monster class. The natural solution then is to make it a <i>type
             parameter</i>, which <b>templates</b> let us do:
             <pre>
-            class Spawner {<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            class Spawner {<span class="glyphicon-remove"></span>
                 public virtual ~Spawner(){}
                 public virtual Monster* spawnMonster() = 0;
             }
 
             template &lt;class T&gt;
-
             class SpawnerFor : public Spawner {
                 public virtual Monster* spawnMonster() { return new T(); }
             }
 
-            //Useing it looks like:
+            //Using it looks like:
             Spawner* ghostSpawner = new SpawnerFor&lt;Ghost&gt;();
             </pre>
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Templates are a popular tool in languages nowadays. The Spawner class here is so that
             code that doesn't care what kind of monster a spawner creates can just use it and
             work with pointers to Monster.
@@ -284,7 +287,7 @@
             the instantiations of that template all shared, so any code that worked with spawners of
             any monster type would itself need to take a template parameter.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             <b>First-Class Types</b><br>
             The previous two solutions address the need to have a class, Spawner, which is
             parameterized by a type. In C++, types aren't generally first-class, so that requires
@@ -301,30 +304,201 @@
             language paradigm.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="prototype-paradigm">
     <h2>The Prototype Language Paradigm</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             Many people take "OOP" as synonymous with "classes". Definitions of OOP tend to feel
             like credos of opposing religious denominations, but a fairly non-contentious take
             on it is that OOP <i>let you define</i> "objects" which bundle data and code together.
             Compared to structured languages like C and functional languages like Scheme, the
             defining characteristic of OOP is that it tightly binds state and behavior together.
             <br>You may think classes are the one and only way to do that, but a handful of
-            programmers beg to differe. Some of those guys create a language called <i>Self</i>
+            programmers beg to differ. Some of those guys created a language called <i>Self</i>
             and while as OOP as can be, it has no classes.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+        <li><p><span class="glyphicon-remove"></span>
+            In a pure sense, Self is even more object-oriented than a class-based language. We
+            think of OOP as marrying state and behavior, but languages with classes actually
+            have a line of seperation between them.
+            <br>Consider the semantics of your favorite class-based language. To access some state
+            on an object, you look in the memory of the instance itself. State is contained in
+            the instance.
+            <br>To invoke a method, though youlook up the instance's class, and then you look
+            up the method there. Behavior is contained in the class. There's always that level
+            of indirection to get to a method, which means fields and methods are different.
+            <br>Ex. To invoke a virtual method in C++, you look in the instance for the pointer
+            to its vtable, then look up the method.
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+        <li><p><span class="glyphicon-remove"></span>
+            Self eliminates that distinction. To look up anything, you just look on the object.
+            An instance can contain both state and behavior. You can have a single object
+            that has a method completely unique to it.
+            <br>If that was all Self did, it would be hard to use. Inheritance in class-based
+            languages, despite its faults, give you a useful mechanism for reusing polymorphic
+            code and avoiding duplication. to accomplish something similar without class,
+            Self has delegation.
+            <br>To find a field or call a method on some object, we first look in the object
+            itself. If it has it, we're done. If it doesn't, we look at the object's parent.
+            This is just a reference to some other object. When we fail to find a property
+            on the first object, we try its parent, and its parent, and so on. In other words,
+            failed lookups are delegated to an object's parent.
+            <br>Self actually supports multiple parents. Parents are just specially marked
+            fields, which means you can do things like inherit parents or change them at
+            runtime, leading to what's called dynamic inheritance.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Parent objects let us reuse behavior(and state) across multiple objects, so we've
+            covered part of the utility of classes. The other key thing classes do is give us a
+            way to create instances. When you need a new thingy, you can just do new Thingy().
+            A class is a factory for instances of itself.
+            <br>Whitout classes, how do we make new things? In particular, how do we make a
+            bunch of new things that all have stuff in common? Just like the design pattern,
+            the way you do this in Self is by cloning.
+            <br>In self, it's as if every object supports the Prototype design pattern automatically.
+            Any object can be cloned. To make a bunch of similar object, you:
+            <br>&nbsp; 1. Beat one object into the shape you want. You can just clone the base
+            Object built into the system and then stuff fields and methods into it.
+            <br>&nbsp; 2. Clone it to make as many clones as you want.
+            <br>This gives us the elegance of the Prototype design pattern without the tedium
+            of having to implement clone() ourselves; it's built into the system.
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="data-modeling">
+    <h2>Prototypes for Data Modeling</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Lets look at an area where prototypes, specifically delegation, can be useful.
+            <br>If you were to count all the bytes in a games that are code compared to
+            the ones that are data, ou'd see the fraction of data has been increasing steadily
+            since the dawn of programming. Early games procedurally generated almost everything
+            so they could fit on floppies and old game storages. In many games today, the code is just
+            an "engine" that drives the game, which is defined entirely in data.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            That's fine, but pushing piles of content into data files doesn't magically solve
+            the oragnizational challenges of a large project. If anything it makes it harder.
+            The reason we use programming languages is because they have tools for managing complexity.
+            <br>Instead of copying and pasting a chunk of code in ten places, we move it into
+            a function that we can call by name. Instead of copying a method in a bunch of classes,
+            we can put it in a seperate class that those classes inherit from or mix in.
+            <br>When the game's data reaches a certain size, you really start wanting similar
+            features. Data modeling is a deep subject that I can't hope to do justice here,
+            but I do want to throw out one feature for you to consider in your own games:
+            using prototypes and delegation for reusing data.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's say we're defining the data model for the sameless Gauntlet rip-off I mentioned
+            earlier. The game designers need to specify the attributes for monsters and items in some
+            kind of files.
+            <br>One common approach is to use JSON. Data entities are basically <i>maps</i>, or
+            <i>property bags</i>. So a goblin the game might be defined something like this:
+            <pre>
+            {<span class="glyphicon-remove"></span>
+                "name": "goblin grunt",
+                "minHealth": 20,
+                "maxHealth": 30,
+                "resists": ["cold", "poison"],
+                "weaknesses": ["fire", "light"]
+            }
+            </pre>
+            This is pretty straightforward and eve the most text-adverse designer can handle it.
+            So you throw in a couple of sibling branches on the Great Goblin Family Tree:
+            <pre>
+            {<span class="glyphicon-remove"></span>
+                "name": "goblin wizard",
+                "minHealth": 20,
+                "maxHealth": 30,
+                "resists": ["cold", "poison"],
+                "weaknesses": ["fire", "light"],
+                "spells": ["fire ball", "lighting bolt"]
+            }
+            {
+                "name": "goblin archer",
+                "minHealth": 20,
+                "maxHealth": 30,
+                "resists": ["cold", "poison"],
+                "weaknesses": ["fire", "light"],
+                "attacks": ["short bow"]
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now, if this was code, our aesthetic sense would be tingling. There's a lot of
+            duplication between these entities, and a well-trainined programmer hates that. It
+            wastes space and takes more time to author. You have to read carefully to tell if the
+            data is even the same. It's a maintenance headache. If we decide to make all of the
+            goblins in the game stronger, we need to remember to update the health of all three of
+            them. BAD.
+            <br>If this was code, we'd create an abstraction for a "goblin" and reuse that across
+            the three goblin types. But JSON doesn't know anything about that. So let's make it
+            a bit smarter.
+            <br>We'll declare that if an object has a "prototype" field, then that defines the
+            name of another object that this one delegates to. Any properties that don't exist
+            on the first object fall back to being looked up on the prototype.
+            <br>This makes the "prototype" a piece of metadata instead of data. Goblins have
+            warty green skin and yellow teeth. They don't have prototypes. Prototypes are a
+            property of the data object representing the goblin, not the goblin itself.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            With that, we can simplify the JSON for our goblin horde:
+            <pre>
+            {<span class="glyphicon-remove"></span>
+                "name": "goblin grunt",
+                "minHealth": 20,
+                "maxHealth": 30,
+                "resists": ["cold", "poison"],
+                "weaknesses": ["fire", "light"]
+            }
+            {
+                "name": "goblin wizard",
+                "prototype": "goblin grunt",
+                "spells": ["fire ball", "lighting bolt"]
+            }
+            {
+                "name": "goblin archer",
+                "prototype": "goblin grunt",
+                "attacks": ["short bow"]
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Since the archer and wizard have the grunt as their prototype, we don't have to
+            repeat the health, resists, and weaknesses in each of them. The logic we've
+            added to our data model is super simple - basic single delegation - but we've
+            already gotten rid of a bunch of duplication.
+            <br>One interesting thing to note here is that we didn't set up a fourth "base goblin"
+            <i>abstract</i> prototype for the three concrete goblin types to delegate to.
+            Instead, we just picked one of the goblins who was the simplest and delegated to it.
+            <br>That feels natural in a prototype-based system where any object can be used as
+            a clone to create new refined objects, and I think it's equally natural here too.
+            It's a particularly good fit for data in games where you often have one-off
+            special entities in the game world.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Think about bosses and unique items. These are often refinements of a more
+            commmon object in the game, an prototypal delegation is a good fit for defining those.
+            The magic Sword of Head-Detaching, which is really just a longswod with bonuses,
+            can be expressed directly as:
+            <pre>
+            {<span class="glyphicon-remove"></span>
+                "name": Sword of Head-Detaching",
+                "prototype": "longsword",
+                "damageBonus": "20"
+            }
+            </pre>
+            A little extra power in your game engine's data modeling system can make it easier
+            for designers to add lost of little variations to the armaments and beasties populating
+            your game world, and that richness is exactly what delights players.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
                     <!-------------------------------------->
@@ -366,17 +540,17 @@
 <div class="jumbotron col-md-12 heliList" id="">
     <h2>XXX</h2>
     <ul>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
-        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+        <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
     </ul>
-    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 -->

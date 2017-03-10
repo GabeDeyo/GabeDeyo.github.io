@@ -3,6 +3,11 @@ body{
     background-color: #333;
 }
 
+h1{
+    color: #aaa;
+    text-align: center;
+}
+
 /* Navbar */
 .navbar-inverse {
     border: none;
@@ -105,6 +110,11 @@ footer ul li a:active, a:focus, a:visited{
     -moz-transition: color 0.3s ease;
     -o-transition: color 0.3s ease;
     -ms-transition: color 0.3s ease;
+    display: none;
+    float: right;
+}
+.heliList .glyphicon-menu-up{
+    float: right;
 }
 .heliList .glyphicon-remove:hover{
     color: #444;
@@ -126,4 +136,9 @@ footer ul li a:active, a:focus, a:visited{
 }
 .heliList li:last-child {
     border: none;
+}
+
+.btn{
+    float: right;
+    margin: 10px 5px;
 }
