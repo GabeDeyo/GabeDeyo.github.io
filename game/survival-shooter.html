@@ -104,6 +104,34 @@
                                 <a href="#enemy-1">Enemy 1</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#health-hud">Health HUD</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#player-health">Player Health</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#harming-enemies">Harming Enemies</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#scoring-points">Scoring Points</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#spawning-enemies">Spawning Enemies</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#game-over">Game Over</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon glyphicon-remove pull-right" style="display: none;"></span>
+                                <a href="#next-steps">Next Steps</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -277,13 +305,707 @@
     <h2>Enemy 1</h2>
     <ul>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            Drag the Zombunny model in the scene.
+            <br>Change layer to Shootable. Yes yes to changing the children.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            Drag and drop the HitParticles prefab onto the parent Zombunny.
         </p></li>
         <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
-            XXX
+            Add a Rigidbody to the Zombunny. Make Drag &amp; Angular Drag to Infinity.
+            <br>Constrain position on y-axis
+            <br>Constrain rotation on x/z-axis.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Capsule Collider.
+            <br>Make center (0, 0.8, 0), make height 1.5
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Sphere Collider as a TRIGGER collider.
+            <br>Make center to (0, 0.8, 0) and radius to 0.8
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add the "ZomBunny Hurt" audio source.
+            <br>Don't play on awake.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Open up the Navigation window with the bunny selected.
+            <br>Add a Nav Mesh Agent to the Zombunny.
+            <br>Set radius to 0.3
+            <br>Speed to 3
+            <br>Stopping distance to 1.3
+            <br>Height to 1.1.
+            <br>Go to Bake Tab, give height 1.2
+            <br>Step Height to 0.1
+            <br>Set Width Inaccuracy % to 1.
+            <br>Select Bake.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create a new Animator Controller called "EnemyAC" in the Animations folder.
+            <br>Put onto the Animator on the Zombunny.
+            <br>Drag and Drop the Zombunny animations into the Animator window.
+            <br>Set Move to default animation.
+            <br>Make a Trigger parameter called PlayerDead.
+            <br>Make a Trigger parameter called Dead.
+            <br>Make a transition from Move -> Idle.
+            <br>Set that transitions condition to PlayerDead.
+            <br>Make a transition from Any State -> Death.
+            <br>Set condition for that to Dead.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new EnemyMovement script on the Zombunny.
+            <pre>
+            //EnemyMovement<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            private Transform player;
+            private NavMeshAgent nav;
+
+            void Awake() {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+                nav = GetComponent<NavMeshAgent>();
+            }
+
+            void Update() {
+                nav.SetDestination(player.position);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="health-hud">
+    <h2>Health HUD</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Enable 2D Mode, and create a new Canvas as "HUDCanvas".
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Frame select (f) on HUDCanvas.
+            <br>Add a Canvas Group object to the Canvas.
+            <br>Turn of Interactable and Blocks Raycasts options.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty as "HealthUI" as a child of HUDCanvas.
+            <br>Set position, pivot and anchor to bottom left.
+            <br>Set width to 75, and height to 60.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add an Image to HealthUI as "Heart".
+            <br>Set width/height to 30/30.
+            <br>Select the appropriate image.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Slider to the HealthUI as "HealthSlider";
+            <br>Set position to (95,0,0)
+            <br>Keep interactable on.
+            <br>Set Transition to None.
+            <br>Set Max Value to 100, and value to 100.
+            <br>Delete the Handle Slide Area child of the HealthSlider.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add another UI Image to HealthUI as DamageImage.
+            <br>Drag this up as a child of HUDCanvas.
+            <br>Alt click on the fill screen anchor.
+            <br>Set alpha to 0.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="player-health">
+    <h2>Player Health</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new "PlayerHealth" scripts on the Player.
+            <pre>
+            //PlayerHealth<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public int startingHealth = 100;
+            public int currentHealth;
+            public Slider healthSlider;
+            public Image damageImage;
+            public AudioClip deathClip;
+            public float flashSpeed = 5f;
+            public Color flashColor = new Color(1f, 0f, 0f, 0.1f);
+
+            private Animator anim;
+            private AudioSource playerAudio;
+            PlayerMovement playerMovement;
+            bool isDead;
+            bool damaged;
+
+            void Awake() {
+                anim = GetComponenet<Animator>();
+                playerAudio = GetComponenet<AudioSource>();
+                playerMovement = GetComponent<PlayerMovement>();
+                currentHealth = startingHealth;
+            }
+
+            void Update() {
+                if(damaged) {
+                    damageImage.color = flashColor;
+                } else {
+                    damageImage.color = Color.Lerp(damageImage.color, Color.clear, flashSpeed * Time.deltaTime);
+                }
+                damaged = false;
+            }
+
+            public void TakeDamage(int amount) {
+                damaged = true;
+
+                currentHealth -= amount;
+
+                heatlthSlider.value = currentHealth;
+
+                playerAudio.Play();
+
+                if(currentHealth <= 0 &amp;&amp; !isDead) {
+                    Death();
+                }
+            }
+
+            void Death() {
+                isDead = true;
+
+                anim.SetTrigger("Die");
+
+                playerAudio.clip = deathClip;
+                playerAudio.Play();
+
+                playerMovement.enabled = false;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Fill in appropriate values.
+            <br>Starting Health to 100.
+            <br>Current Health leave at 0.
+            <br>Flash speed to 5.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new "EnemyAttack" script and add to Zombunny.
+            <pre>
+            //EnemyAttack<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public float timeBetweenAttacks = 0.5f;
+            public int attackDamage = 10;
+
+            private Animator anim;
+            private GameObject player;
+            private PlayerHealth playerHealth;
+            bool playerInRange;
+            float timer;
+
+            void Awake() {
+                player = GameObject.FindGameObjectWithTag("Player");
+                playerHealth = player.GetComponent<PlayerHealth>();
+                anim = GetComponent<Animator>();
+            }
+
+            void OnTriggerEnter(Collider other) {
+                if(other.gameObject == player) {
+                    playerInRange = true;
+                }
+            }
+
+            void OnTriggerExit(Collider other) {
+                if(other.gameObject == player) {
+                    playerInRange = false;
+                }
+            }
+
+            void Update() {
+                timer += Time.deltaTime;
+
+                if(timer >= timeBetweenAttacks &amp;&amp; playerInRange) {
+                    Attack();
+                }
+
+                if(playerHealth.currentHealth <= 0) {
+                    anim.SetTrigger("PlayerDead");
+                }
+            }
+
+            void Attack() {
+                timer = 0f;
+
+                if(playerHealth.currentHealth > 0) {
+                    playerHealth.TakeDamage(attackDamage);
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="harming-enemies">
+    <h2>Harming Enemies</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an EnemyHealth script and attach to the Zombunny.
+            <pre>
+            //EnemyHealth<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public int startingHealth = 100;
+            public int currentHealth;
+            public float sinkSpeed = 2.5f;
+            public int scoreValue = 10;
+            public AudioClip deathClip;
+
+            private Animator anim;
+            private AudioSource enemyAudio;
+            private ParticlesSystem hitParticles;
+            private CapsuleCollider capsuleCollider;
+            private bool isDead;
+            private bool isSinking;
+
+            void Awake() {
+                anim = GetComponent<Animator>();
+                enemyAudio = GetComponent<AudioSource>();
+                hitParticles = GetComponentInChildren<ParticleSystem>();
+                capsuleCollider = GetComponent<CapsuleCollider>();
+
+                currentHealth = startingHealth;
+            }
+
+            void Update() {
+                if(isSinking) {
+                    transform.Translate(-Vector3.up * sinkSpeed * Time.deltaTime);
+                }
+            }
+
+            public void TakeDamage(int amount, Vector3 hitPoint) {
+                if(isDead)
+                    return;
+
+                enemyAudio.Play();
+
+                currentHealth -= amount;
+
+                hitParticles.transform.position = hitPoint;
+                hitParticles.Play();
+
+                if(currentHealth <= 0) {
+                    Death();
+                }
+            }
+
+            void Death() {
+                isDead = true;
+
+                capsuleCollider.isTrigger = true;
+
+                anim.SetTrigger("Dead");
+
+                enemyAudio.clip = deathClip;
+                enemyAudio.Play();
+            }
+
+            public void StartSinking() {
+                //Just turning off this Component!, not the gameObject which uses gameObject.SetActive(false);
+                GetComponent<NavMeshAgent>().enabled = false;
+                GetComponent<Rigidbody>().isKinematic = true;
+
+                isSinking = true;
+
+                Destory(gameObject, 2f);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Now we need to add things to EnemyAttack.
+            <pre>
+            //EnemyAttack<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public float timeBetweenAttacks = 0.5f;
+            public int attackDamage = 10;
+
+            private Animator anim;
+            private GameObject player;
+            private PlayerHealth playerHealth;
+            private EnemyHealth enemyHealth;
+            bool playerInRange;
+            float timer;
+
+            void Awake() {
+                player = GameObject.FindGameObjectWithTag("Player");
+                playerHealth = player.GetComponent<PlayerHealth>();
+                enemyHealth = player.GetComponent<EnemyHealth>();
+                anim = GetComponent<Animator>();
+            }
+
+            void OnTriggerEnter(Collider other) {
+                if(other.gameObject == player) {
+                    playerInRange = true;
+                }
+            }
+
+            void OnTriggerExit(Collider other) {
+                if(other.gameObject == player) {
+                    playerInRange = false;
+                }
+            }
+
+            void Update() {
+                timer += Time.deltaTime;
+
+                if(timer >= timeBetweenAttacks &amp;&amp; playerInRange &amp;&amp; enemyHealth.currentHealth > 0) {
+                    Attack();
+                }
+
+                if(playerHealth.currentHealth <= 0) {
+                    anim.SetTrigger("PlayerDead");
+                }
+            }
+
+            void Attack() {
+                timer = 0f;
+
+                if(playerHealth.currentHealth > 0) {
+                    playerHealth.TakeDamage(attackDamage);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Copy the ParticleSystem from GunParticles prefab and Paste Component to Player -> GunBarrelEnd.
+            <br>Add Line Renderer to the GunBarrelEnd.
+            <br>Add the LineRendererMaterial to the Line Renderers material.
+            <br>Set Start/End Width to 0.05.
+            <br>Disable this Line Renderer Component.
+            <br>Add Light to the GunBarrelEnd.
+            <br>Set Color to (241, 255, 0)
+            <br>Disable the Light Component.
+            <br>Add AudioSource to the GunBarrelEnd with PlayerGunshot source.
+            <br>Dont' play on awake.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a PlayerShooting script and add to GunBarrelEnd.
+            <pre>
+            //PlayerShooting<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public int damagePerShot = 20;
+            public float timeBetweenBullets = 0.15f;
+            public float range = 100f;
+
+            private float timer;
+            private Ray shootRay;
+            private RaycastHit shootHit;
+            private shootableMask;
+            private ParticleSystem gunParticles;
+            private LineRenderer gunParticles;
+            private AudioSource gunAudio;
+            private Light gunLight;
+            private float effectsDisplayTime = 0.2f;
+
+            void Awake(){
+                shootableMask = LayerMask.GetMask("Shootable");
+                gunParticles = GetComponent<ParticleSystem>();
+                gunLine = GetComponent<LineRenderer>();
+                gunAudio = GetComponent<AudioSource>();
+                gunLight = GetComponent<Light>();
+            }
+
+            void Update() {
+                timer += Time.deltaTime;
+
+                if(Inpute.GetButton("Fire1") &amp;&amp; timer >= timeBetweenBullets) {
+                    Shoot();
+                }
+
+                if(timer >= timeBetweenBullets * effectsDisplayTime) {
+                    DisableEffect();
+                }
+            }
+
+            public void DisableEffects() {
+                gunLine.enabled = false;
+                gunLight.enabled = false;
+            }
+
+            void Shoot() {
+                timer = 0f;
+
+                gunAudio.Play();
+
+                gunLight.enabled = true;
+
+                gunParticles.Stop();
+                gunParticles.Play();
+
+                gunLine.enabled = true;
+                gunLine.SetPosition(0, transofmr.position);
+
+                shootRay.origin = transform.position;
+                shootRay.direction = transform.forward;
+
+                if(Physics.Raycast(shootRay, out shootHit, range, shootableMask)) {
+                    EnemyHealth enemyHealth = shootHit.collider.GetComponent<EnemyHealth>();
+                    if(enemyHealth != null) {
+                        enemyHealth.TakeDamage(damagerPerShot, shootHit.point);
+                    }
+                    gunLine.SetPosition(1, shootHit.point);
+                } else {
+                    gunLine.SetPosition(1, shootRay.origin + shootRay.direction * range);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Apply these changes to the Player prefab.
+            <br>Go to EnemyMovement script.
+            <pre>
+            //EnemyMovement<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            private Transform player;
+            private PlayerHealth playerHealth;
+            private EnemyHealth enemyHealth;
+            private NavMeshAgent nav;
+
+            void Awake() {
+                player = GameObject.FindGameObjectWithTag("Player").transform;
+                playerHealth = player.GetComponent<PlayerHealth>();
+                enemyHealth = GetComponent<EnemyHealth>();
+                nav = GetComponent<NavMeshAgent>();
+            }
+
+            void Update() {
+                if(enemyHealth.currentHealth > 0 &amp;&amp; playerHealth.currentHealth > 0) {
+                    nav.SetDestination(player.position);
+                } else {
+                    nav.enabled = false;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In PlayerHealth, add this to the script.
+            <pre>
+            //PlayerHealth<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            private PlayerShooting playerShooting;
+
+            void Awake() { playerShooting = GetComponentInChildren<PlayerShooting>(); }
+
+            void Death() {
+                isDead = true;
+
+                playerShooting.DisableEffects();
+
+                anim.SetTrigger("Die");
+
+                playerAudio.clip = deathClip;
+                playerAudio.Play();
+
+                playerMovement.enabled = false;
+                playerShooting.enabled = false;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="scoring-points">
+    <h2>Scoring Points</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Go back to 2D mode. Make a Text object in the HUDCanvas as "ScoreText".
+            <br>Set anchor to top middle.
+            <br>Set position to (0, -55, 0).
+            <br>Set width/height to 300/50
+            <br>Set color to white.
+            <br>Change font to LuckiestGuy
+            <br>Set size to 50 and alignment to middles.
+            <br>Change to "Score: 0"
+            <br>Add Shadow to this text.
+            <br>Change effect distance to (2, -2)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add ScoreManager script to ScoreText.
+            <pre>
+            //ScoreManager<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public static int score;
+
+            private Text text;
+
+            void Awake(){
+                text = GetComponent<Text>();
+                score = 0;
+            }
+
+            void Update() {
+                text.text = "Score: " + score;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In EnemyHealth script. Add this under isSinking = true;
+            <pre>
+            ScoreManager.score += scoreValue;
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make the Zombunny a prefab and delete from scene.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="spawning-enemies">
+    <h2>Spawning Enemies</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Bring the EnemyAC onto the Zombear.
+            <br>Make sure it has the same components as the Zombunny.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            In the Animation folder, create a Animator Override Controller as HellephantAOC.
+            <br>In the HelliphantAOC, give the Controller the EnemyAC.
+            <br>Fill in the Animation Clips with the Hellephants animation clips.
+            <br>Bring this onto the Hellephant Animator Controller.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty "EnemyManager" object and reset.
+            Create an EnemyManager script on EnemyManager.
+            <pre>
+            //EnemyManager<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public PlayerHealth playerHealth;
+            public GameObject enemy;
+            public float spawnTime = 3f;
+            public Transform[] spawnPoints;
+
+            void Start() {
+                InvokeRepeating("Spawn", spawnTime, spawnTime);
+            }
+
+            void Spawn() {
+                if(playerHealth.currentHealth <= 0f) {
+                    return;
+                }
+
+                int spawnPointIndex = Random.Range(0, spawnPoints.Length);
+
+                Instantiate(enemy, spawnPoints[spawnPointIndex].position, spawnPoints[spawnPointIndex].rotation);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create an Empty ZombunnySpawnPoint object and reset. Give blue icon if you want.
+            <br>Position at (-20.5, 0, 12.5) and rotate to (0, 130, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Duplicate ZombunnySpawnPoint as ZombearSpawnPoint. Give fusia icon.
+            <br>Position at (22.5, 0, 15) and rotate to (0, 240, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Duplicate ZombearSpawnPoint as HellephantSpawnPoint. Give yellow icon.
+            <br>Position at (0, 0, 32) and rotate to (0, 230, 0)
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Fill in appropriate items on the EnemyManager.
+            <br>Fill in Enemy with Zombunny.
+            <br>Drag ZombunnySpawnPoint onto the Spawn Points array.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Create two more instances of EnemyManager script on the EnemyManager.
+            <br>Fill those script vars with two other enemy type variables.
+            <br>Spawn time for bear is 3 and spawn time for Hellephant is 10.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="game-over">
+    <h2>Game Over</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Frame again on the HUDCanvas.
+            <br>Add an Image as ScreenFader.
+            <br>Alt stretch image over the entire canvas.
+            <br>Change the color to light blue.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Add a Text object to the HUDCanvas as "GameOverText"
+            <br>Center everything.
+            <br>Change widht/height to 300/50
+            <br>Change text to Game Over!
+            <br>Change font to Luckiest Guy
+            <br>Change Font size to 50 and align middle.
+            <br>Change color to white.
+            <br>Add shadow with (2, -2) effect distance.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            The lower in the Hierarchy of a canvas, the more in front it is.
+            <br>Change order from top to bottom:
+            <br>&nbsp; HealthUI -> DamageImage -> ScreenFader -> GameOverText -> ScoreText
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Set alpha of ScreenFacer and GameOverText to 0.
+            <br>Open the Animation window.
+            <br>With the HUDCanvas selected, click Add Curve.
+            <br>Create new animation called "GameOverClip" in the animation folder.
+            <br>Then select the GameOvertText -> Text -> Color
+            <br>Add another curve for GameOverText -> RectTransform -> Scale
+            <br>Add a curve for ScreenFader -> Image -> Color
+            <br>Add a curve for CurveText -> RectTransform -> Scale
+            <br>On the top keyframe, drag all frames to 0.3 seconds.
+            <br>Move to frame 0:20 and create a keyframe for the GameOverText: RectTransform.Scale:
+            <br>&nbsp; With play head at 0:00 make scale for all 0
+            <br>&nbsp; With play head at 0:20 make scale for all 1.2
+            <br>Set Color on Objects to 1 at 0:30
+            <br>Set ScoreText objects scale to 0.8 at 0:30
+            <br>FINALLY, drag over ALL keyframes and move them so first frame is at 1:30.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Select the GameOverClip in the Animations folder.
+            <br>Deselct Loop Time.
+            <br>Open HUDCanvas Animation Controller.
+            <br>Right click, and create state called "Empty", make as default.
+            <br>Make a transition from Empty -> GameOverClip
+            <br>Make a trigger parameter called "GameOver"
+            <br>Set the condition of the transition to GameOver.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Make a new GameOverManager on the HUDCanvas object.
+            <pre>
+            //GameOverManager<span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            public PlayerHealth playerHealth;
+            public float restartDelay = 5f;
+
+            private Animator anim;
+            private float restartTimer;
+
+            void Awake() {
+                anim = GetComponent<Animator>();
+            }
+
+            void Update() {
+                if(playerHealth.currentHealth <= 0) {
+                    anim.SetTrigger("GameOver");
+
+                    restartTimer += Time.deltaTime;
+
+                    if(restartTimer >= restartDelay) {
+                        Application.LoadLevel(Application.loadedLevel);
+                    }
+                }
+            }
+            </pre>
+            Assign the Player appropriately.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            If not already set, make the Background Music play on awake.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="next-steps">
+    <h2>Next Steps</h2>
+    <ul>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Build Project.
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Go through <a href="https://unity3d.com/learn/tutorials/topics/audio/upgrading-unity-4-audio-part-1-mixers-and-effects?playlist=17144">Upgrading Unity 4 Audio Part 1: Mixers and Effects</a>
+        </p></li>
+        <li><p><span class="glyphicon glyphicon-remove pull-right" style="display:none;"></span>
+            Go through <a href="https://unity3d.com/learn/tutorials/topics/audio/upgrading-unity-4-audio-part-2-snapshots-and-exposed-parameters?playlist=17144">Upgrading Unity 4 Audio Part 2: Snapshots and Exposed Parameters</a>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon glyphicon-menu-up pull-right"></span></a>
