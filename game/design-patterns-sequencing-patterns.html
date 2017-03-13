@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Development</title>
+    <title>Design Patterns - Sequencing Patterns</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -77,54 +77,41 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Sequencing Patterns</h1>
 
-                <div class="jumbotron">
-                    <h1>Concepts</h1>
-                    <ul class="list-group">
-                        <!-- CONCEPTUAL DESIGN PATTERNS -->
-                        <a href="conceptual-design-patterns.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span>Design Patterns for Humans</h3>
-                            <p class="list-group-item-text">Design Patterns taught as concepts for humans.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- GAME DEVELOPERS TOOLKIT -->
-                        <a href="gd-toolkit.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Game Developers Toolkit</h3>
-                            <p class="list-group-item-text">Game Development series on great design</p>
-                        </a>
+                    <div class="jumbotron heliList" id="sectionID">
+                        <h2>Sequencing Patterns</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                Videogames are exciting in large part because they take us somewhere else. For a few minutes, we become inhabitants of a virtual world. Creating these worlds is one of the supreme delights of being a game programmer.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                One aspect that most of these game worlds feature is time - the artificial world lives and breathes at its own cadence. As world builders, we must invent time and craft the gears that drive our game's internal clock.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                The patterns in this section are tools for doing just that. A <b>Game Loop</b> is the central axle that the clock spins on. Objects hear its ticking through <b>Update Methods</b>. We can hide the computer's sequential nature behind a facade of snapshots of moments in time using <b>Double Buffering</b> so that the world apprears to update simultaneously.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <b>The Patterns</b>
+                                <br> &nbsp; &bull; <a href="design-patterns-double-buffer.html">Double Buffer</a>
+                                <br> &nbsp; &bull; <a href="design-patterns-game-loop.html">Game Loop</a>
+                                <br> &nbsp; &bull; <a href="design-patterns-update-method.html">Update Method</a>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon-menu-up"></span></a>
+                    </div>
 
-                        <!-- GDC -->
-                        <a href="gdc.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> GDC</h3>
-                            <p class="list-group-item-text">Game Development talks from GDC</p>
-                        </a>
 
-                        <!-- INDIE GREATNESS -->
-                        <a href="indie-paths.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Indie Greatness</h3>
-                            <p class="list-group-item-text">9 Paths to Indie Greatness</p>
-                        </a>
 
-                        <!-- DESIGN PATTERNS -->
-                        <div class="list-group-item">
-                            <h3 class="list-group-item-heading">Design Patterns</h3>
-                            <ul class="list-group">
-                                <a href="design-patterns-intro.html"><li class="list-group-item"><b>Intro</b></li></a>
-                                <a href="design-patterns-command.html"><li class="list-group-item">Command</li></a>
-                                <a href="design-patterns-flyweight.html"><li class="list-group-item">Flyweight</li></a>
-                                <a href="design-patterns-observer.html"><li class="list-group-item">Observer</li></a>
-                                <a href="design-patterns-prototype.html"><li class="list-group-item">Prototype</li></a>
-                                <a href="design-patterns-singleton.html"><li class="list-group-item">Singleton</li></a>
-                                <a href="design-patterns-state.html"><li class="list-group-item">State</li></a>
-                                <a href="design-patterns-sequencing-patterns.html"><li class="list-group-item"><b>Sequencing Patterns</b</li></a>
-                            </ul>
-                        </div>
-
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -155,3 +142,23 @@
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
