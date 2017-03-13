@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Implementations</title>
+    <title>TANKS! Implementation</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -30,6 +30,7 @@
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
                     <ul class="nav navbar-nav">
+
                         <!-- GAME DEVELOMENT -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
@@ -76,44 +77,89 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Tanks! Implementation</h1>
 
-                <div class="jumbotron">
-                    <h1>Implementations</h1>
-                    <ul class="list-group">
-                        <!-- Roller Ball (Unity) -->
-                        <a href="roller-ball.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Roller Ball (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Roller Ball style game.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- FLAPPY BIRD -->
-                        <a href="flappy-bird.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Flappy Bird 2D Live Implementation</h3>
-                            <p class="list-group-item-text">Quick implementation of 2D Flappy Bird style game.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#setup">Setup</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#tank-control">Tank Creation &amp; Control</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- SPACE SHOOTER (Unity) -->
-                        <a href="space-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Space Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Space Shooter style game.</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="setup">
+    <h2>Setup</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Select a 2 by 3 layout.
+            <br>Bring the Project window below the Hierarchy.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Delete the Directional Light.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Bring in the the LevelArt prefab and reset.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Open the Lighting window.
+            <br>Uncheck auto build for baking.
+            <br>Unchecked the Baked GI option.
+            <br>In Precomputed Realtime GI, set the Realtime Resolution to 0.5.
+            <br>In Environment Lighting, set the Ambient Source to Color.
+            <br>Set the Ambient Color to (72, 62, 113)
+            <br>Build these light settings at the bottom of the Lighting window.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Set the camera position to (-43, 42, -25)
+            <br>Change roation to (40, 60, 0)
+            <br>Set to Orthographic projection.
+            <br>Set Clear Flags to Solid Color. Change color to (80, 60, 50)
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- SURVIVAL SHOOTER (Unity) -->
-                        <a href="survival-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Survival Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Survival Shooting style game.</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="tank-control">
+    <h2>Tank Creation &amp; Control</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Bring in the Tank model and reset.
+            <br>Set the layer to "Players", apply to only the parent object.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a Rigidbody.
+            <br>Constrain position on y-axis
+            <br>Constrain rotation on x/z-axis
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a Box Collider.
+            <br>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add 2 Audio Sources.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a TankMovement script and attach to Tank.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- TANKS! (Unity) -->
-                        <a href="tanks.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Tanks! (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of two player Tank fighting game.</p>
-                        </a>
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -144,3 +190,23 @@
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
