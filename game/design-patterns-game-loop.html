@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Game Loop</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Game Loop</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#intent">Intent</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#motivation">Motivation</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#game-loop">Game Loop</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#when-to-use">When to Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#keep-in-mind">Keep In Mind</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#sample-code">Sample Code</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#design-decisions">Design Decisions</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="intent">
+    <h2>Intent</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <i>Decouple the progression of game time from user input and processor speed.</i>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="motivation">
+    <h2>Motivation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            If there is one pattern this book couldn't live without, this is it. Game loops are the quintessential example of a "game programming pattern". Almost every game has one, no two are exactly alike, and relatively few programs outside of games use them.
+            <p><span class="glyphicon-remove"></span>To show how they're useful, let's take a quick trip down memory lane. In the olden days of computer programming when everyone had beards, programs worked like your dishwasher. You dumped a load of code in, pushed a button, waited, and got results out. Done. These were <i>batch mode</i> programs - once the work was done, the program stopped.</p>
+            <p><span class="glyphicon-remove"></span>You still see these today, though thankfully we don't have to write them on punch cards anymore. Shell scripts, command line programs, and even the little Python script that turns a pile of Markdown into this book are all batch mode programs.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Interview with a PC</h3>
+            <p><span class="glyphicon-remove"></span>Eventually, programmers realized having to drop off a batch of code at the computing office and come back a few hours later for the results was a terribly slow way to get the bugs out of a program. They wanted immediate feedback. <i>Interactive</i> programs were born. Some of the first interactive programs were games: </p>
+            <pre>
+            <span class="glyphicon-remove"></span>YOU ARE STANDING AT THE END OF A ROAD BEFORE A SMALL BRICK
+            BUILDING. AROUND YOU IS A FOREST. A SMALL STREAM
+            FLOWS OUT OF THE BUILDING AND DONW A GULLY.
+
+            -> GO IN
+            YOU ARE INSIDE A BUILDING, A WELL HOUSE FOR A LARGE SPRING
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You could have a live converstation with the program. It waited for your input, then it would respond to you. You would reply back, taking turns just like you learned to do in kindergarten. When it was your turn, it sat there doing nothing. Something like:
+            <pre>
+            <span class="glyphicon-remove"></span>while(true) {
+                char* command = readCommand();
+                handleCommand(command);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Event Loops</h3>
+            <p><span class="glyphicon-remove"></span>Modern graphic UI applications are surprisingly similar to old adventure games once you shuck their skin off. You word processor usualyl just sits there doing nothing until you press a key or click something:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>while(true) {
+                Event* event = waitForEvent();
+                dispatchEvent(event);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The main difference is that instead of <i>text commands</i>, the program is waiting for <i>user input events</i> - mouse clicks and key presses. It still works basically like the old text adventures where the program <i>blocks</i> waiting for user input, which is a problem.
+            <p><span class="glyphicon-remove"></span>Unlike most other software, games keep moving even when the user isn't providing input. If you sit staring at the screen, the game doesn't freeze. Animations keep animating. Visual effects dance and sparkle. If you're unlucky that monster takes a bite on your hero.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This is the first key part of a real game loop: <i>it processes user input, but doesn't wait for it.</i> The loop always keeps spinning:
+            <pre>
+            <span class="glyphicon-remove"></span>while(true) {
+                processInput();
+                update();
+                render();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll refine this later, but the basic pieces are here. processInput() handles any user input that has happened since the last call. Then, update() advances the game simulation one step. It runs AI and physics (usually in that order). Finally, render() draws the game so the player can visualize what happened.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>A world out of time</h3>
+            <p><span class="glyphicon-remove"></span>If this loop isn't blocking on input, that leads to the obvious question: how <i>fast</i> does it spin? Each turn through the game loop advances the state of the game by some amount. From the perspective of an inhabitant of the game world, the hand of their clock has ticked forward.</p>
+            <p><span class="glyphicon-remove"></span>Meanwhile, the player's actual clock is ticking. If we measure how quickly the game loop cycles in terms of real time, we get the game's "frames per second". If the game loop cycles quickly, the FPS is high and the game moves smoothly and quickly. If it's slow, the game jerks along like a stop motion movie.</p>
+            <p><span class="glyphicon-remove"></span>With a crude loop we have now where it just cycles as quickly as it can, two factors determine the frame-rate. The first is <i>how much work it has to do each frame</i>. Complex physics, a bunch of game objects, and lots of graphic detail all will keep your CPU and GPU busy, and it will take longer to complete a frame.</p>
+            <p><span class="glyphicon-remove"></span>The second is <i>the speed of the underlying platform.</i> Faster chips churn through more code in the same amount of time. Multiple cores, GPUs, dedicated audio hardware, and the OS's scheduler all affect how much you get done in one tick.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Seconds per second</h3>
+            <p><span class="glyphicon-remove"></span>In early video games, that second factor was fixed. If you wrote a game for the NES or Apple IIe, you knew exactly what CPU your game was running on and you could (and did) code specifically for that. All you had to worry about was how much work you did each tick.</p>
+            <p><span class="glyphicon-remove"></span>Older games were carefully coded to do just enough work each frame so that the game ran at the speed the developers wanted. But if you tried to play that same game on a faster or slower machine, then the game itself would speed up or slow down.</p>
+            <p><span class="glyphicon-remove"></span>These days, though, few developers have the luxury of knowing exactly what hardware their game will run on. Instead, our games must intelligently adapt to a variety of devices.</p>
+            <p><span class="glyphicon-remove"></span>This is the other key job of a game loop: <i>it runs the game at a consistent speed despite differences in the underlying hardware.</i></p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="game-loop">
+    <h2>Game Loop</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            A <b>game loop</b> runs continuously during gameplay. Each turn of the loop, it <b>processes user input</b> without blocking, <b>updates the game state</b>, and <b>renders the game</b>. It tracks the passage of time to <b>control the rate of gameplay</b>.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="when-to-use">
+    <h2>When to Use It</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Using the wrong pattern can be worse than using no pattern at all, so this section is normally here to caution against over-enthusiasm. The goal of design patterns isn't to cram as many into your codebase as you can.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            But this pattern is a bit different. I can say with pretty good confidence that you <i>will</i> use this pattern. If you're using a game engine, you won't write it yourself, but it's still there.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You might think you won't need this if you're making a turn-based game. But even there, though the <i>game state</i> won't advance until the user take their turn, the <i>visual</i> and <i>audible</i> states of the game usually do. Animation and music keep running even when the game is "waiting" for you to take your turn.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="keep-in-mind">
+    <h2>Keep In Mind</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The loop we're talking about here is some of the most important code in your game. They say a program spends 90% of its time in 10% of the code. Your game loop will be firmly in that 10%. Take care with this code, and be mindful of its efficiency.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>You may need to coordinate with the platform's event loop</h3>
+            <p><span class="glyphicon-remove"></span>If you're building your game on top of an OS or platform that has a graphic UI and an event loop built in, then you have <i>two</i> application loops in play. They'll need to play nice together.</p>
+            <p><span class="glyphicon-remove"></span>Sometimes, you can take control and make your loop the only one. For example, if you're writing a game against the venerable Windows API, your main() can just have a game loop. Inside, you can call PeekMessage() to handle and sipatch events from the OS. Unlike GetMessage(), PeekMessage() doesn't block waiting for user input, so your game loop will keep cranking.</p>
+            <p><span class="glyphicon-remove"></span>Other platforms don't let you opt out of the event loop so easily. If you're targeting a web browser, the event loop is deeply built into browser's execution model. There, the event loop will run the show, and you'll use it as you game loop too. You'll call something like requestAnimationFrame() and it will call back into your code to keep the game running.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="sample-code">
+    <h2>Sample Code</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            For such a long introduction, the code for a game loop is actually pretty straightforward. We'll walk through a couple of variations and go over their good and bad points.
+            <p><span class="glyphicon-remove"></span>The game loop drives AI, rendering, and other game systems, but hose aren't the point of the pattern itself, so we'll just call into fictitious methods here. Actually implementing render(), update() and others is left as an excercise.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Run, run as fast as you can</h3>
+            <p><span class="glyphicon-remove"></span>We've already seen the simplest possible game loop:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>while(true) {
+                processInput();
+                update();
+                render();
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>The problem with it is you have no control over how fast the game runs. On a fast machine, that loop will spin so fast users won't be able to see what's going on. On a slow machine, the game will crawl. If you have a part of the game that's content - heavy or does more AI or physics, the game will actually play slower there.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Take a little nap</h3>
+            <p><span class="glyphicon-remove"></span>The first variation we'll look at adds a simple fix. Say you want your game to run at 60 FPS. That gives you about 16 milliseconds per frame. As long as you can reliably do all of your game processing and rendering in less than that time, you can run at a steady frame rate. All you do is process the frame and then <i>wait</i> until it's time for the next one, like so: </p>
+            <pre>
+            <span class="glyphicon-remove"></span>while(true) {
+                double start = getCurrentTime();
+                processInput();
+                update();
+                render();
+
+                sleep(start + MS_PER_FRAME - getCurrentTime());
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The sleep() here makes sure the game doesn't run too fast if it processes a frame quickly. It doesn't help if your game runs too <i>slowly</i>. If it takes longer than 16ms to update and render the frame, your sleep time goes <i>negative</i>. If we had computers that could travel back in time, lots of things would be easier, but we don't.
+            <p><span class="glyphicon-remove"></span>Instead, the game slows down. You can work around this by doing less work each frame - cut down on the graphics and razzle dazzle or dumb down the AI. But that impacts the quality of gameplay for all users, even ones on fast machines.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>One small step, one giant step</h3>
+            <p><span class="glyphicon-remove"></span>Let's try something a bit more sohpisticated. The problem we have boils down to this: </p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 1. Each update advances game time by a certian amount.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 2. It takes a certain amount of <i>real</i> time to process that.</p>
+            <p><span class="glyphicon-remove"></span>If step two takes longer than step one, the game slows down. If it takes more than 16ms of processing to advance game time by 16ms, it can't possibly keep up. But if we can advance the game by <i>more</i> than 16ms of game time in a single step, then we can update the game less frequently and still keep up.</p>
+            <p><span class="glyphicon-remove"></span>The idea then is to choose a time step to advance based on how much <i>real</i> time passed since the last frame. The longer the frame takes, the bigger steps the game takes. It always keeps up with real time because it will take bigger and bigger steps to get there. They call this a <i>variable</i> of <i>fluid</i> time step. It looks like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>double lastTime = getCurrentTime();
+            while(true) {
+                double current = getCurrentTime();
+                double elapsed = current - lastTime;
+                processInput();
+                update(elapsed);
+                render();
+                lastTime = current;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Each frame, we determine how much <i>real</i> time passed since the last game update(elapsed). When we update the game state, we pass that in. The engine is then responsible for advancing the game world forward by that amount of time.
+            <p><span class="glyphicon-remove"></span>Say you've got a bullet shooting across the screen. With a fixed time step, in each frame, you'll move it according to its velocity. With a variable time step, you <i>scale that velocity by the elapsed time.</i> As the time step gets bigger, the bullet moves farther in each frame. that bullet will get across the screen in the <i>same</i> amount of <i>real</i> time whether it's twenty small fast steps or four big slow ones. This looks like a winner:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; The game plays at a consistent rate on different hardware.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; Players with faster machines are rewarded with smoother gameplay.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            But, alas, there's a serious problem lurking ahead: we've made the game non-deterministic and unstable. Here's one example of the trap we've set for ourselves:
+            <p><span class="glyphicon-remove"></span>Say we've got a two-player networked game and Fred has some beast of a gaming machine whil George is using his grandmother's antique PC. that aforementioned bullet is flying across both of their screens. On Fred's machine, the game is running super fast, so each time step is tiny. We cram, like, 50 frames in the second it take the bullet to cross the screen. Poor George's machine can only fit in about five frames.</p>
+            <p><span class="glyphicon-remove"></span>This means that on Fred's machine, the physics engine updates the bullet's positoin 50 times, but George's only does it five times. Most games use floating point numbers, and those are subject to rounding error. Each time you add two floating point numbers, the answer you get back can be a bit off. Fred's machine is doing ten times as many operations, so he'll accumulate a bigger error that George. The <i>same</i> bullet will end up in <i>different</i> places on their machines.</p>
+            <p><span class="glyphicon-remove"></span>This is just one nasty problem a variable time step can cause, but there are more. In order to run in real time, game physics engines are approximations of the real law of mechanics. To keep those approximations from blowing up, damping is applied. That damping is carefully turned to a certain time step. Vary that, and the physics gets unstable.</p>
+            <p><span class="glyphicon-remove"></span>This instability is bad enough that this example is only here as a cautionary tale and to lead us to something better....</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Play catch up</h3>
+            <p><span class="glyphicon-remove"></span>One part of the engine that usually <i>isn't</i> affected by a variable time step is rendering. Since the rendering engine captures an instant in time, it doesn't care how much time advanced since the last one. It renders things wherever they happen to be right then.</p>
+            <p><span class="glyphicon-remove"></span>We can use this fact to our advantage. We'll <i>update</i> the game using a fixed time step because that makes everything simpler and more stable for physics and AI. But we'll allow flexiblity in when we render in order to free up some processor time.</p>
+            <p><span class="glyphicon-remove"></span>It goes like this: A certain amount of real time has elapsed since the last turn of the game loop. This is how much game time we need to simulate for the game's "now" to catch up with the player's. We do that using a <i>series</i> of <i>fixed</i> time steps. The code looks like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>double previous = getCurrentTime();
+            double lag = 0.0;
+            whilst(true) {
+                double current = getCurrentTime();
+                double elapsed = current - previous;
+                previous = current;
+                lag += elapsed;
+
+                processInput();
+
+                whilst(lag >= MS_PER_UPDATE) {
+                    update();
+                    lag -= MS_PER_UPDATE;
+                }
+
+                render();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There's a few pieces here. At the beginning of each frame, we udate lage based on how much real time passed. This measures how far the game's clock is behind compared to the real world. We then have an inner loop to update the game, one fixed step at a time, until it's caught up. Once we're caught up, we render and start over again. You can visualize it sort of like this:
+            <p><span class="glyphicon-remove"></span>Process Input ---> Update Game (wait) ---> Render ---> repeat</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            It may be hard to notice with that, but there isn't a <i>visible</i> frame rate anymore. MS_PER_UPDATE is just the <i>granularity</i> we use to update the game. The shorter this step is, the more processing time it takes to catch up to real time. The longer it is, the choppier the gameplay is. Ideally, you want it pretty short, often faster than 60 FPS, so that the game simulates with high fidelity on fast machines.
+            <p><span class="glyphicon-remove"></span>But be careful not to make it <i>too</i> short. You need to make sure the time step is greater than the time it takes to process an update(), even on the slowest hardware. Otherwise, your game simply can't catch up.</p>
+            <p><span class="glyphicon-remove"></span>Fortunately, we've bought ourselves some breathing room here. The trick is that we've <i>yanked rendering out of the update loop.</i> That frees up a bunch of CPU time. The end result is the game <i>simulates</i> at a constant rate using safe fixed time steps across a range of hardware. It's just that the player's <i>visible window</i> into the game gets choppier on a slower machine.</p>
+            <p><span class="glyphicon-remove"></span>One piece left out is that you can safeguard this by having the inner update loop bail after a maximmum number of iterations. The game will slow down the, but that's better than locking up completely.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Stuck in the middle</h3>
+            <p><span class="glyphicon-remove"></span>There's one issue we're left with, and that's residual lag. We update the game at a fixed time step, but we render at arbitrary points in time. This means that from the user's perspective, the game will often display at a point in time between two updates. A timeline would show a render and update point happening at the same time, and then through the timeline slowly become unsynched.</p>
+            <p><span class="glyphicon-remove"></span>On this timeline, we update at a nice tight, fixed interval. Meanwhile, we render whenever we can. It's less frequent than updating, and it isn't steady either. Both of those are OK. The lame part is that we don't always render right at the point of updating. We'll get a render time, perfectly in between two update points.</p>
+            <p><span class="glyphicon-remove"></span>Imagine a bullet is flying across the screen. On the first update, it's on the left side. The second update moves it to the right side. The game is rendered at a point in between those two updates, so the user expects to see that bullet in the center of the screen. With our current implementation, it will still be on the left side. This means motion looks jagged or stuttery.</p>
+            <p><span class="glyphicon-remove"></span>Conveniently, we actually do know <i>exactly</i> how far between update frames we are when we render: it's stored in lag. We bail out of the update loop when it's less than the update time step, not when it's <i>zero</i>. The leftover amount? That's how far into the next frame we are.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When we go to render, we'll pass that in:
+            <pre><span class="glyphicon-remove"></span>render(lag / MS_PER_UPDATE);</pre>
+            <p><span class="glyphicon-remove"></span>Here we divide by MS_PER_UPDATE to normalize the value. The value passed to render() will vary from 0 (right at the previous frame) to just under 1.0 (right at the next frame), regardless of the update time step. This way, the renderer doesn't have to worry about the frame rate. It just deals in values from 0 to 1.</p>
+            <p><span class="glyphicon-remove"></span>The renderer knows each game object <i>and it's current velocity.</i> Say that bullet is 20 pixels from the left side of the screen and is moving right 400 pixels per frame. If we are halfway between frames, then we'll end up passing 0.5 to renderer(). so it draws the bullet half a frame ahead, at 220 pixels. Ta-da, smooth motion.</p>
+            <p><span class="glyphicon-remove"></span>Of course, it may turn out that that extrapolation is wrong. When we calculate the next frame, we may discover the bullet hit an obstacle or slowed down or something. We renered its position interpolated between where it was on the last frame and where we <i>think</i> it will be on the next frame. but we dont know that until we've actually done the full update with physics and AI.</p>
+            <p><span class="glyphicon-remove"></span>So the extrapolation is a bit of a guess and sometimes ends up wrong. Fortunately, though, those kinds of corrections usually aren't noticable. At least, they're less noticeable than the stuttering you get if you don't extrapolate at all.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="design-decisions">
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Despite the length of this section, there have been some concepts left out. Once you throw in things like synchronizaing with the display's refresh rate, multithreading, and GPUs, a real game loop can get pretty hariy. At a high level, though , here are a few questions you'll likely answer:
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Do you know the game loop, or does the platform?</h3>
+            <p><span class="glyphicon-remove"></span>This is less a choice you make a more one that's made for you. If you're making a game that runs in a web browser, you pretty much can't write your own classic game loop. The browser's event-based nature precludes it. Likewise, if you're using an existing game engine, you will probably rely on its game loop instead of rolling your own.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Use the platform's event loop:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>It's simple.</i> You don't have to worry about writing and optimizing the core loop of the game.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>It plays nice with the platform.</i> You don't have to worry about explicitly giving the host tie to process its own events, caching events, or otherwise managing the impedance mismatch between the platform's input model and yours.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You lose control over timing.</i> the platform will call your code as it sees fit. If that's not as frequently or as smoothly as you'd like, too bad. Worse, most application events loops wern't designed with games in mind and usually <i>are</i> slow and choppy.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Use a game engine's loop</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You don't have to write it.</i> Writing a game loop can get pretty tricky. Since that core code gets executed every frame, minor bugs or performance problems can have a large impact on your game. A tight game loop is one reason to consider using an existing engine.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You don't get to write it.</i> Of course, the flip side to that coin is the loss of control if you <i>do</i> have needs that aren't a perfect fit for the engine.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Write it yourself:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>Total control.</i> You </p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
