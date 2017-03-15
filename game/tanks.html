@@ -96,6 +96,22 @@
                                 <a href="#tank-control">Tank Creation &amp; Control</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#camera-control">Camera Control</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#tank-health">Tank Health</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#shell-creation">Shell Creation</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#firing-shells">Firing Shells</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -145,13 +161,576 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Add a Box Collider.
+            <br>Edit center to (0, 0.85, 0)
+            <br>Size to (1.5, 1.7, 1.6)
             <br>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Add 2 Audio Sources.
+            <br>For the first, add the "EngineIdle" audio clip.
+            <br>Check loop since engine always runs.
+            <br>For the second, add
+            <br>Uncheck play on awake.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Bring the DustTrail particle prefab onto the tank.
+            <br>Duplicate this particle and rename them as Left/RightDustTrail
+            <br>Position the left at (-0.5, 0, -0.75), position right to (0.5, 0, 0.75)
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Create a TankMovement script and attach to Tank.
+            <pre>
+            <span class="glyphicon-remove"></span>//TankMovement
+            public int m_PlayerNumber = 1;
+            public float m_Speed = 12f;
+            public float m_TurnSpeed = 180f;
+            public AudioSource m_MovementAudio;
+            public AudioSource m_EngineIdle;
+            public AudioSource m_EngineDriving;
+            public float m_PitchRange = 0.2f;
+
+            private string m_MovementAxisName;
+            private string m_TurnAxisName;
+            private Rigidbody m_Rigidbody;
+            private float m_MovementInputValue;
+            private float m_TurnInputValue;
+            private float m_OriginalPitch;
+
+            private void Awake() {
+                m_Rigidbody = GetComponent(Rigidbody);
+            }
+
+            private void OnEnable() {
+                m_Rigidbody.isKinematic = false;
+                m_MovementInputValue = 0f;
+                m_TurnInputValue = 0f;
+            }
+
+            private void OnDisable() {
+                m_Rigidbody.isKinematic = true;
+            }
+
+            private void Start() {
+                m_MovementAxisName = "Vertical" + m_PlayerNumber;
+                m_TurnAxisName = "Horizontal" + m_PlayerNumber;
+
+                m_OriginalPitch = m_MovementAudio.pitch;
+            }
+
+            private void Update() {
+                // Store the player's input and make sure the audio for the engine is playing.
+                m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
+                m_TurnInputvalue = Input.GetAxis(m_TurnAxisName);
+
+                EngineAudio();
+            }
+
+            private void EngineAudio() {
+                // Play the correct audio based on whether or not the tank is moving and what audio is currently playing.
+                if(Mathf.Abs(m_MovementInputValue) < 0.1f) &amp;&amp; Mathf.Abs(m_TurnInputValue) < 0.1f) {
+                    if(m_MovementAudio.clip == m_EngineDriving) {
+                        m_MovementAudio.clip = m_EngineIdling;
+                        m_MovementAudio.pitch = Random.range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+
+                        m_MovementAudio.Play();
+                    }
+                } else {
+                    if(m_MovementAudio.clip == m_EngineIdling) {
+                        m_MovementAudio.clip = m_EngineDriving;
+                        m_MovementAudio.pitch = Random.range(m_OriginalPitch - m_PitchRange, m_OriginalPitch + m_PitchRange);
+
+                        m_MovementAudio.Play();
+                    }
+                }
+            }
+
+            private void FixedUpdate() {
+                // Move and turn the tank.
+                Move();
+                Turn();
+            }
+
+            private void Move() {
+                // Adjust the position of the tank based on the player's input.
+                Vector3 movement = transform.forward * m_MovementInputValue * m_Speed * Time.deltaTime;
+
+                m_Rigidbody.MovePosition(m_Rigidbody.position + movement);
+            }
+
+            private void Turn() {
+                // Adjust the rotation of the tank based on the player's input.
+                float turn = m_TurnInputValue * m_TurnSpeed * Time.deltaTime;
+
+                Quaternion turnRotation = Quaternion.Euler(0f, turn, 0f);
+
+                m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnRotation);
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Fill in appropriate fields</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Set the Tank as a prefab.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="camera-control">
+    <h2>Camera Control</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Create an new Empty "CameraRig" object and reset.
+            <br>Rotate to (40, 60, 0).
+            <br>Make the Main Camera a child of this CameraRig.
+            <br>Reset the Main Camera then move to (0, 0, -65).
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Set camera to orthographic.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a "CameraControl" script and put on the CameraRig object.
+            <pre>
+            <span class="glyphicon-remove"></span>//Goals
+            // - Find the Average fothe Tanks' positions
+            // - Set the CameraRigh to that position each frame
+
+            public float m_DampTime = 0.2f;
+            public float m_ScreenEdgeBuffer = 4f;
+            public float m_MinSize = 6.5f;
+            public Transform[] m_Targets;
+
+            private Camera m_Camera;
+            private float m_ZoomSpeed;
+            private Vector3 m_MoveVelocity;
+            private Vector3 m_DesiredPosition;
+
+            private void Awake() {
+                m_Camera = GetComponentInChildren(Camera);
+            }
+
+            private void FixedUpdate() {
+                Move();
+                Zoom();
+            }
+
+            private void Move() {
+                FindAveragePosition();
+
+                transform.position = Vector3.SmoothDamp(transform.position, m_DesiredPosition, ref m_MoveVelocity, m_DampTime);
+            }
+
+            private void FindAveragePosition() {
+                Vector3 averagePos = new Vector3();
+                int numTargets = 0;
+
+                //Loop through all available targets
+                for(int i = 0; i < m_Targets.Length; i++) {
+                    //Make sure target game object is active.
+                    if(!m_Target[i].gameObject.activeSelf)
+                        continue;
+
+                    //Get the vector3 sum of all available target positions
+                    averagePos += m_Targets[i].position;
+                    //Count the number of targets
+                    numTargets++;
+                }
+
+                //If we do have active targets, calculate the average of them.
+                if(numTargets > 0)
+                    averagePos /= numTargets;
+
+                //Maker sure it doesn't leave the ground.
+                averagePos.y = transform.position.y;
+
+                //Set desired position.
+                m_DesiredPosition = averagePos;
+            }
+
+            private void Zoom() {
+                float requiredSize = FindRequiredSize();
+                m_Camera.orthographicSize = Mathf.SmoothDamp(m_Camera.orthographicSize, requiredSize, ref m_ZoomSpeed, m_DampTime);
+            }
+
+            private float FindRequiredSize() {
+                Vector3 desiredLocalPos = transform.InverseTransformPoint(m_DesiredPosition);
+
+                float size = 0f;
+
+                for(int i = 0; i < m_Targets.Length; i++) {
+                    if(!m_Targets[i].gameObject.activeSelf)
+                        continue;
+
+                    Vector3 targetLocalPos = transform.InverseTransformPoint(m_Targets[i].position);
+
+                    Vector3 desiredPosToTarget = targetLocalPos - desiredLocalPos;
+
+                    size = Mathf.Max(size, Mathf.Abs(desiredPosToTarget.y));
+
+                    size = Mathf.Max(size, Mathf.Abs(desiredPosToTarget.x) / m_Camera.aspects);
+                }
+
+                size += m_ScreenEdgeBuffer;
+
+                size = Mathf.Max(size, m_MinSize);
+
+                return size;
+            }
+
+            public void SetStartPositionAndSize() {
+                FindAveragePosition();
+
+                transform.position = m_DesiredPosition;
+
+                m_Camera.orthographicSize = FindRequiredSize();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Apply appropriate objects.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="tank-health">
+    <h2>Tank Health</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Set Unity to Pivot, not Local for scene view.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new Slider UI.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the EventSystem object.
+            <br>In Standalone Input Module, rename Horizontal Axis to "HorizontalUI"
+            <br>Do same kind of thing for Vertical Axis.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Canvas object.
+            <br>In Canvas component, set Render mode to World Space.
+            <br>In Canvas Scaler, change Reference Pixels Per Unit to 1.
+            <br>Make this Canvas a child of the Tank.
+            <br>Move position to (0, 0.1, 0)
+            <br>Change width/height to 3.5/3.5.
+            <br>Rotate to (90, 0, 0)
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Alt click the canvas object to expand all children.
+            <br>Delete the HandleSlideArea
+            <br>Select all Canvas children to anchor all the same.
+            <br>Set anchor and position to a full stretch. Should look like a grey square.
+            <br>Make the slider not interactable.
+            <br>Set Transition to None.
+            <br>Set Min to 0, and Max to 0.
+            <br>Drag the value to 100.
+            <br>Rename slider to HealthSlider
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Health Wheel for the Background image.
+            <br>Set Background alpha to 80.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Health Wheel for the Fill image.
+            <br>Set Fill alpha to 150.
+            <br>Set Image Type to Filled.
+            <br>Set Fill Origin to Left.
+            <br>Uncheck Clockwise.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new UIDirectionControl script and add to HealthSlider.
+            <pre>
+            <span class="glyphicon-remove"></span>//UIDirectionControl
+            public bool m_UseRelativerotation = true;
+
+            private Quaternion m_RelativeRotation;
+
+            private void Start() {
+                m_RelativeRotation = transform.parent.localRotation;
+            }
+
+            private void Update() {
+                if(m_UseRelativeRotation)
+                    transform.rotation = m_RelativeRotation;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Bring the TankExplosion prefab into the Hierarchy.
+            <br>Add an audio source to it with the "TankExplosion" clip.
+            <br>Uncheck play on awake.
+            <br>Apply to it's prefab and delete from scene.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new TankHealth script and add to the Tank.
+            <pre>
+            <span class="glyphicon-remove"></span>//Tank Health
+            public float m_StartingHealth = 100f;
+            public Slider m_Slider;
+            public Image m_FillImage;
+            public Color m_FullHealthColor = Color.green;
+            public Color m_ZeroHealthColor = Color.red;
+            public GameObject m_ExplosionPrefab;
+
+            private AudioSource m_ExplosionAudio;
+            private ParticleSystem m_ExplosionParticles;
+            private float m_CurrentHealth;
+            private bool m_Dead;
+
+            private void Awake() {
+                m_ExplosionParticles = Instantiate(m_ExplosionPrefab).GetComponent(ParticleSystem);
+                m_ExplosionAudio = mExplosionParticles.GetComponent(AudioSource);
+
+                m_ExplosionParticles.gameObject.SetActive(false);
+            }
+
+            private void OnEnable() {
+                m_CurrentHealth = m_StartingHealth;
+                m_Dead = false;
+
+                SetHealthUI();
+            }
+
+            public void TakeDamage(float amount) {
+                // Adjust the tan'ks current health, update the UI based on the new health and check whether or not the tank is dead.
+                m_CurrentHealth -= amount;
+
+                SetHealthUI();
+
+                if(m_CurrentHealth <= 0f &amp;&amp; !m_Dead) {
+                    OnDeath();
+                }
+            }
+
+            private void SetHealthUI() {
+                // Adjust the value and color of the slider.
+                m_Slider.value = m_CurrentHealth;
+
+                m_FillImage.color = Color.Lerp(m_ZeroHealthColor, m_FullHealthColor, m_CurrentHealth / m_StartingHealth);
+            }
+
+            private void OnDeath() {
+                // Play the effects for the death of the tank and deactivate it.
+                m_Dead = true;
+
+                m_ExplosionParticles.transform.position = transfrom.position;
+                m_ExplosionParticles.gameObject.SetActive(true);
+                m_ExplosionParticles.Play();
+
+                m_ExplosionAudio.Play();
+
+                gameObject.SetActive(false);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Assign appropriate objects to fields.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="shell-creation">
+    <h2>Shell Creation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Drag the Shell model into the scene.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a Capsule collider to the shell.
+            <br>Set to a Trigger.
+            <br>Set center to (0, 0, 0.2), radius to 0.15, and height to 0.55
+            <br>Change direction to z-axis.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a Rigidbody.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Drag and drop the ShellExplosion prefab onto the Shell.
+            <br>Add an Audio Source with the "ShellExplosion" clip.
+            <br>Uncheck play on awake.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a Light to the shell.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a ShellExplosion script and attach to shell.
+            <pre>
+            <span class="glyphicon-remove"></span>//ShellExplosion
+            public LayerMask m_TankMask;
+            public ParticleSystem m_ExplosionParticles;
+            public AudioSource m_ExplosionAudio;
+            public float m_MaxDamage = 100f;
+            public float m_ExplosionForce = 1000f;
+            public float m_MaxLifeTime = 2f;
+            public float m_ExplosionRadius = 5f;
+
+            private void Start() {
+                Destroy(gameObject, m_MaxLifeTime);
+            }
+
+            private void OnTriggerEnter(Collider other) {
+                // Find all the tanks in an area around the shell and damage them.
+                Collider[] colliders = Physics.OverlapSphere(transform.position, m_ExplosionRadius, m_TankMask);
+
+                for(int i = 0; i < colliders.Length; i++) {
+                    Rigidbody targetRigidbody = colliders[i].GetComponent(Rigidbody);
+
+                    if(!targetRigidbody)
+                        continue;
+
+                    targetRigidbody.AddExplosionForce(m_ExplosionForce, transform.position, m_ExplosionRadius);
+
+                    TankHealth targetHealth = targetRigidbody.GetComponent(TankHealth);
+
+                    if(!targetHealth)
+                        continue;
+
+                    float damage = CalculateDamage(targetRigidbody.position);
+
+                    targetHealth.TakeDamage(damage);
+                }
+
+                m_ExplosionParticles.transform.parent = null;
+
+                m_ExplosionParticles.Play();
+
+                m_ExplosionAudio.Play();
+
+                Destory(m_ExplosionParticles.gameObject, m_ExplosionParticles.duration);
+                Destory(gameObject);
+            }
+
+            private float CalculateDamage(Vector3 targetPosition) {
+                //Calculate the amount of damage a target should take based on it's position.
+                Vector 3 explosionToTarget = targetPosition - transform.position;
+
+                float explosionDistance = explosionToTarget.magnitude;
+
+                float relativeDistance = (m_ExplosionRadius - explosionDistance) / m_explosionRadius;
+
+                float damage = relativeDistance * m_MaxDamage;
+
+                damage = Mathf.Max(0f, damage);
+
+                return damage;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Set appropriate values.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="firing-shells">
+    <h2>Firing Shells</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Create an Empty "FireTransform" on the Tank object.
+            <br>Position to (0, 1.7, 1.35)
+            <br>Rotate to (350, 0, 0)
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Canvas on the Tank, and create another Slider as "AimSlider".
+            <br>Delete the AimSlider Handle Slide Area.
+            <br>Delete the Background
+            <br>Uncheck Interactable on AimSlider.
+            <br>Set Transition to None.
+            <br>Make Direction "Bottom To Top"
+            <br>Set Min to 15, and Max to 30
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select botht the AimSlider and the Fill Area only.
+            <br>Set anchor and position to stretched.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Change the Fill Height to 0.
+            <br>Change the Fill image to AimArrow.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            With the AimSlider selected, go to the UI transform option (t).
+            <br>Bring in the sides to match the Tank width.
+            <br>Extend it's length about 3 times the original.
+            <br>Drag the whole thing out in front of the tank so the edges are touching.
+            <br>(Or use left - (1), Top - (-9), Z - (-1), Right - (1), Bottom - (3))
+            <br>Test out slider to make sure this is correct.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new "TankShooting" script on the Tank.
+            <pre>
+            <span class="glyphicon-remove"></span>//TankShooting
+            public int m_PlayerNumber = 1;
+            public Rigidbody m_Shell;
+            public Transform m_FireTransform;
+            public Slider m_Aimslider;
+            public AudioSource m_Shooting Audio;
+            public AudioClip m_CharginClip;
+            public AudioClip m_FireClip;
+            public float m_MinLaunchForce = 15f;
+            public float m_MaxLaunchForce = 30f;
+            public float m_MaxChargeTime = 0.75f;
+
+            private string m_FireButton;
+            private float m_CurrentLaunchforce;
+            private float m_ChargesSpeed;
+            private bool m_Fired;
+
+            private void OnEnable() {
+                m_CurrentLaunchForce = m_MinLaunchForce;
+                m_AimSlider.value = m_MinLaunchForce;
+            }
+
+            private void Start() {
+                m_FireButton = "Fire" + m_PlayerNumber;
+
+                m_ChargeSpeed = (m_MaxLaunchForce - m_MinLaunchForce) / m_MaxChargeTime;
+            }
+
+            private void Update() {
+                // Track the current state of the fire button and make decisions based on the current launch force.
+                m_AimSlider.value = m_MinLaunchForce;
+
+                if(m_CurrentLaunchForce >= m_MaxLaunchForce &amp;&amp; !m_Fired) {
+                    // at max charge, not yet fired
+                    m_CurrentLaunchForce = m_MaxLaunchForce;
+                    Fire();
+                } else if(Input.GetButtonDown(m_FireButton)) {
+                    // have we pressed fire for the first time?
+                    m_Fired = false;
+                    m_CurrentLaunchForce = m_MinLaunchForce;
+
+                    m_ShootingAudio.clip = m_ChargingClip;
+                    m_ShootingAudio.Play();
+                } else if(Input.GetButton(m_FireButton) &amp;&amp; !m_Fired) {
+                    // Holding the fire button, not yet fired
+                    m_CurrentLaunchForce += m_ChargeSpeed * Time.deltaTime;
+
+                    m_AimSlider.value = m_CurrentLaunchForce;
+                } else if(Input.GetButtonUp(m_FireButton) &amp;&amp; !m_Fired) {
+                    Fire();
+                }
+            }
+
+            private void Fire() {
+                //Instantiate and launch the shell.
+                m_Fired = true;
+
+                Rigidbody shellInstance = Instantiate(m_Shell, m_FireTransform.position, m_FireTransform.rotation) as Rigidbody;
+
+                shellInstance.velocity = m_CurrentLaunchForce * m_FireTransform.forward;
+
+                m_ShootingAudio.clip = m_FireClip;
+                m_ShootingAudio.Play();
+
+                m_CurrentLaunchForce = m_MinLaunchForce;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Populate the script with appropriate values.
+            <br>Delete the tank from the scene after all changes have been applied to it's prefab.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
