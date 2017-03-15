@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Update Method</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Update Method</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#intent">Intent</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#motivation">Motivation</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#update-method">Update Method</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#when-to-use">When to Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#keep-in-mind">Keep In Mind</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#sample-code">Sample Code</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#design-decisions">Design Decisions</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="intent">
+    <h2>Intent</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <i>Simulate a collection of independent objects by telling each to process one frame of behavior at a time.</i>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="motivation">
+    <h2>Motivation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The player's mighty valkyrie is on a quest to steal glorious jewels from where they rest on the bones fo the long-dead sorcerer-king. Shet tentatively approaches the entrance of this magnificent crypt and is attacked by... <i>nothing</i>. No cursed statues shooting lightning at ther. No undead warriors patrolling the entrance. She just walks right in and grabs the loot. Game over. You win.
+            <p><span class="glyphicon-remove"></span>Well that kinda sucks.</p>
+            <p><span class="glyphicon-remove"></span>This crypt needs some guards - enemies our brave heroine can grapple with. First up, we want a re-animated skeleton warrior to patrol back and forth in front of the door. If you ignore everything you probably already know about game programming, the simplest possible code to make that skeleton lurch back and forth is something like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>whilte(true) {
+                // Patrol Right
+                for(double x = 0; i < 100; x++) {
+                    skeleton.setX(x);
+                }
+                // Patrol Left
+                for(double x = 100; i > 0; x--) {
+                    skeleton.setX(x);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The problem her, of course is that the skeleton moves back and forht, but the player never sees it. The program is locked into an infinite loop, which is not exactly a fun gameplay experience. What we actually want is for the skeleton to move one step each frame.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll have to remove those loops and rely on the outer game loop for iteration. That ensures the game keeps responding to user input and rendering while the guard is making his rounds. Like:
+            <pre>
+            <span class="glyphicon-remove"></span>Entity skeleton;
+            bool patrollingLeft = false;
+            double x = 0;
+
+            //Main game loop:
+            while(true) {
+                if(patrollingLeft) {
+                    x--;
+                    if(x == 0) patrollingLeft = false;
+                } else {
+                    x++;
+                    if(x == 100) patrollingLeft = true;
+                }
+
+                skeleton.setX(x);
+
+                // Handle user input and render game...
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We did the before/after here to see how the code gets more complex. Patrolling left and right used to be two simple for loops. It kept track of which direction the skeleton was moving implicitly by which loop was executing. Now that we have to yield to the outer game loop each frame and then resume where we left off, we have to track the direction explicitly using that patrollingLeft variable.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            But this more or less works, so we keep going. A brainless bag of bones doesn't give your Norse maiden too much of a challenge, so the next thing we add is a couple of enchanted statues. These will fire bolts of lightning at her every so often to keep her on her toes.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Continuing our, "what's the simplest way to code this" style, we end up with:
+            <pre>
+            <span class="glyphicon-remove"></span>// Skeleton variables...
+            Entity leftStatues;
+            Entity rightStatue;
+            int leftStatueFrames = 0;
+            int rightStatueFrames = 0;
+
+            //Main game loop:
+            while(true) {
+                //Skeleton code...
+
+                if(++leftStatueFrames == 90) {
+                    leftStatueframes = 0;
+                    leftStatue.shootLightning();
+                }
+
+                if(++rightStatueFrames == 80) {
+                    rightStatueFrames = 0;
+                    rightStatue.shootLightning();
+                }
+
+                //Handle user input and render game...
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You can tell this isn't trending towards code we'd enjoy maintaining. We've got an increasingly large pile of variables and imperative code all stuffed in the game loop, each handling one specific entity in the game. To get them all up and running at the same time, we've mushed their code together.
+            <p><span class="glyphicon-remove"></span>The pattern we'll use to fix this is so simple you probably have it in mind already: <i>each entity in the game should encapsulate it's own behavior.</i> This will keep the game loop uncluttered and make it easy to add and remove entities.</p>
+            <p><span class="glyphicon-remove"></span>To do this, we need an <i>abstraction layer</i>, and we create that by defining an abstract update() method. The game loop maintains a collection of objects, but it doesn't know their concrete types. All it knows is that they can be updated. This separates each object's behavior both from the game loop and from the other objects.</p>
+            <p><span class="glyphicon-remove"></span>Once per frame, the game loop walks the collection and calls update() on each object. This gives each one a change to perform one frame's worth of behavior. By calling it on all objects every frame, they all behave simultaneously.</p>
+            <p><span class="glyphicon-remove"></span>The game loop has a dynamic collection of objects, so adding and removing them from the level is easy - just add and remove them from the collection. Nothing is hardcoded anymore, and we can even populate the level using some kind of data file, which is exactly what our level designers want.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="update-method">
+    <h2>Update Method</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The <b>game world</b> maintains a <b>collection of objects.</b> Each object implements an <b>update method</b> that <b>simulates one frame</b> of the object's behavior. Each frame, the game updates every object in the collection.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="when-to-use">
+    <h2>When to Use It</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            If the <a href="design-patterns-game-loop.html">Game Loop</a> pattern is the best thing since sliced bread, then the Update Method is its peanut butter. A wide swath of games featuring live entities that the player interacts with use this pattern in some form or another. If the game has space marines, dragons, Martians, shost, or athletes, there's a good chance it uses this pattern.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            However, if the game is more abstract and the moving pieces are less like living actors and more like pieces on a chessboard, this pattern is often a poor fir. In a game like chess, you don't need to simulate all of the pieces concurrently, and you probably don't need to tell the pawns to update themselves every frame.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Update methods work well when:
+            <br> &nbsp; &bull; Your game has a number of objects or systems that need to run simultaneously.
+            <br> &nbsp; &bull; Each object's behavior is mostly independent of the others.
+            <br> &nbsp; &bull; The objects need to be simulated over time.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="keep-in-mind">
+    <h2>Keep In Mind</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            This pattern is pretty simple, so there aren't a lot of hidden surprises in its dark corners. Still, every line of code has its remifications.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Splitting code into single frame slices makes it more complex</h3>
+            <p><span class="glyphicon-remove"></span>When you compare the first two chunks of code, the second is a good bit more complex. both simply make the skeleton guard walk back and forth, but the second one does this while yielding control to the game loop each frame.</p>
+            <p><span class="glyphicon-remove"></span>That change is almost always necessary to handle user input, rendering, and the other stuff that the game loop takes care of, so the first example wan't very practival. But it's worth keeping in mind that there's a big up front complexity cost when you julienne your behavioral code like this.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>You have to store state to resume where you left off each frame</h3>
+            <p><span class="glyphicon-remove"></span>In the first code sample, we didn't have any variables to indicate whether the guard was moving left or right. That was implicity based on which code was currently executing.</p>
+            <p><span class="glyphicon-remove"></span>When we changed this to a one-frame-at-a-time form, we had to create a patrollingLeft variable to track that. When we return out of the code, the execution position is lost, so we need to explicitly store enough information to restore it on the next frame.</p>
+            <p><span class="glyphicon-remove"></span>The <a href="design-patterns-state.html">State</a> pattern can often help here. Part of the reason state machines are common in games is because (like their name implies) they store the kind of state that you need to pick up where you left off.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Objects all simulate each frame but are not truly concurrent</h3>
+            <p><span class="glyphicon-remove"></span>In this pattern, the game loops over a collection of objects and updates each one. Inside the update() call, most objects are able to reach out and touch the rest of the game word, including other objects that are being updated. This means the <i>order</i> in which the objects are updated is significant.</p>
+            <p><span class="glyphicon-remove"></span>If A comes before B in the list of objects, then when A updates, it will see B's previous state. But when B updates, it will see A's <i>new</i> state, since A has already been updated this frame. Even though fromthe player's perspective, everything is moving at the same time, the core of the game is still turn-based. It's just that a complete "turn" is only one frame long.</p>
+            <p><span class="glyphicon-remove"></span>This is mostly a good thing as far as the game logic is concerned. Updating object in parallel leads you to some upleasant semantic corners. Image a game of chess where black and white moved at the same time. They both try to make a move that places a piece in the same currently empty square. How should this be resolved?</p>
+            <p><span class="glyphicon-remove"></span>Updating sequentially solves this - each update incrementally changes the world from one valid state to the next with no period of time where things are ambiguous and need to be reconciled.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Be careful modifying the object list while updating</h3>
+            <p><span class="glyphicon-remove"></span>When you're using this pattern, a lot of the game's behavior ends up nestled in these update methods. That often includes code that adds or removes updatable objects from the game.</p>
+            <p><span class="glyphicon-remove"></span>For example, say a skeleton guard drops an item when slain. With a new object, you can usually add it to the end of the list without too much trouble. You'll keep iterating over that list and eventually get to the new one at the end and update it too.</p>
+            <p><span class="glyphicon-remove"></span>But that does mean that the new object gets a chance to act during the frame that it was spawned, before the player has even had a chance to see it. If you don't want that thing to happen, one simple fix is to cache the number of objects in the list at the beginning of the update loop and only update that many before stopping: </p>
+            <pre>
+            <span class="glyphicon-remove"></span>int numObjectsThisTurn = numObjects_;
+            for(int i = 0; i < numObjectsThisTurn; i++) {
+                objects_[i]->update();
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Here, objects_ is an array of the updatable objects in the game, and numObjects_ is its length. When new objects are added, it gets incremented. We cache the length in numObjectsThisTurn at the beginning of the loop so that the iteration stops before we get to any new objects added during the current frame.</p>
+            <p><span class="glyphicon-remove"></span>A hairier problem is when objects are <i>removed</i> while iterating. You vanquish some fould beast and now it needs to get yanked out of the object list. If it happens to be before the current object you're updating in the list, you can accidentally skip an object:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>for(int i = 0; i < num_Objects_; i++) {
+                objects_[i]->update();
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So say we have an array of updatables: [Foul Beast, Heroine, Hapless Peasant]. Imagine we're updating the heroine. Since we're updating her, i is 1. She slays the foul beast so it gets removed from the array. The heorine shifts up to 0, and the hapless peasant shifts up to 1. After updating the heroine, i is incremented to 2. As you can see, the hapless peasant is skipped over because it is not at index 1.
+            <p><span class="glyphicon-remove"></span>One ifx is to just be careful when you remove objects and update any iteration variables to take the removal into account. Another is to defer removals until you're done walking the list. Mark the object as "dead", but leave it in place. During updating, make sure to skip any dead objects. Then, when that's done, walk the list again to remove the corpses.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="sample-code">
+    <h2>Sample Code</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            This pattern is so straightforward that the sample code almost belabors the point. That doesn't mean the pattern isn't <i>useful</i>. It's useful in part <i>because</i> it's simple: it's a clean solution to a problem with a lot of ornamentation.
+            <p><span class="glyphicon-remove"></span>But to keep things concrete, let's walk through a basic implementation. We'll start with an Entity class that will represent the skeletons and statues:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Entity {
+                public Entity : x_(0), y_(0) {}
+
+                public virtual ~Entity() {}
+                public void update() = 0;
+
+                public double x() const { return x_; }
+                public double y() const { return y_; }
+
+                public void setX(double x) { x_ = x; }
+                public void setY(double y) { y_ = y; }
+
+                private double x_;
+                private double y_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There are a few extra things in there, but just the bare minimum we'll need later. Presumably in real code, there'd be lots of other stuff like graphics and physics. The important bit for this pattern is that it has an abstract update() method.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The game maintains a collection of these entities. In our sample, we'll put that in a class representing the game world:
+            <pre>
+            <span class="glyphicon-remove"></span>class World {
+                public World() : numEntities_(0) {}
+
+                public void gameLoop();
+
+                private Entity* entities_[MAX_ENTITIES];
+                int numEntities_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now that everything is set up, the game implements the pattern by updating each entity every frame:
+            <pre>
+            <span class="glyphicon-remove"></span>void World::gameLoop() {
+                while(true) {
+                    // Handle user input...
+
+                    // Update each entity.
+                    for(int i = 0; i < numEntities_; i++) {
+                        entities_[i]->update();
+                    }
+
+                    // Physics and rendering...
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Subclassing Entities</h3>
+            <p><span class="glyphicon-remove"></span>There are some programmer whose skin crawl using inheritance on the main Entity class to define different behaviors. If you don't happen to see the problem, i'll provide some context.</p>
+            <p><span class="glyphicon-remove"></span>When the game industry emerged from the primordial seas of 6502 assembly code and VBLANKs onto the shores of object-oriented languages, developers went into a software architecture fad frenzy. On of the biggest was using inheritance. Towering, Byzantine class hierarchies were built, big enough to blot out the sun.</p>
+            <p><span class="glyphicon-remove"></span>It turn out that was a terrible idea and no one can maintain a giant class hierarchy without it crumbling aroud them. Some of the best said, "Favor 'object composition' over 'class inheritance'."</p>
+            <p><span class="glyphicon-remove"></span>When this realization percolated through the game industry, the solution that emerged was the <a href="design-patterns-component.html">Component</a> pattern. Useing that, update() would be on the entity's <i>components</i> and not on the Entity itsef. That lets you avoid creating complicated class hierarchies of entities to define and reuse behavior. Instead, you just mix and match components.</p>
+            <p>If you are making a real game, you should probably do that too. But this section isn't about components. It's about update() methods, and the simplest way I can show them, with as few moving parts as possible, is by putting that method right on Entity and making a few subclasses.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Defining Entities</h3>
+            <p><span class="glyphicon-remove"></span>Ok, back to the task at hand. Our original motivation was to be able to define a patrolling skeleton guard and some lightning-bol-unleashing magical statues. Let's start with our bony firend. To define his patrolling behavior, we make a new entity that implements update() appropriately:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Skeleton : public Entity {
+                public Skeleton() : patrollingLeft_(false) {}
+
+                public virtual void update() {
+                    if(patrollingLeft_) {
+                        setX(x() - 1);
+                        if(x() == 0) patrollingLeft_ = false;
+                    } else {
+                        setX(x() + 1) {
+                            if(x() == 100) patrollingLeft_ = true;
+                        }
+                    }
+                }
+
+                private bool patrollingLeft_;
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>As you can see, we retty much cut that chunk of code from the game loop earlier in the chapter and pasted it into Skeleton's update() method. The one minor difference is that patrollingLeft_ has been made into a field instead of a local variable. That way, its value stick around between calls to update().</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's do this again for the statue:
+            <pre>
+            <span class="glyphicon-remove"></span>class Statue : public Entity {
+                public Statue(int delay) : frames_(0), delay_(delay) {}
+
+                public virtual void update() {
+                    if(++frames_ == dealy_) {
+                        shootLightning();
+
+                        // Reset the timer.
+                        frames_ = 0;
+                    }
+                }
+
+                private int frames_;
+                private int delay_;
+
+                private void shootLightning() {
+                    // Shoot lightning...
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Again, most of the change is moving code from the game loop into the class and renaming some stuff. In this case, though, we've actually made the codebase simpler. In the original nasty imperative code, there were separate local vaariables for each statue's frame counter and rate of fire.
+            <p><span class="glyphicon-remove"></span>Now that those have been moved into the Statue class itself, you can create as many as you want and each instance will have its own little timer. That's really the motivation behind this pattern - it's now much easier to add new entities to the game world because each one brings along everything it needs to take care of itself.</p>
+            <p><span class="glyphicon-remove"></span>This pattern let us separate <i>populating</i> the game world from <i>implementing</i> it. This in turn gives us the flexibility to populate the world using something like a separate data file or level editor.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Passing Time</h3>
+            <p><span class="glyphicon-remove"></span>That's the key pattern, but I'll just touch on a common refinement. So far, we've assumed every call to update() advances the state of the game world by the same fixed unit of time.</p>
+            <p><span class="glyphicon-remove"></span>I happen to prefer that, but many games use a <i>variable time step.</i> In those, each turn of the game loop may simulate a larger or smaller slice of time depending on how long it too to process and render the previous frame.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            That means that each update() call needs to know how far the hand of the virtual clock has swung, so you'll often see the elapsed time passed in. For example, we can make our patrolling skeleton handle a variable time step like so:
+            <pre>
+            <span class="glyphicon-remove"></span>void Skeleton::update(double elapsed) {
+                if(patrollingLeft_) {
+                    x -= elapsed;
+                    if(x <= 0) {
+                        patrollingLeft_ = false;
+                        x = -x;
+                    }
+                } else {
+                    x += elapsed;
+                    if(x >= 100) {
+                        patrollingLeft_ = true;
+                        x = 100 - (x - 100);
+                    }
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Now, the distance the skeleton moves increases as the elapsed time grows. You can also see the additional complexity of dealing with a variable time step. The skeleton may overshoot the bounds of its patrol with a large time slice, and we have to handle that carefully.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="design-decisions">
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            With a simple pattern like this, there isn't too much variation, but there are still a couple of knobs you can turn.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What class does the update method live on?</h3>
+            <p><span class="glyphicon-remove"></span>The most obvious and most important decisions you'll make is what class to put update() on.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>The entity class:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; This is the simplest option if you already have an entity class since it doesn't bring any additional classes into play. This may work if you don't have to many kinds of entites, but the industry is generally moving away from this.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; Having to subclass Entity every time you want a new behavior is brittle and painful when you have a large number of different kinds. You'll eventually find yourself wanting to reuse pieces of code in a way that doesn't gracefully map to a single inheritance hierarchy, and then you're stuck.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>The component class:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; If you're already using the component pattern, this is a no-brainer. It lets each component update itself independently. In the same way that the Update Method pattern in general lets you decouple game entities from each other in the game world, this lets you decouple <i>parts of a single entity</i> from each other. Rendering, physics, and AI can all take care of themselves.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A delegate class:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; There are other patterns that involve delegating part of a class's behavior to another object. the State patter does this so that you can change an object's behavior by changing what it delegates to. The type object pattern does this so that you can share behavior across a bunch of entities of the same "kind".</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; If you're using one of those patterns, it's natural to put update() on that delegated class. In that case, you may still have the update() method on the main class, but it will be non-virtual and will simply forward to the delegated object. Something like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>void Entity::update() {
+                // Forward to state object
+                state_->update();
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; Doing this lets you define new behavior by changing out the delegated object. Like using components, it gives you the flexibility to change behavior without having to define an entirely new subclass.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How are dormant object handled?</h3>
+            <p><span class="glyphicon-remove"></span>You often have a number of objects in the world that, for whatever reason, temporarily don't need to be updated. They coudl be disabled, or off-screen, or not unlocked yet. If a large number of objects are in this state, it can be a waste of CPU cycles to walk over them each frame only to do nothing.</p>
+            <p><span class="glyphicon-remove"></span>One alternative is to maintain a separate collection of just the "live" objects that do need updating. When an object is disabled, it's removed from the collection. When it gets re-enabled, it's added back. This way, you only iterate over items that actually have real work to do.</p>
+            
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->

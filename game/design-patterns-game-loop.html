@@ -116,6 +116,10 @@
                                 <a href="#design-decisions">Design Decisions</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#see-also">See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -385,10 +389,57 @@
             <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You don't have to write it.</i> Writing a game loop can get pretty tricky. Since that core code gets executed every frame, minor bugs or performance problems can have a large impact on your game. A tight game loop is one reason to consider using an existing engine.</p>
             <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You don't get to write it.</i> Of course, the flip side to that coin is the loss of control if you <i>do</i> have needs that aren't a perfect fit for the engine.</p>
             <p><span class="glyphicon-remove"></span> &nbsp; <b>Write it yourself:</b></p>
-            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>Total control.</i> You </p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>Total control.</i> You can do whatever you want with it. You can design it specifically for the needs of your game.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; <i>You have to interface with the platform.</i> Application frameworks and operating systems usually expect to have a slice of time to process events and do other owkr. If you own your app's core loop, it won't get any. You'll have to explicityly hand off control periodically to make sure the framework doesn't hang or get confused.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>How do you manage power consumption?</h3>
+            <p><span class="glyphicon-remove"></span>This wan't an issue five years ago. Game ran on things plugged into walls or on dedicated handheld devices. But with the advent of smartphones, laptops, and mobile gaming, the odds are good that you do care about this now. A game that runs beautifully but turns' player phones into space hetaers before running out of juice thirty minutes later is not a game that makes people happy.</p>
+            <p><span class="glyphicon-remove"></span>Now, you may need to think not only about making your game look great, but also use as little CPU as possible. There will likely be an <i>upper</i> bound to performance where you let the CPU sleep if you've done all the work you need to do in a frame.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Run as fast as it can:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; This is what you're likely to do for PC games (though even those are increasingly being played on laptops). Your game loop will never explicitly tell the OS to sleep. Instead, any spare cycles will be spent cranking up the FPS or graphic fidelity.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; This gives you the best possible gameplay experience but, it will use as much power as it can. If the player is on a laptop, they'll have a nice lap warmer.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Clamp the frame rate:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; Mobile games are often more focuesed on the quality of gameplay than they are on maximizing the detail of the graphics. Many of these games will set an upper limit on the frame rate (usually 30 or 60 FPS). If the game loop is done processing before that slice of time is spent, it will just sleep for the rest.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; This gives the player a "good enough" experience and then goes easy on their battery beyond that.</p>
+        </p></li>
+        <li><p>
+            <h3>How do you control gameplay speed?</h3>
+            <p><span class="glyphicon-remove"></span>A game loop has two key pieces: non-blocking user input and adapting to the passage of time. Input is straightforward. The magic is in how you deal with time. There are a near-infinite number of platforms that games can run on, and any single game may run on quite a few. How it accommodates that variation is key:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Fixed time step with no synchronization:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; This was our first sample code. You just run the game loop as fast as you can.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's simple.</i> This is its main (well, only) virtue.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>Game speed is directly affected by hardware and gamecomplexity.</i> And its main vice is that if there's any variation, it will directly affect the game speed. It's the fixie of game loops.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Fixed time step with synchronization:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; The next step up on the complexity ladder is running the game at a fixed time step but adding a delay or synchronization point at the end of the loop to keep the game from running too fast.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>Still quite simple.</i> It's only one line of code more than the probably-too-simple-to-actually-work example. In most game loops, you will likely do synchronization <i>anyways</i>. You will probably double buffer your graphics and synchronize the buffer flip to the refresh rate of the display.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's power-friendly.</i> This is a surprisingly important consideration for mobile games. You don't want to kill the user's battery unnecessarily. By simply sleeping for a few milliseconds instead of trying to cram ever more processing int each tick, you save power.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The game doesn't play too fast.</i> This fixes half of the speed concerns of a fixed loop.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The game can play too slowly.</i> If it takes too long to update and render a game frame, playback will slow down. Because this style doesn't separate updating from rendering, it's likely to hit this sooner than more advanced options. Instead of just dropping <i>rendering</i> frames to catch up, gameplay will slow down.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Variable time step:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; I'll put this in here as an option in the solution space with the caveat that most game developers would recommend against it. It's good to remember <i>why</i> it's a bad idea though.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It adapts to playing both too slowly and too fast.</i> If the game can't keep up with real time, it will just take larger and larger time steps until it does.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It makes gameplay non-deterministic and unstable.</i> And this is the real problem of course. Physics and networking in particular become much harder with a variable time step.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Fixed update time step, variable rendering:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; The last option we covered in the sample code is the most complex, but also the most adaptable. It updates with a fixed time step, but it can drop <i>rendering</i> frames if it needs to catch up to the player's clock.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It adapts to playing too slowly and too fast.</i> As long as the game can update in real time, the game won't fall behind. If the player's machine is top-of-the-line, it will respond with a smoother gameplay experience.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's more complex.</i> The main downside is there is a bit more going on in the implementation. You have to tune the update time step to be both as small as possible for the high-end, while not being too slow for the low-end.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="see-also">
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The classic article on game loops is Glenn Fiedler's <a href="http://gafferongames.com/game-physics/fix-your-timestep/">Fix Your Timestep</a>. This chapter wouldn't exist without it.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Witters' article on <a href="http://www.koonsolo.com/news/dewitters-gameloop/">game loops</a> is a close runner-up.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Unity framework has a complex game loop detailed in a wonderful illustration <a href="http://www.richardfine.co.uk/2012/10/unity3d-monobehaviour-lifecycle/">here</a>.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
