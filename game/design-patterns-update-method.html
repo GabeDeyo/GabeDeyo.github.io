@@ -116,6 +116,10 @@
                                 <a href="#design-decisions">Design Decisions</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#see-also">See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -475,7 +479,34 @@
             <h3>How are dormant object handled?</h3>
             <p><span class="glyphicon-remove"></span>You often have a number of objects in the world that, for whatever reason, temporarily don't need to be updated. They coudl be disabled, or off-screen, or not unlocked yet. If a large number of objects are in this state, it can be a waste of CPU cycles to walk over them each frame only to do nothing.</p>
             <p><span class="glyphicon-remove"></span>One alternative is to maintain a separate collection of just the "live" objects that do need updating. When an object is disabled, it's removed from the collection. When it gets re-enabled, it's added back. This way, you only iterate over items that actually have real work to do.</p>
-            
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you use a single collection containing inactive objects:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You waste time.</i> For inactive objects, you'll end up either checking some "am I enabled" flag or calling a method that does nothing.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you use a separate collection of only active objects:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You use extra memory to maintain the second collection.</i> There's still usually another master collection of all entities for cases where you need them all. In that case, this collection is technically redundant. When speed is tighter than memory (which it often it is), this can still be a worthwhile trade-off. Another option to mitigate this is to have two collections, but have the other collection only contain the <i>inactive</i> entities instead of all of them.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have to keep the collections in sync.</i> When objects are created or completely destroyed (and not just made temporarily inactive), you have to remember to modify both the master collection and active objects one.</p>
+            <p><span class="glyphicon-remove"></span>The metric that should guide your approach here is how many inactive objects you tend to have. The more you have, the more useful it is to have a separate collection that avoids them during your core game loop.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="see-also">
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; This pattern, along with <a href="design-patterns-game-loop.html">Game Loop</a> and <a href="design-patterns-component.html">Component</a>, is part of a trinity that often forms the nucleus of a game engine.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; When you start caring about the cache performance of updating a bunch of entities or components in a loop each frame, the <a href="design-patterns-data-locality.html">Data Locality</a> pattern can help make that faster.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Unity framework uses this pattern in several classes, including MonoBehaviour.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Microsoft's XNA platform uses this pattern both in the Game and GameComponent classes.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Quintus JavaScript game engine uses this pattern on its main Sprite class.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>

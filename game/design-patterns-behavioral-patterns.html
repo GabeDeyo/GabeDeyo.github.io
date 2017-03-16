@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Development</title>
+    <title>Design Patterns - Behavioral Patterns</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -77,61 +77,49 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Behavioral Patterns</h1>
 
-                <div class="jumbotron">
-                    <h1>Concepts</h1>
-                    <ul class="list-group">
-                        <!-- CONCEPTUAL DESIGN PATTERNS -->
-                        <a href="conceptual-design-patterns.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span>Design Patterns for Humans</h3>
-                            <p class="list-group-item-text">Design Patterns taught as concepts for humans.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- GAME DEVELOPERS TOOLKIT -->
-                        <a href="gd-toolkit.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Game Developers Toolkit</h3>
-                            <p class="list-group-item-text">Game Development series on great design</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#behavioral-patterns">Behavioral Patterns</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- GDC -->
-                        <a href="gdc.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> GDC</h3>
-                            <p class="list-group-item-text">Game Development talks from GDC</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="behavioral-patterns">
+    <h2>Behavioral Patterns</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Once you've built your game's set and festooned it with actors and props, all that remains is to start the scene. For this you need behavior - the screenplay that tells each entity in your game what to do.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Of course all code is "behavior", and all software is defining behavior, but what's different about games is often the <i>breadth</i> of it that you have to implement. While your word processor may have a long list of features, it pales in comparison with the number of inhabitants, items, and quests in you average role-playing game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The patterns in this chapter help to quickly define and refine a large quantity of maintainable behavior. Type Objects create categories of behavior without the rigidityof defining an actual class. A Sbuclass Sandbox gives you a safe set of primitives you can use to define a variety of behaviors. The most advanced option is Bytecode, which moves behavior out of code entirely and into data.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>The Patterns</h3>
+            <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-bytecode.html">Bytecode</a></p>
+            <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-subclass-sandbox.html">Subclass Sandbox</a></p>
+            <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-type-object.html">Type Object</a></p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- INDIE GREATNESS -->
-                        <a href="indie-paths.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Indie Greatness</h3>
-                            <p class="list-group-item-text">9 Paths to Indie Greatness</p>
-                        </a>
-
-                        <!-- DESIGN PATTERNS -->
-                        <div class="list-group-item">
-                            <h3 class="list-group-item-heading">Design Patterns</h3>
-                            <ul class="list-group">
-                                <a href="design-patterns-intro.html"><li class="list-group-item"><b>Intro</b></li></a>
-                                <a href="design-patterns-command.html"><li class="list-group-item">Command</li></a>
-                                <a href="design-patterns-flyweight.html"><li class="list-group-item">Flyweight</li></a>
-                                <a href="design-patterns-observer.html"><li class="list-group-item">Observer</li></a>
-                                <a href="design-patterns-prototype.html"><li class="list-group-item">Prototype</li></a>
-                                <a href="design-patterns-singleton.html"><li class="list-group-item">Singleton</li></a>
-                                <a href="design-patterns-state.html"><li class="list-group-item">State</li></a>
-                                <a href="design-patterns-sequencing-patterns.html"><li class="list-group-item"><b>Sequencing Patterns</b></li></a>
-                                <a href="design-patterns-double-buffer.html"><li class="list-group-item">Double Buffer</li></a>
-                                <a href="design-patterns-game-loop.html"><li class="list-group-item">Game Loop</li></a>
-                                <a href="design-patterns-update-method.html"><li class="list-group-item">Update Method</li></a>
-                                <a href="design-patterns-behavioral-patterns.html"><li class="list-group-item"><b>Behavioral Patterns</b></li></a>
-                                <a href="design-patterns-bytecode.html"><li class="list-group-item">Bytecode</li></a>
-                                <a href="design-patterns-subclass-sandbox.html"><li class="list-group-item">Subclass Sandbox</li></a>
-                                <a href="design-patterns-type-object.html"><li class="list-group-item">Type Object</li></a>
-                            </ul>
-                        </div>
-
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -162,3 +150,23 @@
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
