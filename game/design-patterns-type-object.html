@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Design Patterns - Type Object</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -78,7 +78,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Design Patterns - Type Object</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -89,23 +89,72 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#intent">Intent</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#motivation">Motivation</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="intent">
+    <h2>Intent</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <i>Allow the flexible creation of new "classes" by creating a single class, each instance of which represents a different type of object.</i>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="motivation">
+    <h2>Motivation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Imagine we're working on a fantasy role-playing game. Our task is to write the code for the hordes of vicious monsters that seek to slay our brave hero. Monsters have a bunch of different attrivutes: health, attacks, graphics, sounds, etc., but for example purposes we'll just worry abou the first two.
+            <p><span class="glyphicon-remove"></span>Each monster in the game has a value for its current health. It starts out full, and each time the monster is wounded, it diminished. Monsters also have an attack string. When the monster attacks our hero, that text will be shown to the user somehow.</p>
+            <p><span class="glyphicon-remove"></span>The designers tell us that monsters come in a variety of different <i>breeds</i>, like "dragon" or "troll". Each breed describes a <i>kind</i> of monster that exists in the game, and there can be multiple monsters of the same breed running around in the dungeon at the same time.</p>
+            <p><span class="glyphicon-remove"></span>The breed determines a monster's starting health - dragons start off with more than trolls, making them harder to kill. It also determines the attack string - all monsters of the same breed attack the same way.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>The typical OOP answer</h3>
+            <p><span class="glyphicon-remove"></span>With that game design in mind, we fire up our text editor and start coding. According to the design, a dragon is a kind of monster, a troll is another kind, and so on with the other breeds. Thinking object-oriented, that leads us to a Monster base clase:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Monster {
+                public virtual ~Monster() {}
+                public virtual const char* getAttack() = 0;
+
+                protected Monster(int startingHealth) : health_(startingHealth) {}
+
+                private int health_; // Current Health
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            The public getAttack() function lets the combat code get the string that should be displayed when the monster attacks the hero. Each derived breed class will override this to provide a different message.
+            <p><span class="glyphicon-remove"></span>The constructor is protected and takes the starting health for the monster. We'll have derived classes for each breed that provide their own public constructors that call this one, passing in the starting health that is appropriate for that breed.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now let's see a couple of breed subclasses:
+            <pre>
+            <span class="glyphicon-remove"></span>class Dragon : public Monster {
+                public Dragon() : Monster(230) {}
+
+                public virtual const char* getAttack() {
+                    return "The dragon breathes fire!";
+                }
+            }
+
+            class Troll : public Monster {
+                public Troll() : Monster(48) {}
+
+                public virtual const char* getAttack() {
+                    return "The troll clubs you!";
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>

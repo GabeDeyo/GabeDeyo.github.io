@@ -116,6 +116,10 @@
                                 <a href="#design-decisions">Design Decisions</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#see-also">See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -539,9 +543,117 @@
             <h3>What instructions do you have?</h3>
             <p><span class="glyphicon-remove"></span>Your instruction set defines the boundaries of what can and cannot be expressed in bytecode, and it also has a big impact on the performance of you VM. Here's a laundry list of the different kinds of instructions you may want:</p>
             <p><span class="glyphicon-remove"></span> &nbsp; <b>External Primitives.</b> These are the ones that reach out of the VM into the rest of the game engine and do stuff that the user can see. They control what kinds of real behavior can be expressed in bytecode. Without these, your VM can't do anything more than burn CPU cycles.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Internal Primitives.</b> These manipulate values inside the VM - things like literals, arithmetic, comparison operators, and instructions that juggle the stack around.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Control Flow.</b> Our example didn't cover these, but hwen you want behavior that's imperative and conditionally exectues instructions or loops and executes instuctions more than once, you need control flow. In the low-level language of bytecode, the're surprisingly simple: jumps.
+            <br>In our instruction loop, we had an index to track where we were in the bytecode. All a jump instruction does is modify that variable and change where we're currently executing. In other words, it's a goto. You can build all kinds higher-level control flow using that.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Abstraction.</b> If your users start defining a <i>lot</i> of stuff in data, eventually they'll want to start reusing bits of bytecode instead of having to copy and paste it. You may wan something like callable procedures.
+            <br>In their simplest form, procedures aren't much more complex than a jump. The only difference is that the VM maintains a second <i>return</i> stack. When it executes a "call" instruction, it pushes the current instruction index onto the return stack and then jumps to the called bytecode. When it hits a "return", the VM pops the index from the return stack and jumps back into it.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>How are values represented?</h3>
+            <p><span class="glyphicon-remove"></span>Our sample VM only works with one kind of value, integers. That makes answering this easy -  the stack is just a stack of ints. A more full-featured VM will suuport different data types: string, objects, lists, etc. You'll have to decide how those are stored internally.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A single datatype:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's simple.</i> You don't have to worry about tagging, conversions, or type-checking.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You can't work with different datatypes.</i> This is the obvious downside. Cramming different types into a single representation - think storing numbers as strings - is asking for pain.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A tagged variant:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; This is the common representation for dynamically typed languages. Every value has two pieces. The first is a type tag - an enum - that identifies what data type is being stored. The rest of the bits are then interpreted appropriately according to that type, like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>enum ValueType {
+                TYPE_INT,
+                TYPE_DOUBLE,
+                TYPE_STRING
+            };
+
+            struct Value {
+                ValueType type;
+                union {
+                    int    intValue;
+                    double doubleValue;
+                    char*  stringValue;
+                };
+            };
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>Values know their type.</i> The nice thing about this representation is that you can check thetype of a value at runtime. That's important for dynamic dispatch and for ensuring that you don't try to perform operations on types that don't support it.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It takes more memory.</i> Every value has to carry around a few extra bits with it to identify its type. In something as low-level as a VM, a few bits here and there add up quickly.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>An untagged union:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; This uses a union like the previous form but it does <i>not</i> have a type tag that goes along with it. You have a little blob of bits that could represent more than one type, and it's up to you to ensure you don't misinterpret them.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; This is how statically typed languages represent things in memory. Since the type system ensures at compile time that you aren't misinterpreting values, you don't need to validate it at runtime.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's compact.</i> You can't get any more efficient than storing just the bits you need for the value itself.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's fast.</i> Not having type tags implies you're not spending cycles checking them at runtime either. This is one of the reasons statically typed languages tend to be faster than dynamic ones.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's unsafe.</i> This is the real cost, of course. A bad chunk of bytecode that causes you to misinterpret a value and treat a number like a pointer or vice versa can violate the security of your game or make it crash.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>An interface:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; The object-oriented solution for a value that maybe be one of several different types is through polymorphism. An interface provides virtual methods for the various type tests and conversions, along the lines of:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Value {
+                public virtual ~Value() {}
+
+                public virtual ValueType type() = 0;
+
+                public virtual int asInt() {
+                    // Can only call this on ints.
+                    assert(false);
+                    return 0;
+                }
+
+                //Other conversion methods...
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Then you have concrete classes for each specific data type, like:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class IntValue : public Value {
+                public IntValue(int value) : value_(value) {}
+
+                public virtual ValueType type() { return TYPE_INT; }
+                public virtual int asInt() { return value_; }
+
+                private int value_;
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's open-ended.</i> You can define new value types outside of the core VM as long as they implement the base interface.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's object-oriented.</i> If you adhere to OOP principles, this does things the "right" way and uses polymorphic dispatch for type-specific behavior instead of something like switching on a type tag.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's verbose.</i> You have to define a separate class with all of the associated ceremonial verbiage for each data type.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's inefficient.</i> To get polymorphism, you have to go through a pointer, which means even tiny values like Booleans and numbers get wrapped in objects that are allocated on the heap. Every time you touch a value, you have to do a virtual method call.
+            <br>In something like the core of a virtual machine, small performance hits like this quickly add up. In fact, this suffers from many of the problems that caused us to avoid the Interpreter pattern, except now the problem is in our <i>values</i> instead of our <i>code</i>.</p>
+            <p><span class="glyphicon-remove"></span>My recommendation is that if you can stick with a single data type, do that. Otherwise, do a tagged union. That's what almost every language interpreter in the world does.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How is the bytecode generated?</h3>
+            <p><span class="glyphicon-remove"></span>The most important question is saved for last. I've walked you through the code to <i>consume</i> and <i>interpret</i> bytecode, but i'ts up to you to build something to <i>produce</i> it. The typical solution here is to write a compiler, but that's not the only option.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you define a text-based language:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have to define a syntax.</i> Both amateur and professional language designers categorically underestimate how difficult this is to do. Defining a grammar that makes parsers happy is easy. Defining one that makes <i>users</i> happy is hard.
+            <br>Syntax design is user interface design, and that process doesn't get easier when you constrain the user interface to a string of characters.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have to implementa a parser.</i> Despite their reputation, this part is pretty easy. Either use a parser generator like ANTLR or Bison, or - like I do - hand-roll a little recursive descent one, and you're good to go.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have to handle syntax errors.</i> This is one of the most important and most difficult parts of the process. When users make syntax and semantic errors - which they will, constantly - it's your job to guide them back onto the right path. Giving helpful feedback isn't easy when all you know is that your parser is sitting on some unexpected punctuation.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It will likely turn off non-technical users.</i> We programmer like text files. Combined with powerful command-line tools, we think of them as the LEGO blocks of computing - simple, but easily composable in a million ways.
+            <br>Most non-programmers don't think of plaintext like that. To them, text files feel like filling in tax forms for an angry robotic auditor that yells at them if they forget a single semicolon.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you define a graphical authoring tool:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have to implement a user interface.</i> Buttons, clicks, drags, stuff like that. Some cringe at the idea of this, but I personally love it. If you go down this route, it's importnat to treat designing the user interface as a core part of doing your job well - not just an unpleasant task to be muddled through.
+            <br>Every little bit of extra work you do here will make your tool easier and more pleasant to use, and that directly leads to better content in your game. If you look behind many of the games you love, you'll often find the secret was fun authoring tools.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>You have fewer error cases.</i> Because the user is building behavior interactively one step at a time, your application can guide them away form mistakes as soon as they happen.
+            <br>With a text-based language, the tool doesn't see <i>any</i> of the user's content until they throw an entire file at it. That makes it harder to prevent and handle errors.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>Portability is harder.</i> The nice thing about text compilers is that text files are universal. A simple compiler just reads in one file and writes one out. Porting that across operating systems is trivial.
+            <br>When you're building a UI, you have to choose which framework to use, and many of those are specific to one OS. There are cross-platform UI toolkits too, but those often get ubiquity at the expense of familiarity - they feel equally foreign on all platforms.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="see-also">
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; This pattern's close sister is the Gang of Four's Interpreter pattern. Both give you a way to express composable behavior in terms of data.
+            <p><span class="glyphicon-remove"></span>In fact, you'll often end up using <i>both</i> patterns. The tool you use to generate bytecode will have an internal tree of objects that represents the code. This is exactly what the Interpreter pattern expects.</p>
+            <p><span class="glyphicon-remove"></span>In order to compile that to bytecode, you'll have to walk the tree, just like you do to interpret it with the Interpreter pattern. The <i>only</i> difference is that instead of executing a primitive piece of behavior immediately, you output the bytecode instruction to perform that later.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Lua programming language is the most widely used scripting language in games. It's implemented internally as a very compact register-based bytecode VM.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Kismet is a graphical scripting tool built into UnrealEd, the editor for the Unreal engine.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Wren is a simple little stack-based bytecode interpreter.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
