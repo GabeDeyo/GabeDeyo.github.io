@@ -112,6 +112,18 @@
                                 <a href="#firing-shells">Firing Shells</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#game-managers">Game Managers</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#audio-mixing">Audio Mixing</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#next-steps">Next Steps</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -731,6 +743,306 @@
         <li><p><span class="glyphicon-remove"></span>
             Populate the script with appropriate values.
             <br>Delete the tank from the scene after all changes have been applied to it's prefab.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="game-managers">
+    <h2>Game Managers</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Create an Empty "SpawnPoint1" at (-3, 0, 30) and an empty "SpawnPonit2" at (13, 0, -5)
+            <br>Give the first one a blue icon, and red for the second.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new UI Canvas as "MessageCanvas".
+            <br>Set to 2D mode.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a new Text named ""
+            <br>Set min/max anchors to 0.1/0.9
+            <br>Reset all Position fields. (left, right, top, bottom, pos-z)
+            <br>Set text to TANKS!
+            <br>Set font to BowlbyOne-Regular
+            <br>Set alignment to middle for hori/vert
+            <br>Set text to best fit.
+            <br>Min size/Max size is 10/60
+            <br>Set color to white.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Add a shadow to the text.
+            <br>Change color to (114, 71, 40, 128)
+            <br>Set effect distance to (-3, -3).
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In Camera Controler script, put this in front of public Transform[] m_Targets.
+            <br>[HideInInspector]
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a new Empty "GameManager" with a new GameManager script and a new TankManager script.
+            <pre>
+            <span class="glyphicon-remove"></span>//Tank Manager
+            /*Make serializable. [Serializable] above public class TankManager
+                Doesn't inherit from MonoBehavior */
+            public Color m_PlayerColor;
+            public Transform m_SpawnPoint;
+            [HideInInspector] public int m_PlayerNumber;
+            [HideInInspector] public string m_ColoredPlayerText;
+            [HideInInspector] public GameObject m_Instance;
+            [HideInInspector] public int m_Wins;
+
+            private TankMovement m_Movement;
+            private TankShooting m_Shooting;
+            private GameObject m_CanvasGameObject;
+
+            public void Setup() {
+                m_Movement = m_Instance.GetComponent(TankMovement);
+                m_Shooting = m_Instance.GetComponent(TankShooting);
+                m_CanvasGameObject = m_Instance.GetComponentInChildren(Canvas).gameObject;
+
+                m_Movement.m_PlayerNumber = m_PlayerNumber;
+                m_Shooting.m_PlayerNumber = m_PlayerNumber;
+
+                m_ColoredPlayerText = "&lt;color=#" + ColorUtility.ToHtmlStringRGB(m_PlayerColor) + "&gt;PLAYER " + m_PlayerNumber + "&lt;/color&gt;";
+
+                MeshRenderer[] renderers = m_Instance.GetComponentsInChildren(MeshRenderer);
+
+                for(int i = 0; i < renderers.Length; i++) {
+                    renderers[i].material.color = m_PlayerColor;
+                }
+            }
+
+            public void DisableControl() {
+                m_Movement.enabled = false;
+                m_Shooting.enabled = false;
+
+                m_CanvaseGameObject.SetActive(false);
+            }
+
+            public void EnableControl() {
+                m_Movement.enbaled = true;
+                m_Shooting.enabled = true;
+
+                m_CanvasGameObject.SetActive(true);
+            }
+
+            public void Reset() {
+                m_Instance.transform.position = m_SpawnPoint.position;
+                m_Instance.transform.rotation = m_SpawnPoint.rotation;
+
+                m_Instance.SetActive(false);
+                m_Instance.SetActive(true);
+            }
+            </pre>
+            &nbsp;
+            <pre>
+            <span class="glyphicon-remove"></span>//GameManager
+            public int m_NumRoundsToWin = 5;
+            public float m_StartDelay = 3f;
+            pulic float m_EndDelay = 3f;
+            public CameraControl m_CameraControl;
+            public Text m_MessageText;
+            public GameObject m_TankPrefab;
+            public TankManager[] m_Tanks;
+
+            private int m_RoundNumber;
+            private WaitForSeconds m_StartWait;
+            private WaitForSeconds m_EndWait;
+            private TankManager m_RoundWinner;
+            private TankManager m_GameWinner;
+
+            private void Start() {
+                m_StartWait = new WaitForSeconds(m_StartDelay);
+                m_EndWait = new WaitForSeconds(m_EndDelay);
+
+                SpawnAllTanks();
+                SetCameraTargets();
+
+                StartCoroutine(GameLoop());
+            }
+
+            private void SpawnAllTank() {
+                for(int i = 0; i < m_Tanks.Length; i++) {
+                    m_Tanks[i].m_Instance = Instantiate(m_TankPrefab, m_Tanks[i].m_SpawnPoint.position, m_Tanks[i].m_SpawnPoint.rotation) as GameObject;
+                    m_Tanks[i].m_PlayerNumber = i + 1;
+                    m_Tanks[i].Setup();
+                }
+            }
+
+            private void SetCameraTargets() {
+                Transform[] targets = new Transform[m_Tanks.Length];
+
+                for(int i = 0; i < targets.Length; i++) {
+                    targets[i] = m_Tanks[i].m_Instance.transform;
+                }
+
+                m_CameraControl.m_Targets = targets;
+            }
+
+            private IEnumerator GameLoop() {
+                yield return StartCoroutine(RoundStarting());
+                yield return StartCoroutine(RoundPlaying());
+                yield return StartCoroutine(RoundEnding());
+
+                if(m_GameWinner != null) {
+                    Application.LoadLevel(Application.loadedLevel);
+                } else {
+                    StartCoroutine(GameLoop());
+                }
+            }
+
+            private IEnumerator RoundStarting() {
+                ResetAllTanks();
+                DisableTankControl();
+
+                m_CameraControl.SetStartPositionAndSize();
+
+                m_RoundNumber++;
+                m_MessageText.text = "ROUND " + m_NumRoundNumber;
+
+                yield return m_StartWait;
+            }
+
+            private IEnumerator RoundPlaying() {
+                EnableTankControl();
+
+                m_MessageText.text = string.Empty;
+
+                while(!OneTankLeft()) {
+                    yield return null;
+                }
+            }
+
+            private IEnumerator RoundEnding() {
+                DisableTankControl();
+
+                m_RoundWinner = null;
+
+                m_RoundWinner = GetRoundWinner();
+
+                if(m_RoundWinner != null)
+                    m_RoundWinner.m_Wins++;
+
+                m_GameWinner = GetGameWinner();
+
+                string message = EndMessage();
+                m_MessageText.text = message;
+
+                yield return m_EndWait;
+            }
+
+            private bool OneTankLeft() {
+                int numTanksLeft = 0;
+
+                for(int i = 0; i < m_Tanks.Length; i++) {
+                    if(m_Tanks[i].m_Instance.activeSelf)
+                        numTanksLeft++;
+                }
+
+                return numTanksLeft <= 1;
+            }
+
+            private TankManager GetRoundWinner() {
+                for(int i = 0; i < m_Tanks.Length; i++) {
+                    if(m_Tanks[i].m_Instance.activeSelf)
+                        return m_Tanks[i];
+                }
+
+                return null;
+            }
+
+            private TankManager GetGameWinner() {
+                for(int i = 0; i < m_Tanks.Length; i++) {
+                    if(m_Tanks[i].m_Wins == m_NumRoundsToWin)
+                        return m_Tanks[i];
+                }
+
+                return null;
+            }
+
+            private string EndMessage() {
+                string message = "DRAW!";
+
+                if(m_RoundWinner != null)
+                    message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+
+                message += "\n\n\n\n";
+
+                for(int i = 0; i < m_Tanks.Length; i++) {
+                    message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
+                }
+
+                if(m_GameWinner != null)
+                    message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
+
+                return message;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="audio-mixing">
+    <h2>Audio Mixing</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            On the GameManager, add an Audio Source.
+            <br>Select the Background Music.
+            <br>Select loop.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a folder called AudioMixers.
+            <br>Create a new Audio Mixer called "MainMix"
+            <br>Open up the AudioMixer window.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Make a new group by selecting Master in Groups and add a a group.
+            <br>Add a new Group called "Music"
+            <br>Add a new Group called "SFX"
+            <br>Add a new Group called "Driving"
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Tank, and add the Driving mix for the Output.
+            <br>For the second audio source, add the SFX mix for Output.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the Shell prefab and find the Shell explosion source.
+            <br>Add SFX mix for Output.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Select the GameManager and add the Music mix for Output.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Find the TankExplosion in prefabs and add SFX mix for Output.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the AudioMixer, bring the Music levels down to -12.
+            <br>Click Add.. and attach a DuckVolume.
+            <br>On SFX, add a Send to it.
+            <br>With this send, for it's receive select 'Music\Duck Volume'
+            <br>Bring the Send Level to the heighest (0.00db).
+            <br>On the duck volume, bring the Threshhold down to -45.
+            <br>Bring it's ratio to %250
+            <br>Bring Attack Time to 0ms
+            <br>Bring the Driving down to -25.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="next-steps">
+    <h2>Next Steps</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Make the game!
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Find additional training for this game, it's not on the actual training site but they recently uploaded stuff for this project.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
