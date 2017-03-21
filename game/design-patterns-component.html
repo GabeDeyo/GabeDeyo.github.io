@@ -96,6 +96,18 @@
                                 <a href="#motivation">Motivation</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#component">Component</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#when-to-use">When to Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#keep-in-mind">Keep In Mind</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -139,6 +151,58 @@
             <h3>Loose Ends</h3>
             <p><span class="glyphicon-remove"></span>Our component classes are now decoupled. Even though Bjorn has a PhysicsComponent and a GraphicsComponent, the two don't know about each other. This means the person working on physics can modify their component without needing to know anything about graphics and vice versa.</p>
             <p><span class="glyphicon-remove"></span>In practice, the components will need to have <i>some</i> interaction between themselves. For example, the AI component may need to tell the physics component where BJorn is trying to go. However, we can restrict this to the components that <i>do</i> need to talk instead of just tossing them all in the same playpen together.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Tying Back Together</h3>
+            <p><span class="glyphicon-remove"></span>Another feature of this design is that the components are now reusable packages. So far, we've focused on our backer, but let's consider a couple of other kinds of objects in our game world. <i>Decorations</i> are things in the world the player sees but doesn't interact with: bushes, debris and other visual detail. <i>Propbs</i> are like decorations but can be touched: boxes, boulders, and trees. <i>Zones</i> are the opposite of decorations - invisible but interactive. They're useful for things like triggering a cutscene when Bjorn enters an area.</p>
+            <p><span class="glyphicon-remove"></span>Now, consider how we'd set up an inheritance hierarchy for those classes if we weren't using components. A first passable idea might be:</p>
+            <p><span class="glyphicon-remove"></span>Zone(Collision..)/Decoration(Rendering..) -> GameObject &amp;&amp; Prop(Rendering..) -> Zone(Collision)</p>
+            <p><span class="glyphicon-remove"></span>We have a base GameObject class that has common stuff like position and orientation. Zone inherits from that and adds collision detection. Likewise, Decoration inherits from GameObejct and adds rendering. Prop inherits from zone, so it can reuse the collision code. However, Prop can't <i>also</i> inherit from Decoration to reuse the <i>rendering</i> code without running into the Deadly Diamon.</p>
+            <p><span class="glyphicon-remove"></span>The "Deadly Diamond" occurs in class hierarchies with multiple inheritance where there are two different paths to the same base class. The pain that causes is a bit out of scope for this task, but understand that they named it "deadly" for a reason.</p>
+            <p><span class="glyphicon-remove"></span>We could flip things around so that Prop inherits form Decoration, but then we end up having to duplicate the collision code. Either way, there's no clean way to reuse the collision and rendering code between the classes that need it without resorting to multiple inheritance. The only other option is to push everything up to GameObject, but then Zone is wasting memory on rendering data it doesn't need and Decoration is doing the same with physics.</p>
+            <p><span class="glyphicon-remove"></span>Now, let's try it with components. Our subclasses disappear completely. Instead, we have a single GameObject class and two component classes: PhysicsComponent and GraphicsComponent. A decoration is simply a GameObejct with a GraphicsComponent but no Physics component. A zone is the opposite, and a prop has both components. No code duplication, no multiple inheritance, and only three classes instead of four.</p>
+            <p><span class="glyphicon-remove"></span>Components are basically plug-and-play for objects. They let us build complex entities with rich behavior by plugging different reusable component objects into sockets on the entity. Think software Voltron.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="component">
+    <h2>Component</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            A <b>single entity spans multiple domains.</b> To keep the domains isolated, the code for each is placed in its own <b>component class</b>. The entity is reduced to a simple <b>container of components</b>.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="when-to-use">
+    <h2>When to Use It</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Components are most commonly found within the core class that defines the entities in a game, but they may be useful in other places as well. This pattern can be put to good use when any of these are true:
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; You have a class that touches multiple domains which you want to keep decoupled from each other.
+            <p><span class="glyphicon-remove"></span> &bull; A class is getting massive and hard to work with.</p>
+            <p><span class="glyphicon-remove"></span> &bull; You want to be able to define a variety of objects that share different capabilities, but using inheritance doesn't let you pick the parts you want to reuse precisely enough.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="keep-in-mind">
+    <h2>Keep In Mind</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The Component pattern adds a good bit of complexity over simply making a class and putting code in it. Each conceptual "object" becomes a cluster of objects that must be initiated, initialized, and correctly wired together. Communicating between the different components become
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
