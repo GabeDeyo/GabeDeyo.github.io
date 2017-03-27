@@ -108,6 +108,10 @@
                                 <a href="#keep-in-mind">Keep In Mind</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#sample-code">Sample Code</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -196,13 +200,260 @@
     <h2>Keep In Mind</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            The Component pattern adds a good bit of complexity over simply making a class and putting code in it. Each conceptual "object" becomes a cluster of objects that must be initiated, initialized, and correctly wired together. Communicating between the different components become
+            The Component pattern adds a good bit of complexity over simply making a class and putting code in it. Each conceptual "object" becomes a cluster of objects that must be initiated, initialized, and correctly wired together. Communicating between the different components becomes more challenging, and controlling how they occupy memory is more complex.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            For a large codebase, this complexity may be worth it for the decoupling and code reuse it enables, but take care to ensure you aren't over-engineering a "solution" to a non-existent problem before applying this pattern.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Another consequence of using components is that you often have to hop through a level of indirection to get anything done. Given the container object, first you have to get the component you want, <i>then</i> you can do what you need. In performance-critical inner loops, this pointer following may lead to poor performance.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There's a flip side to this coin. The Component pattern can often <i>improve</i> performance and cache coherence. Components make it easier to use the <a href="design-patterns-data-locality.html">Data Locality</a> pattern to organize your data in the order that the CPU wants it.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="sample-code">
+    <h2>Sample Code</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            One of the biggest challenges for me in writing these notes is figuring out how to isolate each pattern. Many design patterns exist to contain code that itself isn't part of each pattern. In order to distill the pattern down to its essence, I try to cut as much of that out as possible, but at some point it becomes a bit like explaining how to organize a closet without showing any clothes.
+            <p><span class="glyphicon-remove"></span>The Component pattern is a particularly hard one. You can't get a real feel for it without seeing some code for each of the domains that it decouples, so I'll have to sketch this out a bit more in Bjorn's code. The pattern is really only the component <i>classes</i> themselves, but the code in them should help clarify what the classes are for. It's fake code - it calls into other classes that aren't presented here - but it should give you an idea of what we're going for.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>A Monolithic Class</h3>
+            <p><span class="glyphicon-remove"></span>To get a clearer picture of how this pattern is applied, we'll start by showing a monolithic Bjorn class that does everything we need but doesn't use this pattern:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Bjorn{
+                public Bjorn() : velocity_(0), x_(0), y_(0) {}
+
+                public void update(World&amp; world, Graphics&amp; graphics);
+
+                private static const int WALK_ACCELERATION = 1;
+
+                private int velocity_;
+                private int x_, y_;
+
+                private Volume volume_;
+                
+                private Sprite spriteStand_;
+                private Sprite spriteWalkLeft_;
+                private Sprite spriteWalkRight_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Bjorn has an update() method that gets called once per frame by the game:
+            <pre>
+            <span class="glyphicon-remove"></span>void Bjorn::update(World&amp; world, Graphics&amp; graphics) {
+                //Apply user input to hero's velocity.
+                switch(Controller::getJoystickDirection()) {
+                    case DIR_LEFT:
+                        velocity_ -= WALK_ACCELERATION;
+                        break;
+                    case DIR_RIGHT:
+                        velocity_ += WALK_ACCELERATION;
+                        break;
+                }
+
+                //Modify position by velocity
+                x_ += velocity_;
+                world.resolveCollision(volume_, x_, y_, velocity_);
+
+                //Draw the appropriate sprite.
+                Sprite* sprite = &amp;spriteStand_;
+                if(velocity_ < 0){
+                    sprite = &amp;spriteWalkLeft_;
+                } else if(velocity_ > 0) {
+                    sprite = &amp;spriteWalkRight_;
+                }
+
+                graphics.draw(*sprite, x_, y_);
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>It reads the input to determine how to accelerate the baker. Then it resolves its new position with the physics engine. Finally it draw Bjorn onto the screen.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The sample implementation here is trivially simple. There's no gravity, animation, or any of the dozens of other details that make a character fun to play. Even so, we can see that we've got a single function that several different coders on our team will probably have to spend time in, and it's starting to get a bit messy. Imagine this scaled up to a thousand lines and you can get an idea how painful it can become.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Splitting out a domain</h3>
+            <p><span class="glyphicon-remove"></span>Starting with one domain, let's pull a piece out of Bjorn and push it into a separate component class. We'll start with the first domain that gets processed: input. The first thing Bjorn does is read a user input and adjust his velocity based on that input. Let's move that logic out into a separate class:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class InputComponent {
+                public void update(Bjorn&amp; bjorn) {
+                    switch(Controller::getJoystickDirection()){
+                        case DIR_LEFT:
+                            bjorn.veloctiy -= WALK_ACCELERATION;
+                            break;
+                        case DIR_RIGHT:
+                            bjorn.velocity += WALK_ACCELERATION;
+                            break;
+                    }
+                }
+
+                private static const int WALK_ACCELERATION = 1;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Pretty simple. We've taken the first section of Bjorn's update() method and put it into this class. The changes to Bjorn are also straightforward:
+            <pre>
+            <span class="glyphicon-remove"></span>class Bjorn {
+                public int velocity;
+                public int x, y;
+
+                public void update(World&amp; world, Graphics&amp; graphics) {
+                    input_.update(*this);
+
+                    //Modify position based by velocity
+                    x += velocity;
+                    world.resolveCollision(volume_, x, y, velocity);
+
+                    //Draw the appropriate sprite
+                    Sprite* sprite = &amp;spriteStand_;
+                    if(velocity < 0){
+                        sprite = &amp;spriteWalkLeft_;
+                    } else if(velocity > 0){
+                        sprite = &amp;spriteWalkRight_;
+                    }
+
+                    graphics.draw(*sprite, x, y);
+                }
+
+                private InputComponent input_;
+
+                private Volume volume_;
+
+                private Sprite spriteStand_;
+                private Sprite spriteWalkLeft_;
+                private Sprite spriteWalkRight_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Bjorn now owns an InputComponent object. Where before he was handling user input directly in the update() method, now he delegates to the component:
+            <pre><span class="glyphicon-remove"></span>input_.update(*this);</pre>
+            <p><span class="glyphicon-remove"></span>We've only started, but already we've gotten rid of some coupling - the main Bjorn class no longer has any reference to Controller. This will come in handy later.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Splitting out the rest</h3>
+            <p><span class="glyphicon-remove"></span>Now, let's go ahead and do the same cut-and-paste job on the physics and graphics code. Here's our new PhysicsComponent:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class PhysicsComponent {
+                public void update(Bjorn&amp; bjorn, World&amp; world) {
+                    bjorn.x += bjorn.velocity;
+                    world.resolveCollision(volume_, bjorn.x, bjorn.y, bjorn.velocity);
+                }
+
+                private Volume volume_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In addition to moving the physics behavior out of the main Bjorn class, you can see we've also moved out the data too: The Volume object is now owned by the component.
+            <p><span class="glyphicon-remove"></span>Last but not least, here's where the rendering code lives now:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class GraphicsComponent {
+                public void update(Bjorn&amp; bjorn, Graphics&amp; graphics) {
+                    Sprite* sprite = &spriteStand_;
+                    if(bjorn.velocity < 0) {
+                        sprite = &amp;spriteWalkLeft_;
+                    } else if(bjorn.velocity > 0) {
+                        sprite = &amp;spriteWalkRight_;
+                    }
+
+                    graphics.draw(*sprite, bjorn.x, bjorn.y);
+                }
+
+                private Sprite spriteStand_;
+                private Sprite spriteWalkLeft_;
+                private Sprite spriteWalkRight_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We've yanked almost everything out, so what's left of our humble pastry chef? Not much:
+            <pre>
+            <span class="glyphicon-remove"></span>class Bjorn {
+                public int velocity;
+                public int x, y;
+
+                public void update(World&amp; world, Graphics& graphics) {
+                    input_.update(*this);
+                    physics_.update(*this, world);
+                    grpahics_.update(*this, graphics);
+                }
+
+                private InputComponent input_;
+                private PhysicsComponent physics_;
+                private GraphicsComponent graphics_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Bjorn class now basically does two things: it hold the set of components that actually define it, and it holds the state that is shared across multiple domains. Position and velocity are still in the core Bjorn class for two reasons. First, they are "pan-domain" state - almost every component will make use of them, so it isn't clear which component <i>should</i> own them if we did not want to push them down. Secondly, and more importantly, it gives us an easy way for the components to communicate without being coupled to each other. Let's see if we can put that to use.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Robo-Bjorn</h3>
+            <p><span class="glyphicon-remove"></span>So far, we've pushed our behavior out to separate component classes, but we haven't <i>abstracted</i> the behavior out. Bjorn still knows the exact concrete classes where his behavior is defined. Let's change that.</p>
+            <p><span class="glyphicon-remove"></span>We'll take our component for handling user input and hide it behind an interface. We'll turn InputComponent into an abstract class:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class InputComponent {
+                public virtual ~InputComponent() {}
+                public virtual void update(Bjorn&amp; bjorn) = 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Then, we'll take our existing user input handling code and push it down into a class that implements that interface:
+            <pre>
+            <span class="glyphicon-remove"></span>class PlayerInputComponent : public InputComponent {
+                public virtual void update(Bjorn&amp; bjorn) {
+                    switch(Controller::getJoystickDirection()) {
+                        case DIR_LEFT:
+                            bjorn.velocity -= WALK_ACCELERATION;
+                            break;
+                        case DIR_RIGHT:
+                            bjorn.velocity += WALK_ACCELERATION;
+                            break;
+                    }
+                }
+
+                private static const int WALK_ACCELERATION = 1;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll change Bjorn to hold a pointer to the input component instead of having an inline instance:
+            <pre>
+            <span class="glyphicon-remove"></span>class Bjorn {
+                public int velocity;
+                public int x, y;
+
+                public Bjorn(InputComponent* input) : input_(input) {}
+
+                public void update(World&amp; world, Graphics&amp; graphics) {
+                    input_->update(*this);
+                    physics_.update(*this, world);
+                    graphics_.update(*this, graphics);
+                }
+
+                private InputComponent* input_;
+                private PhysicsComponent physics_;
+                private GraphicsComponent graphics_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now, when we instantiate Bjorn, we can pass in an input component for it to use, like so:
+            <pre>
+            Bjorn* bjorn = new Bjorn(new PlayerInputComponent());
+            </pre>
+            <p><span class="glyphicon-remove"></span>This instance can be any concrete type that implements our abstract InputComponent interface. We pay a price for this - update() is now a virtual method call, which is a little slower. What do we get in return for this cost?</p>
+            <p><span class="glyphicon-remove"></span></p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
