@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Implementations</title>
+    <title>Adventure Game Implementation</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -30,6 +30,7 @@
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
                     <ul class="nav navbar-nav">
+
                         <!-- GAME DEVELOMENT -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
@@ -76,50 +77,43 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Adventure Game Implementation</h1>
 
-                <div class="jumbotron">
-                    <h1>Implementations</h1>
-                    <ul class="list-group">
-                        <!-- Roller Ball (Unity) -->
-                        <a href="roller-ball.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Roller Ball (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Roller Ball style game.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- FLAPPY BIRD -->
-                        <a href="flappy-bird.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Flappy Bird 2D Live Implementation</h3>
-                            <p class="list-group-item-text">Quick implementation of 2D Flappy Bird style game.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#player">Player</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- SPACE SHOOTER (Unity) -->
-                        <a href="space-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Space Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Space Shooter style game.</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="player">
+    <h2>Player</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a "SecurityRoom" scene.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- SURVIVAL SHOOTER (Unity) -->
-                        <a href="survival-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Survival Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Survival Shooting style game.</p>
-                        </a>
-
-                        <!-- TANKS! (Unity) -->
-                        <a href="tanks.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Tanks! (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of two player Tank fighting game.</p>
-                        </a>
-
-                        <!-- ADVENTURE GAME (Unity) -->
-                        <a href="adventure.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Adventure Game (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of a Point &amp; Click adventure game.</p>
-                        </a>
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -150,3 +144,23 @@
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->

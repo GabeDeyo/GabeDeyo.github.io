@@ -453,7 +453,7 @@
             Create a new UIDirectionControl script and add to HealthSlider.
             <pre>
             <span class="glyphicon-remove"></span>//UIDirectionControl
-            public bool m_UseRelativerotation = true;
+            public bool m_UseRelativeRotation = true;
 
             private Quaternion m_RelativeRotation;
 
@@ -504,7 +504,7 @@
             }
 
             public void TakeDamage(float amount) {
-                // Adjust the tan'ks current health, update the UI based on the new health and check whether or not the tank is dead.
+                // Adjust the players current health, update the UI based on the new health and check whether or not the tank is dead.
                 m_CurrentHealth -= amount;
 
                 SetHealthUI();
@@ -615,7 +615,7 @@
 
             private float CalculateDamage(Vector3 targetPosition) {
                 //Calculate the amount of damage a target should take based on it's position.
-                Vector 3 explosionToTarget = targetPosition - transform.position;
+                Vector3 explosionToTarget = targetPosition - transform.position;
 
                 float explosionDistance = explosionToTarget.magnitude;
 
@@ -654,11 +654,11 @@
             <br>Set Min to 15, and Max to 30
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Select botht the AimSlider and the Fill Area only.
+            Select both the AimSlider and the Fill Area only.
             <br>Set anchor and position to stretched.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Change the Fill Height to 0.
+            Change the Fill y scale to 0.
             <br>Change the Fill image to AimArrow.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -677,7 +677,7 @@
             public Rigidbody m_Shell;
             public Transform m_FireTransform;
             public Slider m_Aimslider;
-            public AudioSource m_Shooting Audio;
+            public AudioSource m_ShootingAudio;
             public AudioClip m_CharginClip;
             public AudioClip m_FireClip;
             public float m_MinLaunchForce = 15f;
@@ -685,8 +685,8 @@
             public float m_MaxChargeTime = 0.75f;
 
             private string m_FireButton;
-            private float m_CurrentLaunchforce;
-            private float m_ChargesSpeed;
+            private float m_CurrentLaunchForce;
+            private float m_ChargeSpeed;
             private bool m_Fired;
 
             private void OnEnable() {
@@ -752,7 +752,7 @@
     <h2>Game Managers</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            Create an Empty "SpawnPoint1" at (-3, 0, 30) and an empty "SpawnPonit2" at (13, 0, -5)
+            Create an Empty "SpawnPoint1" at (-3, 0, 30) and an empty "SpawnPoint2" at (13, 0, -5)
             <br>Give the first one a blue icon, and red for the second.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -783,7 +783,7 @@
             Create a new Empty "GameManager" with a new GameManager script and a new TankManager script.
             <pre>
             <span class="glyphicon-remove"></span>//Tank Manager
-            /*Make serializable. [Serializable] above public class TankManager
+            /*Make serializable. [System.Serializable] above public class TankManager
                 Doesn't inherit from MonoBehavior */
             public Color m_PlayerColor;
             public Transform m_SpawnPoint;
@@ -1040,9 +1040,6 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Find additional training for this game, it's not on the actual training site but they recently uploaded stuff for this project.
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
