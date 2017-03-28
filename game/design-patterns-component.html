@@ -112,6 +112,14 @@
                                 <a href="#sample-code">Sample Code</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#design-decisions">Design Decisions</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#see-also">See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -453,7 +461,195 @@
             Bjorn* bjorn = new Bjorn(new PlayerInputComponent());
             </pre>
             <p><span class="glyphicon-remove"></span>This instance can be any concrete type that implements our abstract InputComponent interface. We pay a price for this - update() is now a virtual method call, which is a little slower. What do we get in return for this cost?</p>
-            <p><span class="glyphicon-remove"></span></p>
+            <p><span class="glyphicon-remove"></span>Most consoles require a game to support "demo mode". If the player sits at the main menu without doing anything, the game starts playing automatically, with the computer standing in for the player. This keeps the game form burning the main menu into your TV and also makes the game look nicer when running on a kiosk in a store.</p>
+            <p><span class="glyphicon-remove"></span>Hiding the input component class behind an interface lets us get that working. We already have our concrete PlayerInputController that's normally used when playing the game. Now let's make another one:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class DemoInputComponent ; public InputComponent {
+                public virtual void update(Bjorn&amp; bjorn) {
+                    // AI to automatically control Bjorn...
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When the game goes into demo mode, instead of constructing Bjorn like we did earlier, we'll wire him up with our new component:
+            <pre><span class="glyphicon-remove"></span>Bjorn* bjorn = new Bjorn(new DemoInputComponent());</pre>
+            <p><span class="glyphicon-remove"></span>And now, just by swapping out a component, we've got a fully functioning computer-controlled player demo mode. We're able to reuse all of the other code for Bjorn - physics and graphics don't even know the difference.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>No Bjorn at all?</h3>
+            <p><span class="glyphicon-remove"></span>If you look at our Bjorn class now, you'll notice there's nothing really "Bjorn" about it - it's just a component bag. In fact, it looks like a pretty good candidate for a base "game object" class that we can use for <i>every</i> object in the game. All we need to do is pass in <i>all</i> the components, and we can build any kind of object by picking and choosing parts like Dr. Frankenstein.</p>
+            <p><span class="glyphicon-remove"></span>Let's take our two remaining concrete components - physics and graphics - and hide them from behindinterfaces like we did with input:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class PhysicsComponent {
+                public virtual ~PhysicsComponent() {}
+                public virtual void update(GameObject&amp; obj, World&amp; world) = 0;
+            }
+
+            class GraphicsComponent {
+                public virtual ~GrahicsComponent() {}
+                public virtual void update(GameObject&amp; obj, World&amp; world) = 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Then we re-christen Bjorn into a generic GameObject class that uses those interfaces:
+            <pre>
+            <span class="glyphicon-remove"></span>class GameObject {
+                public int velocity;
+                public int x, y;
+
+                public GameObject(InputComponent* input, PhysicsComponent* physics, GraphicsComponent* graphics) 
+                    : input_(input), physics_(physics), graphics_(graphics) {}
+
+                public void update(World&amp; world, Graphics&amp; graphics) {
+                    input_->update(*this);
+                    physics_->update(*this, world);
+                    graphics_->update(*this, graphics);
+                }
+
+                private InputComponent* input_;
+                private PhysicsComponent* physics_;
+                private GraphicsComponent* graphics_;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Our existing concrete classes will get renamed and implement those interfaces:
+            <pre>
+            <span class="glyphicon-remove"></span>class BjornPhysicsComponent : public PhysicsComponent {
+                public virtual void update(GameObject&amp; obj, World&amp; world) {
+                    //Physics code...
+                }
+            }
+
+            class BjornGraphicsComponent : public GraphicsComponent {
+                public virtual void update(GameObject&amp; obj, Graphics&amp; graphics) {
+                    //Graphics code...
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            And now we can build an object that has all of Bjorn's original behavior without having to actually create a class for him, just like this:
+            <pre>
+            <span class="glyphicon-remove"></span>GameObject* createBjorn() {
+                return new GameObject(new PlayerInputComponent(), new BjornPhysicsComponent(), new BjornGraphicsComponent());
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>By defining other functions that instantiate GameObjects with different components, we can create all of the different kinds of objects our game needs.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="design-decisions">
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The most important design question you'll need to answer with this patter is, "What set of components do I need?" The answer there is going to depend on the needs and genre of your game. The bigger and more complex your engine is, the more finely you'll likely want to slice your components.
+            <p><span class="glyphicon-remove"></span>Beyond that, there are a couple options more specific to consider.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How does the object get its components?</h3>
+            <p><span class="glyphicon-remove"></span>Once we've split up our monolithic object into a few separate component parts, we have to decide who puts the parts back together.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If the object creates its own components:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It ensures that the object always has the component it needs.</i> You never have to worry about someone forgetting to wire up the right components to the object and breaking the game. The container object itself takes care of it for you.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's harder to reconfigure the object.</i> One of the powerful features of this pattern is that it lets you build new kinds of objects simply by recombining components. If our object always wires itself with the same set of hard-coded components, we aren't taking advantage of that flexibility.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If outside code provides the components:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The object becomes more flexible.</i> We can completely change the behavior of the object by giving it different components to work with. Taken to its fullest extent, our object becomes a generic component container that we can reuse over and over again for different purposes.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The object can be decoupled from the concrete component types.</i> If we're allowing outside code to pass in components, odds are good that we're also letting it pass in <i>derived</i> component types. At that ponit, the object only knows about the component <i>interfaces</i> and not the concrete types themselves. This can make for a nicely encapsulated architecture.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How do components communicate with each other?</h3>
+            <p><span class="glyphicon-remove"></span>Perfectly decoupled components that function in isolated is a nice ideal, but it doesn't really work in practice. The fact that these components are part of the <i>same</i> object implies that they are part of a larger whole and need to coordinate. That means communication.</p>
+            <p><span class="glyphicon-remove"></span>So how can the components talk to each other? There are a couple of options, but unlike most design "alternatives" in this section, these aren't exclusive - you will likely support more than one at the same time in your designs.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>By modifying the container object's state:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It keeps the components decoupled.</i> Whe our InputComponent set Bjorn's velocity and the PhysicsComponent later used it, the two components had no idea that the other even existed. For all they knew, Bjorn's velocity changed through black magic.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It requires any information that components need to share to get pushed into the container object.</i> Often, there's state that's really only needed by a subset of the components. For example, an animation and a rendering component may need to share information that's graphics-specified. Pushing that information up into the container object where <i>ever</i> component can get to it muddies the object class.
+            <br>Worse, if we use the same container object class with different componet configurations, we can end up wasting memory on state that isn't needed by <i>any</i> of the object's components. If we push some rendering-specific data into the container object, any invisible object will be burning memory on it with no benefit.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It makes communication implicity and dependent on the order that components are processed.</i>  In our sample code, the original monolithic update() method had a very carefully laid out order of operations. The user input modified the velocity, which was then used by the physics code to modify the position, which in turn was used by the rendering code to modify the position which in turn was used by the rendering code to draw Bjorn at the right spot. When we split that code out into components, we were careful to preserve that order of operations.
+            <br>If we hadn't, we would have introduced subtle, hard-to-track bugs. For example, if we'd update the graphics component <i>first</i>, we would wrongly render Bjorn at his position on the <i>last</i> frame, not this one. If you imagine several more components and lots more code, then you can get the idea of how hard it is to avoid bugs like this.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>By referring directly to each other:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; The idea here is that components that need to talk will ahve direct references to each other without having to go through the container object at all.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; Let's say we want to let Bjorn jump. The graphics code needs to know if he should be drawn using a jump sprite or not. It can determine this by asking the physics engine if he's currently on the ground. An easy way to do this is by letting the graphics component know about the physics component directly:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class BjornGrpahicsComponent {
+                public BjornGraphicsComponent(BjornPhysicsComponent* physics) : physics_(physics) {}
+
+                void Update(GameObject&amp; obj, Graphics&amp; graphics) {
+                    Sprite* sprite;
+                    if(!physics_->isOnGround()) {
+                        sprite = &amp;spriteJump_;
+                    } else {
+                        // Existing graphics code...
+                    }
+                }
+
+                private BjornPhysicsComponent* physics_;
+
+                private Sprite spriteStand_;
+                private Sprite spriteWalkLeft_;
+                private Sprite spriteWalkRight_;
+                private Sprite spriteJump_;
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; When we construct Bjorn's GraphicsComponent, we'll give it a reference to his corresponding PhysicsComponent.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>It's simple and fast.</i> Communication is a direct method call from one object to another. The component can call any method that is supported by the component it has a reference to. It's a free-for-all.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The two components are tightly coupled.</i> The downside of the free-for-all. We've basically taken a step back towards our monolithic class. It's not quite as bad as the original single class though, since we're at least restricting the coupling to only the component pairs that need to interact.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>By sending messages:</b></p>
+            <p><span class="glyphicon-remove"></span> &nbsp; This is the most complex alternative. We can actually build a little messaging system into our container object and let the components broadcast information to each other.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; Here's one possible implementiation. We'll start by defining a base Component interface that all of our components will implement:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class Component {
+                public virtual ~Component() {}
+                public virtual void receive(int message) = 0;
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; It has a single receive() method that component classes implement in order to listen to an incoming message. Here, we're just using an int to identify the message, but a fuller implementation could attach additional data to the message. Then, we'll add a method to our container object for sending messages:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>class ContainerObject {
+                public void send(int message) {
+                    for(int i = 0; i < MAX_COMPONENTS; i++) {
+                        if(components_[i] != NULL) {
+                            components_[i]->receive(message);
+                        }
+                    }
+                }
+
+                private static const int MAX_COMPONENTS = 10;
+                Component* components_[MAX_COMPONENTS[;];
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span> &nbsp; Now, if a component has access to its container, it can send messages to the container, which will rebroadcast the message to all of the contained components. (That includes the original component that sent the message; be careful that you don't get stuck in a feedback loop!) This has a couple consequences:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>Sibling components are decoupled.</i> By going through the parent container object, like our shared state alternative, we ensure that the components are still decoupled from each other. With this system, the only coupling they have is the message values themselves.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &nbsp; &bull; <i>The container object is simple.</i> Unlike using shared state where the container object itself owns and knows about data used by the components, here, all it does is blindly pass the messages along. That can be useful for letting two components pass very domain-specific information between themselves without having that bleed into the container object.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Unsurprisingly, there's no one best answer here. What you'll likely end up doing is using a bit of all of them. Shared state is useful for the really basic stuff that you can take for granted that every object has - things like position and size.
+            <p><span class="glyphicon-remove"></span>Some domains are distinct but still closely related. Think animation and rendering, user input and AI, or physics and collision. If you have separate components for each half of those pairs, you may find it easiest to just let them know directly about their other half.</p>
+            <p><span class="glyphicon-remove"></span>Messaging is useful for "less important" communication. Its fire-and-forget nature is a good fit for things like having an audio component play a sound when a physics components sends a message that the object has collided with something.</p>
+            <p><span class="glyphicon-remove"></span>As always, I recommend you start simple and then add in additional communication paths if you need them.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="see-also">
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The Unity framework's core GameObject class is designed entirely around components.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The open source Delta3D engine has a base GameActor class that implements this pattern with the appropriately named ActorComponent base class.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Microsoft's XNA game framework comes with a core Game class. It owns a collection of GameComponent objects. Where our example uses components at the individual game entity level, XNA implements the pattern at the level of the main game object itself, but the purpose is the same.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This pattern bears resemblance to the <a href="http://c2.com/cgi-bin/wiki?StrategyPattern">Strategy</a> pattern. Both patterns are about taking part of an object's behavior and delegating it to a separate subordinate object. The difference is that with the Strategy pattern, the separate "strategy" object is usually stateless - it encapsulates an alogrithm, but no data. It defines <i>how</i> an object behaves, but not <i>what</i> it is.
+            <br>Components are a bit more self-important. They often hold state that describes the object and helps define its actual identity. However, the line may blur. You may have some components that don't need any local state. In that case, you're free to use the same component <i>instance</i> across multiple container objects. At that point, it really is behaving more akin to a strategy.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
