@@ -112,6 +112,10 @@
                                 <a href="#sample-code">Sample Code</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#design-decisions">Design Decisions</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -404,7 +408,98 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Replacing tail_++ with an increment modulo the array size wraps the tail back around.
+            Replacing tail_++ with an increment modulo the array size wraps the tail back around. The other change is the assertion. We need to ensure the queue doesn't overflow. As long as there are fewer than MAX_PENDING requests in the queue, there will be a little gap of unused cells between the head and the tail. If the queue fills up, those will be gone and, like some weird backwards Ouroboros, the tail will collide with the head and start overwriting it. The assertion ensures this doesn't happen.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In update(), we wrap the head around too:
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::update() {
+                //If there are no pending requests, do nothing.
+                if(head_ == tail_) return;
+
+                ResourceId resource = loadSound(pending_[head_].id);
+                int channel = findOpenChannel();
+                if(channel == -1) return;
+                startSound(resources, channel, pending_[head_].volume);
+
+                head_ = (head_ + 1) % MAX_PENDING;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Aggregating Requests</h3>
+            <p><span class="glyphicon-remove"></span>Now that we've got a queue in place, we can move onto the other problems. The first is that multiple requests to play the same sound end up too loud. Since we know which requests are waiting to be processed now, all we need to do is merge a request if it matches an already pending one:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::playSound(SoundId id, int volume) {
+                //Walk through pending requests
+                for(int i = head_; i != tail_; i = (i + 1) % MAX_PENDING) {
+                    if(pending_[i].id == id) {
+                        //Use the larger of the two volumes.
+                        pending_[i].volume = max(volume, pending_[i].volume);
+
+                        //Don't need to enqueue.
+                        return;
+                    }
+                }
+                //Previous Code...
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When we get two requests to play the same sound, we collapse them to a single request for whichever is loudest. This "aggregation" is pretty rudimentary, but we could use the same idea to do more interesting batching.
+            <p><span class="glyphicon-remove"></span>Note that we're merging when the request is <i>enqueued</i>, not when it's <i>processed</i>. That's easier on our queue since we don't waste slots on redundant requests that will end up being collapsed later. It's also simpler to implement.</p>
+            <p><span class="glyphicon-remove"></span>It does, however, put the processing burden on the caller. A call to playSound() will walk the entire queue before it returns, which could be slow if the queue is large. It may make more sense to aggregate in update() instead.</p>
+            <p><span class="glyphicon-remove"></span>There's something important to keep in mind here. The window of "simultaneous" requests that we can aggregate is only as big as the queue. If we process requests more quickly and the queue size stays small, then we'll have fewer opportunities to batch things together. Likewise, if processing lags behind and the queue gets full, we'll find more things to collapse.</p>
+            <p><span class="glyphicon-remove"></span>This pattern insulates the requester from knowing when the request gets processed, but when you treat the entire queue as a live data structure to be played with, then lag between making a request and processing it can visibly affect behavior. Make sure you're okay with that before doing this.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Spanning Threads</h3>
+            <p><span class="glyphicon-remove"></span>Finally, the most pernicious problem. With our synchronous audio API, whatever thread called playSound() was the thread that processed the request. That's often not what we want.</p>
+            <p><span class="glyphicon-remove"></span>On today's multi-core hardware, you need more than one thread if you want to get the most out of your chip. There are infinite ways to distribute code across threads, but a common strategy is to move each domain of the game onto its own thread - audio, rendering, AI, etc.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We're in good shape to do that now that we have three critical pieces:
+            <br>&nbsp; &bull; The code for requesting a sound is decoupled from the code that plays it.
+            <br>&nbsp; &bull; We have a queue for marshalling between the two.
+            <br>&nbsp; &bull; The queue is encapsulated from the rest of the game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            All that's left is to make the methods that modfiy the queue - playSound() and update() - thread-safe. Normally, I'd whip up some concrete code to do that, but since this is a book about architecture, I don't want to get mired in the details of any specific API or locking mechanism.
+            <p><span class="glyphicon-remove"></span>At a high level, all we need to do is ensure that the queue isn't modified concurrently. Since playSound() does a very small amount of work - basically just assigning a few fields - it can lock without blocking processing for long. In update(), we wait on something like a condition variable so that we don't burn CPU cycles until there's a request to process.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="design-decisions">
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Many games use event queues as a key part of their communication structure, and you can spend a ton of time designing all sorts of complex routing and filtering for messages. But before you go off and build something like the Los Angeles telephone switchboard, I encourage you to start simple. Here's a few start questions to consider.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What goes in the queue?</h3>
+            <p><span class="glyphicon-remove"></span>I've used "event" and "message" interchangeably so far because it mostly does'nt matter. You get the same decoupling and aggregation abilities regardless of what you're stuffing int the queue, but there are some conceptual differences.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you queue events:</b>
+            <br> &nbsp; An "event" or "notification" describes something that <i>already</i> happened, like "monster died". You queue it so that other objects can <i>respond</i> to the even, sort of like an asynchronous Observer pattern.
+            <br> &nbsp; &nbsp; &bull; <i>You are likely to allow multiple listeners.</i> Since the queue contains things that already happened, the sender probably doesn't care who receives it. From its perspective, the event is in the past and already forgotten.
+            <br> &nbsp; &nbsp; &bull; <i>The scope of the queue tends to be broader.</i> Event queues are often used to <i>broadcast</i> events to any and all interested parties. To allow maximum flexibility for which parties can be interested, these queues tend to be more globally visible.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>If you queue messages:</b>
+            <br> &nbsp; A "message" or "request" describes an action that we <i>want</i> to happen <i>in the future</i>, like "play sound". You can think of this as an asynchronous API to a service.
+            <br> &nbsp; &nbsp; &bull; <i>You are more likely to have a single listener.</i> In the example, the queued messages are requests specifically for the <i>audio API</i> to play a sound. If other random parts of the game engine started stealing messages off the queue, it wouldn't do much good.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Who can read from the queue?</h3>
+            <p><span class="glyphicon-remove"></span>In our example, the queue is encapsulated and only the Audio class can read from it. In a user interface's event system, you can register listeners to your heart's content. You sometimes hear the terms "single-cast" and "broadcast" to distinguish these, and both styles are useful.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A single-cast queue:</b>
+            <br> &nbsp; This is the natural fit when a queue is part of a class's API. Like in our audio example, from the caller's perspective, they just see a playSound() method they can call.
+            <br> &nbsp; &nbsp; &bull; <i>The queue becomes an implementation detail fo the reader.</i> All the sender knows is that it sent a message.
+            <br> &nbsp; &nbsp; &bull; <i>The queue is more encapsulated.</i> All other things being equal, more encapsulation is usually better.
+            <br> &nbsp; &nbsp; &bull; <i>You don't have to worry about contention between listeners.</i> With multiple listeners, you have to decide if they all get every item (broadcast) or if <i>each</i> item in the queue is parceled out to <i>one</i> listener.
+            <br>In either case, the listener may end up doing redundant work or interfering with each other, and you have to think carefully about the behavior you want. With a single listener, that complexity disappears.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A broadcast queue:</b>
+            <br> &nbsp; This is how most "event" systems work. If you have ten listeners when an event comes in, all ten of them see the event.
+            <br> &nbsp; &nbsp; &bull; <i>Events can get dropped on the floor.</i> A corollary to the previous point is that if you have <i>zero</i> listeners, all zero of them see the event. In most broadcast systems, if there are no listeners at the point in time that an event is processed, the event gets discarded.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -414,6 +509,7 @@
                 </div>
             </div>
     </main>
+
 
     <!-------------------------------------------------------------------------->
 
