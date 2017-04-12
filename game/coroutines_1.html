@@ -104,6 +104,22 @@
                                 <a href="#why-coroutines">Why Coroutines</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#where-and-when">Where &amp; When</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#whats-new">Whats New</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#caution">Caution</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#comments">Important Comments</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -234,6 +250,114 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             By using Coroutines your code gets shorter and it does help in optimization of code. Coroutines have only a tiny overhead and can be preferred over an Update method that is called all the time needlessly.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="where-and-when">
+    <h2>Where &amp; When</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at some situations where using Coroutines could be helpful.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>1. When you want to sequence things like animations and state machines.</h3>
+            <p><span class="glyphicon-remove"></span>Take a look at this code:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>IEnumerator PerformPlayerMotion() {
+                player.ChangeAnimatorState(PlayerAnimator.AnimatorState.Move);
+                PlayerControl.RaiseOnChangeCameraMode(CameraScenematic.CameraMode.PlayerMovement);
+                Yield return StartCoroutine(player.PerformMovement());
+                player.ChangeAnimatorState(PlayerAnimator.AnimatorState.Idle);
+                Player.StopNow();
+                Yield return new WaitForSeconeds(1.0f);
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Yes this is how sequences are maintatined in games.</p>
+            <p><span class="glyphicon-remove"></span>Here, the first animation state is changed, then the camera state is changed, and it waits till the movement of the player is over. As soon as the player movement is over the state is changed back to the idle and respective motion method is called.</p>
+            <p><span class="glyphicon-remove"></span>For smoother ending another WaitforSeconds() is set. Now if you check the third line, another coroutine is called; player.PerformMovement(). Yes it is possible. Now by using yield ahead of the StartCoroutine(), this will force the current coroutine to wait until execution of player.PerformMovement() is complete.</p>
+            <p><span class="glyphicon-remove"></span>This is how you can handle a sequence in your games. It's not perfect, but a possible solution.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>2. When you want to split execution over multiple frames.</h3>
+            <p><span class="glyphicon-remove"></span>Look at the following code.</p>
+            <pre>
+            <span class="glyphicon-remove"></span>IEnumerator PerformGridCalculations() {
+                for(int i = 0; i < 1000; i++) {
+                    for(int j = 0; j < 1000; j++) {
+                        grid[i, j].DoSomeExpensiveCalculations()l;
+                    }
+                    yield return 0;
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Imagine a grid with 1000 x 1000 items and some calculation is to be done for each grid item! That would take a heck of a CPU to get that done smoothly. But luckily, because of Coroutines, there is a possibility that allows you to divide these heavy calculations into multiple frames and resulting in lesser CPU overload.</p>
+            <p><span class="glyphicon-remove"></span>As seen in the code above, the execution is divided into parts. Here only the j loop will be executed and cut off until it reaches the next frame. In simpler words, only one loop of execution will be performed for the i loop in a single frame.</p>
+            <p><span class="glyphicon-remove"></span>This is how Coroutines can help optimize games.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>3. When working on asynchronous code.</h3>
+            <p><span class="glyphicon-remove"></span>Have a look at this code:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>IEnumerator LoginToFacebook() {
+                FB.Login();
+                while(!FB.isLoggedIn()){
+                    yield return null;
+                }
+                SomeProccessOnLogin();
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Now as shown above if you want to perform some initialization or something like that after an asynchrounous process is complete, then there is no perfect solution other than coroutines.</p>
+            <p><span class="glyphicon-remove"></span>Here I want to perform some stuff after login to FB process is completed. So I'll check if FB.isLoggedIn() every frame. As soon as the condition turns true, required action will be executed. Simple as that.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="whats-new">
+    <h2>Whats New</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Recently, Unity has added some new features to Coroutines which are the WaitUntil and WaitWhile functions. They can only be used with the yield statement.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            1. <b>WaitUntil</b> suspends the execution until the given condition is true.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            2. <b>WaitWhile</b> suspends the execution until the given condition is false.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="caution">
+    <h2>Caution</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Coroutines create a flow of logic which is incredibly hard to follow as there is no explicity structure in how they execute or in what order.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You end up creating an implicity dependency between them which varies depending on their execution order. Thus, if not used with proper understanding they can destroy your game structure.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Coroutines do generate a bit of garbage when they are used.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="comments">
+    <h2>Important Comments</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            It is really dangerous to start a coroutine on kepress and not checking to see if it is already running. You should always use flags, which check if the coroutine is already running, otherwise you start it again and again and again...
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Deactivating your GameObject will kill all Coroutines running on it.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
