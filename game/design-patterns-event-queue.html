@@ -301,6 +301,110 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             We can tune the array size to cover our worst case. To play a sound, we simply slot a new message in there at the end:
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::playSound(SoundId id, int volume) {
+                assert(numPending_ < MAX_PENDING);
+
+                pending_[numPending_].id = id;
+                pending_[numPending_].volume = volume;
+                numPending_++;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This lets playSound() return almost instantly, but we do still have to play the sound, of course. that code needs to go somewhere, and that somewhere is an update() method:
+            <pre>
+            <span class="glyphicon-remove"></span>class Audio {
+                public static void update() {
+                    for(int i = 0; i < numPending_; i++) {
+                        ResourceId resource = loadSound(pending_[i].id);
+                        int channel = findOpenChannel();
+                        if(channel == -1) return;
+                        startSound(resource, channel, pending_[i].volume);
+                    }
+
+                    numPending_ = 0;
+                }
+
+                //Other stuff...
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now, we need to call that from somewhere convenient. What "convenient" means depends on your game. It may mean calling it from the main game loop or from a dedicated audio thread.
+            <p><span class="glyphicon-remove"></span>This workds fine, but it does presume we can process <i>every</i> sound request in a single call to update(). If you're doing something like processing a request asynchronously after its sound resource is loaded, that won't work. For update() to work on one request at a time, it needs to be able to pull requests out of the buffer while leaving the rest. In other words, we need an actual queue.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>A Ring Buffer</h3>
+            <p><span class="glyphicon-remove"></span>There are a bunch of ways to implement queues, but my favorite is called a <i>ring buffer</i>. It preserves everything that's great about arrays while letting us incrementally remove items from the front of the queue.</p>
+            <p><span class="glyphicon-remove"></span>Now, I know what you're thinking. If we remove items from the beginning of the array, don't we have to shift all of the remaining items over? Isn't that slow?</p>
+            <p><span class="glyphicon-remove"></span>This is why they made us learn linked lists - you can remove nodes from them without having to shift things around. Well, it turns out you can implement a queue without shifting in an array too. I'll walk you through it, but first let's get precise on some terms:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; The <b>head</b> of the queue is where requests are <i>read</i> from. The head is the oldest pending request.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; &bull; The <b>tail</b> is the other end. It's the slot in the array where the next enqueued request will be <i>written</i>. Note that it's just <i>past</i> the end of the queue. You think of it as a half-open range, if that helps.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Since playSound() appends new requests atht the end of the array, the head starts at element zero and the tail grows to the right. Let's code that up. First, we'll tweak our fields a bit to make these two markers explicity in the class:
+            <pre>
+            <span class="glyphicon-remove"></span>class Audio {
+                public static void init() {
+                    head_ = 0;
+                    tail_ = 0;
+                }
+
+                private static int head_;
+                private static int tail_;
+                //Array
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the implementation of playSound(), numPending_ has been replaced with tail_, but otherwise it's the same:
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::playSound(SoundId id, int volume) {
+                assert(tail_ < MAX_PENDING);
+
+                // Add to the end of the list
+                pending_[tail_].id = id;
+                pending_[tail_].volume = volume;
+                tail_++;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The more interesting change is in update():
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::update() {
+                //If there are no pending requests, do nothing.
+                if(head_ == tail_) return;
+
+                ResourceId resource = loadSound(pending_[head_].id);
+                int channel = findOpenChannel();
+                if(channel == -1) return;
+                startSound(resource, channel, pending_[head_].volume);
+                head_++;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We process the request at the head and then discard it by advancing the head pointer to the right. We detect an empty queue by seeing if there's any distance between the head and tail.
+            <p><span class="glyphicon-remove"></span>Now we've got a queue - we can add to the end and remove from the front. There's an obvious problem, though. As we run requests through the queue, the head and tail keep crawling to the right. Evenutally, tail_ hits the end of the array, and party time is over. This is where it gets clever.</p>
+            <p><span class="glyphicon-remove"></span>Notice that while the tail is creeping forward, the <i>head</i> is too. That means we've got array elements at the <i>beginning</i> of the array that aren't being used anymore. So what we do is wrap the tail back around the beginning of the array when it runs off the end. That's why it's called a <i>ring</i> buffer - it acts like a circular array of cells.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Implementing this is remarkably easy. When we enqueue an item, we just need to make sure the tail wraps around to the beginning of the array when it reaches the end:
+            <pre>
+            <span class="glyphicon-remove"></span>void Audio::playSound(SoundId, int volume) {
+                assert((tail_ + 1) % MAX_PENDING != head_);
+
+                //Add to the end of the list
+                pending_[tail_].id = id;
+                pending_[tial_].volume = volume;
+                tail_ = (tail_ + 1) % MAX_PENDING;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Replacing tail_++ with an increment modulo the array size wraps the tail back around.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
