@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Advanced Scripting - Debugging</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Advanced Scripting - Debugging</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#debugging">Debugging</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#call-stack">The Call Stack</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="debugging">
+    <h2>Debugging</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In general terms, Debugging is the process of finding and removing bugs from the code. The Debugger is a tool that allows us to do this by analyzing the program during run time. It's not only great at catching run time errors but it provides a suite functionality that allows us to view the current state of the program at any given point, allowing us to find logic errors as well. With the Debugger, we can pause the execution of the code at break points, inspect the current state of the variables, step line by line through the code, and even modify values in memory.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Debugger should be your go-to tool for solving run time errors and analyzing algorithm errors. The difference between these two is simple. Runtime errors cause an exception in the game. If the exception is not handled, this will cause the game to crash. These errors can arise from a number of situations. One of the most common runtime errors is a null pointer exception. This error happens when you try and use an object that has not yet been initialized. Other examples are array out of bounds errors, divide by zero, IO errors like file not found, and so on. Algorithm or logic errors do not cause an exception, and do not cause the program to crash.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Since these errors do not throw exceptions, it can be more challenging to confirm the source of the error, and possibly even hard to see that there is an error at all. Examples of these errors can be objects not responding properly to input, failing to find a path when one exists and so on. Further the errors can be linked and compounded. Logic errors can cause runtime errors, and logic errors in one spot, can cause or hide logic errors in another spot. The approach we use for solving these is different. But both problems can benefit from the use of the Debugger.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Unity Editor does not have a Debugger built in, but we can use the ID that ships with Unity, MonoDevelop. Since the two applications are separate, it's a little more work to get the Debugger working. Also, while later versions of Unity have improved upon this, having the two applications separate has been known to result in problems getting Debugger to work properly, and consistently. Let's ook at an example by setting a break point in some code, and attaching the Debugger to Unity. We're going to set a break point on the first value inside a Start method.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You set a break point by clicking in the column on the left side, next to the line numbers. A break point is a flag that tells the Debugger, that when the execution fothe code gets to the break point, it should pause the execution and wait for us to tell it what to do. This is great for situations where you want to see what values are being input into a certain function or if you want to step through the code after the break point. Break points should only be set in the code where a valid execution will occur.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now that we've set our break point at the top of the Start function, let's attach the Debugger. The steps for attaching the Debugger are to ensure that the Unity editor is open. Then set to play mode. This will bring up the Attach to Process window and we see that our Unity editor is in here and we can attach to that. Now the Debugger is attached. We can switch back to the Unity Editor and hit play. This will trigger the break point that we set, and see the execution of the code has paused. It's  important to note that while the execution is paused, we can't actually use the Unity Editor becuase the execution is paused, it won't accept commands.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When the execution is paused we can hover over variables to see what their values are. We can stpe over code to continue execution line by line. We can step into functions and then step out of functions and we can right click on values and add a watch.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>Break points are great for a lot of situations. But what about if we only want to break on a line sometimes. Thats where conditional break points come in. To try this, right-click the break point and go to Breakpoint Properties and we see that we're allowed to set a condition here. Break when the condition is true for example. Then we can type an expression here so when that condition is true, it will break.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this quick look at the Debugger, we've seen the power of said Debugger and break points. These tools are incredibly useful when solving problems in your code and algorithms. The Debugger can also be used as a learning tool. If you're not sure how an algorithm works or unsure how a certain section of code behaves, step through it with the Debugger. The Debugger will show you step by step which line of code will be executed next, and you can analyze the inputs to the control flow systems like if, else, for, while, and see why the execution went the way it did.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="call-stack">
+    <h2>The Call Stack</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->

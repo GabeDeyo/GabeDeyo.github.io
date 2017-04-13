@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Development</title>
+    <title>Page Template</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
@@ -77,50 +77,43 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Page Template</h1>
 
-                <div class="jumbotron">
-                    <h1>Unity Engine</h1>
-                    <ul class="list-group">
-                        <!-- PERFORMANCE -->
-                        <a href="performance.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Performance</h3>
-                            <p class="list-group-item-text">A series of tips on the performance of the Unity Game Engine.</p>
-                        </a>
-                        <!-- NOTES -->
-                        <a href="notes.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Notes</h3>
-                            <p class="list-group-item-text">A series of notes on the Unity Game Engine.</p>
-                        </a>
-                        <a href="lerp.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Lerp</h3>
-                            <p class="list-group-item-text">Becoming a pro with linear interpolation.</p>
-                        </a>
-                        <a href="coroutines_1.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Coroutines 1</h3>
-                            <p class="list-group-item-text">Becoming a pro with coroutines. Instructions 1. (Kind of b.s.)</p>
-                        </a>
-                        <a href="coroutines_2.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Coroutines 2</h3>
-                            <p class="list-group-item-text">Becoming a pro with coroutines. Instructions 2.</p>
-                        </a>
-                        <div class="list-group-item">
-                            <h3 class="list-group-item-heading">Advanced Scripting</h3>
-                            <ul class="list-group">
-                                <a href="ass-debugging.html"><li class="list-group-item"><b>Debugging</b></li></a>
-                                <a href="ass-prefabs.html"><li class="list-group-item"><b>Prefabs</b></li></a>
-                                <a href="ass-advanced-scripting.html"><li class="list-group-item"><b>Advanced Scripting</b></li></a>
-                                <a href="ass-dynamic-terrain.html"><li class="list-group-item"><b>Dynamic Terrain</b></li></a>
-                                <a href="ass-gui-controls.html"><li class="list-group-item"><b>Custom GUI Controls</b></li></a>
-                                <a href="ass-networking.html"><li class="list-group-item"><b>Networking</b></li></a>
-                                <a href="ass-optimization.html"><li class="list-group-item"><b>Optimization</b></li></a>
-                                <a href="ass-extending-editor.html"><li class="list-group-item"><b>Extending the Editor</b></li></a>
-                            </ul>
-                        </div>
-                    </ul>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#sectionID">Section Link</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="sectionID">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -151,3 +144,23 @@
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
