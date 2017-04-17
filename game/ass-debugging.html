@@ -136,13 +136,41 @@
     <h2>The Call Stack</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section we'll discuss the CallStack and its importance for debugging. The CallStack is a list of functions and their locations in the program. You can think of a CallStack like a map, leading back to the start of the program. Recall, in the debugging section, we used the debugger to step into a piece of code. Whenever the execution steps into a function call it leaves a marker on the stack. It's called a stack because like the stacked data structure, items are added and removed from the top only. In this way, stepping into or calling a method will push a marker onto the stack, and stepping out of or returning from a method will pop a marker off.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's check it out with a bit of code:
+            <pre>
+            <span class="glyphicon-remove"></span>public class CallStack : MonoBehavior {
+                public GameObject targetObject;
+                public float distanceToTarget;
+
+                void Start() {
+                    Debug.Log(functionA());
+                    Debug.Log(functionC());
+                }
+
+                string functionA() {
+                    return functionB() + " and A!";
+                }
+
+                string functionB() {
+                    return functionC() + " and B";
+                }
+
+                string functionC() {
+                    return functionD + " and C";
+                }
+
+                string functionD() {
+                    return "This string was made by function D";
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>In this example we'll set a breakpoint at the return of functionD(). We can see our call stack down in the lower right. And see that from the start, we read this backwards to be functionC called functionD, functionB called functionC, functionA called functionB, and start called functionA. Obviously start calls funcitonA. It's important to note that every call to this function does not result in the same call stack.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            We know that is true when we look at the call to functionC where functionC results in a start to functionC to functionD. This is similar to driving directions to a specific location. While the destination remains the same, the starting point can vary and even cars starting at the same point can take different routes. The call stack is like a list of streets the car used to get to the destination. In this analogy, the execution of the code is the car. This information becomes more and more valuable, the more complex your code becomes.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
