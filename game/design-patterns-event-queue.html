@@ -116,6 +116,10 @@
                                 <a href="#design-decisions">Design Decisions</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#see-also">See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -499,7 +503,56 @@
             <br>In either case, the listener may end up doing redundant work or interfering with each other, and you have to think carefully about the behavior you want. With a single listener, that complexity disappears.</p>
             <p><span class="glyphicon-remove"></span> &nbsp; <b>A broadcast queue:</b>
             <br> &nbsp; This is how most "event" systems work. If you have ten listeners when an event comes in, all ten of them see the event.
-            <br> &nbsp; &nbsp; &bull; <i>Events can get dropped on the floor.</i> A corollary to the previous point is that if you have <i>zero</i> listeners, all zero of them see the event. In most broadcast systems, if there are no listeners at the point in time that an event is processed, the event gets discarded.</p>
+            <br> &nbsp; &nbsp; &bull; <i>Events can get dropped on the floor.</i> A corollary to the previous point is that if you have <i>zero</i> listeners, all zero of them see the event. In most broadcast systems, if there are no listeners at the point in time that an event is processed, the event gets discarded.
+            <br> &nbsp; &nbsp; &bull; <i>You may need to filter events.</i> Broadcast queues are often widely visible to much of the program, and you can end up with a bunch of listeners. Multiply lots of events times lots of listeners, and you end up with a ton of event handlers to invoke.
+            <br>&nbsp; To cut that down to size, most broadcast event systems let a listener winnow down the set events they receive. For example, they may say they only want to receive mouse events or events within a certain region of the UI.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>A work queue:</b>
+            <br> &nbsp; Like a broadcast queue, here you have multiple listeners too. The difference is that each item in the queue only goes to <i>one</i> of them. This is a common pattern for parceling out jobs to a pool of concurrently running threads.
+            <br> &nbsp; &nbsp; &bull; <i>You have to schedule.</i> Since an item only goes to one listener, the queue needs logic to figure out the best one to choose. This may be as simple as round robin or random choice, or it coule be some more complex prioritizing system.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Who can write to the queue?</h3>
+            <p><span class="glyphicon-remove"></span>This is the flip side of the previous design choice. This pattern works with all of the possible read/write configurations: one-to-one, one-to-many, many-to-one, or many-to-many.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>With one writer:</b>
+            <br> &nbsp; This style is most similar to the syncronous Observer pattern. You have one privileged object that generates events that other can then receive.
+            <br> &nbsp; &nbsp; &bull; <i>You implicity know where the event is coming from.</i> Since there's only one object that can add to the queue, any listener can safely assume that's the sender.
+            <br> &nbsp; &nbsp; &bull; <i>You usually allow multiple readers.</i> You can have a one-sender-one-receiver queue, but that starts to feel less like the communication system this pattern is about and more like a vanilla queue data structure.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>With multiple writers:</b>
+            <br> &nbsp; This is how our audio engine example works. Since playSound() is a public method, any part of the codebase can add a request to the queue. "Global" or "central" event busses work like this too.
+            <br> &nbsp; &nbsp; &bull; <i>You have to be more careful of cycles.</i> Since anything can potentially put something onto the queue, it's easier to accidentally enqueue something in the middle of handling an event. If you aren't careful, that may trigger a feedback loop.
+            <br> &nbsp; &nbsp; &bull; <i>You'lll likely want some reference to the sender in the event itself.</i> When a listener gets an event, it doesn't know who sent it, since it could be anyone. If that's something they need to know, you'll want to pack that into the event object so that the listener can use it.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What is the lifetime of the objects in the queue?</h3>
+            <p><span class="glyphicon-remove"></span>With a syncronous notification, execution doesn't return to the sender until all of the receivers have finished processing the message. That means the message itself can safely live in a local variable on the stack. With a queue, the message outlives the call that enqueues it.</p>
+            <p><span class="glyphicon-remove"></span>If you're using a garbage collected language, you don't need to worry about this too much. Stuff the message in the queue, and it will stick around in memory as long as it's needed. In C or C++, it's up to you to ensure the object lives long enough.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Pass ownership:</b>
+            <br> &nbsp; This is the traditional way to do things when managing memory manually. When a message gets queued, the queue claims it and the sender no longer owns it. When it gets processed, the receiver takes ownership and is responsible for deallocating it.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Share ownership:</b>
+            <br> &nbsp; These days, now that even C++ programmers are more comfortable with garbage collection, shared ownership is more acceptable. With this, the message sticks around as long as anything has a reference to it and is automatically freed when forgotten.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>The queue owns it:</b>
+            <br> &nbsp; Another option is to have messages <i>always</i> live on the queue. Instead of allocating the message itself, the sener requests a "fresh" one from the queue. The queue returns a reference to a message already in memory inside the queue, and the sender fills it in. When the message gets processed, the receiver refers to the same message in the queue.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="see-also">
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            It's already been mentioned a few times here, but in many ways, this pattern is the asynchronous cousin to the well known <a href="design-patterns-observer.html">Observer</a> pattern.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Like many patterns, event queues go by a number of aliases. One established term is "message queue". It's usually referring to a higher-level manifestation. Where our event queues are <i>within</i> an application, message queues are usually used for communicating <i>between</i> them.
+            <br>Another term is "publish/subscribe", sometimes abbreviated to "pubsub". Like "message queue", it usually refers to larger distributed systems unlike the humble coding pattern we're focused on.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            A finite state machine requires a stream of inputs. If you want it to respond to those asynchronously, it makes sense to queue them.
+            <br>When you have a bunch of state machines sending messages to each other, each with a little queue of pending inputs (called a <i>mailbox</i>), then you've re-invented the actor model of computation.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Go programming language's built-in- "channel" type is essentially an event or message queue.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
