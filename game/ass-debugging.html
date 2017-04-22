@@ -96,6 +96,10 @@
                                 <a href="#call-stack">The Call Stack</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#immediate-window">The Immediate Window</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -171,6 +175,41 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             We know that is true when we look at the call to functionC where functionC results in a start to functionC to functionD. This is similar to driving directions to a specific location. While the destination remains the same, the starting point can vary and even cars starting at the same point can take different routes. The call stack is like a list of streets the car used to get to the destination. In this analogy, the execution of the code is the car. This information becomes more and more valuable, the more complex your code becomes.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Say you have a function called calculateX. In this method, we want to calculate X by multiplying a vluae less than one times Y. Imagine that this method is used all throughout your code. In this case we'll just put it all in one method, but you can imagine that these calculated x calls are distributed throughout your entire codebase. Except somewhere, some bit of code is passing a value that is not less than one. We can set a break point here. Conditionally, when value less than 1 is greater than 1, we're going to break.
+            <pre>
+            <span class="glyphicon-remove"></span>float calculateX(int y, float valueLessThanOne) {
+                float x = y * valueLessThanOne; // Set a conditional breakpoint here where valueLessThanOne > 1
+                return x;
+            }
+
+            void callsAllOverThePlace() {
+                Debug.Log(calculateX(4, 0.24f));
+                Debug.Log(calculateX(34, 0.24f * 2f));
+                Debug.Log(calculateX(22, 0.83f * 1.9f)); //Call stack finds this error
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            After we attach the debugger, we make our calls to callAllOverThePlace. We will see that the break point has indeed triggered and the value is greater than one and using the call stack we can actually double click the methods there to navigate to exactly where the call is. So we would be able to search through the call stack through to the line: Debug.Log(calculate(22, 0.83 * 1.9f)); which is calculating a larger value than allowed. In this case, the call stack has made it very easy to find the offending line of code, simply by setting a bright blank on the method where we found the error.
+            <p><span class="glyphicon-remove"></span>The call stack can also be found in the Unity Editor when the Debugger is not attached. Look for errors in the console window.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="immediate-window">
+    <h2>The Immediate Window</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>

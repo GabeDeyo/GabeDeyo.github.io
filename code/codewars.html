@@ -3,18 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Notes</title>
+    <title>CodeWars</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/section.css">
+    <link rel="stylesheet" href="../css/page.css">
 </head>
 
 <body>
+
+    <!-- Top Navigation -->
     <header>
-        <!-- Top Navigation -->
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -24,7 +25,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="#" class="navbar-brand">Personal Notes</a>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
@@ -35,28 +36,29 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="game/concepts.html">Concepts <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="game/engine.html">Engine <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="game/implementations.html">Implementations <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
+                        
                         <!-- PROGRAMMING -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- ALGORITHMS -->
-                                <li><a href="code/algorithms.html">Algorithms <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
 
-                                 <!--PROBLEMS -->
-                                <li><a href="code/problems.html">Problems <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <!-- PROBLEMS -->
+                                <li><a href="problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- RANDOM -->
-                                <li><a href="code/random.html">Random <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -65,16 +67,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="gabe/fitness.html">Fitness <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="gabe/style.html">Style <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="gabe/finance.html">Finance <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="gabe/philosophy.html">Philosophy <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -91,32 +93,58 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Page Template</h1>
 
-                <div class="jumbotron">
-                    <h1>Personal Notes</h1>
-                    <ul class="list-group">
-                        <!-- GAME DEVELOPMENT -->
-                        <a href="game/game-development.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>Game Development</h3>
-                            <p class="list-group-item-text">A series of implementations and notes on game development.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- Programming -->
-                        <a href="code/programming.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>Programming</h3>
-                            <p class="list-group-item-text">Notes, collections, and implementations of my code.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Credit Card Mask</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- GABE DEVELOPMENT -->
-                        <a href="gabe/gabe-development.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span>Gabe Development</h3>
-                            <p class="list-group-item-text">A series of notes for personal growth and development.</p>
-                        </a>
-                    </ul>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Credit Card Mask</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Usually when you buy something you're asked whether your credit card number, phone number or answer to your most secret question is still correct. However, since someone could look over your shoulder, you don't want that shown on your screen. Instead, we mask it.
+            <b>Task: </b> Write a function <i>maskify</i>, which changes all but the last four characters into '#'.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Examples</b>
+            <pre>
+            <span class="glyphicon-remove"></span>Maskify('1234567890123'); // returns '#########0123'
+            Maskify('12345'); //returns '#2345'
+            Maskify('1'); //returns '1'
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Best Solution</b>
+            <pre>
+            <span class="glyphicon-remove"></span>public static string Maskify(string cc) {
+                int len = cc.Length;
+                if(len <= 4)
+                    return cc;
+
+                return cc.Substring(len-4).PadLeft(len, '#');
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -142,5 +170,28 @@
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
 </body>
+
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
