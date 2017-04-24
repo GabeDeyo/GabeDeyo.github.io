@@ -115,6 +115,14 @@
                                 <a href="#immediate-window">The Immediate Window</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#informative-and-visual">Informative and Visual Debugging</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#log-exceptions">Logging Exceptions</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -218,13 +226,125 @@
     <h2>The Immediate Window</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            The immediate window allows us to execute a line of code, taking into account the current state of the program. This means we can write snippets of code that use the current values of our variables. This is great for situations where you want to say, what would happen if I tried it this way? Or a quick way to find out what the value inside an array is or the properties of an object are. We need to pause the execution of the code in order to get access to the immediate window. So in order to use, set a break point and attach the debugger.
+            <pre>
+            <span class="glyphicon-remove"></span>void Start() {
+                Debug.Log("break here");
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Refering to the code above, once we play we'll break and see the immediate window, right by the call stack. We can do little snippets of code like two plus two or we can do the Mathf power function. When passing in parameters you need to ensure that you use the float designator for floats (0.0f), otherwise it's going to give you an error. It's not going to automatically convert values for you like it does in the compiler. We can also get the value of our variables, or do calculations.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Stuff that's not going to work is stuff like debugging outputs, because this requires the code to be running, this is only for analyzing and altering the static state of the code. We can also examine arrays, for example. Like an array of floats. We can find a value in the arrays. We can also do things like setting values.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Something else we can do that is very powerful is running our method calls. This will run the call with whatever values you give it. For example we could change the values for a weapon attack and then call CalculateAttack to find out the details you need about those changed values. This would be very useful for figuring out a infinite loop error.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The immediate window is not only useful for testing if a specific set of inputs causes an error. It's also a great way to test various inputs to make sure the output is what you are expecting. The immediate window in Unity is lacking some nice features like code completion, but it can still be a valuable tool.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="informative-and-visual">
+    <h2>Informative and Visual Debugging</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at some tips you can use in Unity for better visual and informative debugging. Visual debugging is useful in situations where we have data that is more easily represented in visual form. For example, drawing a line to indicate the heading of an object is a bit easier to understand than reading the rotation and position value of that object. I'll teach you about overwriting the ToString method, to allow us to more quickly debug code, and make debugging outputs more human readable. First, let's look at some of the visual debugging. All of the visual debugging in Unity is done through Gizmos, and we can see those in the Scene/Game ribbon.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Gizmos are very useful for visual debugging, however they are only in the debugger and it's only when the Gizmos button is checked. They're most useful in situations like movement, rotations, collisions or algorithms like pathfinding, anything where it's easier to see the data visually instead of trying to imagine the numbers. We have various options for drawing Gizmos.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            All the drawing for Gizmos is done in the OnDrawGizmos() method. Let's look at some Gizmos code.
+            <pre>
+            <span class="glyphicon-remove"></span>public void OnDrawGizmos() {
+                //if there are any object in range, draw the range and make it red.
+                if(currentlyInRange) {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(this.transform.position, activationRadius);
+                    Gizmos.color = Color.white; //reset the color after we're done.
+                }
+
+                // For each object of interest, draw a line to show we're currently tracking them.
+                Gizmos.color = Color.green;
+                foreach(GameObject go in targeted) {
+                    Gizmos.DrawLine(this.transform.position, go.transform.position);
+                }
+                Gizmos.color = Color.white; // always reset the color at the end, so we don't change the color of any other gizmo.
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="log-exceptions">
+    <h2>Logging Exceptions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Exceptions can happen for a number of reasons and you can't always prepare for all of them. Play testing is important and can help you find a lot of exceptions while your game is still in a controlled environment. However, once your game leaves your development machine, it's not easy to predict all of the situations or unique ways users will try to use your game. When your game gets out into the world, you still want to be able to track down exceptions and create patches to fix or gracefully handle exceptions. Ideally you want to be able to do this even if you can't produce the same problem on your own machine.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            For this we can produce a log file that will tell us exactly what the user was doing when it encountered an exception. For this we're going to use a method called Application.RegisteredLogCallback(). This register log callback method is going to accept a delegate method. The delegate method is going to pass in a method as a parameter. This will be covered further in the events and messaging section. Essentially what we're telling Unity with this RegisterLogCallback, is we're going to pass in our own method and say call this whenever you register a log. Let's take an initial look at some code:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ExceptionLogging : MonoBehaviour {
+                public string saveFile = @"Log.txt";
+                private StringWriter logWriter;
+
+                void OnEnable() {
+                    Application.RegisterLogCallback(ExceptionWriter);
+                }
+
+                void OnDisable() {
+                    Application.RegisterLogCallback(null);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The ExceptionWriter method that we're going to pass in is going to take a log string, stack trace and type. We're going to use a switch on the type, and if that's an exception or an error, we're going to open the log file and write to it. We're going to write the type, log, and stack trace here. We also have an exception generator calss that's going to generate exceptions for us so we can test this out. Let's see what it looks like. So, hitting space will generate an exception for us. And we see that we do have a divide by zero exception, and it gives us the line number, and if we look at our file location, we can see that a log file has been generated, and it matches the log generated by the Unity editor. Lets see the code.
+            <pre>
+            <span class="glyphicon-remove"></span>public class ExceptionLogging : MonoBehavior {
+                //Previous code...
+
+                void ExceptionWriter(string logString, string stackTrace, LogType type) {
+                    switch(type) {
+                        case LogType.Exception:
+                        case LogType.Error:
+                            using(StreamWriter writer = new StreamWriter(new FileStream(saveFile, FileMode.Append))) {
+                                writer.WriteLine(type);
+                                writer.WriteLine(logString);
+                                writer.WriteLine(stackTrace);
+                            }
+                            break;
+                        default;
+                            break;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here is the ExceptionGenerator code as well:
+            <pre>
+            <span class="glyphicon-remove"></span>private int zero = 0;
+
+            void Update() {
+                if(Input.GetKeyDown(KeyCode.Space)) {
+                    float exceptionValue = 10/zero;
+                }
+                if(Input.GetKeyDown(KeyCode.A)) {
+                    throw new MissingComponentException("Missing a component.");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The logging will be invaluable when tracking down issues in the field. Everyone knows eye witness testimony is unreliable. If a user has an issue have them send you the log. Of course it will help if they can explain what they were doing at the same time. The log file will help show you waht the user was doing leading up to their description of the events that caused the game to function improperly.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
