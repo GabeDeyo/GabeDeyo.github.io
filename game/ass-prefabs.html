@@ -289,7 +289,8 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            We split on comma and then creaate a new position using those components. You can see here that we have a position of 3-0-1. That's x, y, and z. So let's see what this looks like. We hit Play. And now we can either press A or B. And that will create our Test Entities. I can see that we have an attack info component; the value of 55. And this is a string value. and then I'm testing TTA F45352, just as defined in our Script file. 
+            We split on comma and then creaate a new position using those components. You can see here that we have a position of 3-0-1. That's x, y, and z. So let's see what this looks like. We hit Play. And now we can either press A or B. And that will create our Test Entities. I can see that we have an attack info component; the value of 55. And this is a string value. and then I'm testing TTA F45352, just as defined in our Script file.
+            <p><span class="glyphicon-remove"></span>In order to use this system, create an Empty "Entity Loader" object and attach the appropriate scripts.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this section, we've covered creating your own Prefab system to allow for modification by end users. This system relies on a simple scripting language you define. Using the simple token parser, the system is able to generate some reasonably complex objects. Further extensions to the system will allow for parent-child relationships, more support for built in Unity components, and improved error handling. While the basic system can be very powerful, it's not very user-friendly in it's current state. If you plan on implementing a similar system, consider extensive documentation. Or create UI which writes scripts automatically.
@@ -302,13 +303,703 @@
     <h2>Advanced Prefab System</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In the last section, we created a basic prefab system for defining our own prefabs. In this section we're going to go over a more advanced system. This system will utilize reflection heavily. Reflection is essentially a method for allowing a program to access information about itself. This means we can access method names, fields and properties. For this example, we're most interested in fields, since that's what we'll be defining in our scripts. Additionally, the prefab system has a more sophisticated parser called a Lexer.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            One of the first items we'll need is our <b>AdvComponent</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            The Lexer performs lexical analysis similar to how compilers read code. Finally, we'll use field attributes to find which fields we want to require a value for. Let's take a look at a sample script. This sample script syntax is a component enclosed in square brackets with open curly bracket and closed curly bracket and inside, we want to add all of our component data. So this movement component has three fields; top, speed, turning radius and acceleration. And these fields will match up to a movement component with top speed, turning radius and acceleration.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The <b>Lexer</b> is long and complicated so strap in:
+            <pre>
+            <span class="glyphicon-remove"></span>//using System; System.IO; and UnityEngine;
+            public class Lexer : IDisposable {
+                StreamReader input;
+                MemoryStream stream;
+                private string token;
+                private TokenType tokenType;
+
+                //tokens define the language, they allow us to know how to parse the script
+                public enum TokenType {
+                    IdentifierToken,
+                    KeywordToken,
+                    IntToken,
+                    RealToken,
+                    StringToken,
+                    OtherToken,
+                    EndOfInput,
+                    IntRangeToken,
+                    RealRangeToken,
+                    ComponentToken
+                    BoolToken,
+                    Vec3,
+                    Vec3Range
+                }
+
+                public Lexer(string fileInput) {
+                    //generate a new stream reader to use our lexer on
+                    input = new StreamReader(GenerateStreamFromString(fileInput));
+                }
+
+                public Stream GenerateStreamFromString(string s) {
+                    stream = new MemoryStream();
+                    StreamWriter writer = new StreamWriter(stream);
+                    writer.Write(s);
+                    writer.Flush();
+                    stream.Position = 0;
+                    return stream;
+                }
+
+                public void Dispose() {
+                    stream.Dispose();
+                }
+
+                private void SkipWhiteSpace() {
+                    //peek ahead each character and consume whitespace characters, otherwise we're done.
+                    int c = input.Peek();
+                    while(Char.IsWhiteSpace((char)c)) {
+                        input.Read();
+                        
+                        if(input.EndOfStream)
+                            return;
+
+                        c = input.Peek();
+                    }
+                }
+
+                private int GetNextFromInput() {
+                    input.Read();
+                    return input.Peek();
+                }
+
+                private int GetNextNonWhiteSpaceFromInput() {
+                    input.Read();
+                    SkipWhiteSpace();
+                    return input.Peek();
+                }
+
+                public void NextToken() {
+                    try{
+                        token = "";
+                        SkipWhiteSpace();
+                        if(input.EndOfStream) {
+                            token = "&lt;eof&gt;";
+                            tokenType = TokenType.EndOfInput;
+                            return;
+                        }
+                        int c = input.Peek();
+                        if(char.IsDigit((char)c) || c == "-") {
+                            if(c == "-") {
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                            }
+                            tokenType = TokenType.IntToken;
+                            while(char.IsDigit((char) c)) {
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                            }
+                            if(c == ".") {
+                                tokenType = TokenType.RealToken;
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                                while(char.IsDigit((char) c)) {
+                                    token = token + (char) c;
+                                    c = GetNextFromInput();
+                                }
+                            }
+                            if(c == ":") {
+                                token = token + (char) c;
+                                if(tokenType == TokenType.IntToken) {
+                                    tokenType = tokenType.IntRangeToken;
+                                    c = GetNextFromInput();
+                                    if(c == "-") {
+                                        token = token + (char) c;
+                                        c = GetNextFromInput();
+                                    }
+                                    while(char.IsDigit((char) c)) {
+                                        token = token + (char) c;
+                                        c = GetNextFromInput();
+                                    }
+                                } else { //real token
+                                    tokenType = TokenType.RealRangeToken;
+                                    c = GetNextFromInput();
+                                    if(c == "-") {
+                                        token = token + (char) c;
+                                        c = GetNextFromInput();
+                                    }
+                                    while(char.IsDigit((char) c)) {
+                                        token = token + (char) c;
+                                        c = GetNextFromInput();
+                                    }
+                                    if(c == ".") {
+                                        token = token + (char) c;
+                                        c = GetNextFromInput();
+                                        while(char.IsDigit((char) c)) {
+                                            token = token + (char) c;
+                                            c = GetNextFromInput();
+                                        }
+                                    }
+                                }
+                            }
+                            //first comma of vector 3
+                            if(c == ',' &amp;&amp; 
+                                (tokenType == TokenType.IntToken || tokenType == TokenType.RealToken ||
+                                tokenType == TokenType.InRangeToken || tokenType == TokenType.RealRangeToken)) {
+                                //vector support ranges for any of their values.
+                                if(tokenType == TokenType.IntRangeToken || tokenType == TokenType.RealRangeToken)
+                                    tokenType == TokenType.Vec3Range;
+                                else
+                                    tokenType = TokenType.Vec3;
+
+                                token = token + (char) c;
+                                c = GetNextNonWhiteSpaceFromInput();
+                                if(c == '-') {
+                                    token = token + (char) c;
+                                    c = GetNextNonWhiteSpaceFromInput();
+                                }
+                                while(char.IsDigit((char) c) || c == '.' || c == ':' || c == '-') {
+                                    if(c == ':')
+                                        tokenType = TokenType.Vec3Range;
+
+                                    token = token + (char) c;
+                                    c = GetNextNonWhiteSpaceFromInput();
+                                }
+                                if(c == ',') { //second comma of vector3
+                                    token = token + (char) c;
+                                    c = GetNextNonWhiteSpaceFromInput();
+                                    if(c == '-') {
+                                        token = token + (char) c;
+                                        c = GetNextNonWhiteSpaceFromInput();
+                                    }
+                                    while(char.IsDigit((char) c) || c == '.' || c == ':' || c == '-') {
+                                        if(c == ':')
+                                            tokenType = TokenType.Vec3Range;
+
+                                        token = token + (char) c;
+                                        c = GetNextNonWhiteSpaceFromInput();
+                                    }
+                                } else {
+                                    throw new Exception("Invalid_Syntax: Expected second comma to define Vector3");
+                                }
+                            }
+                        } else if(c == '[') {
+                            tokenType = TokenType.ComponentToken;
+                            c = GetNextFromInput();
+                            while(char.IsLetter((char) c)) {
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                            }
+                            if(c != ']') {
+                                throw new Exception("Invalid_Syntax: Component tokens must not contain any non-alphabet characters and must be closed with ']'");
+                            }
+                        } else if(char.IsLetter((char) c)) {
+                            tokenType = TokenType.IdentifierToken;
+                            while(char.IsLetter((char) c) || char.IsDigit((char) c)) {
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                            }
+                            if(token.ToLower().Equals("true") || token.ToLower().Equals("false")) {
+                                tokenType = TokenType.BoolToken;
+                            }
+                        } else if(c == '"') {
+                            tokenType = TokenType.StringToken;
+                            c = GetNextFromInput();
+                            while(c != '"') {
+                                token = token + (char) c;
+                                c = GetNextFromInput();
+                                if(c == -1)
+                                    throw new Exception("Invalid_Syntax: must close '\"'");
+                            }
+                            //Clear the " so it's not waiting for the next token.
+                            GetNextFromInput();
+                        } else {
+                            tokenType = TokenType.OtherToken;
+                            token = token + (char) c;
+                                int d = GetNextFromInput();
+                            if((c == '<') &amp;&amp; (d == '='))
+                                token = token + (char) d;
+                            else if((c == '<') &amp;&amp; (d == '<'))
+                                token = token + (char) d;
+                            else if((c == '>') &amp;&amp; (d == '='))
+                                token = token + (char) d;
+                            else if((c == '=') &amp;&amp; (d == '='))
+                                token == token + (char) d;
+                            else if((c == '!') &amp;&amp; (d == '='))
+                                token = token + (char) d;
+                        }
+                    } catch (Exception ex) {
+                        Debug.Log(ex.Message);
+                    }
+                }
+
+                public System.Object GetValue(TokenType tt) {
+                    string tokenValuePair = token;
+                    NextToken();
+                    if(Match("=")) {
+                        tokenValuePair += "=";
+                        NextToken();
+                        tokenValuePair += token;
+                        if(tokenType == tt) {
+                            return GetObject();
+                        }
+                    }
+                    Debug.Log("TokenType mismatch when getting value: " + tokenValuePair);
+                    return null;
+                }
+
+                public System.Object GetValue() {
+                    string tokenValuePair = token;
+                    NextToken();
+                    if(Match("=")) {
+                        tokenValuePair += "=";
+                        NextToken();
+                        tokenvaluePair += token;
+                        return GetObject();
+                    }
+                    Debug.Log("TokenType mismatch when getting value: " + tokenValuePair);
+                    return null;
+                }
+
+                public System.Object GetObject() {
+                    switch(tokenType) {
+                        case TokenType.IntToken:
+                            return int.Parse(GetToken());
+                        case TokenType.IntRangeToken:
+                            string[] iComponents = GetToken().Split(':');
+                            return new int[]{int.Parse(iComponents[0]), int.Parse(iComponents[1])};
+                        case TokenType.RealToken:
+                            return float.Parse(GetToken());
+                        case TokenType.RealRangeToken:
+                            string[] fComponents = GetToken().Split(':');
+                            return new float[]{float.Parse(fComponents[0]), float.Parse(fComponents[1])};
+                        case TokenType.StringToken:
+                            return GetToken();
+                        case TokenType.BoolToken:
+                            return bool.Parse(GetToken());
+                        case TokenType.IdentifierToken;
+                            return GetToken();
+                        case TokenType.Vec3:
+                            string[] components = GetToken().Split(',');
+                            return new Vector3(float.Parse(components[0]), float.Parse(components[1]), float.Parse(components[2]));
+                        case TokenType.Vec3Range:
+                            string[] rangeComponents = GetToken().Split(',');
+                            float[] vec3Range = new float[6];
+                            //construct an array of 6 floats, each two defining the min/max for the x, y, and z components.
+                            for(int comp = 0; comp < 3; comp++) {
+                                if(rangeComponets[comp].Contains(":")) {
+                                    int indexOfColon = rangeComponents[comp].IndexOf(':');
+
+                                    //if there's a range use it
+                                    vec3Range[vec3RangePointer++] = float.Parse(rangeComponents[comp].Substring(0, indexOfColon));
+                                    vec3Range[vec3RangePointer++] = float.Parse(rangeComponents[comp].Substring(indexOfColon + 1, rangeComponents[comp].Length - 1 - indexOfColon));
+                                } else {
+                                    //if there's not a range, just use the same value
+                                    vec3Range[vec3RangePointer++] = float.Parse(rangeComponents[comp]);
+                                    vec3Range[vec4RangePointer++] = float.Parse(rangeComponents[comp]);
+                                }
+                            }
+                            return vec3Range;
+                    }
+                    return null;
+                }
+
+                public static void FinalizeSpecialTypes(ref System.Object value, TokenType type) {
+                    switch(type) {
+                        case Lexer.TokenType.IntRangeToken:
+                            int[] intRange = (int[])value;
+                            value = UnityEngine.Random.Range(intRange[0], intRange[1]);
+                            break;
+                        case Lexer.Tokentype.RealRangeToken:
+                            float[] floatRange = (float[])value;
+                            value = UnityEngine.Random.Range(floatRange[0], floatRange[1]);
+                            break;
+                        case Lexer.TokenType.Vec3Range:
+                            float[] vec3Range = (float[])value;
+                            value = new Vector3(UnityEngine.Randome.Range(vec3Range[0], vec3Range[1]),
+                                                UnityEngine.Randome.Range(vec3Range[2], vec3Range[3]),
+                                                UnityEngine.Randome.Range(vec3Range[4], vec3Range[5]));
+                            break;
+                    }
+                }
+
+                public string GetToken() {
+                    return token;
+                }
+
+                public TokenType GetTokenType() {
+                    return tokenType;
+                }
+
+                public bool Match(string test) {
+                    return test.ToLower().Equals(token.ToLower());
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at that data here: <b>DataExample1.advdata</b>
+            <pre>
+            <span class="glyphicon-remove"></span>[Movement] {
+            topSpeed=10.4
+            turningRadius=1
+            acceleration=5
+            }
+            [Transform] {
+            scale=8,7,1
+            position=1.53,1.52,13.5
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here is a second example: <b>TestEntityB.advdata</b>
+            <pre>
+            <span class="glyphicon-remove"></span>[Movement] {
+            topSpeed = 5
+            turningRadius = 2
+            acceleration = 2
+            }
+            [Transform] {
+            scale= 2, 2, 1
+            position=-3,0,0
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now let's examine how these scripts get loaded. The advanced prefab loader will keep a list of all our custom prefabs, it will load all of the prefabs and create advanced custom prefab objects. And then, do a prep and verify call which will verify the syntax of the prefab. If it's correct, it will add it to its list of prefabs. These can then be instantiated with a prefab name which will be the filename of the prefab. Additionally for this example it will create prefabs based on A or B input.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the source code for our <b>AdvPrefabLoader</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's now see the advanced component prefab. The advanced component prefab will take the name, data and keep the game object copy. This game object copy is the parse method. The first thing we do is create a new game object and then parse the data that has been passed in. This parse method is somewhat complex. It uses the Lexer to parse the data, primarily using the NextToken method. The NextToken method is specific to the language we decide to create. We define different tokens that we want it to find, and then define the algorithm for passing through the text and finding those tokens. For example, the component token looks for an open square bracket. Then we decide it's a component token. It will then continue to get tokens, until we find the closed bracket. If we don't find the closed bracket, that's an invalid syntax, because we're only expecting an open bracket, and then a closed bracket. Then we have a component to token. Let's continue looking at the parse method. The Lexer will continue to find tokens. If it finds a component token, it will get the component name, and parse to ensure the syntax is correct for the remainder of the definition. If the component name matches a unity component that we have defined as supported, we will parse it as a unity component. Otherwise we will parse it as one of our custom components.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at parsing a unity component. Parsing unity components is different from parsing custom components because we're unable to use the same algorithm for parsing. For example, parsing a transform component. We'll look for a position, rotation, and scale. Then, our lexer will receive the vector3 from the script file, and apply it to the transform in the position, rotation or local scale.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at parsing a custom component. Custom components are parsed by attempting to add the component using the component name. If the component name is a component that exists it will be successfully added. In this case we would be parsing in movement as our component name. Which is our movement class here. If the component exists, it is a success, and we call SetData on the component. SetData uses field info from the class type of the component we want to parse for each field defined in the component. Top speed, turning radius, and acceleration.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's review the code from our <b>Movement</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collection.Generic, System.Reflection;
+
+            public class Movement : AdvComponent {
+                float currentSpeed;
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float topSpeed;
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float turningRadius;
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float acceleration;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Another example of a fun class to use could be a <b>Pathfinding</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections;
+
+            public class Pathfinding : AdvComponent {
+                [PrefabAttribute(RequiresDefinition=true)]
+                public string movementType;
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float maximumDistance;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            These are all fields defined in the component. We will test to see if that field exists within the type of component we're parsing. In this case, movement. If that fields exists, we will attempt to get the value and set it to the field being parsed. If the value does not exist, we return an unkown property error. Finally, we will go through each field on the component and check the attributes flag. This is a custom attribute that defines, if the field requires definition. In this case, all of these fields require a definition.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So, we will throw an error if one of these fields is not defined in our script file. Finally we will return if we are successful in setting the data. In play mode, this should parse all the components. Then we see that we have that unkown property error, because turning radius is on component movement. And we're missing a component, turning radius. This appears to be a simple spelling mistake in the example. This kind of check is important, and helps us find errors before sending any scripts to the field. Now that we fixed our error hit play again.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here is another long and somewhat technical piece of code for the <b>Advanced Custom Prefab</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collection, System.Collection.Generic, System
+            public class AdvCustomPrefab {
+                public string name;
+                private string data;
+
+                private List&lt;string&gt; tags = new List&lt;string&gt;();
+                private List&lt;string&gt; components = new List&lt;string&gt;();
+
+                private GameObject gameObjectCopy;
+
+                public AdvCustomPrefab(string name, string data) {
+                    this.name = name;
+                    this.data = data;
+                }
+
+                public enum SupportedUnityComponent {
+                    Mesh,
+                    Transform,
+                    Collider
+                }
+
+                // PrepAndVerify will parse the script to ensure it's well formated.
+                // This should be done at load time, so we can make the decisions early
+                // if we want to keep it. Better than returning errors half way into the 
+                // game when we try to load the prefab.
+                public bool PrepAndVerify() {
+                    return Parse();
+                }
+
+                public bool HasComponent(Type type) {
+                    string typeName = type.Name;
+                    return components.Contain(typeName);
+                }
+
+                private bool Parse() {
+                    //Due to the limitations of Unity (can't create GameObjects without also instantiating them)
+                    // we're going to temporarily create a game object, get some data from it, and then destroy it.
+                    //This will verify the syntax of the file
+                    gamObjectCopy = new GameObject(name);
+
+                    tags.Clear();
+                    components.Clear();
+
+                    bool retVal = Parse(ref gameObjectCopy);
+
+                    gameObjectCopy.SetActive(false);
+                    gameObjectCopy.hideFlags = HideFlags.HideAndDontSave;
+
+                    if(!retVal) {
+                        Debug.Log("Error parsing!");
+                        if(Application.isEditor) {
+                            UnityEngine.Object.DestoryImmediate(gameObjectCopy);
+                        } else {
+                            GameObject.Destory(gameObjectCopy);
+                        }
+                    }
+                    return retVal;
+                }
+
+                public bool Parse(ref GameObject go) {
+                    bool retVal = true;
+                    Lexer lex = new Lexer(data);
+                    lex.NextToken();
+                    while(lex.GetTokenType() != Lexer.TokenType.EndOfInput) {
+                        switch(lex.GetTokenType()) {
+                            case Lexer.TokenType.ComponentToken:
+                                string componentName = lex.GetToken();
+
+                                //ensure correct syntax to continue
+                                lex.NextToken();
+                                if(lex.Match("]")) {
+                                    lex.NextToken();
+                                    if(lex.Match("{")) {
+                                        lex.NextToken();
+                                    } else {
+                                        Debug.Log("Component declaration must be followed by an open bracket`{`");
+                                        lex.Dispose();
+                                        return false;
+                                    }
+                                } else {
+                                    Debug.Log("Component name must not have any spaces and must be closed with a square bracket `]`");
+                                    lex.Dispose();
+                                    return false;
+                                }
+                                //now continue on to parse component body
+
+                                if(Enum.IsDefined(typeof(SupportedUnityComponent), componentName)) {
+                                    //if the component is named as one of the built in supported unity components, use a special parser.
+                                    retVal &amp;= ParseUnityComponent((SupportedUnityComponent)Enum.Parse(typeof(SupportedUnityComponent), componentName), ref lex, ref go);
+                                } else {
+                                    //otherwise use the parser for our custom components.
+                                    retVal &amp;= ParseCustomComponent(componentName, ref lex, ref go);
+                                }
+
+                                break;
+                            case Lexer.TokenType.IdentifierToken:
+                                if(lex.Match("Tags")) {
+                                    lex.NextToken();
+                                    if(lex.Match("{")) {
+                                        lex.NextToken();
+                                        ParseTags(ref lex);
+                                    }
+                                } else {
+                                    Debug.Log("Unexpected token: `" + lex.GetToken() + "`. Expected `Tags` token at this level.");
+                                }
+                                break;
+                            default:
+                                //other tokens we might care about at this level would be meta information for the entity, like name, type and so on. Information specific to an entity.
+                                Debug.Log("Unexpected token: " + lex.GetToken());
+                                break;
+                        }
+                        lex.NextToken();
+                    }
+                    lex.Dispose();
+                    return retVal;
+                }
+
+                private bool ParseUnityComponent(SupportedUnityComponet component, ref Lexer lex, ref GameObject go) {
+                    bool retVal = true;
+                    switch(component) {
+                        case SupportedUnityComponent.Transform:
+                            while(!lex.Match("}") &amp;&amp; lex.GetTokenType() != Lexer.TokenType.EndOfInput) {
+                                string field = lex.GetToken();
+                                lex.NextToken(); //equals symbol
+                                if(lex.Match("=")) {
+                                    lex.NextToken();
+                                } else {
+                                    Debug.Log("Syntax Error: Expected `=` after field name");
+                                    lex.NextToken(); //try to continue anyway
+                                }
+                                switch(field.ToLower()) {
+                                    case "position":
+                                        System.Object position = lex.GetObject();
+                                        Lexer.FinializeSpecialTypes(ref position, lex.GetTokenType());
+                                        go.transform.position = (Vector3)position;
+                                        break;
+                                    case "rotation":
+                                        System.Object rotation = lex.GetObject();
+                                        Lexer.FinializeSpecialTypes(ref rotation, lex.GetTokenType());
+                                        go.transform.rotation = Quaternion.Euler((Vector3)rotation);
+                                        break;
+                                    case "scale":
+                                        System.Object scale = lex.GetObject();
+                                        Lexer.FinializeSpecialTypes(ref scale, lex.GetTokenType());
+                                        go.transform.localScale = (Vector3)scale;
+                                        break;
+                                    default:
+                                        Debug.Log("`" + lex.GetToken() + "` not a supported field of Transform");
+                                        retVal = false;
+                                        break;
+                                }
+                                lex.NextToken();
+                            }
+                            break;
+
+                        case SupportedUnityComponent.Mesh:
+                            //This component will add the required components for rendering a mesh
+                            MeshFilter meshFilter = go.AddComponent&lt;MeshFilter&gt;();
+                            MeshRenderer meshRenderer = go.AddComponent&lt;MeshFilter&gt;();
+                            while(!lex.Match("}") &amp;&amp; lex.GetTokenType() != Lexer.TokenType.EndOfInput) {
+                                //Ideally this would be expanded to also search through all loaded custom meshes (not use a switch statement)
+                                //However, for this section, we'll take a shortcut and only allow these primitives
+                                if(lex.Match("meshtype")) {
+                                    string meshType = (string)lex.GetValue(Lexer.TokenType.IdentifierToken);
+                                    switch(meshType.ToLower()) {
+                                        case "cube":
+                                            meshFilter.mesh = GameObject.FindObjectOfType&lt;PrefabManager&gt;().primitiveCube;
+                                            break;
+                                        case "sphere":
+                                            meshFilter.mesh = GameObject.FindObjectOfType&lt;PrefabManager&gt;().primitiveSphere;
+                                            break;
+                                        case "capsule":
+                                            meshFilter.mesh = GameObject.FindObjectOfType&lt;PrefabManager&gt;().primitiveCapsule;
+                                            break;
+                                        default:
+                                            Debug.Log("Mesh type: `" + meshType + "` not supported!");
+                                            retVal = false;
+                                            break;
+                                    }
+                                }
+                                if(lex.Match("material")) {
+                                    string material = (string)lex.GetValue(Lexer.TokenType.IdentifierToken);
+                                    switch(material.ToLower()) {
+                                        case "default":
+                                            meshRenderer.material = GameObject.FindObjectOfType&lt;PrefabManager&gt;().defaultMaterial;
+                                            break;
+                                        default:
+                                            Debug.Log("Material: `" material + "` not supported!");
+                                            retVal = false;
+                                            break;
+                                    }
+                                }
+                                lex.NextToken();
+                            }
+                            break;
+
+                        case SupportedUnityComponent.Collider:
+                            Debug.Log(component);
+                            //TODO Add support for defining our own colliders
+                            //This component would accept and shape the dimensions
+                            while(!lex.Match("}") &amp;&amp; lex.GetTokenType() != Lexer.TokenType.EndOfInput) {
+                                lex.NextToken();
+                            }
+                            retVal = false;
+                            break;
+
+                        default:
+                            //looks like we added a keyword, but not the parsing code?
+                            Debug.Log("Don't know how to parse Unity component: " + component);
+                            retVal = false;
+                            break;
+                    }
+                    return retVal;
+                }
+
+                private bool ParseCustomComponent(string componentName, ref Lexer lex, ref GameObject go) {
+                    AdvComponent customComponent = go.AddComponent(componentName) as AdvComponent;
+                    bool setDataSuccess = false;
+                    if(customComponent != null) {
+                        setDataSuccess = customComponent.SetData(ref lex);
+                    } else {
+                        Debug.Log("Component " + componentName + " couldn't be added! Ensure it exists or isn't being added twice.");
+                    }
+                    return setDataSuccess;
+                }
+
+                public GameObject Instantiate() {
+                    if(gameObjectCopy != null) {
+                        GameObject go = GameObject.Instantiate(gameObjectCopy) as GameObject;
+                        go.SetActive(true);
+                        go.hideFlags = HideFlags.None;
+                        return go;
+                    } else {
+                        return null;
+                    }
+                }
+
+                private void ParseTags(ref Lexer lex) {
+                    while(!lex.Match("}") &amp;&amp; lex.GetTokenType() != Lexer.TokenType.EndOfInput) {
+                        if(lex.GetTokenType() == Lexer.TokenType.IdentifierToken) {
+                            tags.Add(lex.GetToken());
+                        }
+                        lex.NextToken();
+                    }
+                }
+
+                public Mesh GetMesh() {
+                    if(gameObjectCopy != null &amp;&amp; gameObjectCopy.GetComponent&lt;MeshFilter&gt;() != null) {
+                        return gameObjectCopy.GetComponent&lt;MeshFilter&gt;().mesh;
+                    }
+                    return null;
+                }
+
+                public Vector3 GetScale() {
+                    if(gameObjectCopy != null) {
+                        return gameObjectCopy.transform.localScale;
+                    }
+                    return Vector3.one;
+                }
+
+                public List&lt;string&gt; GetTags() {
+                    return tags;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We see that we have no errors. And we can hit A or B to load our different entities. In our dataExampleOne, we have a transform and movement script. And test entity B has a transform and movement script, as definied in their text files. In this lesson, we learned about an advanced prefab system that allows us to easily find our own prefabs with human readable scripts. This can not only help you create customizations and loading of entities, like defining random variable rangers, but will also allow your end users to modify the content of your game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            As with many systems like this, this is just one way of doing things. Defining a scripting language that works for you is important. Modifying the Lexer to a parsing style you're most comfortable with, or making the Lexer able to hand more errors are good steps towards improving this system. Additional features that are left to you are adding the ability to define nested entities and expanding the token knowledge of the parser to better understand more of the primitives unity has to offer.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
