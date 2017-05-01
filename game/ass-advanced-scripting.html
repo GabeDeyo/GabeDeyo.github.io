@@ -104,14 +104,601 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#1">Coroutines</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Event &amp; Messaging Systems</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Saving and Loading Games</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Ray Casting</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Coroutines</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to learn about coroutines. Coroutines are a coding structure, that allows us to delay the execution of code. We can essentially pause the execution at a specific section of code, and then pick up where we left off at a later time. This can be used not only as an optimization technique, but also is an easy way to make an event happen at regular intervals. Let's take a look.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the beginning of our Coroutines class. So far, we'll see what functions are covered later:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Coroutines : MonoBehaviour {
+
+                public float secondsToWait = 5f;
+                public bool move = false;
+
+                public bool complete = true;
+
+                public bool useYieldForHeavy = false;
+
+                public void OnMouseDown() {
+                    move = true;
+
+                    NaiveMovement();
+
+                    StartCoroutine(NaiveMovementFixed());
+
+                    StartTogglePulse();
+
+                    StartHeavyTask();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            A common mistake when starting game programming, is to implement a for loop for movement. Of course, we know the entire for loop, will execute within one frame. Meaning all of these translates, are added together and no visible movement occurs. Even worse, this method moves back to the starting position at the end. Meaning all of this movement is for nothing. This function will be called NaiveMovement().
+            <pre>
+            <span class="glyphicon-remove"></span>public void NaiveMovement() {
+                //A common mistake when starting programming with games.
+                //When attempting to move an object little by little, a for loop is used
+                // this approach moves the object little by little, however all the movement
+                // happens in one frame, so visually the movement is instantaneous
+                for(int i = 0; i < 100; i++) {
+                    this.transform.Translate(0.1f, 0f, 0f);
+                }
+                move = false;
+
+                //reset position at the end
+                this.transform.position = new Vector3.zero;
+                Debug.Log("Completed moving");
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>So we see that on MouseDown we're activating our NaiveMovement function. We've completed moving, even through there was no visible movement. We can modify this with a coroutine, using the start coroutine method, and passing in our movement fixed method.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at that NaiveMovementFixed coroutine:
+            <pre>
+            <span class="glyphicon-remove"></span>//Looks like a regular function - has actually been converted into an object by the compiler
+            //An object that is essentially a state machine delimited by the yield statements
+            public IEnumerator NaiveMovementFixed() {
+                //Slightly modified with coroutine functionality, this works closer to expected.
+                for(int i = 0; i < 100; i++) {
+                    this.transform.Translate(0.1f, 0f, 0f);
+                    yield return 0; //yield execution for one frame
+                }
+                move = false;
+
+                //reset position at the end
+                this.transform.position = new Vector3.zero;
+                Debug.Log("Completed moving");
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>So we notice that instead of returning void, we're going to return an IEnumerator, and we're going to call it, with yield return zero. This will yield execution of the code for one frame. We now see that executing one iteration per frame.</p>
+            <p><span class="glyphicon-remove"></span>So what's actually happening behind the scenes? The compiler takes this method of IEnumerator, and converts it into an object. The object is broken apart into a state machine, based on the yield return statement.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So how else can we use coroutines? We could use them to make an event happen at regular intervals. For example, if we want to toggle a pulse. Let's first look at the code:
+            <pre>
+            <span class="glyphicon-remove"></span>public void StartTogglePulse() {
+                StartCoroutine(TogglePulse());
+            }
+
+            public IEnumerator TogglePulse() {
+                bool big = false;
+                while(true) { //normally a very bad thing. Typically starts an infinite loop
+                    //Alternate between small and large, use the `big` boolean as a toggle to decide
+                    if(big) {
+                        this.transform.localScale = new Vector3(2f, 2f, 2f);
+                    } else {
+                        this.transform.localScale = new Vector3(0.5, 0.5f, 0.5f);
+                    }
+                    big = !big;
+
+                    //WaitForSeconds is a YieldInstruction. These are like special states to add to the
+                    // state machine. In this case, it's a state that won't return for another 1 second.
+                    yield return new WaitForSeconds(1f); //yield execution for 1 seconds.
+                }
+            }
+            </pre>
+            Essentially we're going to say, if it's big, make it small, if it's small, make it big. And in this case we're going to do a while true loop, which is typically a bad thing. If we didn't have this yield in here this would be an infinite loop and we'd be locked out. Here we're going to yield return and we're going to wait for one second. This is causing the state machine to wait one second before jumping to the next state. And let's take a look at this. Clicking, we see that we have one second between getting big and small.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Finally, we can use coroutines to optimize code. For example, when running heavy tasks and doing other things on screen, like moving, we can see that, starting a heavy task and moving at the same time means we have to wait for the heavy task to finish before continuing to our movement code. This is because the entire heavy task has to complete before we can start on our move code. Let's see how we can fix this. Onto some code:
+            <pre>
+            <span class="glyphicon-remove"></span>//Start a heavy task
+            //Select the method based off the `useYieldForHeavy` Boolean
+            public void StartHeavyTask() {
+                if(useYieldForHeavy)
+                    StartCoroutine(HeavyTask_WithYield());
+                else
+                    HeavyTask();
+            }
+
+            //Perform that task as is, without coroutines
+            public void HeavyTask() {
+                int processed = 0;
+                int maxProcessed = 100;
+                while(processed < maxProcessed) {
+                    Process();
+                    processed++;
+                }
+                Debug.Log("Completed Heavy Task");
+            }
+
+            //Use Coroutines to yield between processing
+            public IEnumerator Heavytask_WithYield() {
+                int processed = 0;
+                int maxProcessed = 100;
+                while(processed < maxProcessed) {
+                    Process();
+                    processed++;
+                    yield return 0;
+                }
+                Debug.Log("Completed heavy task with yield");
+            }
+
+            //A complex task, like processing a detailed path or calculating AI response
+            //In this case, a fake heavy processing task to take up CPU
+            private void Process() {
+                double t = double.MinValue;
+                for(int i = 0; i < int.MaxValue/1000f; i++) {
+                    t = Mathf.Sqrt(i);
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>It's going to take a number of items to be processed and process them, until it's completed. If we have a heavy task with yield, it's going to take a number of items to be processed, and process one per frame until it's completed. Let's see what the difference makes. If we turn on, UseYieldForHeavy, and then click our object, we'll see that it's going to move at the same time that it's processing the heavy task. And actually going to finish right around the same time.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The coroutine is a powerful coding structure that allows further control and execution of our code. Common uses include distributing the processing of a heavy method over multiple frames. Offering an alternative for control of structures in our code, or making something happen regularly in game.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Event &amp; Messaging Systems</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over a common control structure in game event systems. Event systems are used to communicate between objects, systems, and game managers. These systems typically have events and listeners. The listeners will subscribe to the events, also called messages, of a certain type. When an event is broadcast of a certain type, its sent to each of the listeners for that type. What each listener does with that event depends on that event. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Event message could be something "This building has been damaged". Then we can have a GUI listener that will display a message on screen about the building being damaged or where it is, a worker listener that will try to repair the building, and finally, perhaps the score listener that deducts points for letting your building get damaged. The primary benefit of these systems is flexibility. It's simple to have an object start listening for events and have it respond appropriately without needing to touch the code that is generating the event.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's check out our first <b>Event Broadcaster</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class EventBroadcaster : MonoBehaviour {
+                //A delegate is a type that allows you to create a method like a parameter
+                // essentially it allows you to then create an instance of the delegate you can
+                //pass around and call as if it were a regular method.
+                //For this situation we're going to use it to attach other methods to
+                //it will be the method that's called and thus calls the methods of our listeners
+                public delegate void EventAction();
+
+                //Static means that this EventAction is going to be accessable without needing to
+                // instantiate an instance of this object.
+                //The event keyword is also key here. It allows us to notify the listener classes
+                // when the event action method is called.
+                public static event EventAction OnEventAction;
+
+                void OnMouseDown() {
+                    //When this object is clicked, it will activate its event,
+                    // this will then notify all listeners that the event has happened.
+                    OnEventAction();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have an EventBroadcaster that's going to create a delegate. Each of the event listeners is going to create a method that matches the signature of this delegate where it returns void and takes no parameters. Then we're going to create an instance of that EventAction, with the event keyword name OnEventAction. This is essentially a hub where all event listeners can attach to so that their event action delegatees can be actived when this one is. In this case, in the OnMousedown method, we're going to activate this method. And thus, send an event to all the listeners.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at our <b>Event GUI Listener</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class EventGUIListener : MonoBehaviour {
+                public string messageToDisplay = "Event Recieved!";
+                public float secondsToShowMessage = 3f;
+
+                private bool showMessage = false;
+
+                //When this component is first enabled, we want to subscribe to events
+                // from the eventBroadcaster
+                void OnEnable() {
+                    //We're adding our notification method `RespondToEvent` to the OnEventAction
+                    // now, whenever OnEventAction is called, our method RespondToEvent will also be called
+                    EventBroadcaster.OnEventAction += EventRecieved;
+                }
+
+                //When this component is disabled, we want to "unsubscribe" from events.
+                void OnDisable() {
+                    //Now we're removing our notification method, no longer taking any action when OnEventAction is called
+                    EventBroadcaster.OnEventAction -= EventRecieved;
+                }
+
+                void OnGUI() {
+                    if(showMessage)
+                        GUI.Label(new Rect(100, 100, 300, 20), messageToDisplay);
+                }
+
+                //This method matches the signature of 
+                // public delegate void EventAction();
+                //Returns void and takes no arguments
+                //This means we can add it to the OnEventAction event
+                void EventRecieved() {
+                    ShowTimedMessage();
+                }
+
+                void ShowTimedMessage() {
+                    StartCoroutine(TimedMessage());
+                }
+
+                IEnumerator TimedMessage() {
+                    showMessage = true;
+                    yield return new WaitForSeconds(secondsToShowMessage);
+                    showMessage = false;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have our GUI listener. When the object this script is attached to is enabled it's going to attach itself to the OnEventAction of the Event Broadcaster. It's going to attach its event received method, and we can see that it matches the delegate signature where it returns void and takes no arguments. So when this method is activated here, we're going to show a timed message, which is simply a coroutine that toggles a boolean from true, waits a couple of seconds, and toggles it off.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see another listener called <b>Event Move Listener</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class EventMoveListener : MonoBehavior {
+                public Vector3 eventMoveDirection = new Vector3(0, 1, 0);
+
+                //When this component is first enabled, we want to subscribe to events
+                //from the eventbroadcaster
+                void OnEnable() {
+                    //We're adding our notification method `RespondToEvent` to the OnEventAction
+                    // now, whenever OnEventAction is called, our method RespondToEvent will also be called
+                    EventBroadcaster.OnEventAction += RespondToEvent;
+                }
+
+                //When this component is disabled, we want to "unsubscribe" from events.
+                void OnDisable() {
+                    //Now we're removing our notification method, no longer taking any action when OnEventAction is called
+                    EventBroadcaster.OnEventAction -= RespondToEvent;
+                }
+
+                //Our RespondToEvent method is used to respond to events
+                //In this case, we'll just move ourselves to show that we've responded
+                void RespondToEvent() {
+                    this.transform.Translate(eventMoveDirection);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Once again, when the object script is attached too, is activated, it's going to attach itself to the on event action with its respond to event method. In this case the respond to event method is fairly simple. It's just going to translate the object it's attached to in the event move direction which is defined here.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's move on to a more advanced example. In this example, we're going to see an event relay. This is an event relay class, so that we can send events from any script without having to attach an additional sender script. This will relay events between a sender of listeners. The delegate for this method is slightly different than the last. It's going to return a string, and it takes two arguments; an event message type and a sender, which is a mono behaviour.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the <b>Advanced Event Sender</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class AdvancedEventSender : MonoBehaviour {
+                public bool mouseIsOverThis = false;
+
+                void Update() {
+                    if(mouseIsOverThis) {
+                        if(Input.GetMouseButtonDown((int)Mouse.Utils.Button.Left)) {
+                            string value = AdvancedEventRelay.RelayEvent(
+                                AdvancedEventRelay.EventMessageType.StructureBuilt, this);
+                            Debug.Log("StructureBuilt Event was seen by: " + value);
+                        }
+                        if(Input.GetMouseButtonDown((int)Mouse.Utils.Button.Right)) {
+                            string value = AdvancedEventRelay.RelayEvent(
+                                AdvancedEventRelay.EventMessageType.UnitDestroyed, this);
+                            Debug.Log("UnitDestroyed Event was seen by: " + value);
+                        }
+                    }
+                }
+
+                public void OnMouseEnter() {
+                    mouseIsOverThis = true;
+                }
+
+                public void OnMouseExit() {
+                    mouseIsOverThis = false;
+                }   
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this case, when the mouse is over this object, if we click with the left mouse button we're going to relay an event of event type StructureBuilt. We're going to send us as the sender, and then we're going to log the value returned from that event. Likewise, if the right mouse button is pressed, we're going to relay an event of type UnitDestroyed with ourselves as the sender and log the value of the returned string from that event.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's now see how our <b>Advanced Event Listener</b> works:
+            <pre>
+            <span class="glyphicon-remove"></span>public class AdvancedEventListener : MonoBehaviour {
+                public List&lt;AdvancedEventRelay.EventMessageType&gt; eventsHandled = 
+                    new List&lt;AdvancedEventRelay.EventMessageType&gt;();
+
+                void OnEnable() {
+                    AdvancedEventRelay.OnEventAction += HandleEvent;
+                }
+
+                void OnDisable() {
+                    AdvancedEventRelay.OnEventAction -= HandleEvent;
+                }
+
+                //This method matches the signature of:
+                // public delegate string EventAction(EventMessageType type, MonoBehaviour sender);
+                //This means we can add it to the OnEventAction
+
+                string HandleEvent(AdvancedEventRelay.EventMessageType messageType, MonoBehaviour sender) {
+                    if(eventsHandled.Contains(messageType)) {
+                        Debug.Log("Handled event: " messageType + " from sender: " + sender
+                         + " " + Vector3.Distance(this.transform.position, sender.transform.position)
+                         + " units away from me");
+
+                         return this.ToString();
+                    } else {
+                        //ignore event
+                        return this.ToString();
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Listeners are going to define a list of events that they handle, and they're going to attach themselves tothe onEventAction of the advanced event relay when they are enabled. And when handling an event, they check to see if this is an event type that they handle. If it is, they're going to log a message that says they handled this event from a sender, and then we're going to output the distance from the sender just to show that we can get some more information from this event system. Finally, they're going to return their name as the event handler. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The last thing we'll need is the <b>Advanced Event Relay</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class AdvancedEventRelay : MonoBehaviour {
+
+                public delegate string EventAction(EventMessageType type, MonoBehaviour sender);
+                public static event EventAction OnEventAction;
+
+                public enum EventMessageType {
+                    StructureDamage,
+                    StructureBuilt,
+                    StructureDestroyed,
+                    UnitDamage,
+                    UnitBuilt,
+                    UnitDestroyed
+                }
+
+                public static string RelayEvent(EventMessageType messageType, MonoBehaviour sender) {
+                    return OnEventAction(messageType, sender);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Event systems are a great flexible way to communicate between objects without the objects even needing to know about each other in advance, or at all. It's important to note that there's not just one way to create event systems. There are dozens of ways to implement event systems and many different ways to use each implementation. However, event systems, in some form or another, are a very important aspect of game design. Without events, game objects come to rely heavily on each other, and changing one object can have a cascade effect throughout a number of objects. Messaging systems help reduce special case coding, improve seperation of game logic and user interface, and keep objects independent of each other.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="3">
+    <h2>Saving and Loading Games</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we'll cover saving the state of a game to disk for later loading, commonly referred to as saving and loading a game. There's not built-in functionality for adding a saved game in Unity because saving a game is unique to the game. Each game has a different set of data that needs to be saved and loaded to represent the game state. This lesson will cover both PC and mobile games as well as web. There is a distinction between the two because web games are a more limited platform. In this case with tighter security. We don't have the same freedom to read and write files on the system when using web.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Since saving is so specific for each game, in this lesson we're going to focus on the general techniques used to serialize object. Lets start of with our <b>Save Load Simple Object</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.IO;
+
+            public class SaveLoadSimpleObjects : MonoBehavior {
+                public string saveFile = @"SaveFile.save";
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.L)) {
+                        ReadSimpleObjects();
+                    }
+                    if(Input.GetKeyDown(KeyCode.S)) {
+                        WriteSimpleObject();
+                    }
+                }
+
+                void ReadSimpleObjects() {
+                    if(File.Exists(saveFile)) {
+                        using(FileStream fs = File.OpenRead(saveFile)) {
+                            BinaryReader fileReader = new BinaryReader(fs);
+                            int simpleObjectCount = fileReader.ReadInt32();
+                            for(int simpleCount = 0; simpleCount < simpleObjectCount; simpleCount++) {
+                                GameObject simpleObject = new GameObject();
+                                SimpleObject simpleScript = simpleObject.AddComponent&lt;SimpleObject&gt;();
+                                simpleScript.ReadObjectState(fileReader);
+                            }
+                        }
+                    }
+                }
+
+                void WriteSimpleObjects() {
+                    //using statement will dispose of the object inside when we're done using it.
+                    //This is important for objects like files that we don't want to leav open.
+                    using(FileStream fs = File.OpenWrite(saveFile)) {
+                        SimpleObject[] simpleObjects = UnityEngine.Object.FindObjectsOfType&lt;SimpleObject&gt;();
+                        BinaryWriter fileWriter = new BinaryWriter(fs);
+                        fileWriter.Write(simpleObjects.Length);
+                        foreach(SimpleObject simpleObject in simpleObjects) {
+                            simpleObject.WriteObjectState(fileWriter);
+                        }
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this script we have a save/load simple object class. It's going to handle saving and loading for us. In this case, when writing simple objects, which are a type of object in our scene, we're going to open a file, collect a list of all the simple objects in the scene. Create a new BinaryWriter and write the number of objects that we have. And then each object in our list is going to write its own state.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now let's check out or <b>Simple Object</b> script that will be attached to objects that we want to be saved or loaded.:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.IO;
+
+            public class SimpleObject : MonoBehaviour {
+
+                public string aStringObject = "test";
+                public float aFloatValue = 43.2f;
+
+                public void WriteObjectState(BinaryWriter binaryWriter) {
+                    //Get all the subObjects that are children of this object.
+                    SimpleSubObject[] subObjects = this.transform.GetComponentsInChildren&lt;SimpleSubObject&gt;();
+                    //Write out how many objects there are, so we know how many to read in later
+                    binaryWriter.Write(subObjects.Length);
+
+                    //Each object is responsible for writing it's own state
+                    foreach(SimpleSubObject subObject in subObjects) {
+                        subObject.WriteObjectState(binaryWriter);
+                    }
+
+                    //Now write our own state
+                    binaryWriter.Write(aStringObject);
+                    binaryWriter.Write(aFloatValue);
+
+                    binaryWriter.Write(this.gameObject.name);
+                }
+
+                public void ReadObjectState(BinaryReader binaryReader) {
+                    //Get the subObjects count
+                    int simpleSubCount = binaryReader.ReadInt32();
+                    for(int subCount = 0; subCount < simpleSubCount; subCount++) {
+                        GameObject simpleSub = new GameObject();
+                        SimpleSubObject simpleSubScript = simpleSub.AddComponent&lt;SimpleSubObject&gt;();
+                        simpleSubScript.ReadObjectState(binaryReader);
+                        simpleSub.transform.parent = this.transform;
+                    }
+
+                    this.aStringObject = binaryReader.ReadString();
+                    this.aFloatValue = binaryReader.ReadSingle();
+
+                    this.gameObject.name = binaryReader.ReadString();
+                }
+
+                public void WriteObjectState_Web(string prependKey) {
+                    //Get all the subObjects that are children of this object
+                    SimpleSubObject[] subObjects = this.transform.GetComponentsInChildren&lt;SimpleSubObjects&gt;();
+                    //Write out how many objects there are, so we know how many to read in later
+                    PlayerPrefs.SetInt(prependKey + "subObjectCount", subObjects.Length);
+
+                    //Each object is responsible for writing its own state.
+                    //Maintain a subCount variable to add distinction between objects
+                    int subCount = 0;
+                    foreach(SimpleSubObject subObject in subObjects) {
+                        subObject.WriteObjectState_Web(prependKey + subCount++);
+                    }
+
+                    PlayerPrefs.SetString(prependKey + "aStringObject", aStringObject);
+                    PlayerPrefs.SetFloat(prependKey + "aFloatValue", aFloatValue);
+
+                    PlayerPrefs.SetString(prependKey + "objectName", this.gameObject.name);
+                }
+
+                public void ReadObjectState_Web(string prependKey) {
+                    //Get the subObjects count
+                    int simpleSubCount = PlayerPrefs.GetInt(prependKey + "subObjectCount");
+                    for(int subCount = 0; subCount < simpleSubCount; subCount++) {
+                        GameObject simpleSub = new GameObject();
+                        SimpleSubObject simpleSubScript = simpleSub.AddComponent&lt;SimpleSubObject&gt;();
+                        simpleSubScript.ReadObjectState_Web(prependKey + subCount);
+                        simpleSub.transform.parent = this.transform;
+                    }
+
+                    this.aStringObject = PlayerPrefs.GetString(prependKey + "aStringObject");
+                    this.aFloatValue = PlayerPrefs.GetFloat(prependKey + "aFloatValue");
+
+                    this.gameObject.name = PlayerPrefs.GetString(prependKey + "objectName");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll also need to cover the <b>Simple Sub Object</b> script attached to sub objects:
+            <pre>
+            <span class="glyphicon-remove"></span>using UnityEngine, System.IO;
+
+            public class SimpleSubObject : MonoBehaviour {
+
+                public string subString = "this is a sub string";
+                public int valueX = 43;
+                public byte valueB = 2;
+
+                public void WriteObjectState(BinaryWriter binaryWriter) {
+                    //write our own state
+                    binaryWriter.Write(subString);
+                    binaryWriter.Write(valueX);
+                    binaryWriter.Write(valueB);
+
+                    binaryWriter.Write(this.gameObject.name);
+                }
+
+                public void ReadObjectState(BinaryReader binaryReader) {
+
+                    this.subString = binaryReader.ReadString();
+                    this.valueX = binaryReader.ReadInt32();
+                    this.valueB = binaryReader.ReadByte();
+
+                    this.gameObject.name = binaryReader.ReadString();
+                }
+
+                public void WriteObjectState_Web(string prependKey) {
+                    PlayerPrefs.SetString(prependKey + "subString", subString);
+                    PlayerPrefs.SetInt(prependKey + "valueX", valueX);
+                    PlayerPrefs.SetInt(prependKey + "valueB", valueB);
+                    PlayerPrefs.SetString(prependKey + "objectName", this.gameObject.name);
+                }
+
+                public void ReadObjectState_Web(string prependKey) {
+                    subString = PlayerPrefs.GetString(prependKey + "subString");
+                    valueX = PlayerPrefs.GetInt(prependKey + "valueX");
+                    valueB = (byte)PlayerPrefs.GetInt(prependKey + "valueB");
+                    this.gameObject.name = PlayerPrefs.GetString(prependKey + "objectName");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's go through the writing process. WriteObjectState is going to accept that BinaryWriter we created before and it's going to collect a list of its children, and write the number of it's children, then each of it's children are going to write their own state. This is a typical pattern when doing recursive serialization. Each object will be responsible for writing its own state when called upon. Finally, this object is going to write its own state at the end. Let's go one deeper and take a look at the sub object writing its own state. The sub object has no sub objects of its own so it's just going to write its own state and then return.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's move on to the reading process. When reading a save file we're going to open our file, create a new binary reader. And from the file, we're going to get the number of objects we need to read. And for each of those objects, we're going to create a new object, create a new script and then have that script read its own state from the file. When an object is reading its own state from the file, it's going to get the number of sub-objects it has. And for each of those sub objects create a new game object and create a new component. Then that component is going to read its own state. As you can see this is identical to the write procedure where we write the number of objects and then each object writes it's own state. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Saving and loading are going to be mirror images of each other. Because when writing state in this way, the data is in a precise order to make reading and writing simple. This means data is byte for byte exactly in the same order when we save and load. If we're off by one byte we'll throw off the entire sequence. The web version of this is nearly identical, except the web version is limited to a dictionary key system. When using the web player, we have restricted access to the hard drive. We can only access the player preferences file. This is limited to one megabyte. Data is stored by a string reference and we can only store strings, floats or ints. It's possible to abuse this system to utilize the same method as we did before, creating a key structure to allow us to set unique keys for each object.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this case we're going to do the same thing where we get the number of sub objects, write the number of sub objects to the player preferences file, and then for each sub object, they will write their own state to the player preferences file. This is not an ideal system for web games since we are limited to one megabyte and can only store strings, floats, and ints. In a web environment the ideal situation would be to use a database. A similar tactic for data can be used in databases. We can break apart the serialization by object and store into tables, or it can combine together into a single binary data block.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've covered a simple strategy for saving games. There are a lot of different strategies for saving games, and they vary depending on the game type, game mechanics requirements, and even the devlopers personal style. Some games will only ever need to save the high score because the game state doesn't persist beyond that. Other games will need to save the state of hundreds of objects, with each object having dozens of data structures that need to be saved as they are. The strategy we've covered is just one of many. Choosing the right strategy for your game is an important decision that only you can make.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="4">
+    <h2>Ray Casting</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             XXX
