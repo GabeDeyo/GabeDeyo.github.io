@@ -701,13 +701,154 @@
     <h2>Ray Casting</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Raycasting is used for lots of things in games, including projectiles, path finding, steering, visibility testing, and so on. Unity does provide some pretty robust raycasting with their physics system. However, this does require that objects have physics components, in this case, any kinds of bounding volume, like a box collider.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Raycasting has a few input parameters that allow us to control the behavior of the cast as well. For example, we can define a maximum length and a layer mask. The maximum length is fairly self explanatory, where any hits beyond the maximum distance are ignored. But the layer mask is slightly more tricky. It's a bit mask that allows us to filter what type of object we want to interact with. We'll look at some code that should make this easier to understand.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Scene Setup</b>
+            <br>You'll need 4 walls made from cubes with box colliders.
+            <br>Name the first two Wall 1. Name the third Wall 2. Name the last Wall 3.
+            <br>Place Wall 1's next to each other with a gap. Behind those, place Wall 2. Behind that place Wall 3.
+            <br>Give each numbered wall it's own layer. Ex. Wall 1's = Layer 1
+            <br>Create another Cube as the "Caster" which will have our script on it.
+            <br>Place this caster in front of the two Wall 1s.
+            <br>Make sure Gizmos are on.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll be casting a ray from this cube along this forward vector. Typically rays are invisible, but we're going to draw the ray using some visual debugging. This ray currrently has a bitmask of zero. Meaning it's not going to hit anything, making it a pretty uniteresting ray. Let's see the <b>Raycaster</b> code and make the ray useful:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections.Generic, System.Text;
+
+            public class Raycaster : MonoBehaviour {
+                public float maxDistance = 10;
+                public int layerMask = 0;
+
+                public List&lt;Vector3&gt; rayHitPositions = new List&lt;Vector3&gt;;
+                public List&lt;Vector3&gt; sphereHitPositions = new List&lt;Vector3&gt;;
+
+                ComboBox layerChooser;
+
+                void Start() {
+                    layerChooser = new ComboBox();
+                    layerChooser = SetAllowMultiple(true);
+
+                    //There's no built in way to get layers, so LayerUtils was created to get the currently set layers.
+                    Dictionary&lt;string, int&gt; layers = LayerUtils.GetLayers();
+                    foreach(string layerName in layers.Key) {
+                        layerChooster.AddItem(layerName, layers[layerName], OnLayerSelected, OnLayerUnselected);
+                    }
+                }
+
+                void OnLayerSelected(ComboBox.ComboItem item) {
+                    layerMask = layerMask | (1&lt;&lt;(int)item.value);
+                }
+
+                void OnLayerUnselected(ComboBox.ComboItem item) {
+                    layerMask = layerMask &amp; ~(1&lt;&lt;(int)item.value);   
+                }
+
+                void Update() {
+                    //Allow us to rotate the caster at 20 degrees per second
+                    if(Input.GetKey(KeyCode.A)) {
+                        this.transform.Rotate(Vector3.up, 20f * Time.deltaTime);
+                    }
+
+                    if(Input.GetKey(KeyCode.D)) {
+                        this.transform.Rotate(Vector3.up, -20f * Time.deltaTime);
+                    }
+
+                    rayHitPositions.Clear();
+                    sphereHitPositions.Clear();
+
+                    if(Input.GetKey(KeyCode.Space)) {
+                        DrawRayHitAll();
+                    } else {
+                        DrawRayHit();
+                    }
+
+                    //DrawRayHit();
+
+                    //DrawRayHitAll();
+
+                    //DrawSphereHit();
+
+                    //DrawSphereHitAll();
+                }
+
+                /* (Summary)
+                    Int to a string 1's and 0's representing the bits of the integer
+                    @returns A string representing the bits of an integer
+                    @param name="toConvert" - Integer to convert
+                */
+                string IntToBits(int toConvert) {
+                    StringBuilder sb = new StringBuilder();
+                    for(int index = 0; index < 32; index++) {
+                        if((1&lt;&lt;index &amp; toConvert) > 0)
+                            sb.Insert(0, "1");
+                        else
+                            sb.Insert(0, "0");
+                    }
+
+                    return sb.ToString();
+                }
+
+                //Draws a ray cast, displaying hit information
+                void DrawRayHit() {
+                    RaycastHit hitInfo;
+                    if(Physics.Raycast(this.transform.position, this.transform.forward, out hitInfo, maxDistance, layerMask)) {
+                        //We have a hit
+                        Debug.DrawLine(this.transform.position, hitInfo.point, Color.red, 0.01f, true);
+                        rayHitPositions.Add(hitInfo.point);
+                    } else {
+                        Debug.DrawLine(this.transform.position, this.transform.forward * maxDistance, Color.green, 0.01f, true);
+                    }
+                }
+
+                //Raises the draw gizmos event
+                void OnDrawGizmos() {
+                    //Draw the hit locations
+                    foreach(Vector3 rayHitPosition in rayHitPositions) {
+                        Gizmos.DrawWireCube(rayHitPosition, new Vector3(1f, 0.1f, 0.1f));
+                    }
+                    foreach(Vector3 sphereHitPosition in sphereHitPositions) {
+                        Gizmos.DrawWireSphere(sphereHitPosition, 0.5f);
+                    }
+                }
+
+                //Raises the GUI event
+                void OnGUI() {
+                    layerChooser.Draw(GUI.skin.box, new Rect(0, 0, 110, 250));
+                    GUI.Label(new Rect(130, 0, 230, 40), "LayerMask: " + IntToBits(layerMask));
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So we'll first look at updating the layer mask. A combo box list here on the left is something being used to easily add or remove layers from the mask. As we check items in the list, our layer mask is updated, as well as our array. We can see that updating it to include Layer1, means that is will now interact with Layer1 object, which both of these one walls are set to Layer 1.
+            <br>In Unity there is no built in way to get a list of all the layers, so we've created a get layers method here. That will go through and create a dictionary of the layer names along with their layer value. The Raycaster is going to get a list of all those layers and add them to our Combo Box so that when we select and item, we can OR our current layer mask with the value of the layer mask selected. The layer value stored is the placement of the bit for that layer mask.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We then need to create a new integer by shifting one over at that value, and OR it with our layer maks. So for example the default layer mask is zero. So by adding it to our layer mask we are going to take one and bit-shift it by zero, which means it is going to stay here at the first position. Traparent FX is going to have a value of one, so we're going to take a one, we're going to shift it into our layer mask by one, resulting int this one here. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So how about hitting multiple objects, by default the array will stop at the first layer that it interacts with. However there is an option to cast array to collect all of the hits that array interacts with. Let's check out that function:
+            <pre>
+            <span class="glyphicon-remove"></span>//Draws a ray cast, displaying multiple hit inforamtion
+            void DrawRayHitAll() {
+                Debug.DrawLine(this.transform.position, this.transform.forward * maxDistance, Color.green, 0.01f, true);
+                RaycastHit[] hits = Physics.RaycastAll(this.transform.position, this.transform.forward, maxDistance, layerMask);
+                if(hits.Length > 0) {
+                    foreach(RaycastHit hit in hits) {
+                        //We have a hit(s)
+                        Debug.DrawLine(this.transform.position, hit.point, Color.red, 0.1f, true);
+                        rayHitPositions.Add(hit.point);
+                    }
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>With this method, we can now interact with multiple layers, and see all of the objects that have been hit. This might be useful if you're shooting a projectile that can go through walls. Further, one of the other uses I mentioned for Raycasting is path finding. And that might be to see if we can fit our object through a certain area. To do that, we might want to cast a sphere that's the size of the object, to see if it will fit.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
