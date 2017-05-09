@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Advanced Scripting</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Advanced Scripting</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -117,6 +117,22 @@
                             </li>
                             <li><p><span class="glyphicon-remove"></span>
                                 <a href="#4">Ray Casting</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#5">Mini Maps</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#6">Dynamic Meshes</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#7">Quad Tree</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#8">Extension Methods</a>
                                 </p>
                             </li>
                         </ul>
@@ -848,7 +864,360 @@
                 }
             }
             </pre>
-            <p><span class="glyphicon-remove"></span>With this method, we can now interact with multiple layers, and see all of the objects that have been hit. This might be useful if you're shooting a projectile that can go through walls. Further, one of the other uses I mentioned for Raycasting is path finding. And that might be to see if we can fit our object through a certain area. To do that, we might want to cast a sphere that's the size of the object, to see if it will fit.</p>
+            <p><span class="glyphicon-remove"></span>With this method, we can now interact with multiple layers, and see all of the objects that have been hit. This might be useful if you're shooting a projectile that can go through walls.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Further, one of the other uses I mentioned for Raycasting is path finding. And that might be to see if we can fit our object through a certain area. To do that, we might want to cast a sphere that's the size of the object, to see if it will fit. Let's see that function:
+            <pre>
+            <span class="glyphicon-remove"></span>//Draws the sphere hit
+            void DrawSphereHit() {
+                RaycastHit hitInfo;
+                if(Physics.SphereCast(this.transform.position, 0.5f, this.transform.forward, out hitInfo, maxDistance, layerMask)) {
+                    //We have a hit
+                    Debug.DrawLine(this.transform.position, hitInfo.point, Color.red, 0.01f, true);
+                    sphereHitPosition.Add(hitInfo.point);
+                } else {
+                    Debug.DrawLine(this.transform.position, this.transform.forward * maxDistance, Color.green, 0.01f, true);
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>Here we're going to cast a sphere, and we're going to see if that sphere will fit through a gap. Here we can see a cylinder acting at the edge, and there we see the ray is now cast through this gap, allowing the sphere to fit. It's could be a close or far gap depending on the scene setup. Additionally, just like the multiple hits for a single ray, there's also a multiple hit for the sphere ray. This might be useful if you're creating a very large projectile, and you want to destroy multiple objects along it's path.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've covered using raycasting functions in Unity. We also discussed some uses for rays. Raycasting is a powerful tool when making decisions in your game. And with plenty of cases, it's likely to make an apprearance in your games. The Raycast in Unity does use the physics system. So be sure to add a collider and layer information to any game object you'd like it to interact with using a ray.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="5">
+    <h2>Mini Maps</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we'll go over adding a mini map to your game. This mini map updates live with the scene and is centered on the players character. Mini maps are frequently used to help guide players to specific locations or just help them find their way around. Many include additional information that's not displayed in the game world, such as areas of interest or quest markers. In the scene, it will be easy to add the map to your scene simply by adding an additional camera to your scene. This camera will sit above the player character, rendering a wider view of the scene and witht the use of layers, we can add additional information to the minimap that's not displayed in the main camera. Lets take a look at the scene.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Add 4 floor 2x0.5x2 blocks on the floor in random positions. Set all to Layer 1</p>
+            <p><span class="glyphicon-remove"></span>Create 10x10x1 "MiniMapZone" box collider with the image of your interesting location on it using a "Legacy Shaders/Transparent/Diffuse" material with your image attached. Make the collider tall. Make it's layer "MiniMap". This object will have attached our "ZoneOfIntrigue" script.</p>
+            <p><span class="glyphicon-remove"></span>Create a 1x1x1 "Character" box collider. Make it's layer "Ignore Raycast". Attach a rigidbody. This will have attached our "MoveTowardsClick" script, and our "MiniMap" script.</p>
+            <p><span class="glyphicon-remove"></span>Make the Camera a child of the Character and rotate to (90, 0, 90) and position above the character. Make the tag "MainCamera" and keep in perspective mode with a field of view at 36.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Resources</b>
+            <p><span class="glyphicon-remove"></span>characterIconImage (25x25 png) - Red circle. Default import settings.</p>
+            <p><span class="glyphicon-remove"></span>CharacterIconMaterial (LegacyShaders/Transparent/VertexLit) - Has the characterIconImage attached. Default import settings.</p>
+            <p><span class="glyphicon-remove"></span>CharacterIcon (Prefab) - Layer: "MiniMap", Transform: pos(0,0,0) rot(90,0,0) scale(2,2,1), Quad Mesh, Mesh Renderer (Character Icon Material).</p>
+            <p><span class="glyphicon-remove"></span>MiniMapBorder (24x24 png) - White box, Black border. Default import settings.</p>
+            <p><span class="glyphicon-remove"></span>ZoneOfIntrigue (24x24 png) - White box, Red border, patterned red corners. Default import settings.</p>
+            <p><span class="glyphicon-remove"></span>ZoneOfIntriqueMaterial (LegacyShaders/Transparent/Diffuse) - Has the ZoneOfIntrigue attached. Default import settings.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's now take a look at our <b>Mini Map</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MiniMap : MonoBehaviour {
+
+                Camera miniMapCamera;
+
+                public float viewSize = 10f;
+                public Vector2 positionOnScreen = new Vector2(0f, 0f);
+                public Vector2 size = new Vector2(200f, 150f);
+                Texture2D miniMapBorder;
+                Rect miniMapRectangle;
+                Rect miniMapGUIBorder;
+                public bool transparent;
+
+                void Start() {
+                    miniMapRectange = new Rect(positionOnScreen.x, (Screen.height - positionOnScreen.y) - size.y, size.x, size.y);
+                    miniMapGUIBorder = new Rect(positionOnScreen.x - 5, positionOnScreen.y - 5, size.x + 10, size.y + 10);
+                    GameObject miniCam = new GameObject("MiniMapCamera", typeof(Camera));
+                    miniMapCamera = miniCam.GetComponent&lt;Camera&gt;();
+                    SetupMinimapCamera();
+
+                    GameObject characterIcon = GameObject.Instantiate(Resources.Load("CharacterIcon") as GameObject) as GameObject;
+                    characterIcon.transform.parent = this.transform;
+
+                    miniMapBorder = Resrouces.Load("MinimapBorder") as Texture2D;
+                }
+
+                private void SetupMinimapCamer() {
+                    miniMapCamera.transform.parent = this.transform;
+                    miniMapCamera.transform.position = new Vector3(0f, 20f, 0f);
+                    miniMapCamera.transform.Rotate(Vector3.right, 90f);
+                    miniMapCamera.orthographic = true;
+                    miniMapCamera.orthographicSize = viewSize;
+
+                    int layerMask = 0;
+                    layerMask |= 1<&lt;&lt;LayerMask.NameToLayer("MiniMap");
+                    layerMask |= 1&lt;&lt;LayerMask.NameToLayer("Layer1");
+
+                    miniMapCamera.cullingMask = layerMask;
+
+                    //Convert to viewport coordinates (i.e. 0,0 bottom left, 1,1 top right)
+                    miniMapCamera.rect = new Rect(miniMapRectangle.x/Screen.width, miniMapRectangle.y/Screen.height,
+                                                    miniMapRectangle.width/Screen.width, miniMapRectangle.height/Screen.height);
+                }
+
+                void Update() {
+                    //We're simply putting this here so we can see it change live in the demo
+                    //Ideally it would go in the setup method above.
+                    if(transparent)
+                        miniMapCamera.clearFlags = CameraClearFlags.Depth;
+                    else
+                        miniMapCamera.clearFlags = CameraClearFlags.Skybox;
+                }
+
+                void OnGUI() {
+                    GUI.DrawTexture(miniMapGUIBorder, miniMapBorder);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We're going to start by creating a game object, with a component of camera. And then setup that minimap camera by making a child of this object, setting its position above the character. Rotating it, so that it's pointing down, and setting it to an orthographic camera so we don't have the perspective view. Next we're going to add some layer masks to ensure that it shows the extra information we want from the mini map. Finally, we're going to change the view rectangel, so it's in the top left and smaller. In the scene you can see it's in the top left and smaller. And it has a black border around it, which was added as a GUI texture. We can see that we have a different icon for our player in the mini map than we do in the real world. And there's also a red box displayed in the mini map, or a "zone of intrigue", thats not displayed in the game world. The character icon in the mini map is simply an additional object that's rendering a red circle in the mini map layer. This mini map zone is simply a box collider that has a red rectangle, rendered in the mini map layer using a mesh renderer.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's view the <b>Zone of Intrigue</b> code:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ZoneOfIntrigue : MonoBehaviour {
+                void OnTriggerEnter(Collider other) {
+                    Debug.Log("Intrigued...");
+                }
+            }
+            </pre>
+            <p><span class="glyphicon-remove"></span>This has some detection code, so that when entering the box collider we are displaying a message. At the moment, the minimap also displays a background. We can disable this by checking the Transparent boolean on the minimap camera, allowing us to see through the background. That's done using clear flags, which we can see here, or we can either clear the depth, or we can clear with sky box. Clearing the depth makes it transparent, as there is nothing beyond the background here.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            A little extra script here is the <b>Move Towards Click</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MoveTowardsClick : MonoBehaviour {
+
+                Vector3 targetPosition;
+
+                //Speed, in units per second, we want to move towards the target
+                public float speed = 5f;
+
+                public bool holdToFollow = true;
+
+                public bool targetSet = false;
+
+                public float stoppingAccuracy = 2f;
+
+                public MouseUtils.Button respondToMouseButton = MouseUtils.Button.Left;
+
+                void Update() {
+                    if(holdToFollow) {
+                        if(Input.GetMouseButton((int)respondToMouseButton)) {
+                            //mouse has been clicked, update position
+                            //use the objects current depth, so we can move around on a 2D plane
+                            targetPosition = GetMouseAtObjectDepth();
+                            //make sure we "turn on" the movement
+                            targetSet = true;
+                        }
+                    } else {
+                        if(Input.GetMouseButtonDown((int)respondToMouseButton)) {
+                            //mouse has been clicked, update position
+                            //use the objects current depth, so we can move around on a 2D plane
+                            targetPosition = GetMouseAtObjectDepth();
+                            //make sure we "turn on" the movement
+                            targetSet = true;
+                        }
+                    }
+
+                    MoveTowardsTarget();
+                }
+
+                //Get position of the mouse at the depth of an object
+                Vector3 GetMouseAtObjectDepth() {
+                    //Find the depth into the scene, the distance won't work here because objects
+                    // directly in front of the camera are closer than object at the edge of the screen.
+                    //So we'll get the vector that points to the object, then use the dot product to see
+                    // how much of that overlaps with the forward heading of the camera.
+                    //Get the vector from the camera to the object
+                    Vector3 headingToObject = this.transform.position - Camera.main.transform.position;
+                    //Find the projection on the forward vector of the camera.
+                    float depth = Vector3.Dot(headingToObject, Camera.main.transform.forward);
+                    return GetMouseAtSpecifiedDepth(depth);
+                }
+
+                Vector3 GetMouseAtSpecifiedDepth(float depth) {
+                    Vector3 mouseScreenPosition = Input.mousePosition;
+                    mouseScreenPosition.x = depth;
+                    Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+                    return new Vector3(mouseWorldPosition.x, mouseWorldPosition.y, mouseWorldPosition.z);
+                }
+
+                public void OnDrawGizmos() {
+                    if(targetSet) {
+                        //Show a line from our current position to the target position
+                        Gizmos.DrawLine(this.transform.position, targetPosition);
+
+                        //Show us where the minimum stopping distance is
+                        Gizmos.DrawWireSphere(targetPosition, stoppingAccuracy);
+                    }
+                }
+
+                //Move towards a target at a set speed
+                private void MoveTowardsTarget() {
+                    //only do work if we have a valid target
+                    if(targetSet) {
+                        Vector3 currentPosition = this.transform.position;
+
+                        //First, check to see if we're close enough to the target
+                        //This check prevents us from oscillating back and forth over the target
+                        //If we're farther than 1 unit away, do the movement, otherwise don't
+                        if(Vector3.Distance(currentPosition, targetPosition) > stoppingAccuracy) {
+                            //Get the direction we need to go by subtracting the current position from the target position
+                            Vector3 directionOfTravel = targetPosition - currentPosition;
+
+                            //Now normalize the direction, since we only want the direction information
+                            directionOfTravel.Normalize();
+
+                            this.transform.Translate(
+                                    (directionOfTravel.x * speed * Time.deltaTime),
+                                    (directionOfTravel.y * speed * Time.deltaTime),
+                                    (directionOfTravel.z * speed * Time.deltaTime),
+                                    Space.World);
+                        } else {
+                            //We've completed the move, indicate we're done by turning off targetSet
+                            targetSet = false;
+                        }
+                    }
+                }
+
+                public override string ToString() {
+                    return string.Format("[MoveTowardsClick]: " + targetPosition + " @ "
+                                            + speed + "m/s, target set: " + targetSet);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We're not limited to a top down perspective with our mini map camera. It can be pointed any direction and could even be a first person or rear view camera for a racing game. In this section, we've covered a strategy for creating a mini map camera. The mini map is an important feature for many games, and can be useful for showing additional information, without cluttering up the game world.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="6">
+    <h2>Dynamic Meshes</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we're going to go over creating dynamic meshes with scripts. Creating meshes on the fly is a foundation of a number of modern games. For example, creating meshes at runtime allows us to create proceduraly generated terrain, or destructible environments. Meshes are, at a very basic level, composed of points, in 3D space, along with the instructions on how to connect the dots, and what colors to use when doing that. The primary buildilng blocks of meshes are vertices. The most basic vertices is just to find a point in 3D space.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The instructions for constructing a mesh, are list of indices that define the order of the vertices. At a minimum, a mesh needs three vertices to form a triangle. The simplest 3D shape available for drawing. Let's see our <b>Dynamic Mesh Interface</b> code:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections.Generic;
+
+            [RequireComponent (typeof(MeshFilter))]
+            [RequireComponent (typeof(MeshRenderer))]
+            [AddComponentMenu("Mesh/Dynamic Mesh Generator")]
+            public class DynamicMeshInterface : MonoBehaviour {
+
+                //Clockwise winding order defines the front of the vertex
+
+                List&lt;Vector3&gt; triangleVertices = new List&lt;Vector3&gt;() {
+                    new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 1, 0)
+                };
+
+                List&lt;Vector3&gt; quadVertices = new List&lt;Vector3&gt;() {
+                    new Vector3(0, 0, 0), new Vector3(0, 1, 0), new Vector3(1, 1, 0), new Vector3(1, 0, 0)
+                };
+
+                List&lt;GameObject&gt; customShape = new List&lt;GameObject&gt;();
+
+                bool regenerateCustom = false;
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.Alpha1)) {
+                        ApplyMesh(triangleVertices);
+                    }
+
+                    if(Input.GetKeydown(KeyCode.Alpha2)) {
+                        ApplyMesh(quadVertices);
+                    }
+
+                    if(Input.GetKeyDown(Keycode.Alpha3)) {
+                        AddPointToScene(MouseUtils.GetMouseWorldPositionAtDepth(10));
+                    }
+
+                    if(Input.GetKeyDown(KeyCode.Alpha4)) {
+                        foreach(GameObject point in customShape)
+                            GameObject.Destroy(point);
+                        customShape.Clear();
+                        regenerateCustom = true;
+                    }
+
+                    if(Input.GetMouseButton((int)MouseUtils.Button.Left)) {
+                        regenerateCustom = true;
+                    }
+
+                    if(regenerateCustom) {
+                        List&lt;Vector3&gt; customPoints = new List&lt;Vector3&gt;();
+                        foreach(GameObject go in customShape)
+                            customPoints.Add(go.transform.position);
+
+                        ApplyMesh(customPoints);
+                        regenerateCustom = false;
+                    }
+                }
+
+                void ApplyMesh(List&lt;Vector3&gt; vertices) {
+                    Mesh mesh = DynamicMeshGenerator.GenerateMesh(vertices);
+                    GetComponent&lt;MeshFilter&gt;().mesh = mesh;
+                }
+
+                void AddPointToScene(Vector3 point) {
+                    GameObject newPoint = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                    newPoint.transform.position = point;
+                    newPoint.transform.localScale = new Vector3(.3f, .3f, .3f);
+                    MouseDragObject mdo = newPoint.AddComponent&lt;MouseDragObject&gt;();
+                    customShape.Add(newPoint);
+                    regenerateCustom = true;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So we've added some attribtes to this model behaviour you may have not seen before. We have some attributes that both require components. This means that when this component is added to the object, these components will also be added, we can't remove these components without first removing this one.
+            <p><span class="glyphicon-remove"></span>Next theres an add component menu attribute. This is going to add this component to a specific spot under the Add Component menu, under Mesh/Dynamic Mesh Generator. So we have our dynamic mesh object in our, Add Component menu under Mesh/Dynamic Mesh Generator. We're going to see that mesh filter and mesh renderer were automatically added when we added our dynamic mesh interface.</p>
+            <p><span class="glyphicon-remove"></span>Next we're going to set a material so we have something to look at when these meshes get generated, and we can see some simple meshes.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The most simple mesh we'll make is just one triangle. And this list of Vector3s dedfines the points in 3D space that would make a traingle. We can see this with our first template which generates a traignel using the vertices defined in it's list. Number two generates a quad using the vertices defined in it's quad list. It is important to note that these vertices need to be defined in clockwise winding order. That's clockwise winding order when viewing the triangle from the front.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="7">
+    <h2>Quad Tree</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            End Goal: Create a quad tree which is mostly used for spatial partitioning. Helps with faster operations like finding nearby objects or culling a scene for visibility.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="8">
+    <h2>Extension Methods</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            End goal: Create extension methods which are special type of methods that essentially allow you to add additional methods to a class without having to modify that class.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
