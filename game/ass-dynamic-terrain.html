@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Advanced Scripting - Dynamic Terrain</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Advanced Scripting - Dynamic Terrain</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -104,14 +104,357 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#1">Procedural Voxel Terrain</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Chunked Infinite Terrain</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Procedural Voxel Terrain</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            For this initial section, we're going to go over creating procedural terrain with voxels, and then rendering it using iso services. Iso services have also been called metaballs, and you may have heard of marching cubes and algorithms that generate iso services. Iso services are a strategy for displaying 3D data. In this case we have a three dimensional cube lattice, where each cube has a floating point value to define intensity. We're essentially going to wrap that lattice in a mesh, so we can see it's shape. Let's first look at a 2D example to make things clear. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a Empty "Terrain" object.First add a Mesh Renderer component, and an empty Mesh Filter component. Then attach a "Procedural Terrain" script. This script will use the "Terrain Mesh Generator" class we'll define later.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Before we talk about how any of this works, let's look at our <b>Procedural Terrain</b> code:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic;
+
+            [RequireComponent (typof(MeshFilter))]
+            [RequireComponent (typof(MeshRenderer))]
+            public class ProceduralTerrain : MonoBehaviour {
+                
+                int size = 25;
+                float[,,] data;
+
+                //When an edge transitions between a positive and negative value, it'll be marked as "crossed"
+                public float surfaceCrossValue = 0;
+
+                //The scale of the noise for input into the system
+                public float noiseScaleFactor = 20;
+
+                Mesh localMesh;
+                MeshFilter meshFilter;
+
+                void Start() {
+                    localMesh = new Mesh();
+                    meshFilter = GetComponent(MeshFilter);
+                    data = new float[size, size, size];
+                    FillData(transform.position.x, transform.position.y, transform.position.z);
+                    ApplyDataToMesh();
+                }
+
+                void Update() {
+                    bool changed = false;
+                    bool changedMeshOnly = false;
+
+                    if(Input.GetKey(KeyCode.Q)) {
+                        surfaceCrossValue += 0.01f;
+                        changedMeshOnly = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.E)) {
+                        surfaceCrossValue -= 0.01f;
+                        changed MeshOnly = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.A)) {
+                        Camera.main.transform.Translate(-0.5f, 0, 0, Space.World);
+                        this.transform.Translate(-0.5f, 0, 0, Space.World);
+                        changed = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.D)) {
+                        Camera.main.transform.Translate(0.5f, 0, 0, Space.World);
+                        this.transform.Translate(0.5f, 0, 0, Space.World);
+                        changed = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.S)) {
+                        Camera.main.transform.Translate(0, -0.5f, 0, Space.World);
+                        this.transform.Translate(0, -0.5f, 0, Space.World);
+                        changed = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.W)) {
+                        Camera.main.transform.Translate(0, 0.5f, 0, Space.World);
+                        this.transform.Translate(0, 0.5f, 0, Space.World);
+                        changed = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.R)) {
+                        noiseScaleFactor += 0.1f;
+                        changed = true;
+                    }
+
+                    if(Input.GetKey(KeyCode.F)) {
+                        noiseScaleFactor -= 0.1f;
+                        changed = true;
+                    }
+
+                    if(changed || changedMeshOnly) {
+                        if(changed)
+                            FillData(transform.position.x, transform.position.y, transform.position.z);
+
+                        ApplyDataToMesh();
+                    }
+                }
+
+                void ApplyDataToMesh() {
+                    TerrainMeshGenerator.FillMesh(ref localMesh, data, size, size, surfaceCrossValue);
+                    meshFilter.mesh = localMesh;
+                }
+
+                void FillData(float xOrigin, float yOrigin, float zOrigin) {
+                    for(int x = 0; x < size; x++) {
+                        for(int y = 0; y < size; y++) {
+                            for(int z = 0; z < size; z++) {
+                                //Make all the outside edges solid, by wrapping the solids in -1s
+                                if(x == 0 || x == size-1) {
+                                    data[x,y,z] = -1;
+                                    continue;
+                                }
+                                if(y == 0 || y == size-1) {
+                                    data[x,y,z] = -1;
+                                    continue;
+                                }
+                                if(z == 0 || z == size-1) {
+                                    data[x,y,z] = -1;
+                                    continue;
+                                }
+
+                                float dataX = (xOrigin + x) / noiseScaleFactor;
+                                float dataY = (yOrigin + y) / noiseScaleFactor;
+                                float dataZ = (zOrigin + z) / noiseScaleFactor;
+
+                                //Use the built in Perlin noise to generate some passable noise data
+                                data[x,y,z] = Mathf.PerlinNoise(dataY, dataX+dataZ) - Mathf.PerlinNoise(dataX, dataZ);
+
+                                //Apply a gradient so our values are more likely to be:
+                                // "air" (less than 0) at the top and "solid" (greater than 0) at the bottom
+                                data[x,y,z] += (((float)y/size) - 0.5f);
+                            }
+                        }
+                    }
+                }
+
+                //Set some data points manually just to see them displayed and interacting with the procedural terrain
+                /*
+                data[12,20,12] = 0.2f;
+                data[13,20,12] = 1;
+                data[14,20,12] = 0.2f;
+                */
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now we'll need to jump into our <b>Terrain Mesh Generator</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System, System.Collections.Generic;
+
+            public class TerrainMeshGenerator {
+                public static void FillMesh(ref Mesh meshToUpdate, float[,,] data, int size, int height, float surfaceCrossValue) {
+
+                    int vertexIndex = 0;
+                    Vector3[] interpolatedValues = new Vector3[12];
+
+                    List&lt;Vector3&gt; vertices = new List&lt;Vector3&gt;();
+                    List&lt;int&gt; triangleIndices = new List&lt;int&gt;();
+                    
+                    for(int x = 0; x < size; x++) {
+                        for(int y = 0; y < size; y++) {
+                            for(int z = 0; z < size; z++) {
+
+                                if(vertices.Count > 64000) {
+                                    //Maximum vertex count for a mesh is 65k
+                                    //If reaching this limit we should be making smaller or less complex meshes
+                                    break;
+                                }
+
+                                Vector3 basePoint = new Vector3(x,y,z);
+
+                                //Get the 8 corners of this cube
+                                float p0 = data[x,  y,  z];
+                                float p1 = data[x+1,y,  z];
+                                float p2 = data[x,  y+1,z];
+                                float p3 = data[x+1,y+1,z];
+                                float p4 = data[x,  y,  z+1];
+                                float p5 = data[x+1,y,  z+1];
+                                float p6 = data[x,  y+1,z+1];
+                                float p7 = data[x+1,y+1,z+1];
+
+                                //A bitmap indicating which edges the surface of the volume crosses
+                                int crossBitMap = 0;
+
+                                if( p0 < surfaceCrossValue ) crossBitMap |= 1;
+                                if( p1 < surfaceCrossValue ) crossBitMap |= 2;
+
+                                if( p2 < surfaceCrossValue ) crossBitMap |= 8;
+                                if( p3 < surfaceCrossValue ) crossBitMap |= 4;
+
+                                if( p4 < surfaceCrossValue ) crossBitMap |= 16;
+                                if( p5 < surfaceCrossValue ) crossBitMap |= 32;
+
+                                if( p6 < surfaceCrossValue ) crossBitMap |= 128;
+                                if( p7 < surfaceCrossValue ) crossBitMap |= 64;
+
+                                //Use the edge look up table to determin the configuration of edges
+                                int edgeBits = Contouring3D.EdgeTableLookup[crossBitMap];
+
+                                //The surface did not cross any edges, this cube is either completely inside, or completely outside the volume
+                                if(edgeBits == 0)
+                                    continue;
+
+                                float interpolatedCrossingPoint = 0f;
+
+                                //Calculate the interpolated positions for each edge that has a crossing value
+
+                                //Bottom four edges
+                                if((edgeBits &amp; 1) > 0) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p1 - p0 );
+                                    interpolatedValues[0] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x+1,y,z), interpolatedCrossingPoint);
+                                }
+                                if((edgeBits &amp; 2) > 0) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p1 ) / ( p3 - p1 );
+                                    interpolatedValues[1] = Vector3.Lerp(new Vector3(x+1,y,z), new Vector3(x+1,y+1,z), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 4) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p2 ) / ( p3 - p2 );
+                                    interpolatedValues[2] = Vector3.Lerp(new Vector3(x,y+1,z), new Vector3(x+1,y+1,z), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 8) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p2 - p0 );
+                                    interpolatedValues[3] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x,y+1,z), interpolatedCrossingPoint);
+                                }
+                                
+                                //Top four edges
+                                if ((edgeBits &amp; 16) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p4 ) / ( p5 - p4 );
+                                    interpolatedValues[4] = Vector3.Lerp(new Vector3(x,y,z+1), new Vector3(x+1,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 32) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p5 ) / ( p7 - p5 );
+                                    interpolatedValues[5] = Vector3.Lerp(new Vector3(x+1,y,z+1), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 64) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p6 ) / ( p7 - p6 );
+                                    interpolatedValues[6] = Vector3.Lerp(new Vector3(x,y+1,z+1), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 128) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p4 ) / ( p6 - p4 );
+                                    interpolatedValues[7] = Vector3.Lerp(new Vector3(x,y,z+1), new Vector3(x,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                
+                                //Side four edges
+                                if ((edgeBits &amp; 256) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p4 - p0 );
+                                    interpolatedValues[8] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 512) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p1 ) / ( p5 - p1 );
+                                    interpolatedValues[9] = Vector3.Lerp(new Vector3(x+1,y,z), new Vector3(x+1,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 1024) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p3 ) / ( p7 - p3 );
+                                    interpolatedValues[10] = Vector3.Lerp(new Vector3(x+1,y+1,z), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 2048) > 0)
+                                {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p2 ) / ( p6 - p2 );
+                                    interpolatedValues[11] = Vector3.Lerp(new Vector3(x,y+1,z), new Vector3(x,y+1,z+1), interpolatedCrossingPoint);
+                                }
+
+                                //Shift the cross bit map to use as an index into the triangle look up table
+                                crossBitMap &lt;&lt; 4;
+
+                                int triangleIndex = 0;
+                                while( Contouring3D.TriangleLookupTable[ crossBitMap + triangleIndex ] != -1 ) {
+                                    //For each triangle in the look up table, create a triangle and add it to the list
+                                    int index1 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex];
+                                    int index2 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex + 1];
+                                    int index3 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex + 2];
+
+                                    vertices.Add(new Vector3(interpolatedValues[index1].x, interpolatedValues[index1].y, interpolatedValues[index1].z));
+                                    vertices.Add(new Vector3(interpolatedValues[index2].x, interpolatedValues[index2].y, interpolatedValues[index2].z));
+                                    vertices.Add(new Vector3(interpolatedValues[index3].x, interpolatedValues[index3].y, interpolatedValues[index3].z));
+
+                                    triangleIndices.Add(vertexIndex);
+                                    triangleIndices.Add(vertexIndex + 1);
+                                    triangleIndices.Add(vertexIndex + 2);
+                                    vertexIndex += 3;
+                                    triangleIndex += 3;
+                                }
+                            }
+                        }
+                    }
+
+                    //Create texture coordinates for all the vertices
+                    List&lt;Vector2&gt; textCoords = new List&lt;Vector2&gt;();
+                    Vector2 emptyTexCoords0 = new Vector2(0,0);
+                    Vector2 emptyTexCoords1 = new Vector2(0,1);
+                    Vector2 emptyTexCoords2 = new Vector2(1,1);
+
+                    for(int texturePointer = 0; texturePointer < vertices.Count; texturePointer+=3) {
+                        //There should be as many texture coordinates as vertices.
+                        //This example does not support textures so fill with zeros
+                        textCoords.Add(emptyTexCoords1);
+                        textCoords.Add(emptyTexCoords2);
+                        textCoords.Add(emptyTexCoords0);
+                    }
+
+                    //Generate the mesh using the vertices and triangle indices we just created
+                    meshToUpdate.Clear();
+                    meshToUpdate.vertices = vertices.ToArray();
+                    meshToUpdate.triangles = triangleIndices.ToArray();
+                    meshToUpdate.uv = texCoords.ToArray();
+                    meshToupdate.RecalculateNormals();
+                    meshToupdate.RecalculateBounds();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Before we go through the code, try to imagine this. We have a two dimensional array of floating point values. For each square in the array we're going to find a crossover point where the density goes from solid to not solid. In this case, that point is at zero. So anywhere that a data point crosses over at zero, will be where an ISO line is rendered. So on any edge where data goes from positive to negative we'll identify an edge. Next we need to find the point at which they are all zero. We can use interpolation to find where a point equals zero. For example, between one and negative one it's directly in the middle. Between negative one and 0.2 it's much closer to 0.2 than negative 1. Calculating that interpolated position is the next step. Then we will draw lines between each of the points, creating a surface, where the inside is non-solid, the outside is solid. We're going to do this with a 3D array of data. This happens in our Procedural Terrain script.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Our procedural terrain class is going to require a mesh filter and a mesh renderer. It's going to contain a 3d array of data, and our service cross value is going to be zero. This is going to mark the point at which terrain becomes solid or not solid. When creating this object, we are going to start by creating a mesh, filling our data array with flats, and then applying that data to the mesh. Let's check out filling the data. Filling data is going to happen inside three nested for loops so that we touch each cube inside this 3D lattice. We want to make the outside edges solid by wrapping the entire thing in non-solid. This will create a surface around the entire outside and give us something to look at. Additionally, for all the data inside, we want to calculate a Perlin Noise value, generating some coherent noise.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next, we want to modify that data with a gradient value so that we're more likely to have air at the top and ground at the bottom. Now that we have data in our array, let's check out how we're going to generate a mesh. We're going to use our terrain mesh generator to fill the mesh, using the data at the specified size with the specified cross over value. The FillMesh algorithm is going to go through each cube in our lattice. It's going to get the data form all eight corners of each cube, and it's going to find the cross over values for each cube. Using edge lookup tables and triangle lookup tables, we're going to create triangles for each cube. These triangles will represent the surface in that cube. Some cubes may even have no service at all, while other will have various shapes.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            All of these shapes combined will produce a surface that we can look at. Finally, we're going to add some empty texture coordinates, and then apply our vertices, triangles, and coordinates. Then recalculate our normals and bounds, and return the mesh. Uncommenting the manual data will reveal a solid chunk of data. Moving through the world we will see that the chunk remains. It will change size slightly just because the data surrounding it is going to vary, which increases or decreases the density of this value. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this beginning section we've seen how to generate a mesh given a point cloud. The data in this lattice is defined as density. We've wrapped the lattice in the mesh everywhere that the density equals zero. This mesh becomes the surface of the volume defined by the 3d array of data. There's no proven or standard method for generating the data for terrain, and the majority of games will use Perlin Noise, simplex noise, or some similar algorithm for generating coherent noise. The coherent noise is then transformed further, like we did with our gradient function. Remember that just because it's code, doesn't mean it's art. The math and algorithms that make the terrain are just as beautiful as the terrain they produce. It takes knowledge and practice to create an algorithm that produces nice results and fits the requirements of you game. The data behind your terrain is important, but so is the method of displaying it.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            ISO services are robust and accurate ways to display such data. This technique allows you more control over the shape and details of your terrain.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Chunked Infinite Terrain</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             XXX
