@@ -1187,6 +1187,18 @@
         <li><p><span class="glyphicon-remove"></span>
             The most simple mesh we'll make is just one triangle. And this list of Vector3s dedfines the points in 3D space that would make a traingle. We can see this with our first template which generates a traignel using the vertices defined in it's list. Number two generates a quad using the vertices defined in it's quad list. It is important to note that these vertices need to be defined in clockwise winding order. That's clockwise winding order when viewing the triangle from the front.
         </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So what's happening when this mesh is generated? When the number one key is pressed we're passing in our triangle vertices list into the Applymesh method. The Applymesh method, takes lists of vertices and generates a mesh based on those vertices. That mesh generation process is essentially just taking our list of vertices and we're going to create a new list of integers. This list of integers, is going to be indexes into the vertex array.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The mesh generator supports both quads and triangles. In the case of quads, we're just going to look for a number of vertices that  is divisible by four, if it is, we'll attempt to make quads. In this case, quads is just going to take four vertices and create two triangles, at indices 012 and 023. Otherwise we're going to create a triangle. And that's just going to create indexes into the vertex array, at 0, 1, and 2.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we're going to create texture coordinates, in this case it's just going to be 0s because we're not going to support any textures in this mesh generator. Finally we create a new mesh, and add our vertices to it, along with the indices defining the triangles. Then take the texture coordinates we created and recalculate the normals and the bounds, then return a mesh to set to our mesh filter to be displayed on screen. Now that we've seen meshes generated with these predefined lists, let's see how we can make up our own at runtime.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            
+        </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
