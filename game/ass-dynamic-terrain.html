@@ -111,6 +111,14 @@
                                 <a href="#2">Chunked Infinite Terrain</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Modifiable Voxel Terrain</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Midpoint Displacement Landscape</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -457,13 +465,1029 @@
     <h2>Chunked Infinite Terrain</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section, we're going to go over how to implement chunk terrain to allow for an infinite terrain system. Chunking is a method of loading the data <i>just</i> around the user. This allows for extremely large landscapes, producing pseudo-infinite land. Chunking has other benefits as well. It's a useful way to split data for saving. We're implementing features like level of detail, where far away chunks rendered at very low detail, while nearby chunks are rendered at high detail. The chunks of data are loaded into an array and then the array acts as a conveyor belt.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            For example, when moving in the X plus direction. The X plus end of the array gets new chunks loaded into it. While the x minus end of the array has chunks unloaded from it. And everywhere in between gets shifted. A player is alwasy positioned in the middle of the array and whichever direction they move towards has new chunks loaded, while the direction they're moving away from has chunks unloaded. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "Terrain" object. Attach a "World" script which uses the Chunk class.</p>
+            <p><span class="glyphicon-remove"></span>TODO: Might want to check out the actual Unity project.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We should first see the <b>Chunk</b> class which our world will use to build the terrain:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Chunk {
+
+                float xOrigin;
+                float yOrigin;
+                float zOrigin;
+
+                float noiseScaleFactor;
+
+                int size;
+                int height;
+
+                Mesh chunkMesh;
+                GameObject meshGameObject;
+
+                public Chunk(float x, float y, float z, int size, int height, float noiseScaleFactor, float surfaceCrossValue, Material meshMaterial, Transform parent) {
+                    //Add one to the size to account for the marching cubes rendering missing the final edge (this causes a slight overlap in data,
+                    // we can either do this, or store the data at the world level and reference it when building chunks)
+                    size++;
+                    this.size = size;
+                    this.height = height;
+                    float[,,] data = new float[size, height, size];
+                    this.xOrigin = x;
+                    this.yOrigin = y;
+                    this.zOrigin = z;
+                    this.noiseScaleFactor = noiseScaleFactor;
+
+                    meshGameObject = new GameObject("Chunk" + x + "," + y + "," + z, typof(MeshFilter), typeof(MeshRenderer));
+
+                    meshGamObject.transform.position = new Vector3(x,y,z);
+                    chunkMesh = new Mesh();
+                    FillData(data);
+                    TerrainMeshGenerator.FillMesh(ref chunkMesh, data, size, height, surfaceCrossValue);
+                    data = null;
+
+                    meshGameObject.GetComponent&lt;MeshFilter&gt;().mesh = chunkMesh;
+                    meshGameObject.GetComponent&lt;MeshRenderer&gt;().material = meshMaterial;
+
+                    meshGameObject.transform.parent = parent;
+                }
+
+                private void FillData(float[,,] data) {
+                    for(int x = 0; x < size; x++) {
+                        for(int y = 0; y < height; y++) {
+                            for(int z = 0; z < size; z++) {
+                                if(y == height-1) { //put a cap on things outside our bounds
+                                    data[x,y,z] = -1;
+                                    continue;
+                                }
+
+                                if(y == 0) { //put a floor on the bottom
+                                    data[x,y,z] = 1;
+                                    continue;
+                                }
+
+                                float dataX = (xOrigin + x) / noiseScaleFactor;
+                                float dataY = (yOrigin + y) / noiseScaleFactor;
+                                float dataZ = (zOrigin + z) / noiseScaleFactor;
+
+                                //Use the built in Perlin noise to generate some passable noise data.
+                                data[x,y,z] = Mathf.PerlinNoise(dataY, dataX+dataZ) - Mathf.PerlineNoise(dataX,dataZ);
+
+                                //Apply a gradient so our values are more likely to be:
+                                // "air" (less than 0) at the top and "solid" (greater than 0) at the bottom
+                                data[x,y,z] -= (((float)y/height) - 0.5f);
+                            }
+                        }
+                    }
+                }
+
+                public void Dispose() {
+                    chunkMesh = null;
+                    GameObject.Destory(meshGameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's now view our <b>World</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class World : MonoBehaviour {
+
+                Chunk[,] worldChunks;
+
+                public int worldSize = 15;
+                public int chunkSize = 5;
+                public int chunkHeight = 20;
+
+                public Material defaultMaterial;
+
+                //When an edge transitions between a positive and negative value, it'll be marked as "crossed"
+                public float surfaceCrossValue = 0;
+
+                //The scale of the noise for input into the system
+                public float noiseScaleFactor = 20;
+
+                public Vector3 worldStartPosition;
+
+                void Start() {
+                    worldChunks = new Chunk[worldSize, worldSize];
+                    worldStartPosition = GetPotentialStartPosition();
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            worldChunks[i, j] = new Chunk(worldStartPosition.x + (i*chunkSize), 0, worldStartPosition.z + (j*chunkSize),
+                                                            chunkSize, chunkHeight, noiseScaleFactor, surfaceCrossValue, defaultMaterial, this.transform);
+                        }
+                    }
+                }
+
+                void MoveXPlus() {
+                    worldStartPosition.x += chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(i == worldSize - 1) {
+                                //Build a new column on the right
+                                worldChunks[i,j] = new Chunk(worldStartPosition.x + (i*chunkSize), 0, worldStartPosition.z + (j*chunkSize),
+                                                            chunkSize, chunkHeight, noiseScaleFactor, surfaceCrossValue, defaultMaterial, this.transform);
+                                continue;
+                            } else if(i == 0) {
+                                //Free up the chunks at the x minus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the arrays to the left
+                            worldChunks[i,j] = worldChunks[i+1,j];
+                        }
+                    }
+                }
+
+                void MoveZPlus() {
+                    worldStartPosition.z += chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(j == worldSize - 1) {
+                                //Build a new column on the top
+                                worldChunks[i,j] = new Chunk(worldStartPosition.x + (i*chunkSize), 0, worldStartPosition.z + (j*chunkSize),
+                                                            chunkSize, chunkHeight, noiseScaleFactor, surfaceCrossValue, defaultMaterial, this.transform);
+                                continue;
+                            } else if(j == 0) {
+                                //Free up the chunks at the z minus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the arrays down
+                            worldChunks[i,j] = worldChunks[i,j+1];
+                        }
+                    }
+                }
+
+                void MoveXMinus() {
+                    worldStartPosition.x -= chunkSize;
+
+                    for(int i = worldSize - 1; i >= 0; i--) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(i == 0) {
+                                //Build a new column on the left
+                                worldChunks[i,j] = new Chunk(worldStartPosition.x + (i*chunkSize), 0, worldStartPosition.z + (j*chunkSize),
+                                                            chunkSize, chunkHeight, noiseScaleFactor, surfaceCrossValue, defaultMaterial, this.transform);
+                                continue;
+                            } else if(i == worldSize - 1) {
+                                //Free up the chunks at the x plus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the arrays to the right
+                            worldChunks[i,j] = worldChunks[i-1,j];
+                        }
+                    }
+                }
+
+                void MoveZMinus() {
+                    worldStartPosition.z -= chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = worldSize - 1; j >= 0; j--) {
+                            if(j == 0) {
+                                //Build a new column on the bottom
+                                worldChunks[i,j] = new Chunk(worldStartPosition.x + (i*chunkSize), 0, worldStartPosition.z + (j*chunkSize),
+                                                            chunkSize, chunkHeight, noiseScaleFactor, surfaceCrossValue, defaultMaterial, this.transform);
+                                continue;
+                            } else if(j == worldSize - 1) {
+                                //Free up the chunks at the z plus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the arrays up
+                            worldChunks[i,j] = worldChunks[i,j-1];
+                        }
+                    }
+                }
+
+                Vector3 ConvertCameraPosition() {
+                    Vector3 camPos = Camera.main.transform.position;
+                    return new Vector(Mathf.Round(camPos.x/chunkSize)*chunkSize, 0, Mathf.Round(camPos.z/chunkSize)*chunkSize);
+                }
+
+                Vector3 GetPotentialStartPosition() {
+                    return new Vector3(ConvertCameraPosition().x-((worldSize*chunkSize)/2), 0, ConvertCameraPosition().z-((worldSize*chunkSize)/2));
+                }
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.D)) {
+                        MoveXPlus();
+                    }
+                    if(Input.GetKeyDown(KeyCode.A)) {
+                        MoveXMinus();
+                    }
+                    if(Input.GetKeyDown(KeyCode.R)) {
+                        MoveZPlus();
+                    }
+                    if(Input.GetKeyDown(KeyCode.F)) {
+                        MoveZMinus();
+                    }
+
+                    Vector3 potentialStart = GetPotentialStartPosition();
+                    if(worldStartPosition.x < potentialStart.x) {
+                        MoveXPlus();
+                    } 
+                    else if(worldStartPosition.x > potentialStart.x) {
+                        MoveXMinus();
+                    }
+
+                    if(worldStartPosition.z < potentialStart.z) {
+                        MoveZPlus();
+                    } 
+                    else if(worldStartPosition.z > potentialStart.z) {
+                        MoveZMinus();
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In our World class, we see it contains an array of chunks. The world size, and the chunk size, and chunk height are all defined here. Also the crossover value for our iso-surface terrain. We're starting off by initializing our new chunk array, getting the start position, and then, filling the chunk array with new chunks. Each chunk is going to be passed in the position of the world, as well as its position relative to the world. Then each chunk is going to create its own data and fill that data based of its relative position in the world. This is where coherent noise is important, because we always want the same output for every input.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So every time we input a position in the world, we need to get back the same desnsity value. In unity we can see we are surrounded by a number of chunked pieces of terrain, which are all listed in the heirarchy. You won't be able to tell they're chunk by looking at them but if we move along we can see chunks load in and chunks load out.We can see the numbers chaning in the hierarchy as we move along the axis. So moving along loads new chunks on one end and unloads chunks on the opposite end. This work in both horizontal, vertical, and diagonal directions.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This will be great for when they player is down at land level, it's harder to tell that new chunks are being loaded from that distance. Of course we can improve things by increasing the number of chunks rendered around the player. But his may have effect on performance as more chunks will have to be loaded into memory.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the shifting methods. When we've detected that we're moving in the x plus direction, we're going to change our position by the chunk size and then for each chunk in our array. If the chunk is located at the leading edge we're going to create a new chunk. Passing in the world offset position. If it's on the trailing edge we're going to dispose of that chunk and everything else we're going to shift to the left. This is the same situation for the z plus, x minus and the z minus. Detecting when we should shift is as simple as getting the current position and comparing it to our current position. If they are not the same, then we need to move. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone over how to implement chunk terrain. The chunked terrain allows you to have a very large landscape and only keep the immediate are surrounding the player loaded. This keeps the resource requirements low and improves performance. Another feature of chunks is having a convenient way to split data. For example, currently, the terrain is not modifiable. So we can just generate it new every time and it'll be the same as we left it. However, if we wanted to make the terrain editable by the player, we need to save the changes or all of the voxel data to disk to be loaded the next time we got to that chunk. Having this data in discrete chunks allows us to save only the chunks that have been changed, meaning we can save ourselves some disk space, and more importantly, the time required to read and write from disk.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="3">
+    <h2>Modifiable Voxel Terrain</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over creating terrain that's modifiable by the user. This kind of interaction with the terrain is fairly popular in modern games. From adding or removing cubes to the terrain in a survival game, to blasting craters in the landscape in a first person shooter. Dynamic terrain can improve the immersion of the game and provide additional features for the game play. For example, a squad moving on the battle field can use a crater from a missle strike to take cover. It can also be the main feature of the game, like allowing the player to add and remove from the terrain at will to build it how they see fit.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Look at Unity Project</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The first item we'll need is the <b>World Mesh Generator</b> class which our Dynamic Chunks will fill the meshes from:
+            <pre>
+            <span class="glyphicon-remove"></span>public class WorldMeshGenerator {
+                public static void FillMesh(ref Mesh meshToUpdate, int chunkX, int chunkY, 
+                        int chunkZ, DynamicWorld world, int size, int height, float surfaceCrossvalue) {
+                    
+                    int vertexIndex = 0;
+                    Vector3[] interpolatedValues = new Vector3[12];
+
+                    List&lt;Vector3&gt; vertices = new List&lt;Vector3&gt;();
+                    List&lt;int&gt; triangleIndices = new List&lt;int&gt;();
+
+                    for(int x = 0; x < size; x++) {
+                        for(int y = 0; y < height-1; y++) {
+                            for(int z = 0; z < size; z++) {
+                                
+                                if(vertices.Count > 64000) {
+                                    //Maximum vertex count for a mesh is 65k
+                                    //If reaching this limit we should be making smaller or less complex meshes
+                                    break;
+                                }
+
+                                Vector3 basePoint = new Vector3(x,y,z);
+
+                                //Get the 8 corners of this cube.
+                                float p0 = world.GetValue(chunkX + x,  chunkY + y,  chunkZ + z);
+                                float p1 = world.GetValue(chunkX + x+1,chunkY + y,  chunkZ + z);
+                                float p2 = world.GetValue(chunkX + x,  chunkY + y+1,chunkZ + z);
+                                float p3 = world.GetValue(chunkX + x+1,chunkY + y+1,chunkZ + z);
+                                float p4 = world.GetValue(chunkX + x,  chunkY + y,  chunkZ + z+1);
+                                float p5 = world.GetValue(chunkX + x+1,chunkY + y,  chunkZ + z+1);
+                                float p6 = world.GetValue(chunkX + x,  chunkY + y+1,chunkZ + z+1);
+                                float p7 = world.GetValue(chunkX + x+1,chunkY + y+1,chunkZ + z+1);
+
+                                //A bitmap indicating which edges the surface of the volume crosses
+                                int crossBitMap = 0;
+
+                                if( p0 < surfaceCrossValue ) crossBitMap |= 1;
+                                if( p1 < surfaceCrossValue ) crossBitMap |= 2;
+
+                                if( p2 < surfaceCrossValue ) crossBitMap |= 8;
+                                if( p3 < surfaceCrossValue ) crossBitMap |= 4;
+
+                                if( p4 < surfaceCrossValue ) crossBitMap |= 16;
+                                if( p5 < surfaceCrossValue ) crossBitMap |= 32;
+
+                                if( p6 < surfaceCrossValue ) crossBitMap |= 128;
+                                if( p7 < surfaceCrossValue ) crossBitMap |= 64;
+
+                                //Use the edge look up table to determin the configuration of edges
+                                int edgeBits = Contouring3D.EdgeTableLookup[crossBitMap];
+
+                                //The surface did not cross any edges, this cube is either completely inside, or completely outside the volume
+                                if(edgeBits == 0)
+                                    continue;
+
+                                float interpolatedCrossingPoint = 0f;
+
+                                //Calculate the interpolated position for each edge that has a crossing value
+
+                                //Bottom four edges
+                                if((edgeBits &amp; 1) > 0 ) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p1 - p0 );
+                                    interpolatedValues[0] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x+1,y,z), interpolatedCrossingPoint);
+                                }
+                                if((edgeBits &amp; 2) > 0 ) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p1 ) / ( p3 - p1 );
+                                    interpolatedValues[1] = Vector3.Lerp(new Vector3(x+1,y,z), new Vector3(x+1,y+1,z), interpolatedCrossingPoint);
+                                }
+                                if((edgeBits &amp; 4) > 0 ) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p2 ) / ( p3 - p2 );
+                                    interpolatedValues[2] = Vector3.Lerp(new Vector3(x,y+1,z), new Vector3(x+1,y+1,z), interpolatedCrossingPoint);
+                                }
+                                if((edgeBits &amp; 8) > 0 ) {
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p2 - p0 );
+                                    interpolatedValues[3] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x,y+1,z), interpolatedCrossingPoint);
+                                }
+
+                                //Top four edges
+                                if ((edgeBits &amp; 16) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p4 ) / ( p5 - p4 );
+                                    interpolatedValues[4] = Vector3.Lerp(new Vector3(x,y,z+1), new Vector3(x+1,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 32) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p5 ) / ( p7 - p5 );
+                                    interpolatedValues[5] = Vector3.Lerp(new Vector3(x+1,y,z+1), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 64) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p6 ) / ( p7 - p6 );
+                                    interpolatedValues[6] = Vector3.Lerp(new Vector3(x,y+1,z+1), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 128) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p4 ) / ( p6 - p4 );
+                                    interpolatedValues[7] = Vector3.Lerp(new Vector3(x,y,z+1), new Vector3(x,y+1,z+1), interpolatedCrossingPoint);
+                                }
+
+                                //Side four edges
+                                if ((edgeBits &amp; 256) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p0 ) / ( p4 - p0 );
+                                    interpolatedValues[8] = Vector3.Lerp(new Vector3(x,y,z), new Vector3(x,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 512) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p1 ) / ( p5 - p1 );
+                                    interpolatedValues[9] = Vector3.Lerp(new Vector3(x+1,y,z), new Vector3(x+1,y,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 1024) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p3 ) / ( p7 - p3 );
+                                    interpolatedValues[10] = Vector3.Lerp(new Vector3(x+1,y+1,z), new Vector3(x+1,y+1,z+1), interpolatedCrossingPoint);
+                                }
+                                if ((edgeBits &amp; 2048) > 0){
+                                    interpolatedCrossingPoint = ( surfaceCrossValue - p2 ) / ( p6 - p2 );
+                                    interpolatedValues[11] = Vector3.Lerp(new Vector3(x,y+1,z), new Vector3(x,y+1,z+1), interpolatedCrossingPoint);
+                                }
+
+                                //Shift the cross bit map to use as an index into the triangle look up table
+                                crossBitMap &lt;&lt;=4;
+
+                                int triangleIndex = 0;
+                                while( Contouring3D.TriangleLookupTable[ crossBitMap + triangleIndex ] != -1 ) {
+                                    //For each triangle in the look up table, create a triangle and add it to the list.
+                                    int index1 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex];
+                                    int index2 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex + 1];
+                                    int index3 = Contouring3D.TriangleLookupTable[crossBitMap + triangleIndex + 2];
+
+                                    vertices.Add(new Vector3(interpolatedValues[index1].x, interpolatedValues[index1].y, interpolatedValues[index1].z));
+                                    vertices.Add(new Vector3(interpolatedValues[index2].x, interpolatedValues[index2].y, interpolatedValues[index2].z));
+                                    vertices.Add(new Vector3(interpolatedValues[index3].x, interpolatedValues[index3].y, interpolatedValues[index3].z));
+
+                                    triangleIndices.Add(vertexIndex);
+                                    triangleIndices.Add(vertexIndex + 1);
+                                    triangleIndices.Add(vertexIndex + 2);
+                                    vertextIndex += 3;
+                                    triangleIndex += 3;
+                                }
+                            }
+                        }
+                    }
+
+                    //Create texture coordinates for all the vertices
+                    List&lt;Vector2&gt; textCoords = new List&lt;Vector2&gt;();
+                    Vector2 emptyTextCoords0 = new Vector2(0,0);
+                    Vector2 emptyTextCoords1 = new Vector2(0,1);
+                    Vector2 emptyTextCoords2 = new Vector2(1,1);
+
+                    for(int texturePointer = 0; texturePointer < vertices.Count; texturePointer += 3) {
+                        //There should be as many texture coordinates as vertices.
+                        //This example does not support textures, so fill with zeros
+                        texCoords.Add(emptyTextCoords1);
+                        texCoords.Add(emptyTextCoords2);
+                        texCoords.Add(emptyTextCoords0);
+                    }
+
+                    //Generate the mesh using the vertices and triangle indices we just created
+                    meshToUpdate.Clear();
+                    meshToUpdate.vertices = vertices.ToArray();
+                    meshToUpdate.triangles = triangleIndices.ToArray();
+                    meshToUpdate.uv = texCoords.ToArray();
+                    meshToUpdate.RecalculateNormals();
+                    meshToUpdate.RecalculateBounds();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we're going to need the <b>Dynamic Chunk</b> class which our Dynamic World will build it's chunks from:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Dynamic : MonoBehaviour {
+                
+                int size;
+                int height;
+
+                MeshFilter meshFilter;
+                MeshCollider meshCollider;
+                DynamiWorld parentWorld;
+
+                float[,,] data;
+
+                public void Initialize(float[,,] data, int XZSize, int YSize, Material material, DynamicWorld world) {
+                    this.meshFilter = GetComponent&lt;MeshFilter&gt;();
+                    this.meshCollider = GetComponent&lt;MeshCollider&gt;();
+                    this.GetComponent&lt;MeshRenderer&gt;().material = material;
+                    this.data = data;
+                    this.size = XZSize;
+                    this.height = YSize;
+                    this.parentWorld = world;
+                }
+
+                public void GenerateNewMesh(float surfaceCrossValue) {
+                    Mesh m = new Mesh();
+                    WorldMeshGenerator.FillMesh(ref m, (int)transform.position.x, (int)transform.position.y, (int)transform.position.z, size, height, surfaceCrossValue);
+                    this.meshFilter.mesh = m;
+                    this.meshCollider.sharedMesh = m;
+                }
+
+                public float GetValue(int x, int y, int z) {
+                    return data[x,y,z];
+                }
+
+                public void SetValue(int x, int y, int z, float value) {
+                    data[x,y,z] = value;
+                }
+
+                public void Dispose() {
+                    GameObject.Destory(this.gameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll then need to see our <b>Dynamic World</b> script. Hold on though, it's a doozy:
+            <pre>
+            <span class="glyphicon-remove"></span>public class DynamicWorld : MonoBehaviour {
+                DynamicChunk[,] worldChunks;
+
+                public int worldSize = 15;
+                public int chunkSize = 5;
+                public int chunkHeight = 20;
+
+                public int toolRadius = 5;
+                public float toolStrength = 0.01f;
+
+                public Material defaultMaterial;
+
+                //When an edge transitions between a positive and negative value, it'll be marked as "crossed"
+                public float surfaceCrossValue = 0;
+
+                //The scale of the noise for input into the system
+                public float noiseScaleFactor = 20;
+
+                public Vector3 worldStartPosition;
+
+                List&lt;DynamicChunk&gt; chunksToUpdate = new List&lt;DynamicChunks&gt;();
+
+                void Start() {
+                    worldChunks = new DynamicChunk[worldSize, worldSize];
+                    worldStartPosition = GetPotentialStartPosition();
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+
+                            float chunkX = worldStartPosition.x + (i*chunkSize);
+                            float chunkY = 0;
+                            float chunkZ = worldStartPosition.z + (j*chunkSize);
+
+                            worldChunks[i,j] = GenerateNewChunk(chunkX, chunkY, chunkZ);
+                        }
+                    }
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            worldChunks[i,j].GenerateNewMesh(surfaceCrossValue);
+                        }
+                    }
+                }
+
+                DynamicChunk GenerateNewChunk(float chunkX, float chunkY, float chunkZ) {
+                    float[,,] chunkData = new float[chunkSize, chunkHeight, chunkSize];
+
+                    FillData(ref chunkData, (int)chunkX, (int)chunkY, (int)chunkZ);
+
+                    GameObject chunk = new GameObject("Chunk" + chunkX + "," + chunkY + "," + chunkZ,
+                            typeof(DynamicChunk), typeof(MeshFilter), typeof(meshRenderer), typof(MeshCollider));
+
+                    chunk.transform.position = new Vector3(chunkx, chunkY, chunkZ);
+                    chunk.transform.parent = this.transform;
+                    DynamicChunk dc = chunk.GetComponent&lt;DynamicChunk&gt;();
+                    dc.Initialize(chunkData, chunkSize, chunkHeight, defaultMaterial, this);
+                    return dc;
+                }
+
+                public float GetValue(int x, int y, int z) {
+                    int relativeX = (int)(x - worldStartPosition.x);
+                    int relativeZ = (int)(z - worldStartPosition.z);
+
+                    int chunkX = (int)(relativeX/chunkSize);
+                    int chunkZ = (int)(relativeZ/chunkSize);
+
+                    if(chunkX >= 0 &amp;&amp; chunkX < worldSize &amp;&amp;
+                            y >= 0 &amp; y < chunkHeight &amp;&amp;
+                            chunkZ >= 0 &amp; chunkZ < worldSize) {
+                        return worldChunks[chunkX, chunkz].GetValue(
+                            (int)(x-worldStartPosition.x)%chunkSize,
+                            y,
+                            (int)(z-worldStartPosition.z)%chunkSize);
+                    } else {
+                        return GenerateDataValueForPoint(x,y,z);
+                    }
+                }
+
+                public float SetValue(int x, int y, int z, float value) {
+                    int relativeX = (int)(x - worldStartPosition.x);
+                    int relativeZ = (int)(z - worldstartPosition.z);
+
+                    int chunkX = (int)(relativeX/chunkSize);
+                    int chunkZ = (int)relativeZ/chunkSize);
+                    if(chunkX >= 0 &amp;&amp; chunkX < worldSize &amp;&amp;
+                                chunkZ >= 0 &amp;&amp; chunkZ < worldSize) {
+                        worldChunks[chunkX, chunkZ].SetValue(
+                            (int)(x - worldStartPosition.x)%chunkSize,
+                            y,
+                            (int)(z - worldStartPosition.z)%chunkSize,
+                            value);
+                    }
+                }
+
+                void Update() {
+
+                    //Add desnity to a selected radius
+                    if(Input.GetKey(KeyCode.Q)) {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            AddDensity(hitInfo.point, toolRadius);
+                        }
+                    }
+
+                    //Subtract density from a selected radius
+                    if(Input.GetKey(KeyCode.E)) {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            SubDensity(hitInfo.point, toolRadius);
+                        }
+                    }
+
+                    //Apply a crater to the landscape
+                    if(Input.GetKeyDown(KeyCode.C)) {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            Crater(hitInfo.point, toolRadius, 10);
+                        }
+                    }
+
+                    //Apply the flat tool to the landscape
+                    if(Input.GetKey(KeyCode.F)) {
+                        Ray ray = Camer.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            MakeFlat(hitInfo.point, toolRadius, 10);
+                        }
+                    }
+
+                    //Update the world as we move around
+                    Vector3 potentialStart = GetPotentialStartPosition();
+                    if(worldStartPosition.x < potentialStart.x) {
+                        MoveXPlus();
+                    }
+                    else if(worldStartPosition.x > potentialStart.x) {
+                        MoveXMinus();
+                    }
+
+                    if(worldStartPosition.z < potentialStart.z) {
+                        MoveZPlus();
+                    }
+                    else if(worldStartPosition.z > potentialStart.z) {
+                        MoveZMinus();
+                    }
+
+                    //Rebuild the meshes for any chunks that need it
+                    if(chunksToUpdate.Count > 0) {
+                        foreach(DynamicChunk chunk in chunksToUpdate) {
+                            chunk.GenerateNewMesh(surfaceCrossValue);
+                        }
+                        chunksToUpdate.Clear();
+                    }
+
+                    //Spawn a cube to check out the physics
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        SpawnPrimitive(PrimitiveType.Cube);
+                    }
+                }
+
+                void FillData(ref float[,,] data, int xOffset, int yOffset, int zOffset) {
+                    for(int x = 0; x < chunkSize; x++) {
+                        for(int y = 0; y < chunkHeight; y++) {
+                            for(int z = 0; z < chunkSize; z++) {
+                                data[x,y,z] = GenerateDataValueForPoint(x + xOffset, y + yOffset, z + zOffset);
+                            }
+                        }
+                    }
+                }
+
+                //Generates a density value for a given position
+                //Also useful for the edge of chunks where we don't have data saved yet, 
+                // but want to retrieve what the data *will*be, for that edge.
+                private float GenerateDataValueForPoint(int x, int y, int z) {
+
+                    if(y >= chunkHeight-1) { //put a cap on things outside our bounds
+                        return -1;
+                    }
+
+                    if(y == 0) { //put a float on the bottom
+                        return 1;
+                    }
+
+                    float dataX = x/noiseScaleFactor;
+                    float dataY = y/noiseScaleFactor;
+                    float dataZ = z/noiseScaleFactor;
+
+                    //Use the built in Perlin noise to generate some passable noise data.
+                    float retValue = Mathf.PerlinNoise(dataY,dataX+dataZ) - Mathf.PerlinNoise(dataX,dataZ);
+
+                    //Apply a gradient so our values are more likely to be:
+                    // "air" (less than 0) at the top and "solid" (greater than 0) at the bottom
+                    retValue -= (((float)y/chunkHeight) - 0.5f);
+                    return retValue;
+                }
+
+                void MoveXPlus() {
+                    worldStartPosition.x += chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(i == worldSize - 1) {
+                                //Build a new column on the right
+                                worldChunks[i,j] = GenerateNewChunk(worldStartPosition.x + (i*chunkSize),
+                                    0, worldStartPosition.z + (j*chunkSize));
+                                chunksToUpdate.Add(worldChunks[i,j]);
+                                continue;
+                            } else if(i == 0) {
+                                //Free up the chunks at the x minus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the array to the left
+                            worldChunks[i,j] = worldChunks[i+1,j];
+                        }
+                    }
+                }
+
+                void MoveZPlus() {
+                    worldStartPosition.z += chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(j == worldSize - 1) {
+                                //Build a new column on the top
+                                worldChunks[i,j] = GenerateNewChunk(worldStartPosition.x + (i*chunkSize),
+                                    0, worldStartPosition.z + (j*chunkSize));
+                                chunksToUpdate.Add(worldChunks[i,j]);
+                                continue;
+                            } else if(j == 0) {
+                                //Free up the chunks at the z minus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the array down
+                            worldChunks[i,j] = worldChunks[i,j+1];
+                        }
+                    }
+                }
+
+                void MoveXMinus() {
+                    worldStartPosition.x -= chunkSize;
+                    for(int i = worldSize - 1; i >= 0; i--) {
+                        for(int j = 0; j < worldSize; j++) {
+                            if(i == 0) {
+                                //Build a new column on the left
+                                worldChunks[i,j] = GenerateNewChunk(worldStartPosition.x + (i*chunkSize),
+                                    0, worldStartPosition.z + (j*chunkSize));
+                                chunksToUpdate.Add(worldChunks[i,j]);
+                                continue;
+                            } else if(i == worldSize - 1) {
+                                //Free up the chunks at the x plus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the array to the right
+                            worldChunks[i,j] = worldChunks[i-1,j];
+                        }
+                    }
+                }
+
+                void MoveZMinus() {
+                    worldStartPosition.z -= chunkSize;
+
+                    for(int i = 0; i < worldSize; i++) {
+                        for(int j = worldSize -1; j >= 0; j--) {
+                            if(j == 0) {
+                                //Build a new column on the bottom
+                                worldChunks[i,j] = GenerateNewChunk(worldStartPosition.x + (i*chunkSize),
+                                    0, worldStartPosition.z + (j*chunkSize));
+                                chunksToUpdate.Add(worldChunks[i,j]);
+                                continue;
+                            } else if(j == worldSize - 1) {
+                                //Free up the chunks at the z plus side
+                                worldChunks[i,j].Dispose();
+                            }
+
+                            //Shift everything else in the array up
+                            worldChunks[i,j] = worldChunks[i,j-1];
+                        }
+                    }
+                }
+
+                Vector3 ConvertCameraPosition() {
+                    Vector3 camPos = Camera.main.transform.position;
+                    return new Vector3(Mathf.Round(camPos.x/chunkSize)*chunkSize, 0, 
+                                        Mathf.Round(campPos.z/chunkSize)*chunkSize);
+                }
+
+                Vector3 GetPotentialStartPosition() {
+                    return new Vector3(ConvertCameraPosition().x-((worldSize*chunkSize)/2), 0,
+                                        ConvertCameraPosition().z-((worldSize*chunkSize)/2));
+                }
+
+                //Create a crater type effect in the landscape
+                //This works best on horizontal land. It will primarily reduce the density of the terrain
+                // except around the edges it will increase it slightly to provide the illusion o f terrain being  pushed out.
+                void Crater(Vector3 center, float radius, float modAmt) {
+                    Vector3 currentPosition = new Vector3();
+                    for(int i = Mathf.FloorToInt(center.x - radius); i < Mathf.CeilToInt(center.x + radius); i++) {
+                        for(int j = Mathf.FloorToInt(center.y - radius); j < Mathf.CeilToInt(center.y + radius); j++) {
+                            for(int k = Mathf.FloorToInt(center.z - radius); k < Mathf.CeiltToInt(center.z - radius); k++) {
+                                currentPosition.Set(i,j,k);
+                                float distance = Vector3.Distance(center, currentPosition);
+
+                                if(j < center.y) {
+                                    if(distance < radius) {
+                                        ModDensityAt(i,j,k,modAmt*Mathf.Log((distance/radius) + 0.2f));
+                                    }
+                                } else {
+                                    if(distance < radius) {
+                                        ModDensityAt(i,j,k,modAmt*Mathf.Log((distance/radius)));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //Gradually makes terrain flat. Uses the height of the center as the divide between ground and air.
+                void MakeFlat(Vector3 center, float radius, float modAmt) {
+                    Vector3 currentPosition = new Vector3();
+                    for(int i = Mathf.FloorToInt(center.x - radius); i < Mathf.CeilToInt(center.x + radius); i++) {
+                        for(int j = Mathf.FloorToInt(center.y - radius); j < Mathf.CeilToInt(center.y + radius); j++) {
+                            for(int k = Mathf.FloorToInt(center.z - radius); k < Mathf.CeiltToInt(center.z - radius); k++) {
+                                currentPosition.Set(i,j,k);
+                                //Everything above the center loses density
+                                //Everything below gains density
+                                if(j < center.y) {
+                                    ModDensityAt(i,j,k, 0.1f);
+                                } else {
+                                    ModDensityAt(i,j,k, -0.1f);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                //A generic function for modifying the density of the terrain within a radius
+                void ModifyDensityFunction(Vector3 center, float radius, float modAmt) {
+                    Vector3 currentPosition = new Vector3();
+                    for(int i = Mathf.FloorToInt(center.x - radius); i < Mathf.CeilToInt(center.x + radius); i++) {
+                        for(int j = Mathf.FloorToInt(center.y - radius); j < Mathf.CeilToInt(center.y + radius); j++) {
+                            for(int k = Mathf.FloorToInt(center.z - radius); k < Mathf.CeiltToInt(center.z - radius); k++) {
+                                currentPosition.Set(i,j,k);
+                                if(Vector3.Distance(center, currentPosition) < radius) {
+                                    ModDensityAt(i,j,k,modAmt);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                void AddDensity(Vector3 center, float radius) {
+                    ModifyDensityFunction(center, radius, toolStrength);
+                }
+
+                void SubDensity(Vector3 center, float radius) {
+                    ModifyDensityFunction(center, radius, -toolStrength);
+                }
+
+                //Used to change the density value at a specific data point
+                void ModDensityAt(int x, int y, int z, float value) {
+                    int relativeX = (int)(x - worldStartPosition.x);
+                    int relativeZ = (int)(z - worldstartPosition.z);
+
+                    DynamicChunk chunk = GetChunkContaining(x,z);
+
+                    if(chunk != null) {
+                        int chunkOffsetX = (int)(x - worldStartPosition.x)%chunkSize;
+                        int chunkOffsetZ = (int)(z - worldStartPosition.z)%chunkSize;
+
+                        if(chunkOffsetX >= 0 &amp;&amp; chunkOffsetX < chunkSize &amp;&amp;
+                                                y >= 0 &amp;&amp; y < chunkHeight &amp;&amp;
+                                                chunkOffsetZ >=0 &amp;&amp; chunkOffsetZ < chunkSize) {
+                            float currentValue = chunk.GetValue(chunkOffsetX, y, chunkOffsetZ);
+                            chunk.SetValue(chunkOffsetX, y, chunkOffsetZ, 
+                                Mathf.Max(-1, Mathf.Min(currentValue + value, 1)));
+                            AddChunkToUpdate(chunk);
+
+                            //Check surrounding chunks for data changes
+                            DynamicChunk neighborChunk;
+                            if(chunkOffsetX == 0) {
+                                neighborChunk = GetChunkContaining(x-chunkSize,z);
+                                AddChunkToUpdate(neighborChunk);
+                            }
+                            if(chunkOffsetZ == 0) {
+                                neighborChunk = GetChunkContaining(x,z-chunkSize);
+                                AddChunkToUpdate(neighborChunk);
+                            }
+
+                            if(chunkOffsetX == chunkSize) {
+                                neighborChunk = GetChunkContaining(x+chunkSize,z);
+                                AddChunkToUpdate(neighborChunk);
+                            }
+                            if(chunkOffsetZ == chunkSize) {
+                                neighborChunk = GetChunkContaining(x,z+chunkSize);
+                                AddChunkToUpdate(neighborChunk);
+                            }
+                        }
+                    }
+                }
+
+                //Keep track of chunks that need their meshes rebuilt
+                void AddChunkToUpdate(DynamicChunk chunk) {
+                    if(chunk != null) {
+                        if(!chunksToUpdate.Contains(chunk)) {
+                            chunksToUpdate.Add(chunk);
+                        }
+                    }
+                }
+
+                //Return the chunk that contains the given coordinates
+                DynamicChunk GetChunkContaining(int x, int z) {
+                    int relativeX = (int)(x - worldStartPosition.x);
+                    int relativeZ = (int)(z - worldStartPosition.z);
+
+                    int chunkX = (int)(relativeX/chunkSize);
+                    int chunkZ = (int)(relativeZ/chunkSize);
+
+                    if(chunkX < worldSize &amp;&amp; chunkX >= 0 &amp;&amp;
+                            chunkZ < worldSize &amp;&amp; chunkZ >= 0) {
+                        return worldChunks[chunkX, chunkZ];
+                    } else {
+                        return null;
+                    }
+                }
+
+                //Spawn a rigid body object, and allow it to live for 10 seconds
+                void SpawnPrimitive(PrimitiveType type) {
+                    Vector3 spawnPosition = MouseUtils.GetMouseWorldPositionAtDepth(10);
+                    GameObject go = GameObject.CreatePrimitive(type);
+                    go.transform.position = spawnPosition;
+                    go.AddComponent&lt;Rigidbody&gt;();
+
+                    GameObject.Destory(go, 10);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Just like the previous section, our world is going to store chunks of data. Each of these chunks is going to have a mesh and a 3D array of data that is represented by that mesh. The world is going to have some various properties like a tool radius and strength, and this is going to be used modifying the terrain. At the start we're going to generate all of our chunks, and store them in the world chunks array. Additionally this dynamic world is going to be able to get values from any of those chunks in the array. Its going to do this by taking anabsolute world position and indexing in the relative chunk, and then retrieving the value from that chunk.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The GetValue method is a little special in that it can retrieve values that don't exist in chunks. For example, if we need to get a data value that is directly next to a chunk, in a chunk that hasn't been loaded yet, we can generate that value on the fly. SetValue works similarly, by providing an absolute location in the world, and a value we want to set. This will get the relative chunk, index into that chunk and set the value, based on what we pass in here. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The dynamic world has a couple of methods for altering the terrain, but we'll cover the cast array method first, which is going to interact with a collider in the dynamic chunk. The dynamic chunks are going to use a Mesh Collider, which automatically generates a physics mesh based on the mesh we generate here. Then we have the methods for altering the world. We'll cast a ray and perform an algorithm at the point in which it hits. For example, AddDensity is going to modify the density at the position it hits using a radius and tool strength. In the Modified Density Function, we're going to use a preley nested loop to find all of the density values that are within that radius. If they're within the radius, we're going to modify the density based on the value passed in with the mod amount.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Modifying the density is essentially retrieving the value, modifying it, and then storing it again. We're also going to check surrounding chunks for data changes. When changing a value directly next to another chunk, even though that chunk was not modified directly, its mesh will change based on the density values of the neighbouring chunks. We want to check for this, and add that chunk to a list for it's mesh to be updated. For example, we can spawn a cube in the scene and watch it interact with a static or changing terrain in a natural way. This shows that the terrain is truly destructible, in that we can add objects to it, and then modify it and watch those objectsmove around in the newly modified world.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone through how you can dynamically alter voxel terrain data. This is useful not only as a feature for players to enjoy, but could easily be used by you when generating your map data. Procedural generation with modification is a common way of generating large amounts of data for large landscapes. This provides a happy medium between manually producing those large landscapes, and the playability and reliability of using purely procedural generation.
+            <p><span class="glyphicon-remove"></span>This alteration is performed by modifying the underlying density values, and regenerating the mesh. With that in mind, there are a number of tools that we can create to modify the data. These are essentially 3D brushes, we're using to paint values on the matrix of data.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="4">
+    <h2>Midpoint Displacement Landscape</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to implement midpoint displacement to create terrain. Midpoint displacement can give us a height map we can generate voxel terrain from. Height maps are a 2D array of values that give an elevation point at each grid position. This means height maps can't contain information like caves or overhangs. While height maps may seem inferior to the 3D noise we've been generating in previous videos, they're still an excellent technique for generating terrain that can look natural. Height maps allow us to more easily control the realism of the terrain by avoiding floating terrain, or terrain structures that could'nt exist in the real world.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Midpoint Displacement is a commonly used method for generating terrain height maps. Let's take a look at how midpoint displacement works in a 1D example. Imagine a simple line with on point in space and another point somewhere else. Midplace displacement starts with the longest line possible, or in our 2D case the largest grid size possible. We then split that line in two, we then set the midpoint equal to the average of the two positions. We then shift that center value up or down by some random amount multiplies by a roughness factor. The roughness factor will decrease every iteration. So we move that point up by a small amount time the roughness factor and then we're going to go on to our next iteration.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So the midpoint displacement is now going to be called on the smaller line segments here. We'll find the midpoint, alter it by a small amount, with a smaller roughness factor for this iteration. Then again the next iteration we find the midpoints for all of those line segments. Alter it by a random amount, times an even smaller roughness factor. And there we've generated a height map, for a size-rolling terrain or something similar. This is essentially how the midpoint displacement is going to work for our 2D grid. Except, we'll be splitting those rectangles smaller and smaller, similar to how we did in the quad tree section. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            First let's take a look at our <b>Midpoint Displacement</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MidpointDisplacement {
+                public float[,] data;
+                int size;
+                float rough = 1f;
+                float roughFactor;
+                float maxRange;
+                float minRange;
+                float baseValue = 1;
+
+                public MidpointDisplacement(int size, float roughFactor, float minRange, float maxRange, baseValue) {
+                    data = new float[size, size];
+                    this.size = size;
+                    this.roughFactor = roughFactor;
+                    this.baseValue = baseValue;
+                    this.minRange = minRange;
+                    this.maxRange = maxRange;
+                }
+
+                public void Generate(int iterations) {
+                    for(int i = 0; i < iterations; i++) {
+                        MidPointSmooth();
+                    }
+                }
+
+                public void Generate(params float[] roughValues) {
+                    for(int i = 0; i < roughValues.Length; i++) {
+                        rough = roughValues[i];
+                        MidPointSmooth();
+                    }
+                }
+
+                public void SetBaseValue() {
+                    for(int i = 0; i < size; i++) {
+                        for(int k = 0; k < size; k++) {
+                            data[i,k] = baseValue;
+                        }
+                    }
+                }
+
+                public void SetRandomValue() {
+                    for(int i = 0; i < size; i++) {
+                        for(int k = 0; k < size; k++) {
+                            data[i,k] = Mathf.Min(maxRange, Mathf.Max(minRange, Random.value*baseValue));
+                        }
+                    }
+                }
+
+                private void MidPointDisplace(int Xstep, int Ystep, float roughness) {
+                    for(int i = Xstep - 1; i < size; i += Xstep) {
+                        for(int j = Ystep - 1; j < size; j += Ystep) {
+                            float xmym = GetNeighbor(i, j, -Xstep, -Ystep);
+                            float xmyp = GetNeighbor(i, j, -Xstep, Ystep);
+                            float xpym = GetNeighbor(i, j, Xstep, -Ystep);
+                            float xpyp = GetNeighbor(i, j, Xstep, Ystep);
+                            data[i,j] = (xmym + xmyp + xpym + xpyp) / 4;
+                            float rv = (Random.value - Random.value) * roughness
+                        }
+                    }
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
