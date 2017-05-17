@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Cracking the Coding Interview</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../game/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../game/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../game/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- ALGORITHMS -->
+                                <li><a href="algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Cracking the Coding Interview</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><b>Interview Preparation</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ip-0"> &nbsp; Resume</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ip-1"> &nbsp; Behavioral Preparation</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ip-2"> &nbsp; Technical Preparation</a>
+                                </p>
+                            </li>
+                            <li><b>Interview and Beyond</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-0"> &nbsp; Handling Behavioral Questions</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-1"> &nbsp; Handling Technical Questions</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-2"> &nbsp; Five Algorithm Approaches</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-3"> &nbsp; The Offer and Beyond</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-4"> &nbsp; Top Ten Mistakes</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ib-5"> &nbsp; Frequently Asked Questions</a>
+                                </p>
+                            </li>
+                            <li><b>Interview Questions - Data Structures</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ds-0"> &nbsp; Arrays and Strings</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ds-1"> &nbsp; Linked List</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ds-2"> &nbsp; Stacks and Queues</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ds-3"> &nbsp; Trees and Graphs</a>
+                                </p>
+                            </li>
+                            <li><b>Concepts and Algorithms</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-0"> &nbsp; Bit Manipulation</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-1"> &nbsp; Brain Teasers</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-2"> &nbsp; Object Oriented Design</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-3"> &nbsp; Recursion</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-4"> &nbsp; Sorting and Searching</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-5"> &nbsp; Mathematical</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-6"> &nbsp; Testing</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#ca-7"> &nbsp; System Design and Memory Limits</a>
+                                </p>
+                            </li>
+                            <li><b>Knowledge Based</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-0"> &nbsp; C++</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-1"> &nbsp; Java</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-2"> &nbsp; Databases</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-3"> &nbsp; Low Level</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-4"> &nbsp; Networking</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#kb-5"> &nbsp; Threads and Locks</a>
+                                </p>
+                            </li>
+                            <li><b>Additional Review Problems</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#arp-0"> &nbsp; Moderate</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#arp-1"> &nbsp; Hard</a>
+                                </p>
+                            </li>
+                            <li><b>Solutions</b></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#solutions-0"> &nbsp; Problem Solutions</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="ip-0">
+    <h2>Resume</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What Resume Screeners Look For</h3>
+            <p><span class="glyphicon-remove"></span>Resume screeners look for the same things that interviewers do:
+            <br> &nbsp; Are you smart?
+            <br> &nbsp; Can you code?</p>
+            <p><span class="glyphicon-remove"></span>That means that you should present your resume to show those two things. Your love of tennis, traveling, or magic cards won't do much to show that, so it's likely just wasting space.</p>
+            <p><span class="glyphicon-remove"></span>Keep in mind that recruiters only spend a fixed amount of time looking at your resume. If you limit the content to the best most impressive, most relevant items, they'll jump out at the recruiter. Weak items only dilute your resume and distract the recruiter from what you'd like them to see.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Employment History</h3>
+            <p><span class="glyphicon-remove"></span><b>Relevant Jobs: </b>Your resume does not - and should not - include a full history of every role you've every had. Your job servicing ice cream, for example, will not show that you're smart or that you can code. Include only relevant things.</p>
+            <p><span class="glyphicon-remove"></span><b>Writing String Bullets: </b>For each role, try to discuss your accomplishments with the following approach: "Accomplished X by implementing Y which led to Z". Not everything you did will fit into this approach, but the principle is the same - show what you did, how you did it, and what the results were. Ideally, you should try to make the results "measurable" somehow.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Projects</h3>
+            <p><span class="glyphicon-remove"></span>Almost every candidate has some projects, even if they're just academic projects. List them on your resume! I recommend putting a section called "Projects" on your resume and list your 2-4 most significant projects. State what the project was, which languages or technologies it employed, and whether it was an individual or team project. If you project was not for a course, that's even better! It shows passion, initiative, and work ethics. You can state the type of project by listing course projects as "Course Project" and your independent projects as "Independent Projects" (or some other wording)</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Programming Languages and Software</h3>
+            <p><span class="glyphicon-remove"></span><b>Software: </b>Generally speaking, I do not recommend listing that you're familiar with Microsoft Office. Everyone is at this point, and it just dilutes the "real" information. Familiarity with developer-specific or highly technical software (e.g., Visual Studio, Eclipse, Linux) can be useful, but often doesn't make much of a difference.</p>
+            <p><span class="glyphicon-remove"></span><b>Languages: </b>Knowing which languages to list on your resume is always a tricky thing. Do you list everything you've ever worked with? Or only the ones that you're most comfortable with (even though that might only be two languages)? I recommend the following comprimise: list most languages you've used, but add your experience leve. This approach can be used like so - "Languages: Java (expert), C++ (proficient), JavaScript (prior experience), C (prior experience)</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ip-1">
+    <h2>Behavioral Preparation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Why are Behavioral Questions Asked?</h3>
+            <p><span class="glyphicon-remove"></span>Behavioral questions are asked for a variety of reasons. They can be asked either to get to know your personality, to more deeply understand your resume, or just to ease you into an interview. Either way, these questions are important and can be prepared for.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Prepare</h3>
+            <p><span class="glyphicon-remove"></span>Behavioral questions are usually of the form "tell me about a time when you...", and may ask for an example from a specific project or position. Filling our a "Preparation grid" In the columns of this grid, name projects that you've previously participated in, then use the rows to fill out the rows with these categories: Most Challenging, What You Learned, Most Interesting, Hardest Bugs, Enjoyed Most, Conflicts with Teammates.</p>
+            <p><span class="glyphicon-remove"></span>I recommend reducing each story down to just a couple keywords that you can write in each cell. This will make the grid easier to study. In your interview, when you're asked about each project, you'll be able to come up with an appropriate story effortlessly.</p>
+            <p><span class="glyphicon-remove"></span>Several other notes are important to know:
+            <br> &nbsp; When asked for a weakness, give a real and honest weakness. Don't look arrogant.
+            <br> &nbsp; For most challenging, never say "I had to learn a lot of new languages and technologies".
+            <br> &nbsp; Remember, you're not just answering the questions, you're also providing information about yourself. Think about what each story communicates about you.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What Questions should you ask the Interviewer?</h3>
+            <p><span class="glyphicon-remove"></span>Most interviewers will give you a chance to ask them questions. The quality of your questions will be a factor, whether subconsciously or consciously, in their decisions. Some questions may come to you during the interview, but you can - and should - prepare questions in advance. Doing research on the company or team should help you preparing questions.</p>
+            <p><span class="glyphicon-remove"></span>Questions can be divided into three different categories: Genuine, Insightful, and Passionate.</p>
+            <p><span class="glyphicon-remove"></span><b>Genuine Questions:</b> These are the questions you actually wqant ot know. Here are a few ideas of questions that are valuable to many candidates.
+            <br> &nbsp; 1. "How much of your day do you spend coding?"
+            <br> &nbsp; 2. "How many meetings do you have every week?"
+            <br> &nbsp; 3. "What is the ratio of testers to developers to product managers? What is the interaction like? How does project planning happen on the team?"</p>
+            <p><span class="glyphicon-remove"></span><b>Insightful Questions:</b> These questions are designed to demonstrate your deep knowledge of programming or technologies.
+            <br> &nbsp; 1. "I noticed that you use technology X. How do you handle problem Y?"
+            <br> &nbsp; 2. "Why did the product shoose to use the X protocol over the Y protocol? I know it has benefits like A, B, C but many companies choose not to use it because of issue D."</p>
+            <p><span class="glyphicon-remove"></span><b>Passion Questions: </b>These questions are designed to demonstrate your passion for technology.
+            <br> &nbsp; 1. "I'm very interested in scalability. Did you come in with a background in this, or waht opportunities are there to learn about it?"
+            <br> &nbsp; 2. "I'm not familiar with technology X, but it sounds like a very interesting solution. Could you tell me a bit more about how it works?"</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ip-2">
+    <h2>Technical Preparation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Prepare for Technical Questions</h3>
+            <p><span class="glyphicon-remove"></span>In order to prepare, the best way is to go through this guide.
+            <br> &nbsp; 1. Try to solve the problem. <i>Really</i> try and solve it. Many questions are designed to be tough - thats OK! When you're solving a problem, make sure to think about the space and time efficiency. Ask yourself if you could improve the time efficienty by reducing the space efficiency, or vice versa.
+            <br> &nbsp; 2. Write the code for the algorithm on paper. You've been coding all your life on a computer, and you've gotten used to the many nice things about it. But, in your interview you won't have the luxury of syntax highlighting, code completion, or compiling. Mimic this situation by coding on paper.
+            <br> &nbsp; 3. Type your paper code as-is into a computer. You'll probably have made a bunch of mistakes. Start a list of all the mistakes you made, so that you can keep these in mind in the real interview.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What You Need To Know</h3>
+            <p><span class="glyphicon-remove"></span>Most interviewers won't ask specific algorithms for binary tree balancing or other complex algorithms. Frankly, they probably don't remember these algorithms either. You're usually expected to know the basics. Here's a list of the absolute must-have knowledge:</p>
+            <table class="table table-bordered">
+                <tr>
+                    <th>Data Structures</th>
+                    <th>Algorithms</th>
+                    <th>Concepts</th>
+                </tr>
+                <tr>
+                    <td>Linked Lists</td>
+                    <td>Breadth First Search</td>
+                    <td>Bit Manipulation</td>
+                </tr>
+                <tr>
+                    <td>Binary Trees</td>
+                    <td>Depth First Search</td>
+                    <td>Singleton Design Pattern</td>
+                </tr>
+                <tr>
+                    <td>Tries</td>
+                    <td>Binary Search</td>
+                    <td>Factory Design Pattern</td>
+                </tr>
+                <tr>
+                    <td>Stacks</td>
+                    <td>Merge Sort</td>
+                    <td>Memory (Stack vs Heap)</td>
+                </tr>
+                <tr>
+                    <td>Queues</td>
+                    <td>Quick Sort</td>
+                    <td>Recursion</td>
+                </tr>
+                <tr>
+                    <td>Vectors / ArrayLists</td>
+                    <td>Tree Insert / Find/ etc</td>
+                    <td>Big-O Time</td>
+                </tr>
+                <tr>
+                    <td>Hash Tables</td>
+                </tr>
+            </table>
+            <p><span class="glyphicon-remove"></span>This is not, of course, an all-inclusive list. Questions may be asked on areas outside of these topics. This is merely a "must-know" list. For each topic, make sure you understand how to implement / use them, and (where applicable) the space and time complexity. Practicing implementing the data structures and algorithms. You might be asked to implement them in your interview, or you might be asked to implement a modification of them. Either way, the more comfortable you are with the implementations the better.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Do you need to know details of C++, Java, etc?</h3>
+            <p><span class="glyphicon-remove"></span>Many interviewers unfortunatly do ask these questions. For big companies like Microsoft, Google, Amazon, etc, I wouldn't stress to much about these questions. Look up the most common questions and make sure you ahve answers to them, but I would focus on data structures and algorithm preparations.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ib-0">
+    <h2>Handling Behavioral Questions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Why Behavioral Questions</h3>
+            <p><span class="glyphicon-remove"></span>As stated earlier, interviews usually start and end with "chit chat" or "soft skills". This is a time to answer questions about your resume or general questions, and also an opportunity for you to ask questions. This part of the interview is targeted not only at getting to know you, but also at relaxing you.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Be Specific, Not Arrogant</h3>
+            <p><span class="glyphicon-remove"></span>Arrogance is a red flag, but you still want to make yourself sound impressive. So how do you make yourself sound good without being arrogant? Be specific!</p>
+            <p><span class="glyphicon-remove"></span>Spcificity bmeans giving just the facts and letting the interviewer derive an interpretation. Consider this example:
+            <br> &nbsp; Candidate #1: "I basically did all the hard work for the team."
+            <br> &nbsp; Candidate #2: "I implemented the file system, which was considered one of the most challenging components because..."</p>
+            <p><span class="glyphicon-remove"></span>Candidate #2 not only sounds more impressive, but she also appears less arrogant.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Limit Detail</h3>
+            <p><span class="glyphicon-remove"></span>When a candidate blabbers on about a problem, it's hard for an interviewer who isn't well versed in the subjct or project to understand it. I recommend that you stay light on detail and just state the key points. That is, consider something like this: "By examining the most common user behavior and applying the Rabin-Karp algorithm, I designed a new algorithm to reduce search from O(n) to O(log(n)) in 90% of cases. I can go into more details if you'd like." This demonstrates the key points while letting your interviewer ask for more details if he wants to.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Ask Good Questions</h3>
+            <p><span class="glyphicon-remove"></span>Now would be a good time to use those questions stated earlier in the sections.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Structure Answers Using S.A.R.</h3>
+            <p><span class="glyphicon-remove"></span>Structure your responses using Situation, Action, Response. That is, you should start off outlining the situation, then explaining the actions you took, and lastly, describing the result. Example: <i>Tell me about a challenging interaction with a teammate.</i></p>
+            <p><span class="glyphicon-remove"></span><b>Situation:</b> On my operating systems project, I was assigned to work with three other people. While two were great, the third team member didn't contribute much. He stayed quiet during meetings, rarely chipped in during email discussions, and struggled to complete his components.</p>
+            <p><span class="glyphicon-remove"></span><b>Action:</b> One day after class, I pulled him aside to speak about the course and then moved the discussion into talking about the project. I asked him open-ended questions on how he felt it was going and which components he was excited about tackling. He suggested all the easiest components, and yet offered to do the write-up. I realized then he wansn't lazy - he was actually just really confused about the project and lacked confidence. I worked with him after that to break down the components into smaller pieces, and I made sure to complement him a lot on his work to boost his confidence.</p>
+            <p><span class="glyphicon-remove"></span><b>Result:</b> He was still the weakest member of the team, but he got a lot better. He was able to finish all his work on time, and he contributed more in discussions. We were happy to work with him on a future project.</p>
+            <p><span class="glyphicon-remove"></span>As you can see, the SAR model helps an interviewer clearly see what you did in a certain situation and what the result was.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ib-1">
+    <h2>Handling Technical Questions</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>General Advice for Technical Questions</h3>
+            <p><span class="glyphicon-remove"></span>Interviews are supposed to be difficult. If you don't get every - or any - answers immediately, that's ok. In fact, usually only 10 our of 120+ interviewees get the questions right away. So when you get a hard questions, don't panic. Just start talking aloud about how you sould solve it, and, one more thing: you're not done until the interviewer says that you're done! What I mean here is that when you come up with an algorithm, start thinking about the problems accompanying it. When you write code, start trying to find bugs. If you're anything like the other 110 candidates that are interviewed, you probably made some mistakes.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Five Steps to a Technical Question</h3>
+            <p><span class="glyphicon-remove"></span>A technical interview questions can be solved utilizing a five step approach:
+            <br> &nbsp; 1. Ask your interviewer questions to resolve ambiguity.
+            <br> &nbsp; 2. Design an Algorithm
+            <br> &nbsp; 3. Write pseudo-code first, but make sure to tell your interviewer that you're writing pseudo-code! Otherwise, he/she may think that you're never planning to write "real" code, and many interviewers will hold that against you.
+            <br> &nbsp; 4. Write your code, not too slowly and not too fast.
+            <br> &nbsp; 5. Test your code and <i>carefully</i> fix any mistakes.
+            </p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Step 1: Ask Questions</h3>
+            <p><span class="glyphicon-remove"></span>Technical problems are more ambigious than they appear, so make sure to ask questions to resolve anything that might be unclear or ambigious. You may eventually wind up with a very different - or much easier - problem than you had initially thought. In fact, many interviewers (especially at Microsoft) will specifically test to see if you ask good questions. Good questions might be things like: What are the data types? How much data is there? What assumptions do you need to solve the problem? Who is the user?</p>
+            <p><span class="glyphicon-remove"></span><b>Examples: "Design an algorithm to sort a list"</b>
+            <br> &nbsp; Question: Waht sort of list? Array? Linked List?
+            <br> &nbsp; Answer: An array.
+            <br> &nbsp; Question: What does the array hold? Numbers? Characters? Strings?
+            <br> &nbsp; Answer: Numbers
+            <br> &nbsp; Question: And the numbers are integers?
+            <br> &nbsp; Answer: Yes.
+            <br> &nbsp; Questions: Where did the numbers come from? Are they IDs? Values of something?
+            <br> &nbsp; Answer: They are ages of customers.
+            <br> &nbsp; Questions: And how many customer are there?
+            <br> &nbsp; Answer: About a million.</p>
+            <p><span class="glyphicon-remove"></span>We now have a pretty different problem: sort an array containing a million integers between 0 and 130. How do we solve this? Just create an array with 130 elements and count the number of ages at each value.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Step 2: Design an Algorithm</h3>
+            <p><span class="glyphicon-remove"></span>Designing an algorithm can be tough, but our five approaches to algorithms can help you out. While you're designing your algorithm don't forget to thing about:</p>
+            <p><span class="glyphicon-remove"></span>&nbsp; &bull; What are the space and time complexities?
+            <br> &nbsp; &bull; What happens if there is a lot of data?
+            <br> &nbsp; &bull; Does your design cause other issues? i.e., if you're creating a modified version of a binary search tree, did you design impact the time for insert / find / delete?
+            <br> &nbsp; &bull; If there are other issues, did you make the right trade-off?
+            <br> &nbsp; &bull; If they gave you specific data (e.g., mentioned that the data is in ages, or in sorted order), have you leveraged that information? There's probably a reason that you're given it.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Step 3: Pseudo-Code</h3>
+            <p><span class="glyphicon-remove"></span>Writing pseudo-code first can help you outline your thoughts clearly and reduce the number of mistakes you commit. But, make sure to tell your interviewer that you're writing pseudo-code first and that you'll follow it up with "real" code. Many candidates will write pseudo-code in order to 'escape' writing real code, and you certainly don't want ot be confused with those candidates.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Step 4: Code</h3>
+            <p><span class="glyphicon-remove"></span>You don't need to rush through your code; in fact this will most likely hurt you. Just go at a nice slow methodical pace. Also remember this advice:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Use Data Structures Generously:</b> Where relevant, use a good data structure or define your own. For example, if you're asked a problem involving finding the minimum age for a group of people, consider defining a data structure to represent a Person. This shows your interviewer that you care about good object oriented design.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; <b>Don't Crowd Your Coding:</b> This is a minor thing, but it can really help. When you're writing code on a whiteboard, start in the upper left hand corner - not in the middle. This will give you plenty of space to write your answer.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Step 5: Test</h3>
+            <p><span class="glyphicon-remove"></span>Yes, you need to test your code. Consider testing for: 
+            <br> &nbsp; <b>Extreme cases:</b> 0, negative, null, maximums, etc.
+            <br> &nbsp; <b>User error:</b> What happens if the user passes in null or negative values?
+            <br> &nbsp; <b>General cases:</b> Test the normal case.</p>
+            <p><span class="glyphicon-remove"></span>If the algorithm is complicated or highly numerical (bit shifting, arithmetic, etc), consider testing while you're writing the code rather than just at the end. Also, when you find mistakes (which you will), carefully think through <i>why</i> the bug is occuring. One of the worst things I saw while interviewing was candidates who recognized a mistake and tried making "random" changes to fix the error.</p>
+            <p><span class="glyphicon-remove"></span>For example, imagine a candidate writes a function that returns a number. When he tests his code with the number '5' he notices that it returns 0 when it should be returning 1. So, he changes the last line from "return ans" to "return ans+1" without thinking through why this would resolve the issue. Not only does this look bad, but it also sends the candidate on an endless string of bugs and bug fixes. When you notice problems in your code, really think deeply about why your code failed before fixing the mistake.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ib-2">
+    <h2>Five Algorithm <Approaches></Approaches></h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <!-- Latest Minified Slim JQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->

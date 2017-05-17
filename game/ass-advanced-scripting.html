@@ -1100,6 +1100,7 @@
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="6">
+    
     <h2>Dynamic Meshes</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
@@ -1197,7 +1198,20 @@
             Next we're going to create texture coordinates, in this case it's just going to be 0s because we're not going to support any textures in this mesh generator. Finally we create a new mesh, and add our vertices to it, along with the indices defining the triangles. Then take the texture coordinates we created and recalculate the normals and the bounds, then return a mesh to set to our mesh filter to be displayed on screen. Now that we've seen meshes generated with these predefined lists, let's see how we can make up our own at runtime.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            
+            Using the number three key, we can place vertices in the world. These are going to be represented by spheres that we can move around. So placing three vertices, will draw us a trianble. If you hit four, you'll clear and you can see the order that I defined these vertices in a counter clockwise direction. We actually don't see a mesh. It's still being generated but it's not visible from this side. This is called <b>back face culling</b> and it's done to save rendering time.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We can see if we go to the scene view, and look at the other side. This is the camera over here, looking towards us. The opposite of this mesh is rendered here. We can change the winding order by, moving instead of one way, to a better position so it will be clockwise.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We're also supporting quads, which is simply two triangles. If we wanted to create a more complex mesh, we can see that we can overlap vertices, to create more complex shapes. Always making sure to define the vertices in clockwise order. If we add more, we'll start to disappear in the middle because now it's divisible by three, so we're attempting to create triangles. And that's not how our vertices are laid out. Put down one more and then we are again divisible by four, and we can create quads again.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Points will overlap, and that is fine because we can't share all of our points with each triangle, since this is more than just a position. Texture data and normals for lighting are also contained within the vertices. This system will need some experimenting to get used to but it is very powerful once figured out.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've gone over how to generate meshes at runtime. This opens up a number of possibilities for various types of gameplay and reducing content creation to algorithms. We saw that meshes are composed of vertices, and the order thaat they're defined does matter. We should define the vertices clockwise from the direction we want to view them in.
+            <p><span class="glyphicon-remove"></span>Using the knowledge learned here, we can create procedurally generated meshes, or destructible terrain. Procedural generation doesn't just mean meshes that can be modified or random for everyone. The terrain objects generated could be the same for everyone and static. However, instead of defining all the vertices in a content generation program, like Blender or 3D Studio Max, we could define a series of algorithms and formulas that generate the mesh during runtime.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -1207,13 +1221,127 @@
     <h2>Quad Tree</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            End Goal: Create a quad tree which is mostly used for spatial partitioning. Helps with faster operations like finding nearby objects or culling a scene for visibility.
+            In this section we're going to go over how to create and use a Quad Tree. Quad trees are frequently used in game development. Their most common use is for spatial partitioning. Spatial partitioning is a technique for dividing a game world into logical nodes. Quad trees, as the name implies, divide into four when split. The division of nodes allows for faster operations like finding nearby objects or culling a scene for visibility. Each node contains some kind of object. In our case, we'll fill them with game objects. This will allow us to find nearby game objects quickly and easily.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Simply create an empty "QuadTreeInterface" object and attach a "Quad Tree Interface" script.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's check out our <b>Quad Tree</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic;
+
+            public class QuadTree {
+
+                static int childCount = 4;
+                static int maxObjectCount = 100;
+                static int maxDepth;
+
+                //Used for visual debugging/demonstration
+                private bool searched = false;
+
+                private QuadTree nodeParent;
+                private QuadTree[] childNodes;
+
+                private List&lt;GameObject&gt; objects = new List&lt;GameObject&gt;();
+
+                private int currentDepth = 0;
+
+                private Vector2 nodeCenter;
+                private Rect nodeBounds = new Rect();
+
+                private float nodeSize = 0f;
+
+                public QuadTree(float worldSize, int maxNodeDepth, int maxNodeObjects, Vector2 center) : this(worldSize, 0, center, null) {
+                    maxDepth = maxNodeDepth;
+                    maxObjectCount = maxNodeObjects;
+                }
+
+                private QuadTree(float size, int depth, Vector2 center, QuadTree parent) {
+                    this.nodeSize = size;
+                    this.currentDepth = depth;
+                    this.nodeCenter = center;
+                    this.nodeParent = parent;
+
+                    if(this.currentDepth == 0) {
+                        this.nodeBounds = new Rect(center.x - size, center.y - size, size*2, size*2);
+                    } else {
+                        this.nodeBounds = new Rect(center.x - (size/2), center.y - (size/2), size, size);
+                    }
+                }
+
+                public bool Add(GameObject go) {
+                    if(this.nodeBounds.Contains(go.transform.position)) {
+                        return this.Add(go, new Vector2(go.transform.position.x, go.transform.position.y)) != null;
+                    }
+                    return false;
+                }
+
+                private QuadTree Add(GameObject obj, Vector2 objCenter) {
+                    if(this.childNodes != null) {
+                        // Four nodes
+                        //  ^ z plus
+                        //  [2][3]
+                        //  [0][1]   > x plus
+                        //
+
+                        int index = (objCenter.x < this.nodeCenter.x ? 0 : 1)    //Add one to select between 3,1. Add zero to select between 2, 0.
+                                    + (objCenter.y < this.nodeCenter.y ? 0 : 2); // Add two to select between 2,3. Add zero to select between 0,1.
+
+                        return this.childNodes[index].Add(obj, objCenter);
+                    }
+
+                    //We've reached a root
+                    if(this.currentDepth < maxDepth &amp;&amp; this.objects.Count + 1 > maxObjectCount) {
+                        //If adding this object puts this node past its limit, and we're not at the 
+                        // maximum depth, split this node and redistribute its object to its children.
+                        Split(nodeSize);
+                        foreach(GameObject nodeObject in objects) {
+                            Add(nodeObject);
+                        }
+                        this.objects.Clear();
+
+                        //And don't forget to add the object that cause us to split!
+                        return Add(obj, objCenter);
+                    } else {
+                        //Otherwise just add this object to this node pool
+                        this.objects.Add(obj);
+                    }
+
+                    return this;
+                }
+
+                public bool Remove(GameObject obj) {
+                    if(objects.Contains(obj)) {
+                        objects.Remove(obj);
+                        return true;
+                    } 
+                    else if(childNodes != null) {
+                        foreach(QuadTree child in childNodes) {
+                            if(child.Remove(obj))
+                                return true;
+                        }
+                    }
+                    return false;
+                }
+
+                private void Split(float parentSize) {
+                    this.childNodes = new QuadTree[QuadTree.childCount];
+                    int depth = this.currentDepth + 1;
+                    float quarter = parentSize / 4f;
+
+                    this.childNodes[0] = new QuadTree(parentSize/2, depth, this.nodeCenter + new Vector2(-quarter, -quarter), this);
+                    this.childNodes[1] = new QuadTree(parentSize/2, depth, this.nodeCenter + new Vector2(quarter, -quarter), this);
+                    this.childNodes[2] = new QuadTree(parentSize/2, depth, this.nodeCenter + new Vector2(-quarter, quarter), this);
+                    this.childNodes[3] = new QuadTree(parentSize/2, depth, this.nodeCenter + new Vector2(quarter, quarter), this);
+                }
+
+                public GameObject FindNearest(Vector3 position) {
+                    return FindNearest(position.x, position
+                }  
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
