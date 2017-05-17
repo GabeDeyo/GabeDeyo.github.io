@@ -1482,12 +1482,180 @@
                             float xpym = GetNeighbor(i, j, Xstep, -Ystep);
                             float xpyp = GetNeighbor(i, j, Xstep, Ystep);
                             data[i,j] = (xmym + xmyp + xpym + xpyp) / 4;
-                            float rv = (Random.value - Random.value) * roughness
+                            float rv = (Random.value - Random.value) * roughness;
+                            data[i,j] = Mathf.Min(maxRange, Mathf.Max(minRange, data[i,j] + rv));
+                        }
+                    }
+                    for(int i = Xstep - 1; i < size; i += Xstep) {
+                        for(int j = Ystep - 1; j < size; j += Ystep) {
+                            SquareStep((i + size - Xstep) % size, j, Xstep, Ystep, roughness);
+                            SquareStep(i, (j + Ystep) % size, Xstep, Ystep, roughness);
+                            SquareStep(i, (j + size - Ystep) % size, Xstep, Ystep, roughness);
+                            SquareStep((i + Xstep) % size, j, Xstep, Ystep, roughness);
+                        }
+                    }
+                }
+
+                private void SquareStep(int i, int j, int Xstep, int Ystep, float roughness) {
+                    float xm = GetNeighbor(i, j, -Xstep, 0);
+                    float yp = GetNeighbor(i, j, 0, Ystep);
+                    float ym = GetNeighbor(i, j, 0, -Ystep);
+                    float xp = GetNeighbor(i, j, Xstep, 0);
+                    data[i,j] = (xm + yp + ym + xp) / 4;
+                    float randomValue = (Random.value - Random.value) * roughness;
+                    data[i,j] = Mathf.Min(maxRange, Mathf.Max(minRange, data[i,j] + randomValue));
+                }
+
+                private void MidPointSmooth() {
+                    for(int i = size; i >= 1; i /= 2) {
+                        MidPointDisplace(i, i, rough);
+                        rough *= Mathf.Pow(2, -roughFactor);
+                    }
+                }
+
+                float GetNeighbor(int x, int y, int xOffset, int yOffset) {
+                    if(xOffset > 0) {
+                        if(yOffset > 0) {
+                            return data[(x + xOffset) % size, (y + yOffset) % size];
+                        } else if(yOffset < 0) {
+                            return data[(x + xOffset) % size, (y + size + yOffset) % size];
+                        } else {    //zOffset == 0
+                            return data[(x + xOffset) % size, y];
+                        }
+                    } else if(xOffset < 0) {
+                        if(yOffset > 0) {
+                            return data[(x + size + xOffset) % size, (y + yOffset) % size];
+                        } else if(yOffset < 0) {
+                            return data[(x + size + xOffset) % size, (y + size + yOffset) % size];
+                        } else {
+                            return data[(x + size + xOffset) % size, y];
+                        }
+                    } else {
+                        if(yOffset > 0) {
+                            return data[x, (y + yOffset) % size];
+                        } else if(yOffset < 0) {
+                            return data[x, (y + size + yOffset) % size];
+                        } else {
+                            return data[x, y];
                         }
                     }
                 }
             }
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So we have our MidpointDisplacement class, which is going to contain a 2D array of data and some other values to control its output. The Generate method is either going to be over a certain number of iterations, or passing in a certain number of starting rough values. The Mid Point Smooth is where the most of the work takes place. This is the method that will continually decrease the size of our rectangle and call Midpoint Displacement on each on and reduce the roughness value. The midpoint displacement step is going to get the value of all four neighbours and find the average. It's then going to find a random value, multiply that by the roughness, and apply that to our grid location. The next step here is an optimization for midpoint displacement that reduces the apprearance of grid lines in our produced noise.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We can finish off with our <b>Midpoint Displace Landscape</b> generator code:
+            <pre>
+            <span class="glyphicon-remove"></span>[RequireComponent (typof (MeshFilter))]
+            [RequireComponent (typof (MeshRenderer))]
+            [RequireComponent (typof (MeshCollider))]
+            public class MidpointDisplaceLandscape : MonoBehaviour {
+
+                MidpointDisplacement mpd;
+                public int size;
+                public int worldHeight;
+                public float[] roughValues;
+                public float roughFactor;
+                public Material defaultMaterial;
+                public bool smooth;
+                bool altered = false;
+                float[,,] worldData;
+
+                public int toolRadius = 5;
+                public float toolStrength = 0.01f;
+
+                void Start() {
+                    Generate();
+                }
+
+                void Generate() {
+                    mpd = new MidpointDisplacement(size, roughFactor, 0, worldHeight, worldHeight/2f);
+                    mpd.SetBaseValue();
+                    mpd.SetRandomValue();
+                    mpd.Generate(roughValues);
+                    worldData = new float[size,worldHeight,size];
+
+                    for(int i = 0; i < size*size; i++) {
+                        float height = Mathf.Min(mpd.data[(int)i/size, i%size], worldHeight-1);
+
+                        for(int h = 0; h < (int)(height); h++) {
+                            worldData[(int)i/size, h, i%size] = 1;
+                        }
+
+                        if(smooth) {
+                            if(height >= 0)
+                                worldData[(int)i/size, (int)(height), i%size] = height - (int)height;
+                        }   
+                    }
+                    RegenerateMesh();
+                }
+
+                void RegenerateMesh() {
+                    Mesh m = new Mesh();
+                    TerrainMeshGenerator.FillMesh(ref m, worldData, size, worldHeight, 0.5f);
+                    this.GetComponent&lt;MeshFilter&gt;().mesh = m;
+                    this.GetComponent&lt;MeshCollider&gt;().sharedMesh = m;
+                    this.GetComponent&lt;MeshRenderer&gt;().material = defaultMaterial;
+                }
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        Generate();
+                    }
+
+                    //Add density to a selected radius
+                    if(Input.GetKey(KeyCode.Q)) {
+                        Ray ray = Camera.main.ScreePointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            AddDensity(hitInfo.point, toolRadius);
+                            altered = treu;
+                        }
+                    }
+
+                    //Subtract density from a selected radius
+                    if(Input.GetKey(KeyCode.E)) {
+                        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                        RaycastHit hitInfo;
+                        if(Physics.Raycast(ray, out hitInfo)) {
+                            SubDensity(hitInfo.point, toolRadius);
+                            altered = true;
+                        }
+                    }
+
+                    if(altered){
+                        RegenerateMesh();
+                        altered = false;
+                    }
+                }
+
+                void AddDensity(Vector3 center, float radius) {
+                    ModifyDensityFunction(center, radius, toolStrength);
+                }
+
+                void SubDensity(Vector3 center, float radius) {
+                    ModifyDensityFunction(center, radius, -toolStrength);
+                }
+
+                //Used to change the desnity value at a specific data point
+                void ModDensityAt(int x, int y, int z, float value) {
+                    if(x >= 0 &amp;&amp; x < size &amp;&amp;
+                            y >= 0 &amp;&amp; y < worldHeight &amp;&amp;
+                            z >= 0 &amp;&amp; z < size) {
+                        worldData[x,y,z] = Mathf.Max(0, Mathf.Min(worldData[x,y,z] + value, 1));
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So as you can see with the Landscape generator, we still can use our tools to modify the terrain, because it is still 3D data. An alternative to setting all the values to 1 would be to use a 3D noise function here and generate 3D noise underneat our height map data. This would give you the neat features of caves and overhans that 3D noise provides, but would still cap your terrain with a height map to give you a more realistic terrain.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've covered how to use Midpoint Displacement to generate 3D terrain. We've seen that even though we are using height maps, the data is still in 3d, so it can easily be modified by the player or further algorithms on your part. The combination of height maps and 3D noise make for some powerful terrain generators. Essentially, the height map data is used to sculpt the 3D noise to be more terrain like. This added constraint can add a good amount of reliability to your procedural generation of terrain.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
