@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Advanced Scripting - GUI Controls</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Advanced Scripting - GUI Controls</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -104,23 +104,189 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#1">Section Link</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Combo Box</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section, we're going to go over how to create a typical Combo Box. A combo box is a common feature in many GUIs, but missing in the standard GUI controls provided by Unity. Combo boxes are used by selecting one or many items from a list. The list can be a list of anything, and it can have multiple uses. For example it could contain strings which define which settings to use. Or it could contain game objects that would be your quest reward for the player. This means we will want to be able to associate an object with each object in the list to make it easier to use. We will also want to know when an item has been selected. Knowing when an item has been selected means we can respond for example by displaying more information about that choice, or previewing the selection in some way. Sounds like a job for events.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's check out our <b>Combo Box</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System, System.Collections, System.Collections.Generic;
+
+            public class ComboBox : ScriptableObject {
+
+                public List&lt;ComboItem&gt; items;
+
+                bool allowMultiple;
+
+                //We'll keep track of the last marked item for clean transition between selecting multiple and single
+                private ComboItem lastMarked;
+
+                //The combo item is the object that'll hold all the information for each item in the list
+                //It will draw itself, tell us if it's marked, and hold its name and value
+                //The name and value will be defined by the user
+                //Additionally, it has events we can attach to for when this item is selected or unselected
+                [Serializable]
+                public class ComboItem {
+                    public string name;
+                    public System.Object value;
+                    public bool marked;
+
+                    public delegate void OnMarked(ComboItem item);
+                    public delegate void OnUnMarked(ComboItem item);
+
+                    public event OnMarked OnMarkedAction;
+                    public event OnUnMarked OnUnMarkedAction;
+
+                    public ComboItem(string name, System.Object value) {
+                        this.name = name;
+                        this.value = value;
+                        this.marked = false;
+                    }
+
+                    //Draw ourselves. In this case, when selected, just append a check mark to the name
+                    //Extending this to instead draw a textured checkbox or empty checkbox may be needed
+                    // for stylistic requirements
+
+                    public void Draw(GUIStyle style) {
+                        GUILayout.BeginHorizontal();
+                        string renderName = name;
+                        if(this.marked)
+                            renderName += " ✔";
+
+                        if(GUILayout.Button(renderName, style)) {
+                            if(this.marked)
+                                UnMark();
+                            else
+                                Mark();
+                        }
+
+                        GUILayout.EndHorizontal();
+                    }
+
+                    public void Mark() {
+                        this.marked = true;
+                        OnMarkedAction(this);
+                    }
+
+                    public void UnMark() {
+                        this.marked = false;
+                        OnUnMarkedAction(this);
+                    }
+
+                    public ComboBox() {
+                        items = new List&lt;ComboItems&gt;();
+                        allowMultiple = true;
+                    }
+
+                    private void OnComboItemMarked(ComboItem item) {
+                        //Debug.Log("Item: " + item.name + " marked");
+
+                        //Keep track of last marked
+                        lastMarked = item;
+
+                        //Since ComboItems dont' know about each other, we need to handle
+                        // unmarking any other Combo Items a level up, here in the ComboBox
+                        if(!allowMultiple) {
+                            foreach(ComboItem comboItem in items) {
+                                if(comboItme != item &amp;&amp; comboItem.marked) {
+                                    comboItem.UnMark();
+                                }
+                            }
+                        }
+                    }
+
+                    private void OnComboItemUnMarked(ComboItem item) {
+                        //Debug.Log("Item: " + item.name + " unmarked");
+
+                        //Clear the last marked if we've unmarked it
+                        if(item == lastMarked)
+                            lastMarked = null;
+                    }
+
+                    public ComboItem AddItem(string name, System.Object value) {
+                        ComboItem newItem = new ComboItem(name, value);
+                        this.items.Add(newItem);
+                        newItem.OnMarkedAction += OnComboItemMarked;
+                        newItem.OnUnMarkedAction += OnComboItemUnMarked;
+                        return newItem;
+                    }
+
+                    public ComboItem AddItem(string name, System.Object value,
+                                        ComboItem.OnMarked markedDelegate,
+                                        ComboItem.OnUnMarked unmarkedDelegate) {
+                        ComboItem newItem = new ComboItem(name, value);
+                        this.items.Add(newItem);
+                        newItem.OnMarkedAction += OnComboItemMarked;
+                        newItem.OnMarkedAction += markedDelegate;
+                        newItem.OnUnMarkedAction += OnComboItemUnMarked;
+                        newItem.OnUnMarkedAction += unmarkedDelegate;
+                        return newItem;
+                    }
+
+                    public void AddItems(ComboItem newItem) {
+                        this.items.Add(newItems);
+                        newItem.OnMarkedAction += OnComboItemMarked;
+                        newItem.OnUnMarkedAction += OnComboItemUnMarked;
+                    }
+
+                    public void Clear() {
+                        items.Clear();
+                    }
+
+                    public void Draw(GUIStyle style, Rect rect) {
+                        GUILayout.BeginArea(rect);
+                        GUILayout.BeginVertical();
+                        foreach(ComboItem item in items) {
+                            item.Draw(style);
+                        }
+                        GUILayout.EndVertical();
+                        GUILayout.EndArea();
+                    }
+
+                    public void SetAllowMultiples(bool allow) {
+                        allowMultiple = allow;
+                        if(!allowMultiple) {
+                            foreach(ComboItem comboItem in items) {
+                                if(comboItem != lastMarked &amp;&amp; comboItem.marked) {
+                                    comboItem.UnMark();
+                                }
+                            }
+                        }
+                    }
+
+                    public bool AllowsMultiple() {
+                        return allowMultiple;
+                    }
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            So in the scene we'll have a combo box that's going to implement the scriptable item class. We're not using mono behaviour, because we're not going to use any of the mono behaviour functionality, so we won't need to include it. The combo box is going to keep a list of all the combo items as well as keeping track of the last item marked and a boolean value to allow multiples or not.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The combo item contains a name and a value, as well as information about if it's marked or not. And some delegates to attach to, to notify listeners when this item has been checked or unchecked. Additionally, the combo box item is going to be responsible for drawing itself. We're going to pass into GUI style. It's going to render its name, check a mark, and a button. This button will be used to interact with the GUI item. If the button is clicked, and we're marked, we're going to unmark. Otherwise, we're going to mark. And then we have our mark and unmark methods. We'rejust setting our own value to true or false, and triggering our events.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The combo box itself is just going to be a list of items. And, we're going to have some of our own listeners to know whether items are checked or not. Since each combo item doesn't know anything about the others, when we're not allowing multiple items to be checked, we need to go through each of our items and un-mark them when a new item is marked.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we have our Add Item methods. These are going to be various combinartions of adding an item. Either by name or object, or name and object and delegates for listeneing to when that item is going to be marked or unmarked. Or just adding a new combo item that we've created elsewhere. The Draw method for the combo box is just going to be responsible for iterating through each item and having that item draw itself. Finally when toggling they allow multiple. If we currently have multiple items checked we're going to uncheck all of them but the last item.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll need to check out our <b>Combo Box Testing Interface</b> in order to visualize this:
+            <pre>
+            <span class="glyphicon-remove"></span>
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
