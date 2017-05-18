@@ -104,7 +104,19 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#1">Section Link</a>
+                                <a href="#1">Combo Box</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Rotatable GUI Items</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Progress Bar</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Tables</a>
                                 </p>
                             </li>
                         </ul>
@@ -285,7 +297,740 @@
         <li><p><span class="glyphicon-remove"></span>
             We'll need to check out our <b>Combo Box Testing Interface</b> in order to visualize this:
             <pre>
-            <span class="glyphicon-remove"></span>
+            <span class="glyphicon-remove"></span>public class ComboBoxTestInterface : MonoBehaviour {
+
+                ComboBox cb;
+                GUIStyle style;
+
+                void Start() {
+                    cb = new ComboBox();
+                    style = new GUIStyle();
+                    foreach(Transform child in this.transform) {
+                        ComboBox.ComboItem childItem = new ComboBox.ComboItem(child.name, child);
+                        childItem.OnMarkedAction += SelectItem;
+                        childItem.OnUnMarkedAction += DeselectItem;
+                        cb.AddItem(childItem);
+                    }
+                }
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.Tab)) {
+                        cb.SetAllowMultiple(!cb.AllowsMultiples());
+                    }
+                }
+
+                void SelectItem(ComboBox.ComboItem item) {
+                    //Move the item up so we can see it's selected
+                    ((Transform)item.value).Translate(0, 1, 0);
+                }
+
+                void DeselectItem(ComboBox.ComboItem item) {
+                    //Move the item down so we can see it's not selected
+                    ((Transform)item.value).Translate(0, -1, 0);
+                }
+
+                void OnGUI() {
+                    if(cb.AllowsMultiple()) {
+                        GUI.Label(new Rect(30, 10, 180, 20), "Please select items");
+                    } else {
+                        GUI.Label(new Rect(30, 10 180, 20), "Please select an item");
+                    }
+                    cb.Draw(Style, new Rect(30, 30, 180, 400));
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This Combo Box Interface is going to create a combo box and for each of its children it's going to add a combo item to the combo box. As well as adding its own listener, so it knows when each item is checked or unchecked. Finally it's listeners are just going to translate an object up or down depending if it's selected or unselected. In the OnGUI method, we're going to draw a label, asking the user to select items, or select a single item, depending on if we're allowing multiple. And then we're going to call the combo box draw method to draw the combo box itself.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "GUI" object with the Combo Box Interface script attached. Create 3 or more children of this object as spheres to be represented as our choices.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've covered creating a Combo Box GUI item. This type of control has many uses. A Combo Box control is object agnostic. It doesn't matter what you put into the list, it will simply work the same. This is important because we want the GUI controls to be very flexible because they are used in many places for many different things. The Combo Box also gives us the ability to attach our own methods to the marking and unmarking of any item in the list. This continues with our goal of making the Combo Box flexible and useable in any situation required. We now have a Combo Box that can be used in a number of situations, without needing to modify the combo box code to fit each situation.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Rotatable GUI Items</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over how to rotate a GUI object. Rotating GUI objects has a number of uses. For example, creating a gooey compas or waypoint marker. It also allows for additional customization in the layout of labels and tabs in an interface. Unity GUI controls don't come with functionality to rotate by default. However, we can use the information we learn here to create our own copies of GUI controls, as well as our own controls that we'll be able to rotate. The contents of all GUI elements are defined by a GUI content object.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            GUI content can be a string, texture, or both with the option to define a tool tip. Since GUI content is the base content of a GUI element, we'll focus on being able to rotate that. For this example, we'll rotate a box control with our GUI content inside. However it's possible to alter this code to rotate any GUI we control like a label, button or anything else.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's first check out our <b>Rotatable GUI Item</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class RotatableGuiItem : ScriptableObject {
+
+                protected Vector2 size;
+                protected Rect rect;
+
+                protected Vector2 pivot;
+
+                //Pivot around the center of the rectangle by default
+                private PivotPoint xPivot = PivotPoint.Center;
+                private PivotPoint yPivot = PivotPoint.Center;
+
+                private Matrix4x4 matrixBackup;
+
+                public enum PivotPoint {
+                    Center,
+                    Min,
+                    Max
+                }
+
+                //Center = Center, Center
+                //TopLeft = Min, Min
+                //TopCenter = Center, Min
+                //TopRight = Max, Min
+                //RightCenter = Max, Center
+                //BottomRight = Max, Max
+                //BottomCenter = Center, Max
+                //BottomLeft = Min, Max
+                //LeftCenter = Min, Center
+
+                public void Initalize() {
+                    rect = new Rect(0, 0, size.x, size.y);
+                    SetPivot(xPivot, yPivot);
+                }
+
+                public Vector2 GetPivot(Rect sourceRect, PivotPoint xPivotPoint, PivotPoint yPivotPoint) {
+                    float xPivotValue = source.xMin;
+                    float yPivotValue = source.yMin;
+
+                    switch(xPivotPoint) {
+                        case PivotPoint.Center:
+                            xPivotValue = sourceRect.xMin + sourceRect.width * 0.5f;
+                            break;
+                        case PivotPoint.Min:
+                            xPivotValue = sourceRect.xMin;
+                            break;
+                        case PivotPoint.Max:
+                            xPivotValue = sourceRect.xMax;
+                            break;
+                    }
+
+                    switch(yPivotPoint) {
+                        case PivotPoint.Center:
+                            yPivotValue = sourceRect.yMin + sourceRect.height * 0.5f;
+                            break;
+                        case PivotPoint.Min:
+                            yPivotValue = sourceRect.yMin;
+                            break;
+                        case PivotPoint.Max:
+                            yPivotValue = sourceRect.yMax;
+                            break;
+                    }
+
+                    return new Vector2(xPivotValue, yPivotValue);
+                }
+
+                public void SetPivot(PivotPoint xPivotPoint, PivotPoint yPivotPoint) {
+                    xPivot = xPivotPoint;
+                    yPivot = yPivotPoint;
+
+                    pivot = GetPivot(rect, xPivot, yPivot);
+                }
+
+                public RotatableGuiItem(Vector2 size) {
+                    this.size = size;
+                    Initalize();
+                }
+
+                public void Draw(float angle, GUIStyle style, GUIContent content) {
+                    BeginDrawRotated(angle);
+                    GUI.Box(rect, content, style);
+                    EndDrawRotated();
+                }
+
+                public void BeginDrawRotated(float angle) {
+                    matrixBackup = GUI.matrix;
+                    GUIUtility.RotateAroundPivot(angle, pivot);
+                }
+
+                //Used only after BeginDrawRotated!
+                public bool RotatedRectContains(Vector2 rectPosition, Vector2 pointToTest) {
+                    Rect nonRotatedRect = new Rect(rectPosition.x, rectPosition.y, rect.width, rect.height);
+
+                    Vector3[] nonRotatedPoints = new Vector3[] {
+                        //Separate out the points, since the rect object only supports axis aligned rectangles.
+                        new Vector3(nonRotatedRect.xMin, nonRotatedRect.yMin, 0),
+                        new Vector3(nonRotatedRect.xMax, nonRotatedRect.yMin, 0),
+                        new Vector3(nonRotatedRect.xMax, nonRotatedRect.yMax, 0),
+                        new Vector3(nonRotatedRect.xMin, nonRotatedRect.yMax, 0)
+                    };
+                    Vector2[] rotatedPoints = new Vector2[4];
+
+                    //Rotate the points based on the GUI matrix
+                    for(int p = 0; p < nonRotatedPoints.Length; p++) {
+                        rotatedPoints[p] = GUI.matrix.MultiplyPoint(nonRotatedPoints[p]);
+                    }
+
+                    //Convex shape is a bit more complex than we need for a rectangle,
+                    // however I wanted to include the code so you can use it for other convex shapes
+                    return GUIUtils.ConvexShapeContains(rotatedPoints, pointToTest);
+                }
+
+                public void EndDrawRotated() {
+                    if(matrixBackup != null)
+                        GUI.matrix = matrixBackup;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here, we have a Rotatable GUI Item, which is going to take a size, rectangle, and pivot point. The pivot point is going to be calculated by defining an x-axis pivot point and a y-axis pivot point. These two have the option to be in center, min, or max. Giving us nine total options for pivot points, the four corners, any of the middle four edges, and the center point. Initializing a new rotatable GUI item is going to create the rectangle that we're going to rotate, as well as the pivot point. Getting the pivot point is going to take a source rectangle and the two pivot point axes to give us a point on screen in which we'll rotate around.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Setting the pivot point will update the pivot point axes and calculate a new pivot point using Get Point. Drawing a rotatable GUI item is going to begin with Begin Draw Rotated. This is going to take the angle that we want to rotate, create a backup of our current matrix, and use the GUI utility Rotate Around Pivot, providing our angle and the pivot point calculated earlier. When we're done drawing our GUI box, we're going to call End Draw Rotated, which is simply going to restore the backed up matrix.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see how we can implement this with our <b>Rotatable GUI Item Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class RotatableGuiItemTestInterface : MonoBehaviour {
+
+                RotatableGuiItem rotateString;
+                GUISyle style;
+                float angle = 0;
+
+                private GUIContent contentToRotate;
+
+                void Start() {
+                    style = new GUIStyle();
+                    contentToRotate = new GUIContent("Rotate this gui item using the A and D keys!");
+
+                    Vector2 contentSize = style.CalcSize(contentToRotate);
+                    rotateString = new RotatableGuiItem(new Vector2(contentSize.x, contentSize.y));
+
+                    //rotateString.SetPivot(RotatableGuiItem.PivotPoint.Min, RotatableGuiItem.PivotPoint.Center);
+                }
+
+                void Update() {
+                    if(Input.GetKey(KeyCode.A)) {
+                        angle += 1;
+                    }
+                    if(Input.GetKey(KeyCode.D)) {
+                        angle -= 1;
+                    }
+                }
+
+                void OnGUI() {
+                    Vector2 contentSize = style.CalcSize(contentToRotate);
+                    GUI.BeginGroup(new Rect(200, 200, contentSize.x, contentSize.y));
+                    rotateString.Draw(angle, style, contentToRotate);
+                    GUI.EndGroup();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we're going to create a new rotatable GUI item and a new GUI content. We're going to calculate the size of this content in order to determine the size of our rotatable GUI item. In the update method, we're going to accept the A and D key to increase or decrease the angle we want to rotate. Finally, in the OnGUI method, we're going to draw a rotate string with rotateString.draw.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've learned how we can rotate GUI controls. The ability to rotate GUI controls adds additional flexibility to your layout options and interaction with the player. Keep in mind that if you're going to have a control that's always rotated, it is likely better to create the asset for the control as it should be displayed. There are performance impacts to consider with rotating GUI controls, and if we could avoid rotating them every time, it's best we do.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="3">
+    <h2>Progress Bar</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we'll go over how to create a progress bar GUI component. Progress bars are common place in GUIs and are used for showing many things, from loading resources progress to experience progress towards the next level, or how much inventory space has been used. Progress bars are essentially a visual representation of two values, a maximum value and a current value. When the current value equals the maximum value, the progress bar is full. And when the current value is at zero, or the minimum value, the progress bar is empty. Ideally, we'd like to have the bar be oriented horizontally, or vertically, but could even be in-between.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's first see the <b>Progress Bar</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ProgressBar : ScriptableObject {
+
+                //The display name of the progress bar
+                public string displayName;
+
+                Vector2 size;
+
+                public float minValue;
+                public float maxValue;
+                float currentValue;
+
+                //Textures used to display the progress bar.
+                //If you want custom textures, you can easily create a
+                // new constructor that accepts alternative textures.
+                //Otherwise these are generated based off the colors passed in.
+                Texture2D barTexture;
+                Texture2D emptyTexture;
+
+                //Support for styles.
+                public GUIStyle barStyle;
+
+                //The rectangle that defines the bar
+                Rect barRect;
+
+                //Our rotateable itemand angle to rotate
+                RotatableGUIItem barRotation;
+                float barAngle;
+
+                public Orientation orientation;
+
+                public enum Orientation {
+                    Horizontal,
+                    Vertical,
+                    Wonky
+                }
+
+                public ProgressBar(Vector2 size, float minValue, float maxValue,
+                                    string displayName, Color emptyColor, Color barColor,
+                                    Colot textColor, Orientation orientation) {
+                    this.size = size;
+                    this.maxValue = maxValue;
+                    this.minValue = minValue;
+                    this.barRect = new Rect(0, 0, size.x, size.y);
+                    this.displayName = displayName;
+                    this.orientation = orientation;
+
+                    this.barStyle = new GUIStyle();
+                    barStyle.normal.textColor = textColor;
+
+                    this.emptytexture = GUIUtils.MakeTexture((int)size.x, (int)size.y, emptyColor);
+                    this.barTexture = GUIUtils.MakeTexture((int)size.x, (int)size.y, barColor);
+
+                    barRotation = new RotatableGuiItem(size);
+                    barRotation.SetPivot(RotatableGuiItem.PivotPoint.Min, RotatableGuiItem.PivotPoint.Min);
+
+                    switch(orientation) {
+                        case Orientation.Horizontal:
+                            barAngle = 0;
+                            break;
+                        case Orientation.Vertical:
+                            barAngle = 90;
+                            break;
+                        case Orientation.Wonky:
+                            barAngle = 56;
+                            break;
+                    }
+                }
+
+                public void SetMinMax(float min, float max) {
+                    this.minValue = min;
+                    this.maxValue = max;
+                }
+
+                public void Draw(Vector2 position, float currentValue) {
+                    barRect.x = position.x;
+                    barRect.y = position.y;
+
+                    //Begin a group for the two box components that make up the progress bar
+                    GUI.BeginGroup(new Rect(position.x, position.y, size.x, size.y));
+
+                        //Utilize our rotation component to allow this box to be rotated as needed
+                        barRotation.BeginDrawRotated(barAngle);
+
+                        //Test to see if the mouse is hovering over this box, so we can display our alternative text
+                        bool displayValueInsteadOfName = barRotation.RotatedRectContains(position, GUIUtils.GetGUIMousePosition());
+
+                        //Draw the bar first
+                        //Start with an outer box, this box represents the empty box, which is also the max size
+                        // the progress bar can be
+                        GUI.Box(new Rect(0, 0, size.x, size.y), emptyTexture, barStyle);
+                        
+                        //Next draw the inner box, this box will be drawn inside of a group that limits its size.
+                        //If we were to try to just draw the box at a smaller size, Unity would "hopefully" 
+                        // scale our texture smaller to fit.
+                        //This would result in the texture being too short to fill the box height-wise.
+                        GUI.BeginGroup(new Rect(0, 0, size.x * ((currentValue - minValue) / (maxValue - minValue)), size.y));
+                            //The inner box, representing the progress bar
+                            GUI.Box(new Rect(0, 0, size.x, size.y), barTexture, barStyle);
+                        GUI.EndGroup();
+                    GUI.EndGroup();
+
+                    //Draw the text next
+                    GUI.BeginGroup(new Rect(position.x, position.y, size.x, size.y));
+                        //If we're moused over, we're going to draw the values instead of the name
+                        //This will give the user (and you) the ability to see the exact value of the progress bar
+                        if(displayValuesInsteadOfName) {
+                            GUI.Label(new Rect(0, 0, size.x, size.y), " " + 
+                                        currentValue.ToString("F1")+"/"+maxValue.ToString("F1"), barStyle);
+                        } else {
+                            GUI.Label(new Rect(0, 0, size.x, size.y), " " + displayName, barStyle);
+                        }
+                        barRotation.EndDrawRotated();
+                    GUI.EndGroup();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So our progress bar is going to take a display name, size, our min value, max value, and current value. It's also going to generate textures for itself for the bar-empty, and bar-full. Since a progress bar is essentially two boxes, one box hold the other. The outer box is an empty box and the inner box is scalled to represent the current value relative to the size of the outer box. We're also going to make our bar rotate-able so that we can have an orientation of horizontal, vertical, even wonky.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The progress bar is going to accep parameters to set all of its values and generate textures for itself. These textures are generated at run time, using the color passed in. We fill an array with colors and create a new texture and set all of its pixels to that color, then return that texture. This will give us the texture to display on screen for the progress bar. Next, drawing the progress bar is going to take a position and its current value. We're going to utilize GUI groups to do this, first by beginning our rotation, then drawing our first outer box, then the inner box. Finally, the last group is going to draw the display label, and we're going to finish our rotation.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at how to implement this through our <b>Progress Bar Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>[ExecuteInEditMode()]
+            public class ProgressBarTestInterface : MonoBehaviour {
+
+                public ProgressBar bar0;
+                public ProgressBar bar1;
+                public ProgressBar bar2;
+
+                public float minValue = 0;
+                public float maxvalue = 10;
+                public float currentValue = 5;
+
+                public Vector2 bar0Position = new Vector2(20, 100);
+                public Vector2 bar1Position = new Vector2(20, 130);
+                public Vector2 bar2Position = new Vector2(40, 160);
+
+                void Start() {
+
+                    bar0 = new ProgressBar(new Vector2(400, 20), minValue, maxValue,
+                                "Test Progress Bar (Horizontal)", Color.grey, Color.green, Color.black,
+                                ProgressBar.Orientation.Horizontal);
+
+                    bar1 = new ProgressBar(new Vector2(400, 20), minValue, maxValue,
+                                "Test Progress Bar (Vertical)", Color.grey, Color.magenta, Color.black,
+                                ProgressBar.Orientation.Vertical);
+
+                    bar2 = new ProgressBar(new Vector2(400, 20), minValue, maxValue,
+                                "Test Progress Bar (Wonky)", Color.grey, Color.cyan, Color.black,
+                                ProgressBar.Orientation.Wonky);
+                }
+
+                void Update() {
+                    if(Input.GetKey(KeyCode.A)) {
+                        currentValue -= 0.1f;
+                        currentValue = Mathf.Max(minValue, currentValue);
+                    }
+                    if(Input.GetKey(KeyCode.D)) {
+                        currentValue += 0.1f;
+                        currentValue = Mathf.Min(maxValue, currentValue);
+                    }
+                }
+
+                void OnGUI() {
+                    if(bar0 != null)
+                        bar0.Draw(bar0Position, currentValue);
+                    if(bar1 != null)
+                        bar1.Draw(bar1Position, currentValue);
+                    if(bar2 != null)
+                        bar2.Draw(bar2Position, currentValue);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The first thing you should notice is that this interface uses an Execute In Edit Mode attribute. This means the interface will show up when we select the game tab, without even playing our scene. The interface is going to create three progress bars, and have the same min-max value and current value for each. We're going to just test out all of our different orientations, to see what they look like. Next, we're going to accept the A and D keys as input, to alter the current value on our progress bars. Finally, drawing all the progress bars at their respective locations. The benefit of Executing in Edit Mode is being able to position GUI elements in real time. By changing the position of the bars, we can see them update in real time.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In order to get mouse-over working for a rotated GUI elements, we'll have to take a look at our rotatable GUI item. In that class, we're checking to see if a rotated rectangle contains a position. We can't use the built in unity rectangle because that's axis aligned. So we have to generate the non-rotated rectangle, collect the points, and then rotate them all by the current Unity matrix. This will give us a rotated rectange separate into points. We can then pass this into our Convex Shap Contains method refered to in Common Scripts.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Convex Shape Contains method takes a list of points that form a convex shape, and a point to test. Essentially, what this does is test each edge of the convex shape to ensure that the point is to the left of each edge. If the point is to the left for each edge, it's inside the convex shape. We test to see if the point is on the left by doing a cross product test to determine which side the point is on of each edge. Here we can determine if it's on the right or left, and we can make sure that the point is on the left of each edge.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've seen how to create a progress bar GUI component. In addition to creating the progress bar, you've learned to create textures at run time and use ExecuteInEditMode to update your GUI components positions. Finally, how to calculate when a point is inside a convex polygong. Who knew there was so much involved with creating a progress bar? The information you've learned here expands the tool set available to you, for creating more complex GUI elements, with advanced behaviour.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="4">
+    <h2>Tables</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to create a Table GUI Component. The table GUI object is a great way to display a list of data to the user. With the table structure, we can provide a list of multiple items with details about each. Since we're creating our own table from scratch, what we put in the table is completely up to us. The table should be generic and have to be used in many situations. But allow for enough customization to allow custom code to be ran inside each cell if we wanted to. This should greatly expand the options for what we can place inside the table.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Lets first check out our <b>Table</b> class. It's a doozy:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic, System.Linq;
+
+            public class Table : ScriptableObject {
+
+                Vector2 size;
+                float cellHeight;
+                public GUISkin skin;
+                List&lt;float&gt; columnWidths;
+                ICollection&lt;string&gt; columnHeaders;
+                GUIStyle styleToUse;
+                List&lt;Row&gt; tableRows = new List&lt;Row&gt;();
+
+                //A row in a table, this consists of a list of cells.
+                class Row {
+                    public List&lt;TableItem&gt; rowCells;
+                    public Row(params TableItem[] cells) {
+                        rowCells = new List&lt;TableItem&gt;(cells);
+                    }
+                    public Row(params string[] cells) {
+                        rowCells = new List&lt;TableItem&gt;();
+                        foreach(string cell in cells) {
+                            rowCells.Add(new StringTableItem(cell));
+                        }
+                    }
+                    public Row(ICollection&lt;string&gt; cells) {
+                        rowCells = new List&lt;TableItem&gt;();
+                        foreach(string cell in cells) {
+                            rowCells.Add(new StringTableItem(cell));
+                        }
+                    }
+                }
+
+                //Create an abstract class for our table items, table items are the different
+                // types of items we want to put in our table, for our example a string or an image
+                public abstract class TableItem {
+                    public delegate void OnClicked(TableItem item);
+                    public event OnClicked OnClickedAction;
+                    public abstract void Draw(Rect position, GUIStyle style);
+                    public abstract void Update();
+                    protected virtual void RaiseOnClickedEvent(TableItem item) {
+                        OnClickedAction(item);
+                    }
+                }
+
+                public class StringTableItem : TableItem {
+                    string text;
+
+                    public StringTableItem(string text) {
+                        this.text = text;
+                    }
+
+                    public override void Draw(Rect position, GUIStyle style) {
+                        GUI.Box(position, text, style);
+                    }
+
+                    public override void Update() {
+
+                    }
+                }
+
+                public class DistanceTableItem : TableItem {
+                    Transform source;
+                    Transform target;
+                    float distance;
+
+                    public DistanceTableItem(Transform source, Transform target) {
+                        this.source = source;
+                        this.target = target;
+                        this.distance = Vector3.Distance(source.position, target.position);
+                    }
+
+                    public override void Draw(Rect position, GUIStyle style) {
+                        GUI.Box(position, distance.ToString(), style);
+                    }
+
+                    public override void Update() {
+                        this.distance = Vector3.Distance(source.position, target.position);
+                    }
+                }
+
+                public class DirectionalPointerTableItem : TableItem {
+                    Texture2D texture;
+                    float rotation;
+                    RotatableGuiItem;
+                    Rect zeroedRectangle;
+                    Transform source;
+                    Transform target;
+
+                    public DirectionalPointerTableItem(Texture2D texture, Transform source, Transform target) {
+                        rotatableGuiItem = new RotatableGuiItem(new Vector2(texture.width, texture.height));
+                        this.texture = texture;
+                        this.zeroedRectangle = new Rect(0, 0, texture.width, texture.height);
+                        this.source = source;
+                        this.target = target;
+                        rotation = Mathf.RoundToInt(GetAnglesBetween(source, target));
+                    }
+
+                    public override void Draw(Rect position, GUIStyle style) {
+                        //Draw the background first
+                        GUI.Box(position, "", style);
+
+                        //Create a centered rectangle to draw our texture and do the rotation there.
+                        Rect centeredRect = new Rect((position.x + position.widht/2) - (texture.width/2),
+                                                    (position.y + position.height/2) - (texture.height/2),
+                                                    (texture.width, texture.height);
+
+                        GUI.BeginGroup(centeredRect);
+
+                            rotatableGuiItem.BeginDrawRotated(rotation);
+
+                            GUI.Box(zeroedRetangle, texture, style);
+
+                            rotatableGuiItem.EndDrawRotated();
+                        GUI.EndGroup();
+                    }
+
+                    public override void Update() {
+                        rotation = Mathf.RoundToInt(GetAngleBetween(source, target));
+                    }
+
+                    //Return the angle to rotate an object to point from t1 to t2
+                    public float GetAngleBetween(Transform t1, Transform t2) {
+                        Vector3 difference = t2.position - t1.position;
+                        difference.Normalize();
+
+                        return Mathf.rad2Deg * (float)Mathf.Atan2(difference.x, difference.z);
+                    }
+                }
+
+
+
+                public Table(Vector2 size, float cellHeight, GUISkin sin, ICollection&lt;string&gt; columnHeaders) {
+                    this.size = size;
+                    this.skin = skin;
+                    this.cellHeight = cellHeight;
+                    this.columnHeader = columnHeaders;
+                    this.columnWidths = new List&lt;float&gt;();
+
+                    //Important to not continually search for a style that's not present
+                    // it's very slow to fail.
+                    if(skin.FindStyle("tablecell") != null) {
+                        styleToUse = skin.GetStyle("tablecell");
+                    } else {
+                        styleToUse = skin.box;
+                        Debug.Log("'tablecell' style not found! Using 'box' style instead");
+                    }
+
+                    float columnWidthSum = 0;
+                    float[] widths = new float[columnHeaders.Count];
+                    for(int header = 0; header < columnHeaders.Count; header++) {
+                        float with = styleToUse.CalcSize(new GUIContent(columnHeaders.ElementAt(header))).x;
+                        columnWidthSum += width;
+                        widths[header] = width;
+                    }
+                    foreach(float width in widths) {
+                        columnWidths.Add(width/columnWidthSum);
+                    }
+                }
+
+                public void Addrow(params TableItem[] items) {
+                    if(items.Length == columnHeaders.Count) {
+                        tableRows.Add(new Row(items));
+                    } else {
+                        Debug.Log("Tried to add row with different number of columns than table");
+                    }
+                }
+
+                public void AddRow(params string[] items) {
+                    if(items.Length == columnHeaders.Count) {
+                        tableRows.Add(new Row(items));
+                    } else {
+                        Debug.Log("Tried to add row with different number of columns than table");
+                    }
+                }
+
+                public void AddRow(ICollection&lt;string&gt; items) {
+                    if(items.Length == columnHeaders.Count) {
+                        tableRows.Add(new Row(items));
+                    } else {
+                        Debug.Log("Tried to add row with different number of columns than table");
+                    }
+                }
+
+                public void Draw(Vector2 position) {
+                    this.DrawTable(position, this.columnHeaders, this.tableRows);
+                }
+
+                public void Update() {
+                    foreach(Row td in tableRows) {
+                        foreach(TableItem cell in td.rowCells) {
+                            cell.Update();
+                        }
+                    }
+                }
+
+                void DrawTable(Vector2 position, ICollection&lt;string&gt; columnHeaders, List&lt;row&gt; tableRows) {
+
+                    if(columnHeaders.Count > columnWidths.Count) {
+                        Debug.LogError("Column headers must all have a width defined!");
+                        return;
+                    }
+
+                    if(columnWidths.Sum() > 1) {
+                        Debug.Log("Sum of column widths should not exceed a total of 1");
+                    }
+
+                    GUI.BeginGroup(new Rect(position.x, position.y, size.x, size.y));
+
+                        //Draw the header row
+                        //Zeros are used here because we're inside of a `BeginGroup` so all positions are relative to the group
+                        // in this case, that means(0, 0) is the top left of the rectagle passed into `BeginGroup`
+                        float xPos = 0;
+                        float yPos = 0;
+
+                        int columnIndex = 0;
+                        foreach(string txt in columnHeaders) {
+                            GUI.Label(new Rect(xPos, yPos,
+                                            size.x * columnWidths[columnIndex], cellHeight),
+                                            columnHeaders.ElementAt(columnIndex), styleToUse);
+                            xPos += size.x * columnWidths[columnIndex];
+                            columnIndex++;
+                        }
+
+                        //(carriage return) Move the pointer back to the beginning down one line (to begin on the first row)
+                        xPos = 0;
+                        yPos += cellHeight;
+
+                        //Draw each row after
+                        foreach(Row td in tableRows) {
+                            columnIndex = 0;
+                            //Draw each column in the row
+                            foreach(TableItem cell in td.rowCells) {
+                                cell.Draw(new Rect(xPos, yPos, size.x * columnWidths[columnIndex], cellHeight), styleToUse);
+                                xPos += size.x * columnWidths[columnIndex];
+                                columnIndex++;
+                            }
+
+                            //(Carriage return) Move the pointer back to the beginning down one line (to begin on the first row)
+                            xPos = 0;
+                            yPos += cellHeight;
+                        }
+
+                    GUI.EndGroup();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Our table is going to contain a list of Rows, which each contain a list of TableItems. These will be the row cells. This should enable us to easily add new rows to the table, simply by creating a list of TableItems. Table Items are going to be somewhat complex. Table Items will have an even for when they're clicked, they will have their own Draw method, because they need to be responsible for drawing themselves.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next, they'll have an update method so we can run code inside each cell like mentioned before. This abstract class will be implemented in various ways. For example, a simple String Table Item will just contain some string text and draw that text when it's requested to draw. A Distance Table Item is a little more complex. It's going to take two Transforms, and it's going to calculate the distance between the two, and displa that distance when it's requested to draw. This will utilize updates to update the distance. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Finally, an even more complex table item is the directional pointer. This item will take a texture and two Transforms, a source and a target. It will create a rotatable GUI item. Ideally, with a texture like an arrow, which will then point from the source to the target. When drawing, this will draw the rotatable GUI item to point the direction from the source to the target. In the update method, it's going to update it's rotation to ensure that it's always accurate. This method is also going to have a Get Angle Between method, that itt's use to get the angle between the two Transforms. Creating a table starts with defining the size, the cell height, the GUI scheme we want to use, and what columns will go in to it.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The table is going to attempt to use a style called table cell within the skin passed in. If the style is not found, we're going to utilize the default of the skin box. We do this because inside GUI skin, when trying to use a style that doesn't exist, it will automatically default to something else, but it's very slow. We want to use this as a shortcut so we don't have to do that every time. Next we're going to calculate the column widths, based on the size of each element in the headers. Next, adding rows has a few options, whil each time we add a row we're going to check the number of items to ensure it matches the number of headers. If it does not, we're going to display an error.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next, our update message is going to go through and update each cell to update the code that runs inside each cell. Our drawing table method is going to begin a group for the size of the table, and for each of the columnHeaders it's going to draw a label that matches the name of that Header. Then for each row, we're going to go into each column and have each cell draw itself.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see how we can use this with the <b>Table Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class TableTestInterface : MonoBehaviour {
+
+                public GUISkin tableSkin;
+                Table testTable;
+
+                public float cellHeight = 22;
+                public Vector2 tablePosition = Vector2.zero;
+                public Vector2 tableSize = new Vector2(500, 800);
+                List&lt;List&lt;Table.TableItem&gt;&gt; tableData;
+                Texture2D arrowTexture;
+
+                void Start() {
+
+                }
+            }
             </pre>
         </p></li>
     </ul>
