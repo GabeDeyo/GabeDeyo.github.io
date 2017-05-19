@@ -119,6 +119,14 @@
                                 <a href="#4">Tables</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#5">Message Windows</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#6">GUI Items Over GameObjects</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -1028,10 +1036,674 @@
                 Texture2D arrowTexture;
 
                 void Start() {
+                    arrowTexture = Resources.Load(@"Arrow") as Texture2D;
+                    List&lt;string&gt; columns = new List&lt;string&gt;();
+                    columns.Add("Object name");
+                    columns.Add("Direction");
+                    columns.Add("Distance);
 
+                    testTable = new Table(tableSize, cellHeight, tableSkin, columns);
+
+                    PopulateTableData();
+                }
+
+                void Update() {
+                    UpdateTableData();
+                }
+
+                private void PopulateTableData() {
+                    tableData = new List&lt;List&lt;Table.TableItem&gt;&gt;();
+                    foreach(GameObject otherGameObject in GameObject.FindGameObjectsWithTag("TableTrack")) {
+
+                        //We can also attach event functions to these  using each item's OnClickedAction event delegate.
+                        //Create seperately and attached here if desired, something like:
+                        /*
+                            Table.StringTableItem stringItem = new Table.StringTableItem(otherGameObject.name);
+                            stringItem.OnClickedAction += MyEventFunctionForThisItem;
+                            //Where MyEventFuctionForThisItem has the signature
+                            `void MyEventFunctionForThisItem(TableItem item)`
+                            //Inside the TableItem, you'd simply call base.RaiseOnClickedEvent(this).
+                            See the MessageWindowCode for an example using LocationMessageItem
+                        */
+
+                        testTable.AddRow(
+                            new Table.StringTableItem(otherGameObject.name),
+                            new Table.DirectionalPointerTableItem(arrowTexture, this.transform, otherGameObject.transform),
+                            new Table.DistanceTableItem(this.transform, otherGameObject.transform)
+                        );
+                    }
+                }
+
+                private void UpdateTableData() {
+                    //TODO: Detect if objects in the scene were added/removed and add/remove them to/from the tableData
+                    //Could be as simple as, iff current object list != table data list, just call PopulateTableData again
+
+                    //Update the table cells
+                    textTable.Update();
+                }
+
+                void OnGUI() {
+                    testTable.Draw(tablePosition);
                 }
             }
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This Test Table Interface is going to create a new Table. It's going to contain a nested list of Table Items, to define the tableData. The columns we're adding are Object name, Direction and Distance. When populating the data for this table. We're going to get all of the game objects in the scene that have the tag TableTrack. For each of these objects we're going to add a new row to our table. The row is going to consist of the object's name in a string table item, a directional pointer table item, using an aerotexture, the transform we have this interface attached to, along with the transform of the table track item. And a distance table item, that will include the same. Updating the table data we'll simply call our test table update to update all the code inside each of the table.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup / Assets</b>
+            <p><span class="glyphicon-remove"></span></p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this video we've covered how to create a table GUI component. Tables are used in a logt of places within games, from scoreboards to HUDs for nearby objects like we've created here. In a simply way to display data to the user that they're familliar with. The table we've created here is very customizable, not only with the type of data and live feedback it can provide, but with the styles we can make the table look however we like. We can extend this table to include other GUI elements, like progress bars, buttons, or text entry fields.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="5">
+    <h2>Message Windows</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we're going to cover creating a message window GUI element. The message window is used for displaying a scrolling list of messages to the user. Consider the example of an RTS game. Where the user is being updated when units are finished, they're under attack, or even auto save notifications. These messages would primarily come through as text messages with the newest at the bottom. To keep the UI cleaner, we can even make messages disappear after a while. The scroll window ensures that even if there's a lot of messages, the user will still have time to go back and review them.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll actually go a step further and allow these messages to be interactive as well. For example, when a user receives a message about an attack, they can click the message and their camera will snap to the attack location. Or maybe if a unit is finished building, they could click the message to see the unit and give him orders.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at our <b>Message Window</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic, System.Linq;
+
+            public class MessageWindow : ScriptableObject {
+
+                List&lt;MessageItem&gt; messages = new List&lt;MessageItem&gt;();
+                Vector2 size;
+                float scrollBarWidth;
+                float messageWidth;
+                float lastTotalMessageHeight;
+                Vector2 scrollPosition = new Vector2(0, 0);
+                public bool pauseAutoScroll = false;
+                public GUISkin skin;
+
+                bool useCustomStyle = true;
+
+                public abstract class MessageItem {
+                    public GUIStyle style;
+                    public float timeRemaining;
+                    public delegate void OnClicked(MessageItem item);
+                    public event OnClicked OnClickedAction;
+
+                    public MessageItem(float timeRemaining) {
+                        this.timeRemaining = timeRemaining;
+                    }
+
+                    public abstract void Draw(float yPosition, float width, ref float height);
+
+                    //Required so that classes that derive this class have access to the event OnClickedAction.
+                    //Events can only be called from the class they're defined in.
+                    protected virtual void RaiseOnClickedEvent(MessageItem item) {
+                        OnClickedAction(item);
+                    }
+                }
+
+                public class StringMessageItem : MessageItem {
+                    string text;
+
+                    public StringMessageItem(float timeToDisplay, string text) : base (timeToDisplay) {
+                        this.text = text;
+                    }
+
+                    public override void Draw(float yPosition, float width, ref float height) {
+                        GUIContent textContent = new GUIContent(text);
+                        height = style.CalcHeight(textContent, width);
+                        GUI.Label(new Rect(0, yPosition - height, width, height), textContent, style);
+                    }
+                }
+
+                public class LocationMessageItem : MessageItem {
+
+                    string text;
+                    Vector3 location;
+
+                    public LocationMessageItem(float timeToDisplay, string text, Vector3 location,
+                                            OnClicked callbackOnClicked) : base (timeToDisplay) {
+                        this.text = text;
+                        this.location = location;
+                        this.OnClickedAction += callbackOnClicked;
+                    }
+
+                    public Vector3 GetLocation() {
+                        return location;
+                    }
+
+                    public override void Draw(float yPosition, float width, ref float height) {
+                        GUIContent textContent = new GUIContent(text);
+                        height = style.CalcHeight(textContent, width);
+                        if(GUI.Button(new Rect(0, yPosition - height, width, height), textContent)) {
+                            base.RaiseOnClickedEvent(this);
+                            //this.timeRemaining = 0; //If we want to remove a message when it's clicked, set it's time to 0
+                        }
+                    }
+                }
+
+                public MessageWindow(Vector2 size, GUISkin skin) {
+                    this.size = size;
+                    this.skin = skin;
+                    if(skin.FindStyle("messageitem") == null) {
+                        Debug.Log("Skin does not contain 'messageitem' style, reverting to default.");
+                        useCustomStyle = false;
+                    }
+                    scrollBarWidth = skin.verticalScrollbar.fixedWidth;
+                    messageWidth = size.x - scrollBarWidth - 1;
+                    lastTotalMessageHeight = size.y;
+                }
+
+                public MessageItem AddMessage(MessageItem item) {
+                    this.messages.Add(item);
+                    if(!pauseAutoScroll) {
+                        scrollPosition.y = lastTotalMessageHeight;
+                    }
+
+                    if(useCustomStyle)
+                        item.style = skin.GetStyle("messageitem");
+                    else
+                        item.style = skin.label;
+
+                    return item;
+                }
+
+                public void AddMessage(float secondsToDisplay, string text) {
+                    AddMessage(new StringMessageItem(secondsToDisplay, text));
+                }
+
+                public void CountDownTimers() {
+                    List&lt;MessageItem&gt; deadMessages = new List&lt;MessageItem&gt;();
+                    foreach(MessageItem messageItem in messages) {
+                        messageItem.timeRemaining -= Time.deltaTime;
+                        if(messageItem.timeRemaining < 0) {
+                            deadMessages.Add(messageItem);
+                        }
+                    }
+                    foreach(MessageItem deadMessage in deadMessages) {
+                        messages.Remove(deadMessage);
+                    }
+                }
+
+                public void Draw(Vector2 position) {
+                    //Group our element to itself
+                    Rect windowRect = new Rect(position.x, position.y, size.x, size.y);
+                    GUI.BeginGroup(windowRect);
+
+                        GUI.Box(new Rect(0, 0, size.x, size.y), ""); //Draw a background box
+
+                        //Scroll view to "buffer" messages for later review
+                        scrollPosition = GUI.BeginScrollView(new Rect(0, 0, size.x, size.y),
+                                                            scrollPosition, new Rect(0, 0, messageWidth,
+                                                            lastTotalMessageHeight));
+
+                            //Keep track of height for future renderering
+                            float yPos = lastTotalMessageHeight;
+                            float totalMessageHeight = 0;
+                            float lastHeight = 0;
+
+                            //Each message draws itself, and sets a height variable so we
+                            // can keep track of where we're at on screen.
+                            foreach(MessageItem messageItem in Enumerable.Reverse(messages)) {
+                                messageItem.Draw(yPos, messageWidth, ref lastHeight);
+                                yPos -= lastHeight;
+                                totalMessageHeight += lastHeight;
+                            }
+
+                            //The last total message height is used to render the scroll view,
+                            // and gives us a starting point for drawing next time we render each item
+                            //Use the size of the window or the size of the messages, which ever is greater
+                            lastTotalMessageHeight = Mathf.Max(totalMessageHeight, size.y);
+
+                        GUI.EndScrollView();
+                    GUI.EndGroup();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So a message we know is going to contain a list of message items, along with other attributes for displaying the message window on screen. The message items are an abstract class that will define a style, time remaining, which is the amount of time that will be displayed on screen, as well as some on click events. The message items will be responsible for drawing themselves, so they will also include a draw method. Finally we have this raised on-click event. This is required because classes that derive this class like string message item need to have access to the event on clicked action. Events can only be called from the class they're defined in, so we're creating this method to call the on-click action when we call the raised on-click event. Various types of message items will implement this class like the string message item. This is a simple string item that will simply take a text and display that text when asked to draw.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            A more advanced implementation will be a location message item, which will take text and location, display the text when asked, and when click, will raise an event returning itself, including the location. When creating our message window, we're going to take a size and a skin. In order to avoid potential problems, we're going to search for the style we want to use, the message item style inside the skin. If that skin does not contain that style, we're going to set Use Custom Style to false, because searching for a style that doesn't exist every time makes things very slow.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When adding a message, we're just going to add that message to our messages list. If we're not pausing our autoscroll, we're going to increase the scroll position to include the last message. Next, we have an overloaded add message, that will simply take a seconds display in text, and autocreate a new screen message item for us with those attributes. Our countdown timers are going to go through all of our messages. And decrease the time remaining by delta time. Any messages that have no time remaining will be added to the deadMessages list. Then remove after we're done iterating through the messages. This is done in two steps, because removing an item from a list we're iterating over will cause a concurrent modification error.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Drawing our message window takes a position. And uses the size to create a new rectangle. Inside that new rectangle we're going to draw a background and begin a scroll view. Inside the scroll view group we're going to draw all of our messages in reverse order. This is so that they are drawn with the newest at the bottom. Finally we're going to set our total message height in order to give us an accurate scroll bar.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see how we can use this with the <b>Message Window Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Text, System;
+
+            public class MessageWindowTestInterface : MonoBehaviour {
+
+                public GUISkin consoleSkin;
+                MessageWindow consoleWindow;
+                public Vector2 consoleSize = new Vector2(500, 300);
+                Vector2 consolePosition = new Vector2(0, 0);
+                Rect consoleRect;
+
+                void Start() {
+                    consolePosition.y = Screen.height - console.Size.y;
+
+                    consoleRect = new Rect(consolePosition.x, consolePosition.y, consoleSize.x, consoleSize.y);
+                    consoleWindow = new MessageWindow(consoleSize, consoleSkin);
+
+                    consoleWindow.AddMessage(
+                        new MessageWindow.StringMessageItem(20, 
+                                "This is an extra long message. This will show the messages will" + 
+                                " simply wrap around and the message below will be placed right after," +
+                                " despite the wrapping"));
+
+                    consoleWindow.AddMessage(
+                        new MessageWindow.StringMessageItem(20,
+                                "We can also force a line break \\n"+
+                                " anywhere we \n want \n the \n breaks to be."));
+
+                    consoleWindow.AddMessage(
+                        new MessageWindow.StringMessageItem(20,
+                                "Press Space to add more messages!"));
+                }
+
+                void Update() {
+                    //Only count down timers when we're not moused over the console window
+                    if(!GUIUtils.MouseOverRect(consoleRect)) {
+                        consoleWindow.pauseAutoScroll = false;
+                        consoleWindow.CountDownTimers();
+                    } else {
+                        consoleWindow.pauseAutoScroll = true;
+                    }
+
+                    //Mock up some trigger or events happening in game that would display messages
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        consoleWindow.AddMessage(30, GUIUtils.MakeRandomString(UnityEngine.Random.Range(3, 15)));
+                    }
+                    if(Input.GetKeydown(KeyCode.P)) {
+                        Vector3 mousePosition = Input.mousePosition;
+                        mousePosition.z = 15; //depth of objects into scene
+                        consoleWindow.AddMessage(
+                            new MessageWindow.LocationMessageItem(30, 
+                                    "Location event!",
+                                    Camer.main.ScreenToWorldPoint(mousePosition),
+                                    OnLocationClicked));
+                    }
+                }
+
+                void OnLocationClicked(MessageWindow.MessageItem item) {
+                    Vector3 messageLocation = ((MessageWindow.LocationMessageItem)item).GetLocation();
+                    Camera.main.transform.position = new Vector3(messageLocation.x,
+                                                                Camera.main.transform.position.y,
+                                                                messageLocation.z);
+                }
+
+                void OnGUI() {
+                    consoleWindow.Draw(consolePosition);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So with our interface, the message window test interface is going to create a new message window with this size and position. To start with, we're going to add some messages that will show some features of the string message item. For example, an extra long message that will be automatically wrapped and inserting line breaks arbitrarily. Finally a message for us telling us how to add more messages. In our update method, if the mouse is not over the rectangle, we're going to continue our auto scroll and countdown our timers.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            If the mouse over our rectangle, we're going to pause the auto scroll. This results in the user mousing over the message box to pause any timers so that messages don't disappear while they're reading them. Next, we're going to lock up some triggers that will display information in our console. Pressing the space key will add a random string. This string is randomly generated using a string builder. It is important to note that the string builder class has significantly better performance than simply appending a string with the plus equals. If making long string like this, string builder is the way to go.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next, pressing the P key will generate a new location message. This message will pass in a location event string as well as the position of the mouse in the world. It will be handled by the OnLocationClicked listener. When the OnLocationClicked listener responds to an event, it'll translate our camera to the position above the LocationMessageItem. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've covered creating a message window that's informative and interactive. The design allows not only for strings, but interactive buttons. And you could actually put other GUI elements in there as well. From textures, to progress bars or combo boxes. However, even though the design is very flexible, it's important to give the user what they're expecting. Many people are familiar with these types of message windows. And they're typically only expecting text and potentially clickable text. I'd advise keeping extra GUI elements to a minimum.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="6">
+    <h2>GUI Items Over GameObjects</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we're going to go over positioning GUI elements relative to game objects. This type of tagging is done throughout games. For example, during a tutorial, we might want to place a label next to the object a player is supposed to click. Or we might want to use this for indicating targets in a shooter game, or even to show a progress bar above a building to indicate how far along construction is. Additionally, you can use these in your own debugging to provide more information about the objects on-screen. Once again, we're going to aim for a system that's flexible and easy to use.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We want to be able to track game objects and draw whatever game element we like over them. In previous sections, we've covered a strategy for using abstract classes and deriving different classes to extend functionality. In this section, we're going to go over a strategy of using delegates. Using delegates has advantages, for example, not needing to modify the element class to add new functionality. However, there's also the disadvantage of moving the code for an element outside of the element. This can lead to code duplication, and means more work for other people, including future you, to add the functionality needed.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's check out our <b>Object Tagger</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ObjectTagger {
+
+                Dictionary&lt;GameObject, TaggedObject&gt; taggedObjects;
+
+                public class TaggedObject {
+
+                    public GameObject target;
+                    public Vector3 offset;
+                    public bool clampToScreen;
+                    public float screenEdgePadding = 5;
+                    GUIStyle style;
+                    GUIContentGenerator contentGenerator;
+
+                    //Now with generator including with each object
+                    public TaggedObject(GameObject target, bool clampToScreen, Vector3 offset,
+                                        GUIStyle style, GUIContentGenerator contentGenerator) {
+                        this.target = target;
+                        this.clampToScreen = clampToScreen;
+                        this.offset = offset;
+                        this.style = style;
+                        this.contentGenerator = contentGenerator;
+                    }
+
+                    public TaggedObject(GameObject target, bool clampToScreen, Vector3 offset, GUIStyle style) {
+                        this.target = target;
+                        this.clampToScreen = clampToScreen;
+                        this.offset = offset;
+                        this.style = style;
+                    }
+
+                    //Draw method for drawing GUI content over the target object
+                    public virtual Rect Draw() {
+                        if(contentGenerator == null) {
+                            Debug.LogError("Content generator must be defined to use this draw call");
+                        }
+                        GUIContent content = contentGenerator(this);
+
+                        //Get the position of the object (plus offset) on screen and convert it to Screen coordinates
+                        Vector3 position = Camer.main.WorldToScreenPoint(target.transform.position + offset);
+                        position.y = Screen.height - position.y;
+
+                        //Get the size of the GUIContent
+                        Vector2 tagSize = style.CalcSize(content);
+
+                        //Center the tag over the position
+                        Vector2 tagSize = new Vector2(position.x - (tagSize.x/2), position.y - (tagSize.y/2));
+
+                        //Properly place the rectangle for drawing on screen (or off screen?)
+                        Rect contentRectangle = new Rect(newPosition.x, newPosition.y, tagSize.x, tagSize.y);
+                        if(clampToScreen) {
+                            contentRectangle = GUIUtils.PlaceRectangleOnScreen(contentRectangle, screenEdgePadding);
+                        }
+
+                        GUI.Box(contentRectangle, content, style);
+                        return contentRectangle;
+                    }
+
+                    //Draw method for drawing GUI content over the target object
+                    public virtual Rect Draw(GUIContent content) {
+                        //Get the position of the object (plus offset) on screen and convert it to Screen coordinates
+                        Vector3 position = Camera.main.WorldToScreenPoint(target.transform.position + offset);
+                        position.y = Screen.height - position.y;
+
+                        //Get the size of the GUIContent
+                        Vector2 tagSize = style.CalcSize(content);
+
+                        //Center the tag over the position
+                        Vector2 newPosition = new Vector2(position.x - (tagSize.x/2), position.y - (tagSize.y/2));
+
+                        //Properly place the rectangle for drawing on screen (or off screen?)
+                        Rect contentRectangle = new Rect(newPosition.x, newPosition.y, tagSize.x, tagSize.y);
+                        if(clampToScreen) {
+                            contentRectange = GUIUtils.PlaceRectangleOnScreen(contentRectangle, screenEdgePadding);
+                        }
+
+                        GUI.Box(contentRectangle, content, style);
+                        return contentRectangle;
+                    }
+                }
+
+                //A more advanced Draw call for passing in whatever kind of content we want,
+                // more work than using GUIContent however
+                public virtual Rect Draw(GUIElementGetSize getSize, GUIElementDraw elementDrawer) {
+                    //Get the position of the object (plus offset) on screen and convert it to Screen coordinates
+                    Vector3 position = Camera.main.WorldToScreenPoint(target.transform.position + offset);
+                    position.y = Screen.height - position.y;
+
+                    //Get the size of the custom element
+                    Vector3 tagSize = getSize(this, style);
+                    //Center the tag over the position
+                    Vector2 newPosition = new Vector2(position.x - (tagSize.x/2), position.y - (tagSize.y/2));
+
+                    //Properly place the rectangle for drawing on screen (or off screen?)
+                    Rect contentRectangle = new Rect(newPosition.x, newPosition.y, tagSize.x, tagSize.y);
+                    if(clampToScreen) {
+                        contentRectangle = GUIUtils.PlaceRectangleOnScreen(contentRectangle, screenEdgePadding);
+                    }
+
+                    //Draw the custom element
+                    elementDrawer(contentRectangle, this, style);
+                    return contentRectangle;
+                }
+
+                public class FancyTaggedObject : TaggedObject {
+                    Vector2 lineSourcePosition;
+                    Texture2D lineTexture;
+
+                    public FancyTaggedObject(GameObject target, bool clampToScreen,
+                                            Vector3 offset, GUIStyle style, Vector2 source,
+                                            Texture2D lineTexture) : base(
+                                                target, clampToScreen, offset, style) {
+                        this.lineSourcePosition = source;
+                        this.lineTexture = lineTexture;
+                    }
+
+                    public override Rect Draw(GUIContent content) {
+                        Rect labelRectange = base.Draw(Content);
+
+                        Vector2 nearestCorner = GUIUtils.NearestPointOnPerimeter(labelRectangle, lineSourcePosition);
+
+                        GUIUtils.DrawLine(lineSourcePosition, nearestCorner, Color.black, 3, lineTexture);
+
+                        return labelRectangle;
+                    }
+                }
+
+                public ObjectTagger() {
+                    taggedObjects = new Dictionary&lt;GameObject, TaggedObject&gt;();
+                }
+
+                public TaggedObject Add(GameObject objectToTag, GUIStyle style, Vector3 offset) {
+                    return Add(objectToTag, style, offset, true, 5f, null);
+                }
+
+                //Now with generator included with each object
+                public TaggedObject Add(GameObject objectToTag, GUIStyle style, Vector3 offset,
+                                            GUIContentGenerator generator) {
+                    return Add(objectToTag, style, offset, true, 5f, generator);
+                }
+
+                //Now with generator included with each object
+                public TaggedObject Add(GameObject objectToTag, GUIStyle style, Vector3 offset,
+                                bool clampToScreen, float screenEdgePadding, GUICOntentGenerator generator) {
+                    TaggedObject newTaggedObject = new TaggedObject(objectToTag, clampToScreen, offset, style, generator);
+                    taggedObjects.Add(objectToTag, newTaggedObject);
+                    return newTaggedObject;
+                }
+
+                public TaggedObject AddFancy(GameObject objectToTag, GUIStyle style, Vector2, source, Vector3 offset) {
+                    return AddFancy(objectToTag, style, source, null, offset, true, 5f);
+                }
+
+                public TaggedObject AddFancy(GameObject objectToTag, GUIStyle style, Vector2 source,
+                                    Texture2D lineTexture, Vector3 offset, bool clampToScreen,
+                                    float screenEdgePadding) {
+                    FancyTaggedObject newTaggedObject = new TaggedObject(
+                            objectToTag, clampToScreen, offset, style, source, lineTexture);
+                    taggedObject.Add(objectToTag, newTaggedObject);
+                    return newTaggedObject;
+                }
+
+                public void Remove(GameObject objectToRemove) {
+                    if(taggedObjects.ContainsKey(objectToRemove))
+                        taggedObjects.Remove(objectToRemove);
+                }
+
+                //Simple GUIContent generator. To be run on each tagged object to out GUIContent
+                public delegate GUIContent GUIContentGenerator(TaggedObject taggedObject);
+
+                //Simple GUIContent drawer
+                public void Draw(GUIContentGenerator contentGenerator) {
+                    foreach(TaggedObject taggedObject in taggedObject.Values) {
+                        GUIContent content = contentGenerator(taggedObject);
+                        taggedObject.Draw(content);
+                    }
+                }
+
+                //Simple GUIContent drawer
+                public void Draw() {
+                    foreach(TaggedObject taggedObject in taggedObjects.Values) {
+                        //Ensure the gameobject hasn't been removed from the world.
+                        //We should remove tagging if we're removing an object
+                        if(taggedObject.target != null)
+                            taggedObject.Draw();
+                    }
+                }
+
+                //Custom drawer for each object. Paired with the GetSize, this can be passed in to draw whatever we like
+                public delegate void GUIElementDraw(Rect contentRectangle, TaggedObject taggedObject, GUIStyle style);
+
+                //Gets the size of the custom object before drawing
+                public delegate Vector2 GUIElementGetSize(TaggedObject taggedObject, GUIStyle style);
+
+                public void Draw(GUIElementGetSize getSize, GUIElementDraw elementDrawer) {
+                    foreach(TaggedObject taggedObject in taggedObjects.Values) {
+                        taggedObject.Draw(getSize, elementDrawer);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's now see how we can use it using a <b>Taggin Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Tagging Interface : MonoBehaviour {
+                ObjectTagger tagger;
+                public GUISkin interfaceSkin;
+
+                void Start() {
+                    tagger = new ObjectTagger();
+                    if(interfaceSkin == null)
+                        interfaceSkin = new GUISkin();
+                }
+
+                public void TagObject(GameObject gameObject, ObjectTagger.GUIContentGenerator contentGenerator,
+                                    Vector3 offset) {
+                    tagger.Add(gameObject, interfaceSkin.box, offset, contentGenerator);
+                }
+
+                public void RemoveTag(GameObject gameObject) {
+                    tagger.Remove(gameObject);
+                }
+
+                void OnGUI() {
+                    tagger.Draw();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Our Object Tagger is going to maintain a dictionary of game objects and their Tagged Object class. The Tagged Object is going to contain a Game Object target and an offset. The offset vector in an offset into the 3D world for where we want to place our label. We can use this, for example, to place labels above an object or next to it, instead of directly over it. Clamp To Screen, when true, will keep the label on the screen at all times even when the object is not. This is useful for finding objects outside the screen and knowing which way to turn the camera to look at them. The screen edge Padding is how near the edge we want the label to go.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Finally we have the GUI Content Generator. This is a delegate class that will be called to generate the GUI content that will be rendered into the label over the tagged object. This content generator is going to be used in the Draw call. It generates a GUI Content. Next, the Draw call finds a position in the 3D world, and converts that to a screen position. We then determine the size of the rectangle we need to draw based on the GUIContent generated.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We then use GUI Box to draw a rectangle on screen at the location of the object using the content generated from our Content Generator. We have other Draw calls that allow us to pass in GUI Content directly, bypassing the need for a Content Generator. Finally we have a Draw call that takes two delegates, a GUI Element Get Size and a GUI Element Draw. These two delegates will determine the size we need to draw and then using a Element Drawer, to draw a rectangle at the position of the object. This allows us to bypass the GUI Box and use whatever kind of element we want above the object.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We also have a Fancy Tagged Object. The primary difference with this tag type, is it draws a 2D line from the tagger to the TaggedObject. This would be useful if you wanted to mouse over an item in a table, and have a line drawn from that item to the game object in world. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the <b>Object Tagger Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ObjectTaggerTestInterface : MonoBehaviour {
+
+                ObjectTagger tagger;
+                public GUISkin taggerSkin;
+                Texture2D target;
+
+                void Start() {
+                    tagger = new ObjectTagger();
+                    target = Resources.Load("Target") as Texture2D;
+                    SimpleAdd(Vector3.forward);
+                    
+                    //SimpleAdd(Vector3.zero);
+                    //FancyAdd();
+                }
+
+                void SimpleAdd(Vector3 offset) {
+                    //Add all the GameObjects with the tag "Tagged" to the tagger list
+                    foreach(GameObject gameObject in GameObject.FindGameObjectWithTag("Tagged")) {
+                        tagger.Add(gameObject, taggerSkin.box, offset);
+                    }
+                }
+
+                void FancyAdd() {
+                    //Get the on-screen position of ourself, to pass as the source point for drawing a line
+                    // from us to the target
+                    Vector3 thisScreenPosition = Camera.main.WorldToScreenPoint(this.transform.position);
+                    thisScreenPosition.y = Screen.height - this.ScreenPosition.y;
+
+                    //Add all the GameObjects with the tag "Tagged" to the tagger list
+                    foreach(GameObject gameObject in GameObject.FindGameObjectsWithTag("Tagged")) {
+                        tagger.AddFancy(gameObject, taggerSkin.box, new Vector2(thisScreenPosition.x,
+                                                                        thisScreenPosition.y), Vector3.zero);
+                    }
+                }
+
+                //Example GUIContentGenerator, outputting the name of the object
+                GUIContent GenerateName(ObjectTagger.TaggedObject taggedObject) {
+                    return new GUIContent(taggedObject.target.name);
+                }
+
+                //Example GUIContentGenerator, outputting the name and position of the object
+                GUIContent GenerateSimpleInfo(ObjectTagger.TaggedObject taggedObject) {
+                    return new GUIContent(taggedObject.target.name + "\n" + 
+                                        taggedObject.target.transform.position);
+                }
+
+                //Example GUIContentGenerator, creating a target texture
+                GUIContent GenerateTarget(ObjectTagger.TaggedObject taggedObject) {
+                    return new GUIContent(target);
+                }
+
+                //Custom drawing example of drawing an element
+                void GUIElementDraw(Rect contentRectangle, ObjectTagger.TaggedObject taggedObject, GUIStyle style) {
+                    GUI.Label(contentRectangle, new GUIContent(target));
+                }
+
+                //Custom drawing example of getting size
+                Vector2 GUIElementGetSize(ObjectTagger.TaggedObject taggedObject, GUIStyle style) {
+                    return style.CalcSize(new GUIContent(target));
+                }
+
+                void OnGUI() {
+                    tagger.Draw(GenerateName);
+                    //tagger.Draw(GenerateTarget);
+                    //tagger.Draw(GUIElementGetSize, GUIElementDraw);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Object Tagger Test Interface is going to create a new Object Tagger and perform a Simple Add. The Simple Add method simply goes through all the game objects in the scene tagged with Tagged, and adds them to the gameObject tagger. Now that we have objects tagged, we're going to go to our OnGUI and call tagger.Draw() and pass in this delegate method, GenerateName. GenerateName is going to generate a new GUI Content using the taggedObject as source, and in this case it's going to take the taggedObject and produce the name. To produce a new GUIContent, which will be rendered in the label above the object.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Another GUI Content Generator we have is the Generate Simple Info. The Generate Simple Info is going to generate a name and position. Labels aren't the only thing we can generate. Here we're going to generate a target. We want to use a different Simple Add method that passes in a zero vector so that the target is directly over our object instead of above it. The target is a texture that we load from our resources directory. Any finally we have our Fancy Add. This will simply draw a line from our tagger to the tagged objects. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've seen how to position GUI elements relative to game objects. this is ideal for using the GUI to indicate objects in a 3D world. This system also demonstrated the use of delegates for extending the functionality of the class instead of abstract classes to generate new functionality. Likely the ideal balance is some mixture of both. Using derived classes to provide the most common or challenging functionality, and allowing the ability to pass in delegates for performing custom actions. Remember when writing code that you might not be the only one using it. You might release it to other someday, and putting in the extra work now helps you in the future as well.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
