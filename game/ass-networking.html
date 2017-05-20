@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Advanced Scripting - Networking</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Advanced Scripting - Networking</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -104,14 +104,389 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#1">Master Servers</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Getting Connected</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Remote Procedure Calls</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Master Servers</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this first section, we're going to cover the Master Server. The master server is a tool used for facilitating network games. It basically work like this. When player A creates a new multiplayer game. They send infomation about that game to their master server. Then player B can ask the master server for a list of people hosting games. Player B finds that player A is hosting a game. Then using the connection info provided by the master server, can connect directly with Player A. Essentially, the master server is a middle man. It's a place where Player A and Player B can meet to exchange contact information and connect with each other. The master server doesn't have anything to do with the game after the client and server are connected. It just facilitates the connection. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's check out our <b>Master Server Utils</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic, System.Linq;
+
+            public class MasterServerUtils {
+
+                public static string uniqueGameType = "__Unity_Master_Server_GabeDeyo__";
+
+                public static bool useCustomConfiguration = true;
+                public static string customConfigIP = "127.0.0.1";
+                public static int customConfigPort = 23466;
+
+                private static void ConfigureMasterServer() {
+                    if(useCustomConfiguration) {
+                        MasterServer.ipAddress = customConfigIP;
+                        MasterServer.port = customConfigPort;
+                    }
+                }
+
+                public static void RequestHostList() {
+                    ConfigureMasterServer();
+                    MasterServer.RequestHostList(uniqueGameType);
+                }
+
+                public static List&lt;HostData&gt; ListHosts() {
+                    ConfigureMasterServer();
+                    HostData[] hostData = MasterServer.PollHostList();
+                    MasterServer.ClearHostList();
+                    return hostData.ToList();
+                }
+
+                public static void RegisterWithMasterServer(string gameName, string comment) {
+                    ConfigureMasterServer();
+                    MasterServer.RegisterHost(uniqueGameType, gameName, comment);
+                }
+
+                public static void OnFailedToConnectToMasterServer(NetworkConnectionError info) {
+                    Debug.Log("Unable to connect to master server! - " + info);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have a Master Server Utils class that will handle a lot of the master server settings behind the scenes. The first thing we have is a unique game type. This game type should be specific to your game and only your game. When registering with the master server this unique game type distinguishes your game from all the others. Also, in the Master Server Utils is the Configure Master Server method. The master server by default will connect to the Unity servers. The Unity servers provide a testing interface for the master server. This is not recommended for running a production game. The test master servers are frequently down and not reliable enough for regular use. When releasing your own multiplayer game, if you want to use the master server functionality, you can provide your own master server. The master server project is provided by Unity, which can be compiled and produced as masterserver.exe. You'll need to download this from Unity and store in your games Resources folder. It will need to be executing in order to get connections to the Unity server.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Master SErver Utils class also provides common functionality, like the Request Host List. This is an asynchronous call to the master server. To fill the master server's host list. Then later, when we want to list our hosts, we simply call Pull Host List which will retrieve the list of hosts stored locally. Finally, this class will allow us to register with the master server, using a game name and comment. This will call MasterServer.RegisterHost using our Unique Game Type and this specific game name along with a comment about the game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we'll need to see our <b>Master Server Test Server</b> in order to test:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MasterServerTestServer : MonoBehaviour {
+
+                int playerCount = 8;
+                int serverPort = 23467;
+                bool useNAT = false;
+                bool serverStarted = false;
+
+                void Update() {
+                    if(Input.GetKeyDown(KeyCode.Space) &amp;&amp; !serverStarted) {
+                        StartServer();
+                    }
+                }
+
+                public void StartServer() {
+                    //Start a simple server and add it to the master server list
+                    //This will allow other players to locate it.
+                    NetworkConnectionError state = Network.InitializeServer(playerCount, serverPort, useNAT);
+
+                    if(state == NetworkConnectionError.NoError) {
+                        MasterServerUtils.RegisterWithMasterServer("Gabes Game", "This is a comment about Test Server");
+                        serverStart = true;
+                    } else {
+                        Debug.Log("Couldn't initialize server! " + state);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The first thing we need to do to test the Master Server is register a server with our master host. Since we're going to be using our custom settings we're going to run a master server locally and connect to it. A compiled version of the master server is found in the resources directory. Running the master server looks like a console window that will display information when clients connect or request information. When we see this when we start a server by initializing it, and then calling MasterServerUtils.RegisterWithMasterServer passing in our game name and a comment about the game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we'll need to see the <b>Master Server Interface</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MasterServerInterface : MonoBehaviour {
+
+                public float refreshHostListFrequency = 1.5f;
+
+                ComboBox hostLists;
+                List&lt;HostData&gt; hosts = new List&lt;HostData&gt;();
+                bool refreshHostList = true;
+                bool hostsUpdate = false;
+
+                public delegate void ServerSelected(HostData selectedServer);
+                public event ServerSelected OnServerSelected;
+
+                public HostData selectedHost;
+
+                void Awake() {
+                    //Request the list as soon as we're able to, so it's ready to disaply
+                    MasterServerUtils.RequestHostList();
+                }
+
+                void Start() {
+                    //Create the list and start the list refreshing
+                    hostList = new ComboBox();
+                    OnServerSelected += JoiningServer;
+                    hostList.SetAllowMultiple(false);
+                    StartUpdatingHosts();
+                }
+
+                void JoiningServer(HostData selectedServer) {
+                    Debug.Log("Joining server: " + selectedServer.gameName);
+                }
+
+                void StartUpdatingHosts() {
+                    refreshHostList = true;
+                    StartCoroutine(UpdateHostsList());
+                }
+
+                void StopUpdatingHosts() {
+                    refreshHostList = false;
+                }
+
+                IEnumerator UpdateHostsList() {
+                    while(refreshHostList) {
+                        MasterServerUtils.RequestHostList();
+                        hosts = MasterServerUtils.ListHosts();
+                        hostsUpdate = true;
+
+                        yield return new WaitForSeconds(refreshHostListFrequency);
+                    }
+                }
+
+                void OnListItemSelected(ComboBox.ComboItem selectedItem) {
+                    selectedHost = (HostData)selectedItem.value;
+                }
+
+                void OnListItemUnselected(ComboBox.ComboItem unselectedItem) {
+                    if(selectedHost == (HostData)unselectedItem.value) {
+                        selectedHost = null;
+                    }
+                }
+
+                void Update() {
+
+                    //Check for an updated list, and refresh the items in the list when we have one.
+                    if(hostsUpdate) {
+                        hostsUpdated = false;
+                        hostList.Clear();
+                        foreach(HostData hostdata in hosts) {
+                            ComboBox.ComboItem item = hostList.AddItem(hostdata.gameName, hostdata, OnListItemSelected, OnListItemUnselected);
+                            //Maintain our selected host, even through a wipe and refresh
+                            //Would want to implement a more robust comparison between selectedHost and hostdata
+                            if(selectedHost != null &amp;&amp; hostdata.gameName == selectedHost.gameName &amp;&amp; hostdata.ip[0].Equals(selectedHost.ip[0])) {
+                                item.Mark();
+                                selectedHost = hostdata;
+                            }
+                        }
+                    }
+                }
+
+                void OnGUI() {
+                    //If we have hosts, list them, otherwise, display a "not found" message.
+                    if(hosts.Count > 0) {
+                        hostList.Draw(GUI.skin.box, new Rect(0, 0, 220, 300));
+                        if(GUI.Button(new Rect(0, 200, 220, 35), "Join selected")) {
+                            if(selectedHost != null
+                                OnServerSelected(selectedHost);
+                        }
+                    } else {
+                        GUI.Label(new Rect(0, 0, 220, 30), "No hosts found.");
+                    }
+                }
+
+                //All monobehaviours will have this called when we can't connect to the master server
+                // duplicating this function in multiple monobehaviours is fine, it will just duplicate
+                // any response to the error (printing messages, trying a new master server, etc.).
+                void OnFailedToConnectToMasterServer(NetworkConnectionError info) {
+                    MasterServerUtils.OnFailedToConnectToMasterServer(info);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The next step here is to request a host list and attempt to connect to our own server. The Master Server Interface class provides a list of hosts, a selection interface, as well as events for when hosts are selected. It uses co-routines to regularly update the host list to make sure we're always up to date. In Unity, we can see that no hosts will have been found and the master server will show connections for us pulling for servers. Pressing space bar will start the new server and you can see that it's added to the master server and the next time we update the list, there will be a new server, "Gabes Game" and you can join. At the moment this does nothing because all we have is a test interface.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "TestServer" object with the Master Server Test Server script attached.
+            <p><span class="glyphicon-remove"></span>Create an empty "MasterServerTestInterface" object with the Master Server Interface script attached.
+            <br> &nbsp; Set Refresh Host List Frequency to 3.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone over the master server and its uses. The approach of gaving a middle-man for connecting players is a common one. It's useful to reduce the amount of memory, configuration and knowledge each player has to have before hosting or joining a game. This approach is also pretty inexpensive and conventient way to connect players. Most of the bandwidth will be directly between the two players and not using your own server. Further, this allows for players to find each other by game name instead of needing to know each other's IP addresses. This allows players to find each other and connect, which is the first step in getting a multiplayer game.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Getting Connected</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we're going to go over how to start a server and connect a client. This is a step performed by all network games, and is the first step where the server and client are actually communicating with each other. We'll be using the master server to facilitate the connection by providing details to any client that is interested, as we learned in the previous section. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's check out our <b>Server Host and Join</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ServerHostAndJoin : MonoBehaviour {
+
+                public int playerCount = 8;
+                public int serverPort = 23467;
+                bool useNAT = false;
+
+                public bool lanOnly = true;
+                string log = "";
+                public bool displayLog = true;
+                MasterServerInterface msInterface;
+
+                public Vector2 position = new Vector2(0,0);
+                public Vector2 logPosition = new Vector2(0,0);
+
+                //Control the behavior of the script with this
+                HostOrJoin hostOrJoin = JostOrJoin.NotSet;
+
+                public enum HostOrJoin {
+                    Host,
+                    Join,
+                    NotSet
+                }
+
+                void TakeAction(HostOrJoin choice) {
+                    hostOrJoin = choice;
+
+                    //Start or join, not both
+                    if(hostOrJoin == HostOrJoin.Host) {
+                        StartServer();
+                    }
+
+                    if(hostOrJoin == HostOrJoin.Join) {
+                        //If we're joining, create a MasterServiceInterface to provide us with the interface for selecting a server
+                        msInterface = this.gameObject.AddComponent&lt;MasterServerInterface&gt;();
+                        //Provide a callback for when a server is selected.
+                        msInterface.OnServerSelected += HandleOnServerSelected;
+                    }
+                }
+
+                public void StartServer() {
+                    //Determine if we should use network address translation
+                    //Essentially, YES if server is behind router
+                    //             NO if server has a public IP
+                    if(lanOnly == true)
+                        useNAT = false;
+                    else
+                        useNAT = !Network.HavePublicAddress();
+
+                    //Start a simple server and add it to the master server list
+                    //This will allow other players to locate it.
+                    NetworkConnectionError state = Network.InitializeServer(playerCount, serverPort, useNAT);
+                    if(state == NetworkConnectionError.NoError) {
+                        MasterServerUtils.RegisterWithMasterServer("Gabes Game", "This is a comment about Gabes Game");
+                    } else {
+                        Log("Server: Couldn't initialize server! " + state);
+                    }
+                }
+
+                void HandleOnServerSelected(HostData selectedServer) {
+                    //When the "Connect" button is pressed in the MasterServerInterface behaviour, this is called
+                    if(selectedServer != null) {
+                        //Join and hide the host list interface
+                        JoinServer(selectedServer);
+                    }
+                }
+
+                public void JoinServer(HostData hostData) {
+                    //Join a server given some HostData, this data is provided by the master server
+                    Log("Client: Attempting to join server");
+                    Network.Connect(hostData);
+                }
+
+                void OnPlayerConnected(NetworkPlayer player) {
+                    //Fired in every MonoBehaviour when a player connects to our server
+                    Log("Server: Player (" + player.ipAddress + ") connected!");
+                }
+
+                void OnServerInitialized() {
+                    //Fired in every MonoBehaviour when a server is started
+                    Log("Server: Server started.");
+                    if(msInterface != null) {
+                        msInterface.enabled = false;
+                    }
+                }
+
+                void OnPlayerDisconnected(NetworkPlayer player) {
+                    //Fired in every MonoBehaviour when a player disconnects from our server
+                    Log("Server: Player (" + player.ipAddress + ") disconnected!");
+                }
+
+                void OnConnectedToServer() {
+                    //Fired in every MonoBehaviour when a player connects to a server
+                    Log("Client: Connected to server!");
+                    if(msInterface != null)
+                        msInterface.enabled = false;
+                }
+
+                void OnDisconnectedFromServer(NetworkDisconnection info) {
+                    //Fired in every MonoBehaviour when a player disconnects from a server
+                    Log("Client: Disconnected from server: " + info);
+                    if(msInterface != null)
+                        msInterface.enabled = true;
+                }
+
+                private void Log(string message) {
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    log += "\n" + message;
+                }
+
+                void OnGUI() {
+                    if(hostOrJoin == HostOrJoin.NotSet) {
+                        if(GUI.Button(new Rect(position.x, position.y, 220, 40), "Start Server")) {
+                            TakeAction(HostOrJoin.Host);
+                        }
+                        if(GUI.Button(new Rect(position.x, position.y + 45, 220, 40), "Join Server")) {
+                            TakeAction(HostOrJoin.Join);
+                        }
+                    }
+
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    if(displayLog)
+                        GUI.TextArea(new Rect(logPosition.x, logPosition.y, 220, 300), log);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "ServerHostOrJoin" object and attach the Server Host And Join script.
+            <br> &nbsp; Set player count to 8, server port to 23467, lan only to true, display log to true, position to (0,0), and log position to (250,0).</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have the Server Host and Join class. This class is going to maintain some information about a server and display some information on screen. This script is going to play two roles. It's either going to host or it's going to join. We can't do both within the same executable. So, when testing this, we're going to need to spawn multiple instances of the game to test both ends. this script is either going to start a server or join a server.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When starting a server, we're going to determine if we need to use network address translation. Essentially this is a yes if the server is behind a router, and a no if the server has a public IP. Next, we're going to initialize a server using Network.InitializeServer. Passing in our playerCount, serverPort and our useNAT boolean. If there was no error in creating our server, we're going to register with the master server with the name Gabes Game and this is a comment about Gabes Game.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Otherwise, we're going to display an error saying we couldn't initialize our server. So what about the other side of things? When selecting join server, we're going to add a master server interface, which will add the interface that we've discussed in the previous section, allowing us to select a server. We're going to attach ourselves to the OnServerSelected method, which is going to accepth the host data of the selected server. When the event is triggered, we'll receive a selected server, and we'll then call JoinServer. This is going to output a log message and use Network.Connect on the host data to join the server. The remainder of the methods in this class are primarily for logging information and to show you what methods exist for such things as onServerInitialized, onPlayerDisconnected, or onConnectedToServer, or any of the others. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In order to get everything running, make sure the Master Server is running. Start a build in a small window. No that an instance is waiting for us to start or join a server, we're going to start the game in our Unity editor as well. In it, select Start Server. This has started the server, and we can then see it, it's registered with the master server. Then we can go back to our other client and select Join Server which will bring up a list of hosts. We can then see that Gabes Game is there, and we can select Join Selected. We will then see that the server has a player connected, and the client reports success for connecting to the server. Additionally, we can start multiple clients by selecting the executable in the build directory.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone over the basic framework required to get two Unity games connected. The two instances don't need to be on the same computer like this section describes. they can be across the world from each other. The most common issue you'll run into is the clients not being able to reach the server. This is typically because the server's behind a firewall or router and can't be reached with the current network setup. The solution depends on the exact problem. There are a number of tools on the Unity website that will better help facilitate connections. Some of them require more advanced network setups than available to the average person, and some of them can be implemented along with a master server, to automatically help resolve connections to get players connected. If you're having problems getting connected with a remote server, I suggest you look into those resources.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="3">
+    <h2>Remote Procedure Calls</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             XXX
