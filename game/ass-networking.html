@@ -940,6 +940,10 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             Those transformToTrack are added to a list which are then iterated over in this coroutine method. For each TransformToTrack, we check to see if it needs an update. If it does, we will send a SyncTransform method to all others, telling them the unique transform to update, as well as the new position, rotation and local scale. We then call updated on the transformsToTrack, clearing the needs update flag. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -1286,6 +1290,10 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             Let's look at this slightly more complex state synchronization with an inventory system. Here we have an inventory system. Now we'll have events for when items are added or removed. And it's going to contain a list of inventory items. We need to make these inventory items serializable because we're going to serialize them and send them across the network stream. The inventory items are going to have an ID, itemName and type. When adding an item, we're going to add the items to our inventory and trigger this on item added event. Which we've attached our own listener to her. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -1617,6 +1625,10 @@
                 }
             }
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             With the new Server Host And Join, we're going to listen to the OnManualInput events with our handle OnServerSelected listener. Pressing the tilde key will show us our connection info, and we've also added a method for joining a server using IP port and password.

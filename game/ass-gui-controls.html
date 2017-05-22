@@ -538,6 +538,10 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             Here we're going to create a new rotatable GUI item and a new GUI content. We're going to calculate the size of this content in order to determine the size of our rotatable GUI item. In the update method, we're going to accept the A and D key to increase or decrease the angle we want to rotate. Finally, in the OnGUI method, we're going to draw a rotate string with rotateString.draw.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -742,6 +746,10 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             The Convex Shape Contains method takes a list of points that form a convex shape, and a point to test. Essentially, what this does is test each edge of the convex shape to ensure that the point is to the left of each edge. If the point is to the left for each edge, it's inside the convex shape. We test to see if the point is on the left by doing a cross product test to determine which side the point is on of each edge. Here we can determine if it's on the right or left, and we can make sure that the point is on the left of each edge.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this section, we've seen how to create a progress bar GUI component. In addition to creating the progress bar, you've learned to create textures at run time and use ExecuteInEditMode to update your GUI components positions. Finally, how to calculate when a point is inside a convex polygong. Who knew there was so much involved with creating a progress bar? The information you've learned here expands the tool set available to you, for creating more complex GUI elements, with advanced behaviour.
@@ -1092,8 +1100,8 @@
             This Test Table Interface is going to create a new Table. It's going to contain a nested list of Table Items, to define the tableData. The columns we're adding are Object name, Direction and Distance. When populating the data for this table. We're going to get all of the game objects in the scene that have the tag TableTrack. For each of these objects we're going to add a new row to our table. The row is going to consist of the object's name in a string table item, a directional pointer table item, using an aerotexture, the transform we have this interface attached to, along with the transform of the table track item. And a distance table item, that will include the same. Updating the table data we'll simply call our test table update to update all the code inside each of the table.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            <b>Scene Setup / Assets</b>
-            <p><span class="glyphicon-remove"></span></p>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this video we've covered how to create a table GUI component. Tables are used in a logt of places within games, from scoreboards to HUDs for nearby objects like we've created here. In a simply way to display data to the user that they're familliar with. The table we've created here is very customizable, not only with the type of data and live feedback it can provide, but with the styles we can make the table look however we like. We can extend this table to include other GUI elements, like progress bars, buttons, or text entry fields.
@@ -1585,7 +1593,7 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Let's now see how we can use it using a <b>Taggin Interface</b> script:
+            Let's now see how we can use it using a <b>Tagging Interface</b> script:
             <pre>
             <span class="glyphicon-remove"></span>public class Tagging Interface : MonoBehaviour {
                 ObjectTagger tagger;
@@ -1701,6 +1709,10 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Another GUI Content Generator we have is the Generate Simple Info. The Generate Simple Info is going to generate a name and position. Labels aren't the only thing we can generate. Here we're going to generate a target. We want to use a different Simple Add method that passes in a zero vector so that the target is directly over our object instead of above it. The target is a texture that we load from our resources directory. Any finally we have our Fancy Add. This will simply draw a line from our tagger to the tagged objects. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this section we've seen how to position GUI elements relative to game objects. this is ideal for using the GUI to indicate objects in a 3D world. This system also demonstrated the use of delegates for extending the functionality of the class instead of abstract classes to generate new functionality. Likely the ideal balance is some mixture of both. Using derived classes to provide the most common or challenging functionality, and allowing the ability to pass in delegates for performing custom actions. Remember when writing code that you might not be the only one using it. You might release it to other someday, and putting in the extra work now helps you in the future as well.
