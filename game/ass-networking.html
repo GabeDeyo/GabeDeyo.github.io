@@ -123,6 +123,14 @@
                                 <a href="#5">Synchronizing Object Transforms</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#6">Serializing and Synchronizing States</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#7">Manual Connection to the Server</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -792,13 +800,832 @@
     <h2>Synchronizing Object Transforms</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section, we're going to go over creating and synchronizing objects over the network. We'll start with synchronizing their transforms. This means that all objects will maintain the same position, rotation and scale on each of the connected clients. This is a fundamental for networked games. Every network game is going to have some kind of synchronized movement between clients. Either seeing another character running around in a FPS or seeing an ally's tank on the move in an RTS. Unity provides some built-in functionality for synchronizing state, and we've seen this briefly with the network view component. We'll also go over how we can create our own synchronization code for more advanced customizations.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's see our <b>Network Object Creator</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class NetworkObjectCreator : MonoBehaviour {
+
+                SynchronizeTransform transformSyncer;
+
+                void Start () {
+                    transformSyncer = GameObject.FindObjectOfType&lt;SynchronizeTransform&gt;();
+                }
+                
+                void Update () {
+                    //First example using Unity provided sync in NetworkView
+                    if(Input.GetKeyDown(KeyCode.Alpha1)) {
+                        //Internally, this is a buffered RPC call.
+                        GameObject go = Network.Instantiate(Resources.Load("NetworkSphere"),
+                                                            Vector3.zero, Quaternion.identity, 0) as GameObject;
+                    }
+
+                    //Second example, using custom sync code (using RPC calls)
+                    if(Input.GetKeyDown(KeyCode.Alpha2)) {
+                        transformSyncer.AddObject("Sphere", Vector3.zero, Quaternion.identity);
+                    }
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Here we have a network object creator that's going to be responsible for demoing our two examples of creating networked objects. The first being with network.instantiate which is the built in Unity way of instantiating objects over the network. This method is going to take a game object, a position, and a rotation as well as a group ID. The second example is going to take the name of a Prefab, position, and rotation. This will use our custom transform syncer.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In order to use this we can run a build of this scene and start another client in the Unity Editor, then start the server. We'll join the server with our additional client and select the game to join, and now the clients are connected. You can hit the number one key to use network.instantiate, and we see that both clients will have instantiated their sphere. Moving the object around on one client will moe it around on the other. You can see there will be a little lag on the other object, and we can fix that by going to Edit ->  Project Settings -> Network, and increasing our send rate. An important thing to note about Network.Instantiate is that while moving the object on the client that spawned the object, it does appropriately synchronize it across all clients, but moving the object on any other client does not synchronize the movement. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we'll need to see the <b>Synchronize Transform</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>[RequireComponent (typeof (NetworkView))]
+            public class SynchronizeTransform : MonoBehaviour {
+
+                PrefabManager customPrefabs;
+
+                Dictionary&lt;int, TransformTracker&gt; transformsToTrack = new Dictionary&lt;int, TransformTracker&gt;();
+                int nextTransformID = 0;
+                public float sendRate = 20;
+                // Use this for initialization
+                void Start () {
+                    customPrefabs = GameObject.FindObjectOfType&lt;PrefabManager&gt;();
+                    StartCoroutine(SendData());
+                }
+
+                public void AddObject(string prefabName, Vector3 position, Quaternion rotation) {
+                    if(Network.isClient) {
+                        networkView.RPC("Server_AddTrackedObject", RPCMode.Server, prefabName, position, rotation);
+                    }
+                    if(Network.isServer) {
+                        Server_AddTrackedObject(prefabName, position, rotation);
+                    }
+                }
+
+                [RPC]
+                void Server_AddTrackedObject(string prefabName, Vector3 position, Quaternion rotation) {
+                    if(Network.isServer) {
+                        networkView.RPC("AddTrackedObject", RPCMode.All, prefabName, position, rotation, nextTransformID++);
+                    }
+                }
+
+                //Called on all clients
+                [RPC]
+                void AddTrackedObject(string prefabName, Vector3 position, Quaternion rotation, int ID) {
+                    GameObject go = customPrefabs.Instantiate(prefabName, position, rotation) as GameObject;
+                    TransformTracker transformTracker = go.AddComponent&lt;TransformTracker&gt;();
+                    transformsToTrack.Add(ID, transformTracker);
+                }
+
+                [RPC]
+                void SyncTransform(int transformID, Vector3 position, Quaternion rotation, Vector3 scale) {
+                    if(transformsToTrack.ContainsKey(transformID)) {
+                        transformsToTrack[transformID].UpdateTransform(position, rotation, scale);
+                    }
+                }
+
+                //Send data every update.
+                //Controlled with sendRate.
+                public IEnumerator SendData() {
+                    while(true){
+                        foreach(int transformID in transformsToTrack.Keys) {
+                            if(transformsToTrack[transformID].NeedsUpdate()) {
+                                networkView.RPC("SyncTransform", RPCMode.Others, transformID,
+                                                transformsToTrack[transformID].transform.position,
+                                                transformsToTrack[transformID].transform.rotation,
+                                                transformsToTrack[transformID].transform.localScale);
+                                transformsToTrack[transformID].Updated();
+                            }
+
+                        }
+                        yield return new WaitForSeconds(1f/sendRate);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The second testing method we're going to use in the Network Object Creator uses a class we'll create called Transform Syncer. It's going to add an object taking the object name, position, and rotation. If the instance making the call is a client, we're going to ask the server to run it's Server.AddTrackedObject method. Passing in the Prefab name, position, and rotation. If we are the Server, we're going to call this method directly. All this method does is perform an RPC call asking all connected clients to run their AddTrackedObject method, passing in the prefab name, position, rotation, and a unique ID. This unique ID is then incremented to maintain uniqueness. This unique ID is the reason we want this network RPC call to be only called from the server, so that we maintain this nextTransformID unique in one spot only.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The AddTrackedObject method is going to use our customPrefabs system to call Instantiate using the prefabName string, position, and rotation. This means that we can use customPrefabs or Built-In Unity Prefabs. It's going to add a Transform Tracker component to the game object and add that component to its list of transform to track.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see that <b>Transform Tracker</b> script now:
+            <pre>
+            <span class="glyphicon-remove"></span>public class TransformTracker : MonoBehaviour {
+
+                public bool NeedsUpdate() {
+                    //Compare what we had before with what we have now
+                    return transform.hasChanged;
+                }
+
+                public void Updated() {
+                    transform.hasChanged = false;
+                }
+
+                public Transform GetTransform() {
+                    return this.transform;
+                }
+
+                public void UpdateTransform(Vector3 position, Quaternion rotation, Vector3 scale) {
+                    this.transform.position = position;
+                    this.transform.rotation = rotation;
+                    this.transform.localScale = scale;
+
+                    //Reset the has changed, this way we don't trigger a has changed event from this client,
+                    // which has just been updated because of another client
+                    transform.hasChanged = false;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Those transformToTrack are added to a list which are then iterated over in this coroutine method. For each TransformToTrack, we check to see if it needs an update. If it does, we will send a SyncTransform method to all others, telling them the unique transform to update, as well as the new position, rotation and local scale. We then call updated on the transformsToTrack, clearing the needs update flag. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In game, pressing the number two key adds our custom components to the scene. Using the right mouse button to control this object we can see that the state is synchronized. Further, we can see that even controlling it from the other client the state is synchronized. Again, you'll see there's a bit of lag when controlling this sphere on the other client. This can be fied in the Synchronized transform component by updating the send rate.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So now we've seen two options available to us for synching the transforms of objects. The trade-offs between the two are the Unity method is easier to implement, the Unity method is more optimized, however, the Unity method lacks customization and can be noisy by sending updates when they're not needed. And the Unity method is one way by default.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone over how to create objects simultaneously across all connected clients and how to synchronize their transforms. Using this information you can ensure that all players connected to a network game are seeing the same game states. There's a lot of optimization that can go into the custom strategy as well as additional features such as interpolating state, selective updating, predictive movement and more. These optimizations and additional features would be more difficult to implement using the Network.Instantiate in our own custom method. For the most part, the Unity methods are just RPCs like ours under the hood. Creating your own methods ensures you know how they're working, and allows you to tweak them to fit the specific needs of your game.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="6">
+    <h2>Serializing and Synchronizing States</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over how to synchronize the state of objects over the network. State can be any type of variable or data structure contained within a script. For example, if we have an enemy in a cooperative game, we would want to synchronize not only, the enemy position, like we learned in a previous section, but also it's health, armor, and whatever other values it has. I'll show you how to do this using the Built-In Unity methods as well as how we can create our own system. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see our <b>Sync State Object Creator</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Text;
+
+            public class SyncStateObjectCreator : MonoBehaviour {
+
+                void Update () {
+                    //First example using Unity provided sync in NetworkView
+                    if(Input.GetKeyDown(KeyCode.Alpha1)) {
+                        //Internally, this is a buffered RPC call.
+                        GameObject go = Network.Instantiate(Resources.Load("UnityStateSyncedCube"),
+                                                            Vector3.zero, Quaternion.identity, 0) as GameObject;
+                    }
+
+                    if(Input.GetKeyDown(KeyCode.Alpha2)) {
+                        //Internally, this is a buffered RPC call.
+                        GameObject go = Network.Instantiate(Resources.Load("CustomStateSyncedCube"),
+                                                            Vector3.zero, Quaternion.identity, 0) as GameObject;
+                    }
+
+                    if(Input.GetKeyDown(KeyCode.Alpha3)) {
+                        networkView.RPC("CreateTaggedHero", RPCMode.AllBuffered);
+                    }
+                }
+
+                [RPC]
+                void CreateTaggedHero() {
+                    GameObject go = GameObject.Instantiate(Resources.Load("Hero"), Vector3.zero,
+                                                        Quaternion.identity) as GameObject;
+                    GameObject.FindObjectOfType&lt;TaggingInterface>().TagObject(go, HeroTagGenerator, Vector3.zero);
+
+                }
+
+                GUIContent HeroTagGenerator(ObjectTagger.TaggedObject taggedObject) {
+                    if(taggedObject.target != null) {
+                        Inventory inventory = taggedObject.target.GetComponent&lt;Inventory>();
+                        if(inventory != null) {
+                            StringBuilder sb = new StringBuilder();
+                            foreach(Inventory.InventoryItem item in inventory.items) {
+                                sb.Append(item.itemName);
+                                sb.Append(" - ");
+                                sb.Append(item.type);
+                                sb.AppendLine();
+                            }
+                            return new GUIContent(sb.ToString());
+                        }
+                    }
+                    return new GUIContent("Wrong content generator or game object destroyed");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have a sync state object creator, which is going to be the interface for this section. Pressing the one key is going to instantiate a new UnityStateSyncCube. This UnityStateSyncCube is going to use the sync state unity class. This class is going to have some hitPoints, armorPoints, and when clicked is going to perform an attack. This attack will reduce the armor and hit points until eventually the hit points reduce to zero and we're going to call Network.Destory on the game object. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see that <b>Sync State Unity</b> script here:
+            <pre>
+            <span class="glyphicon-remove"></span>//Syncing the state of an object using the built in Unity Network
+
+            [RequireComponent (typeof (NetworkView))]
+            public class SyncStateUnity : MonoBehaviour {
+
+                public float hitPoints = 100;
+                public float armorPoints = 100;
+
+                void Awake() {
+                    networkView.observed = this;
+                }
+
+                void OnMouseDown() {
+                    PerformAttack();
+                }
+
+                void PerformAttack() {
+                    float attackAmt = Random.Range(10, 40);
+                    
+                    float armorAttack = 0;
+                    float hpAttack = 0;
+                    
+                    armorAttack = Mathf.Min(attackAmt, armorPoints);
+                    hpAttack = attackAmt - armorAttack;
+
+                    armorPoints -= armorAttack;
+                    hitPoints -= hpAttack;
+                    
+                    if(hitPoints < 0) {
+                        Network.Destroy(this.gameObject);
+                    }
+                }
+
+                void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
+
+                    float tmpHitPoints = 0;
+                    if (stream.isWriting) { //We're sending our data, serialize our HP
+                        tmpHitPoints = hitPoints;
+                        stream.Serialize(ref tmpHitPoints);
+                    } else { //We're receiving data, get the serialized HP and update ours
+                        stream.Serialize(ref tmpHitPoints);
+                        hitPoints = tmpHitPoints;
+                    }
+
+                    float tmpArmorPoints = 0;
+                    
+                    if (stream.isWriting) { //We're sending our data, serialize our armor
+                        tmpArmorPoints = armorPoints;
+                        stream.Serialize(ref tmpArmorPoints);
+                    } else { //We're receiving data, get the serialized armor and update ours
+                        stream.Serialize(ref tmpArmorPoints);
+                        armorPoints = tmpArmorPoints;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Unity way of serializing state is to implement this on serialize network view method, which is part of the MonoBehaviour class. This is going to give us access to the BitStream between the two objects, and it's also going to give us access to the network message info, which will give us information about the sender. Here we're going to test if our stream is writing. If it is, that means we're sending, so we're going to serialize our hit point value and send it across the stream. We do that by setting our hit point value to a temporary value and then passing that in as a reference to our Stream.Serialized. And if we're not writing that means we're receiving and we need to update our value. To do this, we pass in our temp hit point value to Stream.Serialize, which fills it with the value being sent. We can then update our hitPoint value to the tmpHitPoint value. We'll do a similar operation for our ArmorPoints.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In order to use this, we'll need to boot up the master server, and go through the build process of starting another client. Then just start another client in the Unity Editor. Then start a server with one and join a server with the other. Pressing the one key will spawn a new UnityStateSyncCube. We can see its hit points and armor points in the unity editor. Clicking on it in the other client, we'll see that it's performing an attack and reducing the health until the object is destoryed. As we've seen before, Unity synchronization only goes one way. Creating an object in our server, and then clicking on it in our client has no effect until we reach the Network.Destory. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The next piece we'll need is the <b>Sync State Custom</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//Syncing the state of an object using RPCs
+
+            [RequireComponent (typeof (NetworkView))]
+            public class SyncStateCustom : MonoBehaviour {
+
+                public float hitPoints = 100;
+                public float armorPoints = 100;
+
+                void OnMouseDown() {
+                    CalculateAttack();
+                }
+                
+                void CalculateAttack() {
+                    float attackAmt = Random.Range(10, 40);
+
+                    float armorAttack = 0;
+                    float hpAttack = 0;
+
+                    armorAttack = Mathf.Min(attackAmt, armorPoints);
+                    hpAttack = attackAmt - armorAttack;
+
+                    //Apply the calculated attack to all clients
+                    networkView.RPC("ApplyAttack", RPCMode.All, armorAttack, hpAttack);
+                }
+                
+                [RPC]
+                void ApplyAttack(float armorAttack, float healthAttack) {
+                    this.hitPoints -= healthAttack;
+                    this.armorPoints -= armorAttack;
+                    if(hitPoints < 0)
+                        GameObject.Destroy(this.gameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see how this custom state synchornization works. Pressing the two key is going to load our CustomStateSyncCube, which is going to utilize the sync state custom class. Just like the synce state Unity class, this is going to have hitPoints, armorPoints, and it's going to calculate attack when clicked. However, the CalculateAttack method's going to be slightly different. We're going to calculate two values, the amount to subtract from armor and the amount to subtract hit points. We're then going to use a network RPC method to Apply Attack to send it to all clients, including ourselves, passing in our armorAttack and hpAttack values. This RPC call will accept the armorAttack and healthAttack and subtract them from our local values. If our hitPoints are less than zero, we're going to use the local GameObject.Destory to destory our local game object. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So in the scene, pressing the two key spawns our custom state sync cube. Clicking it will reduce the values until it reaches zero. Unlike Unity syncing, spawning a new cube in our server and clicking on it in our client will reduce the server values.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The last thing we'll need is our <b>Inventory</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System, System.Collections, System.Collections.Generic,
+                        System.Text, System.Linq, System.Runtime.Serialization,
+                        System.Runtime.Serialization.Formatter.Binary, System.IO;
+
+            [RequireComponent (typeof (NetworkView))]
+            public class Inventory : MonoBehaviour {
+
+                public delegate void InventoryItemAdded(InventoryItem item);
+                public delegate void InventoryItemRemoved(InventoryItem item);
+
+                public event InventoryItemAdded OnItemAdded;
+                public event InventoryItemRemoved OnItemRemoved;
+
+                public int maxInventory;
+                int nextItemID = 0;
+                
+                public List&lt;InventoryItem> items = new List&lt;InventoryItem>();
+
+                [Serializable]
+                public class InventoryItem {
+                    public int ID;
+                    public string itemName;
+                    public InventoryItemType type;
+
+                    public enum InventoryItemType {
+                        Weapon,
+                        Ammo,
+                        VendorJunk,
+                        Currency,
+                        EpicLoot
+                    }
+
+                    public InventoryItem(int ID, string name, InventoryItemType type) {
+                        this.ID = ID;
+                        this.itemName = name;
+                        this.type = type;
+                    }
+
+                    //Since we'll be serializing and deserializing objects, we can't count on 
+                    // the default object Equals matching. Create our own to compare against our
+                    // unique ID.
+                    public override bool Equals (object otherObj)
+                    {
+                        if(otherObj.GetType() == typeof(InventoryItem)) {
+                            return ((InventoryItem)otherObj).ID == this.ID;
+                        }
+                        return false;
+                    }
+
+                    public override int GetHashCode ()
+                    {
+                        return this.ID;
+                    }
+                }
+
+                void Start () {
+                    OnItemAdded += OnIventoryItemAdded;
+                    OnItemRemoved += OnIventoryItemRemoved;
+                }
+
+                void Update () {
+                    if(Input.GetKeyDown(KeyCode.I)) {
+                        PickupRandomItem();
+                    }
+                }
+
+                public bool AddItem(string itemName, InventoryItem.InventoryItemType type) {
+                    if(items.Count < maxInventory) {
+                        InventoryItem item = new InventoryItem(nextItemID++, itemName, type);
+                        items.Add(item);
+                        OnItemAdded(item);
+                        return true;
+                    }
+                    return false;
+                }
+                
+                public void AddItemFromRemote(InventoryItem item) {
+                    nextItemID = Mathf.Max(item.ID + 1, nextItemID);
+                    items.Add(item);
+                }
+
+                public void RemoveItem(int itemID) {
+                    InventoryItem itemToRemove = null;
+                    foreach(InventoryItem item in items) {
+                        if(itemID == item.ID) {
+                            itemToRemove = item;
+                            break;
+                        }
+                    }
+                    if(itemToRemove != null)
+                        RemoveItem(itemToRemove);
+                }
+                
+                public void RemoveItem(InventoryItem item) {
+                    if(items.Contains(item)) {
+                        items.Remove(item);
+                        if(OnItemRemoved != null)
+                            OnItemRemoved(item);
+                    }
+                }
+                
+                public void RemoveItemFromRemote(InventoryItem item) {
+                    if(items.Contains(item)) {
+                        items.Remove(item);
+                    }
+                }
+
+                //When we add an item to the inventory, send it to all the other clients
+                public void OnIventoryItemAdded(InventoryItem item) {
+                    networkView.RPC("RPC_AddItem", RPCMode.Others, NetworkUtils.SerializeObject(item));
+                }
+                
+                //When we remove an item to the inventory, send it to all the other clients
+                public void OnIventoryItemRemoved(InventoryItem item) {
+                    networkView.RPC("RPC_RemoveItem", RPCMode.Others, NetworkUtils.SerializeObject(item));
+                }
+
+                //Get an item from a remote client to add
+                [RPC]
+                void RPC_AddItem(byte[] inventoryItem) {
+                    InventoryItem item = (InventoryItem) NetworkUtils.DeserializeObject(inventoryItem);
+                    AddItemFromRemote(item);
+                }
+
+                //Get an item from a remove client to remove
+                [RPC]
+                void RPC_RemoveItem(byte[] inventoryItem) {
+                    InventoryItem item = (InventoryItem) NetworkUtils.DeserializeObject(inventoryItem);
+                    RemoveItemFromRemote(item);
+                }
+
+
+                public void PickupRandomItem() {
+                    //Fill up the inventory with random junk
+                    Array itemTypes = Enum.GetValues(typeof(InventoryItem.InventoryItemType));
+
+                    //Create a random name for the item
+                    int wordCount = UnityEngine.Random.Range(1,3);
+
+                    //And select a random type
+                    int typeIndex = UnityEngine.Random.Range(0, itemTypes.Length);
+                    InventoryItem.InventoryItemType type = (InventoryItem.InventoryItemType)itemTypes.GetValue(typeIndex);
+
+                    //Then add it to the inventory
+                    AddItem(GUIUtils.MakeRandomString(wordCount), type);
+                }
+
+                void OnDestroy() {
+                    TaggingInterface ti = GameObject.FindObjectOfType&lt;TaggingInterface>();
+                    if(ti != null)
+                        ti.RemoveTag(this.gameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at this slightly more complex state synchronization with an inventory system. Here we have an inventory system. Now we'll have events for when items are added or removed. And it's going to contain a list of inventory items. We need to make these inventory items serializable because we're going to serialize them and send them across the network stream. The inventory items are going to have an ID, itemName and type. When adding an item, we're going to add the items to our inventory and trigger this on item added event. Which we've attached our own listener to her. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This method is going to trigger an RPC call to all other clients asking them to call their RPC Add Item method and apssing in a byte array of our item. We can go to the declarationg of this method and see that this is simply creating a memory stream and serializing our object. Likewise we have a de-serialize oject which will take a byte array and create an object. Back in our inventory class, we see that the RBC AddItem method takes a byte array of an inventory item. It will then deserialize this object and cast it to an InventoryItem, and call the Add Item From Remote. We use add item from remote because we don't want to trigger the OnItemAdded event. Which would cause us to notify all other clients that we're adding this object that we were notified about ourselves, getting us into a nasty loop. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            So in the scene, pressing the number three key will add our hero, who has an inventory. Pressing the I key will add a random item to our inventory. We're using the tagging interface we created in a previous section to easily view the inventory on both ends. We can see that adding items correctly synchronizes them across the network and adds them to the client. Traditionally, adding to either client, will correctly add to any client attached.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've seen how to synchronize the state of two objects. We saw that the state can range anywhere from a simple health value to objects in inventory. We can do some interesting things with serialization here. We can make a large class that holds our entire state, and just serialize that when anything changes. Or, we could monitor state changes per variable and only serialize and send what's required. This is a balance between writing and maintaining less code and performance. Like many things in software and life, it's a balancing act between effort and results. It's up to you to find the sweet spot that works for your project and requirements.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="7">
+    <h2>Manual Connection to the Server</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to cover how to initiate manual connections. Allowing the user to connect manually enables them to play games together, even when your master server is down. There are two sides to this. The server needs to have information about what its external IP and port are, and the client needs to be able to enter that information manually. This process assumes the players are in contact with each other via some other means than your game. For example, chat or carrier pigeon. Once the server has started, they'll be able to relay their connection info to the other player, and the player can manually enter this information to connect directly to the server.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The first thing we'll need is the <b>Manual Connection</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Net, System.Text.RegularExpressions;
+
+            [RequireComponent (typeof (ServerHostAndJoin))]
+            public class ManualConnection : MonoBehaviour {
+
+                string ip = "";
+                string port = "";
+                string password = "";
+                public Vector2 position = new Vector2(0,0);
+                public Vector2 connectionInfoPosition = new Vector2(0,0);
+
+                //Regex to match an IP address or partial valid IP address
+                string ipPattern = @"^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|\.){0,3}$";
+                Regex ipRegEx;
+
+                //Regex to match a port or partial valid port
+                string portPattern = @"^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
+                Regex portRegEx;
+
+                public delegate void ManualSettingsInput(string ip, int port, string password);
+                public event ManualSettingsInput OnManualInput;
+
+                public bool connecting = false;
+                public bool showConnectionInfo = false;
+
+                void Start() {
+                    ipRegEx = new Regex(ipPattern);
+                    portRegEx = new Regex(portPattern);
+                }
+
+                string ValidateIP(string input) {
+                    //Allow full erase of string
+                    if(input.Length < 1)
+                        return input;
+
+                    //See if we're inline with a IP address
+                    if(ipRegEx.IsMatch(input)) {
+                        return input;
+                    } else {
+                        return ip;
+                    }
+                }
+
+                string ValidatePort(string input) {
+                    //Allow full erase of string
+                    if(input.Length < 1)
+                        return input;
+                    
+                    //See if we're inline with a IP address
+                    if(portRegEx.IsMatch(input)) {
+                        return input;
+                    } else {
+                        return port;
+                    }
+                }
+
+                void TryConnect(string ip, string port, string password) {
+                    IPAddress tempIP;
+                    //One final check on the IP
+                    if(!string.IsNullOrEmpty(ip) &amp;&amp; IPAddress.TryParse(ip, out tempIP)) {
+                        OnManualInput(ip, int.Parse(port), password);
+                    } else {
+                        //Be mean, clear the IP if they get it wrong.
+                        this.ip = "";
+                    }
+                }
+
+                void ShowConnectionInfo(string IP, int port) {
+                    if(IP.Equals ("UNASSIGNED_SYSTEM_ADDRESS")) {
+                        Vector2 errorLabelPosition = connectionInfoPosition;
+                        GUIContent errorLabel = new GUIContent("Start a server to see external IP and port");
+                        Vector2 errorLabelSize = GUI.skin.label.CalcSize(errorLabel);
+                        GUI.Label(new Rect(errorLabelPosition.x, errorLabelPosition.y,
+                                        errorLabelSize.x, errorLabelSize.y), errorLabel);
+                    } else {
+                        Vector2 ipLabelPosition = connectionInfoPosition;
+                        GUIContent ipLabel = new GUIContent("Server IP: " + IP);
+                        Vector2 ipLabelSize = GUI.skin.label.CalcSize(ipLabel);
+                        GUI.Label(new Rect(ipLabelPosition.x, ipLabelPosition.y, ipLabelSize.x, ipLabelSize.y), ipLabel);
+                        
+                        Vector2 portLabelPosition = new Vector2(ipLabelPosition.x, ipLabelPosition.y + ipLabelSize.y);
+                        GUIContent portLabel = new GUIContent("Server Port: " + port);
+                        Vector2 portLabelSize = GUI.skin.label.CalcSize(portLabel);
+                        GUI.Label(new Rect(portLabelPosition.x, portLabelPosition.y,
+                                        portLabelSize.x, portLabelSize.y), portLabel);
+                    }
+                }
+
+                void OnGUI() {
+                    if(showConnectionInfo) {
+                        ShowConnectionInfo(Network.player.externalIP, Network.player.externalPort);
+                    }
+                    if(connecting) {
+                        Vector2 ipLabelPosition = position;
+                        GUIContent ipLabel = new GUIContent("Server IP: ");
+                        Vector2 ipLabelSize = GUI.skin.label.CalcSize(ipLabel);
+                        GUI.Label(new Rect(ipLabelPosition.x, ipLabelPosition.y, ipLabelSize.x, ipLabelSize.y), ipLabel);
+
+                        Vector2 portLabelPosition = new Vector2(ipLabelPosition.x, ipLabelPosition.y + ipLabelSize.y);
+                        GUIContent portLabel = new GUIContent("Server Port: ");
+                        Vector2 portLabelSize = GUI.skin.label.CalcSize(portLabel);
+                        GUI.Label(new Rect(portLabelPosition.x, portLabelPosition.y, portLabelSize.x, portLabelSize.y),
+                                portLabel);
+
+                        Vector2 passwordLabelPosition = new Vector2(portLabelPosition.x,
+                                                                    portLabelPosition.y + portLabelSize.y);
+                        GUIContent passwordLabel = new GUIContent("Server Password: ");
+                        Vector2 passwordLabelSize = GUI.skin.label.CalcSize(passwordLabel);
+                        GUI.Label(new Rect(passwordLabelPosition.x, passwordLabelPosition.y,
+                                        passwordLabelSize.x, passwordLabelSize.y), passwordLabel);
+
+                        float maxX = Mathf.Max(ipLabelPosition.x + ipLabelSize.x,
+                                            portLabelPosition.x + portLabelSize.x,
+                                            passwordLabelPosition.x + passwordLabelSize.x);
+
+                        //Wrap the text field in validation, only valid character are allowed.
+                        ip = ValidateIP(GUI.TextField(new Rect(maxX, ipLabelPosition.y, 150, ipLabelSize.y), ip));
+
+                        //Do the same for port
+                        port = ValidatePort(GUI.TextField(new Rect(maxX, portLabelPosition.y, 150, portLabelSize.y), port));
+
+                        //Password... anything goes
+                        password = GUI.TextField(new Rect(maxX, passwordLabelPosition.y, 150,
+                                                        passwordLabelSize.y), password);
+
+                        GUIContent buttonConnect = new GUIContent("Connect");
+                        if(GUI.Button(new Rect(position.x, passwordLabelPosition.y + passwordLabelSize.y,
+                                            (maxX - position.x) + 150, GUI.skin.button.
+                                            CalcHeight(buttonConnect, (maxX - position.x) + 150)),buttonConnect)) {
+                            TryConnect(ip, port, password);
+                        }	
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This manual connection class is going to supply us with an interface for initiating a manual connection. It's going to store information like the IP, port, and password for a server. It's also going to validate the IP and port using regex. Additionally, it's going to supply its own event for OnManualInput. Validating the IP and validating a port will be done in our OnGUI method. Here we're going to wrap our text fields in our validate IP, and only set the IP equal to what returns from the validate IP. That means only a valid IP will be allowed to be entered into the text fied. Same goes for port. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Additionally, the manual connection class is going to display connection info. In the case of an unassigned system address, this means that the server has not been started and we're unable to retrieve our IP and port. The best way to get your external IP and port is from someone outside telling you what they are. This would be like me contacting a server, and asking them to tell me what my IP and port are. The other server has this information, because that's what I used to connect to them with. I've also modified the Server Host And Join to add in the manual connection settings.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at the renamed and modified <b>Server Host And Join With Manual</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>[RequireComponent (typeof (ManualConnection))]
+            public class ServerHostAndJoinWithManual : MonoBehaviour {
+
+                public int playerCount = 8;
+                public int serverPort = 23467;
+                bool useNAT = false;
+
+                public bool lanOnly = true;
+                string log = "";
+                public bool displayLog = true;
+                MasterServerInterface msInterface;
+                
+                ManualConnection manualConnection;
+
+                public Vector2 position = new Vector2(0,0);
+                public Vector2 logPosition = new Vector2(0,0);
+
+                //Control the behavior of the script with this
+                HostOrJoin hostOrJoin = HostOrJoin.NotSet;
+
+                public enum HostOrJoin {
+                    Host,
+                    Join,
+                    NotSet
+                }
+
+                void Start () {
+                    manualConnection = this.gameObject.GetComponent&lt;ManualConnection>();
+                    manualConnection.OnManualInput += HandleOnServerSelected;
+                }
+
+                void Update() {
+                    //Backquote and tilde key
+                    if(Input.GetKey(KeyCode.BackQuote)) {
+                        manualConnection.showConnectionInfo = true;
+                    } else {
+                        manualConnection.showConnectionInfo = false;
+                    }
+                }
+
+                void TakeAction(HostOrJoin choice) {
+
+                    hostOrJoin = choice;
+
+                    //Start or join, not both.
+                    if(hostOrJoin == HostOrJoin.Host) {
+                        StartServer();
+                    } 
+                    
+                    if(hostOrJoin == HostOrJoin.Join) {
+                        //If we're joining, create a MasterServiceInterface to provide us with the interface for selecting a server
+                        msInterface = this.gameObject.AddComponent&lt;MasterServerInterface>();
+                        //Provide a call back for when a server is selected.
+                        msInterface.OnServerSelected += HandleOnServerSelected;
+
+                        manualConnection.connecting = true;
+                    }
+                }
+
+                public void StartServer() {
+                    //Determine if we should use network address translation
+                    //Essentially, YES if server is behind a router
+                    //             NO is server has a public IP
+                    if (lanOnly == true)
+                        useNAT = false;
+                    else
+                        useNAT = !Network.HavePublicAddress();
+
+                    //Start a simple server and add it to the master server list.
+                    //This will allow other players to locate it.
+                    NetworkConnectionError state = Network.InitializeServer (playerCount, serverPort, useNAT);
+                    if(state == NetworkConnectionError.NoError) {
+                        MasterServerUtils.RegisterWithMasterServer("Michael's Game", "This is a comment about TestServer");
+
+                    } else {
+                        Log("Server: Couldn't initalize server! " + state);
+                    }
+                }
+
+                void HandleOnServerSelected (HostData selectedServer)
+                {
+                    //When the "Connect" button is pressed in the MasterServerInterface behavior, this is called
+                    if(selectedServer != null) {
+                        //Join and hide the host list interface
+                        JoinServer(selectedServer);
+                    }
+                }
+                
+                void HandleOnServerSelected (string ip, int port, string password)
+                {
+                    //When joining manually this is triggered
+                    //Join and hide the host list interface
+                    JoinServer(ip, port, password);
+                    msInterface.enabled = false;
+                }
+
+                public void JoinServer(HostData hostData) {
+                    //Join a server given some HostData, this data is provied by the master server
+                    Log("Client: Attempting to join server");
+                    Network.Connect (hostData);
+                }
+                
+                public void JoinServer(string ip, int port, string password) {
+                    //Join a server given some HostData, this data is provied by the master server
+                    Log("Client: Attempting to join server");
+                    Network.Connect (ip, port, password);
+                }
+
+                void OnPlayerConnected (NetworkPlayer player)
+                {
+                    //Fired in every MonoBehaviour when a player connects to our server
+                    Log("Server: Player (" + player.ipAddress + ") connected!");
+                }
+
+                void OnServerInitialized() {
+                    //Fired in every MonoBehaviour when a server is started
+                    Log("Server: Server started.");
+                    if(msInterface != null)
+                        msInterface.enabled = false;
+                }
+
+                void OnPlayerDisconnected(NetworkPlayer player) {
+                    //Fired in every MonoBehaviour when a player disconnects from our server
+                    Log("Server: Player (" + player.ipAddress + ") disconnected!");
+                }
+
+                void OnConnectedToServer() {
+                    //Fired in every MonoBehaviour when a player connects to a server
+                    Log("Client: Connected to server!");
+                    if(msInterface != null)
+                        msInterface.enabled = false;
+                    manualConnection.connecting = false;
+                }
+
+                void OnDisconnectedFromServer(NetworkDisconnection info) {
+                    //Fired in every MonoBehaviour when a player disconnects from a server
+                    Log("Client: Disconnected from server: " + info);
+                    if(msInterface != null)
+                        msInterface.enabled = true;
+                }
+
+                private void Log(string message) {
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    log += "\n" + message;
+                }
+
+                void OnGUI() {
+                    if(hostOrJoin == HostOrJoin.NotSet) {
+                        if(GUI.Button(new Rect(position.x, position.y, 220, 40), "Start Server")) {
+                            TakeAction(HostOrJoin.Host);
+                        }
+                        if(GUI.Button(new Rect(position.x, position.y + 45, 220, 40), "Join Server")) {
+                            TakeAction(HostOrJoin.Join);
+                        }
+                    }
+
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    if(displayLog)
+                        GUI.TextArea(new Rect(logPosition.x, logPosition.y, 220, 300), log);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            With the new Server Host And Join, we're going to listen to the OnManualInput events with our handle OnServerSelected listener. Pressing the tilde key will show us our connection info, and we've also added a method for joining a server using IP port and password.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the scene, go ahead and start the master server, and go through the build process to spawn an additional client. Now we're going to spawn a client here in the Unity Editor. We're going to start a server, and pressing the tilde key will show you that your IP is 127.0.0.1 and the port is 23467. On the other client, you can enter that information manually. The master server is running, so you can see your game there, but you can also enter the information manually. Attempting to enter invalid IP will stop you before the IP gets invalid, meaning you can't go beyond 255, so 256 which won't work. But you can enter in the IP and the port, and connect. And now the two clients are connected.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've covered manually connecting to a server and how to retrieve the connection info for a server. With these two bits of information, you can get players connected, even when they don't have access to your master server.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
