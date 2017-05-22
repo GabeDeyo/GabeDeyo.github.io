@@ -873,7 +873,418 @@
             <br> &nbsp; (C) A disk can only be placed on top of a larger disk.
             <br>Write a program to move the disks from the first rod to the last using Stacks.</p>
             <p><span class="glyphicon-remove"></span><b>3.5</b> Implement a MyQueue class which implements a queue using two stacks.</p>
-            <p><span class="glyphicon-remove"></span><b>3.6</b> Write a program to sort a stack in ascending order. You should not make any assumptions about how the stack is implemented. The following are the only functions that should be used to write this program: push | pop | peek | isEmpty</p>
+            <p><span class="glyphicon-remove"></span><b>3.6</b> Write a program to sort a stack in ascending order. You should not make any assumptions about how the stack is implemented. The following are the only functions that should be used to write this program: push | pop | peek | isEmpty.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ds-3">
+    <h2>Trees and Graphs</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Trees and graph questions typically come in one of two forms:
+            <br> &nbsp; 1. Implement a tree / find a node / delete a node / other typical algorithms.
+            <br> &nbsp; 2. Implement a modification of a known algorithm.</p>
+            <p><span class="glyphicon-remove"></span>Either way, it is <i>strongly</i> recommended to understand the important tree algorithms prior to your interview. If you're fluent in these, it'll make the tougher questions that much easier! I'll list some of the most important.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>WARNING: Not all binary trees are binary search trees</h3>
+            <p><span class="glyphicon-remove"></span>When given a binary tree questions, many candidates assume that the interviewer means "binary <i>search</i> tree", when the interviewer might only mean "binary tree". So, listen carefully for that word "search". If you don't hear it, the interviewer may just mean a binary tree with no particular ordering on the nodes. If you aren't sure, ask.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Binary Trees - Must Know Algorithms</h3>
+            <p><span class="glyphicon-remove"></span>You should be able to easily implement the following algorithms prior to your interview.</p>
+            <p><span class="glyphicon-remove"></span><b>In-Order:</b> Traverse left node, current node, then right [usually used for binary search trees]</p>
+            <p><span class="glyphicon-remove"></span><b>Pre-Order:</b> Traverse current node, then left node, then right node.</p>
+            <p><span class="glyphicon-remove"></span><b>Post-Order:</b> Traverse left node, then right node, then current node.</p>
+            <p><span class="glyphicon-remove"></span><b>Insert Node:</b> On a binary search tree, we insert a value v, by comparing it to the root. If v > root, we go right, else we go left. We do this until we hit an empty spot in the tree.</p>
+            <p><span class="glyphicon-remove"></span>Note: balancing and deletion of binary search trees are rarely asked, but you might want to have some idea how they work. It can set you apart.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Graph Traversal - Must Know Algorithms</h3>
+            <p><span class="glyphicon-remove"></span>You should be able to easily implement the following algorithms prior to our interview.</p>
+            <p><span class="glyphicon-remove"></span><b>Depth First Search:</b> DFS involves searching a node and all its children before proceeding to its siblings.</p>
+            <p><span class="glyphicon-remove"></span><b>Breadth First Search:</b> BFS involves searching a node and its siblings before going on to any children.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>4.1</b> Implement a function to check if a tree is balanced. For the purposes of this questions, a balanced tree is defined to be a tree such that no two leaf nodes differ in distance from the root by more than one.</p>
+            <p><span class="glyphicon-remove"></span><b>4.2</b> Given a directed graph, design an algorithm to find out whether there is a route between two nodes.</p>
+            <p><span class="glyphicon-remove"></span><b>4.3</b> Given a sorted (increasing order) array, write an algorithm to create a binary tree with minimal height.</p>
+            <p><span class="glyphicon-remove"></span><b>4.4</b> Given a binary search tree, design an algorithm which creates a linked list of all the nodes at each depth (i.e., if you have a tree with depth X, you'll have X linked lists).</p>
+            <p><span class="glyphicon-remove"></span><b>4.5</b> Write an algorithm to find the 'next' node (i.e, in-order successor) of a given node in a binary search tree where each node has a link to its parent.</p>
+            <p><span class="glyphicon-remove"></span><b>4.6</b> Design an algorithm and write code to find the first common ancestor of two nodes in a binary tree. Avoid storing additional nodes in a data structure. NOTE: This is not necessarily a binary search tree.</p>
+            <p><span class="glyphicon-remove"></span><b>4.7</b> You have two very large binary trees: T1, with millions of nodes, and T2, with hundreds of nodes. Create an algorithm to decide if T2 is a subtree of T1.</p>
+            <p><span class="glyphicon-remove"></span><b>4.8</b> You are given a binary tree in which each node contains a value. Design an algorithm to print all paths which sum up to that value. NOTE: it can be any path in the tree - it does not have to start at the root.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-0">
+    <h2>Bit Manipulation</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Bit manipulation can be a scary thing to many candidates, but it doesn't need to be! If you're shaky on bit manipulation, I recommend doing a couple arithmetic-like problems to boost your skills. Compute the following by hand:</p>
+            <table class="table table-condensed">
+                <tr>
+                    <td>1010 - 0001</td>
+                    <td>1010 + 0110</td>
+                    <td>1100^1010</td>
+                </tr>
+                <tr>
+                    <td>1010 &lt;&lt; 1</td>
+                    <td>1001^1001</td>
+                    <td>1001 &amp; 1100</td>
+                </tr>
+                <tr>
+                    <td>1010 &gt;&gt; 1</td>
+                    <td>0xFF - 1</td>
+                    <td>0xAB + 0x11</td>
+                </tr>
+            </table>
+            <p><span class="glyphicon-remove"></span>If you're still uncomfortable, examine very carefully what happens when you do subtraction, addition, etc in base 10. Can you repeat that work in base 2?</p>
+            <p><span class="glyphicon-remove"></span>NOTE: The Windows Calculator knows how to do lots of binary operations, including ADD, SUBTRACT, AND and OR. Go to View -> Programmer to get into binary mode while you practice.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Things to Watch Out For</h3>
+            <p><span class="glyphicon-remove"></span>It's really easy to make mistakes on these problems, so be careful! When you're writing code, stop and think about what you're writing every couple of lines - or, better yet, test your code mid-way through. When you're done, check through your entire code.</p>
+            <p><span class="glyphicon-remove"></span>If you're bit shifting, what happens when the digits get shifted off the end? Make sure to think about this case to ensure that you're handling it correctly.</p>
+            <table class="table table-condensed">
+                <tr>
+                    <td><b>AND (&amp;)</b></td>
+                    <td>0 &amp; 0 = 0</td>
+                    <td>1 &amp; 0 = 0</td>
+                    <td>0 &amp; 1 = 0</td>
+                    <td>1 &amp; 1 = 1</td>
+                </tr>
+                <tr>
+                    <td><b>OR (|)</b></td>
+                    <td>0 | 0 = 0</td>
+                    <td>1 | 0 = 1</td>
+                    <td>0 | 1 = 1</td>
+                    <td>1 | 1 = 1</td>
+                </tr>
+                <tr>
+                    <td><b>Xor (^)</b></td>
+                    <td>0 ^ 0 = 0</td>
+                    <td>1 ^ 0 = 1</td>
+                    <td>0 ^ 1 = 1</td>
+                    <td>1 ^ 1 = 0</td>
+                </tr>
+            </table>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Left Shift</h3>
+            <p><span class="glyphicon-remove"></span><b>x &lt;&lt; y</b> means x shifted y bits to the left. If you start shifting and you run out of space, the bits just "drop off". For example:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 00011001 &lt;&lt; 2 = 01100100
+            <br> &nbsp; 00011001 &lt;&lt; 4 = 10010000</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Right Shift</h3>
+            <p><span class="glyphicon-remove"></span><b>x &gt;&gt; y</b> means x shifted y bits to the right. If you start shifting and your run out of space, the bits again just "drop off" the end. For example:</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 00011001 &gt;&gt; 2 = 00000110
+            <br> &nbsp; 00011001 &gt;&gt; 4 = 00000001</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>5.1</b> You are given two 32-bit numbers, N and M, and two bit positions, i and j. Write a method to set all bits between i and j in N equal to M (e.g., M becomes a substring of N located at i and starting at j).
+            <br> EXAMPLE:
+            <br> INPUT: N = 10000000000, M = 10101, i = 2, j = 6
+            <br> OUTPUT: N = 10001010100</p>
+            <p><span class="glyphicon-remove"></span><b>5.2</b> Given a (decimal - e.g. 3.72) number that is passed in as a string, print the binary representation. If the number cannot be represented accurately in bary, print "ERROR".</p>
+            <p><span class="glyphicon-remove"></span><b>5.3</b> Given an integer, print the next smallest and next largest number that have the same number of 1 bits in their binary representation.</p>
+            <p><span class="glyphicon-remove"></span><b>5.4</b> Explain what the following code does: ((n &amp; (n-1)) == 0).</p>
+            <p><span class="glyphicon-remove"></span><b>5.5</b> Write a function to determine the number of bits required to convert integer A to integer B.
+            <br> INPUT: 31, 14
+            <br> OUTPUT: 2</p>
+            <p><span class="glyphicon-remove"></span><b>5.6</b> Write a program to swap odd and even bits in an integer with as few instructions as possible (e.g., bit 0 and bit 1 are swapped, bit 2 and bit 3 are swapped, etc)</p>
+            <p><span class="glyphicon-remove"></span><b>5.7</b> An array A[1...n] contains all the integers from 0 to n except for one number which is missing. In this problem, we cannot access an entire integer in A with a single operation. The elements of A are represeented in binary, and the only operation we can use to access them is "fetch the jthbit of A[i]", which takes constant time. Write code to find the missing integer. Can you do it in O(n) time?</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-1">
+    <h2>Brain Teasers</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Do companies really ask brain teasers?</h3>
+            <p><span class="glyphicon-remove"></span>While many companies, including Google and Microsoft, have policies banning brain teasers, interviewers still sometimes ask these tricky questions. This is especially true since people have different definitions of brain teasers.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Approaching Brain Teasers</h3>
+            <p><span class="glyphicon-remove"></span>Dont' panic when you get a brain teaser. Interviewers want to see how you tackle a problem; they don't expect you to immediately know the answer. Start talking, and show the interviewer how you approach a problem.</p>
+            <p><span class="glyphicon-remove"></span>In many cases, you will also find that the brain teasers have some connection back to fundamental laws or theories of computer science.</p>
+            <p><span class="glyphicon-remove"></span>If you're stuck, I recommend simplifying the problem. Solve it for a small number of items or a special case, and see if you can generalize it.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Example</h3>
+            <p><span class="glyphicon-remove"></span>You are trying to cook an egg for exactly 15 minutes, but instead of a timer, you are given two ropes which burn for exactly 1 hour each. The ropes, however are of uneven densities - i.e., half the rope length-wise might only take only two minutes to burn.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>The Approach</h3>
+            <p><span class="glyphicon-remove"></span>1. What is important? Numbers usually have meaning behind them. The 15 minutes and two ropes were picked for a reason.</p>
+            <p><span class="glyphicon-remove"></span>2. Simplify! You can easily time one hour (burn just one rope).</p>
+            <p><span class="glyphicon-remove"></span>3. Now, can you time 30 minutes? That's half the time it takes to burn one rope. Can you burn the rope twice as fast? Yes! (Light the rope at both ends)</p>
+            <p><span class="glyphicon-remove"></span>4. You've now learned: (1) You can time 30 minutes. (2) You can burn a rope that takes X minutes in just X/2 minutes by lighting both ends.</p>
+            <p><span class="glyphicon-remove"></span>5. work backwards: If you had a rope of burn-length 30 minutes, that would let you time 15 minutes. Can you remove 30 minutes of burn-time from a rope?</p>
+            <p><span class="glyphicon-remove"></span>6. You can remove 30 minutes of burn-time from Rope #2 by lighting Rope #1 at both ends and Rope #2 at one end.</p>
+            <p><span class="glyphicon-remove"></span>7. Now that you have Rope #2 at burn-length 30 minutes, start cooking the egg and light Rope #2 at the other end. When Rope #2 burns, up your egg is done.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>6.1</b> Add arithmetic operations (plus, minus, times, divide) to make the following expression true: 3 1 3 6 = 8. You can use any parentheses you'd like.</p>
+            <p><span class="glyphicon-remove"></span><b>6.2</b> There is an 8x8 chess board in which two diagonally opposite corners have been cut off. You are given 31 dominos, and a single domino can cover exactly two squares. Can you use the 31 dominos to cover the entire board? Prove your answer (by providing an example, or showing why it's impossible.</p>
+            <p><span class="glyphicon-remove"></span><b>6.3</b> You have a five quart jug and a three quart jug, and an unlimited supply of water (but no measuring cups). How would you come up with exactly four quarts of water? NOTE: The jugs are oddly shaped, such that filling up exactly 'half' of the jug would be impossible.</p>
+            <p><span class="glyphicon-remove"></span><b>6.4</b> A bunch of men are on an island. A genie comes down and gather everyone together and places a magical hat on some poeple's heads (i.e., at least one person has a hat). The hat is magical: it can be seen by other people, but not the wearer of the hat himself. To remove the hat, those(and only those who have a hat) must dunk themselves underwater at exactly midnight. If there are n people and c hats, how long does it take the men to remove the hats? The men cannot tell each other (in any way) that they have a hat. FOLLOW UP: Prove that your solution is correct.</p>
+            <p><span class="glyphicon-remove"></span><b>6.5</b> There is a building of 100 floors. If an egg drops from the Nth floor or above it will break. If it's dropped from any floor below, it will not break. You're given 2 eggs. Find N, while minimizing the number of drops for the worst case.</p>
+            <p><span class="glyphicon-remove"></span><b>6.6</b> There are one hundred closed lockers in a hallway. A man begins by opening all one hundred lockers. Next, he closes every second locker. Then he goes to every third locker and closes it if it is open or opens it if is closed (e.g., he toggles every third locker). After his one hundredth pass in the hallway, in which he toggles only lockernumber one hundred, how many lockers are open?</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-2">
+    <h2>Object Oriented Design</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Object oriented design questions are very important, as they demonstrate the quality of a candidate's code. A poor performance on this type of questions raises serious red flags.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Handling Ambiguity in an Interview</h3>
+            <p><span class="glyphicon-remove"></span>OOD questions are often intentionally vague to test if you'll make assumptions, or if you'll ask clarifying questions. How do you design a class if the constraints are vague? Ask questions to eliminate ambiguity, then design the classes to handle any remaining ambiguity.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Object Oriented Design for Software</h3>
+            <p><span class="glyphicon-remove"></span>Imagine we're desiging the object for a deck of cards. Consider the following approach:</p>
+            <p><span class="glyphicon-remove"></span>1. What are you trying to do with the deck of cards? Ask your interviewer. Let's assume we want a general purpose deck of cards to implement many different types of card games.</p>
+            <p><span class="glyphicon-remove"></span>2. What are the core objects - and what "sub types" ar there? For example, the core items might be: Card, Deck, Number, Suit, PointValue.</p>
+            <p><span class="glyphicon-remove"></span>3. Have you missed anything? Think about how you'll use that deck of cards to implement different types of games, changing the class design as necessary.</p>
+            <p><span class="glyphicon-remove"></span>4. Now, get a little deeper: how will the methods work? If you have a method like CardDeck::getCard(Suit s, Number n), think about how it will retrieve the card.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Object Oriented Design for Real World Objects</h3>
+            <p><span class="glyphicon-remove"></span>Real world objects are handled very similarly to software object oriented design. Suppose you are designing an object oriented design for a parking lot.</p>
+            <p><span class="glyphicon-remove"></span>1. What are your goals? For example: figure our if a parking spot is taken, figure out how many cars of each type are in the parking lot, look up handicapped spots, etc.</p>
+            <p><span class="glyphicon-remove"></span>2. Now, think about the core objects(Car, ParkingSpot, ParkingLot, ParkingMeter, etc - Car has different subclasses, and ParkingSpot is also subclassed for handicapped spot).</p>
+            <p><span class="glyphicon-remove"></span>3. Have we missed anything? How will we represent parking restrictions based on time or payment? Perhaps, we'll add a class called Permission which handles different payment systems. Permission will be subclassed into classes PaidPermission (fee to park) and FreeParking (open parking). ParkingLot will have a method called GetPermission which will return the current Permission object based on the time.</p>
+            <p><span class="glyphicon-remove"></span>4. How will we know whether or not a car is in the spot? Think about how to represent the data so that the mothods are efficient.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>7.1</b> Design the data structure for a generic deck of cards. Explain how you would subclass it to implement particular card games.</p>
+            <p><span class="glyphicon-remove"></span><b>7.2</b> Imagine you have a call center with three levels of employees: fresher, technical lead (TL), product manager (PM). There can be multiple employees, but only one TL or PM. An incoming telephone call must be allocated to a fresher who is free. If a fresher can't handle the call, he or she must escalate the call to technical lead. If the TL is not free or not able to handle it, then the call should be escalated to PM. Design the classes and data structures for this problem. Implement a metho getCallHandler().</p>
+            <p><span class="glyphicon-remove"></span><b>7.3</b> Design a musical juke box using object oriented principles.</p>
+            <p><span class="glyphicon-remove"></span><b>7.4</b> Design a chess game using object oriented principles.</p>
+            <p><span class="glyphicon-remove"></span><b>7.5</b> Design the data structures for an online book reader system.</p>
+            <p><span class="glyphicon-remove"></span><b>7.6</b> Implement a jigsaw puzzle. Design the data structures and explain an algorithm to solve the puzzle.</p>
+            <p><span class="glyphicon-remove"></span><b>7.7</b> Explain how you would design a chat server. In particular, provide details about the various backend components, classes, and methods. What would be the hardest problems to solve?</p>
+            <p><span class="glyphicon-remove"></span><b>7.8</b> Othello is played as follows: Each Othello piece is white on one side and black on the other. When a piece is surrounded by its opponents on both the left and right sides, or both the top and bottom, it is said to be captured and its color is flipped. On your turn, you mst capture at least one of your components pieces. The game ends when either user has no more valid moves, and the win is assigned to the person with the most pieces. Implement the object oriented design for Othello.</p>
+            <p><span class="glyphicon-remove"></span><b>7.9</b> Explain the data structures and algorithms that you would use to design an in-memory file system. Illustrate with an example of code wherever possible.</p>
+            <p><span class="glyphicon-remove"></span>Describe the data structures and algorithms that you would use to implement a garbage collector in C++.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-3">
+    <h2>Recursion</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Recognize</h3>
+            <p><span class="glyphicon-remove"></span>While there is a wide variety of recursive problems, many recursive problems follow similar patterns. A good hint that a problem is recursive is that it appears to be built off sub-problems.</p>
+            <p><span class="glyphicon-remove"></span>When you hear a problem beginning with the following, it's often (though not always) a good candidate for recursion: "Design an algorithm to compute the nth..."; "Write code to list the first n..."; "Implement a method to compute all..."; etc.</p>
+            <p><span class="glyphicon-remove"></span>Again, practice makes perfect! The more problems you do, the easier these will be to recognize.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Recursive solutions, by definition, are built off solutions to sub-problems. Many times, this will mean simply to compute f(n) by adding something, removing something, or otherwise changing the solution for f(n-1). In other cases, you might have to do something more complicated. Regardless, I recommend the following approach.</p>
+            <p><span class="glyphicon-remove"></span>1. Think about what the sub-problem is. How many sub-problems does f(n) depend on? That is, in a recursive binary tree problem, each part will likely depend on two problems. In a linked list problem, it'll probably just be one.</p>
+            <p><span class="glyphicon-remove"></span>2. Solve for a "base case". That is, if you need to compute f(n), first compute it for f(0) or f(1). This is usually just a hard-coded value.</p>
+            <p><span class="glyphicon-remove"></span>3. Solve for f(2).</p>
+            <p><span class="glyphicon-remove"></span>4. Understand how to solve for f(3) using f(2) (or previous solutions). That is, understanding the exact process of translating the solution for sub-problems into the real solution.</p>
+            <p><span class="glyphicon-remove"></span>Generalie for f(n).</p>
+            <p><span class="glyphicon-remove"></span>This "bottom-up recursion" is often the most straight-forward. Sometimes, though, it can be useful to approach problems "top down", where you essentially jump directly into breaking f(n) into its sub-problems.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Things to Watch Out For</h3>
+            <p><span class="glyphicon-remove"></span>1. All problems that can be solved recursively can also be solved iteratively (though the code may be much more complicated). Before diving into a recursive code, ask yourself how hard it would be to implement this algorithm iteratively. Discuss the trade-offs with your interviewer.</p>
+            <p><span class="glyphicon-remove"></span>2. Recursive algorithms can be very space inefficient. Each recursive call adds a new layer to the stack, which means that if your algorithm has O(n) recursive calls then it uses O(n) memory. Not Good! This is one reason why an iterative algorithm may be better.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>8.1</b> Write a method to generate the nth Fibonacci number.</p>
+            <p><span class="glyphicon-remove"></span><b>8.2</b> Imagine a robot sitting on the upper left hand corner of an NxN grid. The robot can only move in two directions: right and down. How many possible paths are there for the robot? FOLLOW UP: Imagine certain squares are "off limits", such as the robot cannot step on them. Design an algorithm to get all possible paths for the robot.</p>
+            <p><span class="glyphicon-remove"></span><b>8.3</b> Write a method that returns all subsets of a set.</p>
+            <p><span class="glyphicon-remove"></span><b>8.4</b> Write a method to compute all permutations of a string.</p>
+            <p><span class="glyphicon-remove"></span><b>8.5</b> Implement an algorithm to print all valid (e.g., properly open and closed) combinations of n-pairs of parentheses.
+            <br> EXAMPLE:
+            <br> INPUT: 3 (e.g., 3 pairs of parentheses)
+            <br> OUTPUT: ()()(), ()(()),  (())(), ((()))</p>
+            <p><span class="glyphicon-remove"></span><b>8.6</b> Implement the "paint fill" function that one might see on many image editing programs. That is, given a screen (represented by a 2 dimensional array of Colors), a point, and a new color, fill in the surrounding are until you hit a border of that color.</p>
+            <p><span class="glyphicon-remove"></span><b>8.7</b> Given an infinite number of quarters (25 cents), dimes (10 cents), nickels (5 cents) and pennies (1 cent), write code to calculate the number of ways representing n cents.</p>
+            <p><span class="glyphicon-remove"></span><b>8.8</b> Write an algorithm to print all ways of arranging eight queens on a chess board so that none of them share the same row, column or diagonal.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-4">
+    <h2>Sorting and Searching</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Understanding the common sorting algorithms is incredibly valuable, as many sorting or searching solutions require tweaks of known sorting algorithms. A good approach when you are given a question like this is to run through the different sorting algorithms and see if one applies particularly well.</p>
+            <p><span class="glyphicon-remove"></span><i>Example:</i> You have a very large array of 'Person' objects. Sort the people in increasing order of age.</p>
+            <p><span class="glyphicon-remove"></span>We're given two interesting bits of knowledge here: (1) It's a large array, so efficiency is very important. (2) We are sorting based on ages, so we know the values are in a smaller range. By scanning through the various sorting algorithms, we might notice that bucket sort would be a perfect candidate for this algorithm. In fact, we can make the buckets small (just 1 year each) and get O(n) running time.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Bubble Sort</h3>
+            <p><span class="glyphicon-remove"></span>Start at the beginning of an array and swap the first two elements if the first is bigger than the second. Go to the next pair, etc, continuously making sweeps of the array until stored. O(n^2).</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Selection Sort</h3>
+            <p><span class="glyphicon-remove"></span>Find the smallest element using a linear scan and moe it to the front. Then, find the second smallest and move it, again doing a linear scan. continue doing this until all elements are in place.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Merge Sort</h3>
+            <p><span class="glyphicon-remove"></span>Sort each pair of elements. Then, sort every four elements by merging every two pairs. Then, sort every 8 elements, etc. O(n * log(n))expected and worst case.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Quick Sort</h3>
+            <p><span class="glyphicon-remove"></span>Pick a random element and partition the array, such that all numbers that are less than it come before all elements that are greater than it. Then do that for each half, then each quarter, etc. O(n * log(n)) expected, O(n^2) worst case.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Bucket Sort</h3>
+            <p><span class="glyphicon-remove"></span>Partition the array into a finite number of buckets, and then sort each bucket individually. This gives a time of O(n+m), where n is the number of items and m is the number of distinct items.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>9.1</b> You are given two sorted arrays, A and B, and A has a large enough buffer at the end to hold B. Write a method to merge B into A in sorted order.</p>
+            <p><span class="glyphicon-remove"></span><b>9.2</b> Write a method to sort an array of strings so that all the anagrams are next to each other.</p>
+            <p><span class="glyphicon-remove"></span><b>9.3</b> Given a sorted array of n integers that has been rotated an unknown number of times, give an O(log(n)) algorithm that finds an element in the array. You may assume that the array was originally sorted in increasing order.
+            <br> Example:
+            <br> INPUT: find 5 in array (15 16 19 20 25 1 3 4 5 7 10 14)
+            <br> OUTPUT: 8 (the index of 5 in the array)</p>
+            <p><span class="glyphicon-remove"></span><b>9.4</b> If you have a 2 GB file with one string per line, which sorting algorithm would you use to sort the file and why?</p>
+            <p><span class="glyphicon-remove"></span><b>9.5</b> Given a sorted array of strings which is interspersed with empty strings, write a method to find the location of a given string.
+            <br> EXAMPLE: find "ball" in ["at","","","","ball","","","car","","","dad","",""] will return 4
+            <br> EXAMPLE: find "ballcar" in ["at","","","","","ball","car","","","dad","",""] will return -1</p>
+            <p><span class="glyphicon-remove"></span><b>9.6</b> Given a matrix in which each row and each column is sorted, write a method to find an element in it.</p>
+            <p><span class="glyphicon-remove"></span><b>9.7</b> A circus is designing a tower routine consisting of people standing atop one another's shoulders. For practical and easthetic reasons, each person must be both shorter and lighter than the person below him or her. Given the heights and weights of each person in the circus, write a method to compute the largest possible number of people in such a tower.
+            <br> EXAMPLE:
+            <br> INPUT: (ht, wt): (65, 100) (70, 150) (56, 90) (75, 190) (60, 95) (68, 110)
+            <br> OUTPUT: The longest tower is length 6 and includes from top to bottom: (56, 90) (60, 95) (65, 100) (68, 110) (70, 150) (75, 190)</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-5">
+    <h2>Mathematical</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Many of these problems are read as brain teasers at first, but can be worked through in a logical way. Just remember to rely on the rules of mathematics to develop an approach, and then to carefully translate that idea into code.</p>
+            <p><span class="glyphicon-remove"></span><i>Example:</i> Given two numbers m and n, write a method to return the first number r that is divisible by both (e.g., the least common multiple)</p>
+            <p><span class="glyphicon-remove"></span><i>The Approach:</i> What does it mean for r to be divisible by m and n? It means that all the primes in m must go into r, and all primes in n must be in r. What if m and n have primes in common? For example, if m is divisible by 3^5 and n is divisible by 3^7, what does this mean about r? It means r must be divisible by 3^7.</p>
+            <p><span class="glyphicon-remove"></span><i>The Rule:</i> For each prime p such that p^a \ m (e.g., m is divisible by p^a) and p^b \ n, r must be divisible by p^max(a,b).</p>
+            <p><span class="glyphicon-remove"></span><i>The Algorithm:</i></p>
+            <pre>
+            <span class="glyphicon-remove"></span>Define q to be 1.
+            for each prime number p less than m and n:
+                find the largest a and b such that p^a \ m and p^b \ n
+                let q = q * p^max(a,b)
+            return q
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Things to Watch Out For</h3>
+            <p><span class="glyphicon-remove"></span>1. Be careful with the difference in precision between floats vs doubles.</p>
+            <p><span class="glyphicon-remove"></span>2. Don't assume that a value (such as the slope of a line) is an int unless you've been told so.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Bayes' Rule and Probability</h3>
+            <p><span class="glyphicon-remove"></span>1. If A and B are independent, then P(A and B) = P(A) * P(B)</p>
+            <p><span class="glyphicon-remove"></span>2. Else (in general), P(A and B) = P(A given B) * P(B)</p>
+            <p><span class="glyphicon-remove"></span>3. If A and B are mutually exclusive (e.g., if one happens, the other one can't), P(A OR B) = P(A) + P(B)</p>
+            <p><span class="glyphicon-remove"></span>4. Else (in general), P(A or B) = P(A) + P(B) - P(A and B)</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>10.1</b> You have a basketball hoop and someone says that you can play 1 of 2 games.
+            <br> Game #1: You get one shot to make the hoop.
+            <br> Game #2: You get three shots and you have to make 2 of 3 shots.
+            <br> If p is the probabiliy of making a particular shot, for which values of p should you pick one game or the other?</p>
+            <p><span class="glyphicon-remove"></span><b>10.2</b> There are three ants on different vertices of a triangle. What is the probablity of collision (between any two of them) if they start walking on the sides of the triangle? Similarly find the probability of collision with 'n' ants on an 'n' vertex polygon.</p>
+            <p><span class="glyphicon-remove"></span><b>10.3</b> Given two lines on a Cartesian plane, determine whether the two lines would intersect.</p>
+            <p><span class="glyphicon-remove"></span><b>10.4</b> Write a method to implement *,-,/ operations. You should use only the + operator.</p>
+            <p><span class="glyphicon-remove"></span><b>10.5</b> Given two squares on a two dimensional plane, find a line that would cut these two squares in half.</p>
+            <p><span class="glyphicon-remove"></span><b>10.6</b> Given a two dimensional graph with points on it, find a line which passes the most number of points.</p>
+            <p><span class="glyphicon-remove"></span><b>10.7</b> Design an algorithm to find the kth number such that the only prime factors are 3, 5, and 7.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-6">
+    <h2>Testing</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Testing Problems: Not Just for Testers</h3>
+            <p><span class="glyphicon-remove"></span>Although testers are obviously asked more testing problems, developers will often be asked testing problems as well. Why? Because a good developer knows how to test their code!</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Types of Testing Problems</h3>
+            <p><span class="glyphicon-remove"></span>Testing problems generally fall into one of three categories:
+            <br> &nbsp; 1. Explain how you would test this real world object (pen, paperclip, etc).
+            <br> &nbsp; 2. Explain how you would test this computer software (e.g., a web browser).
+            <br> &nbsp; 3. Write test cases / test code to test this specific method.</p>
+            <p><span class="glyphicon-remove"></span>We'll discuss type #1, since it's usually the most daunting. Remember that all thre types require you to not make assumptions that the input or the user will play nice. Expect abuse and plan for it.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Test A Real World Object</h3>
+            <p><span class="glyphicon-remove"></span>Let's imagine that you were asked to test a paperclip. The first thing to understand is: what is it expected to be used for and who are the expected users. Ask your interviewer - the answer may not be what you think! The answer could be "by teachers, to hold papers together" or it could be "by artists, to bend into new shapes." These two use-cases will have very different answers. Once you understand the intended use, think about these thins.</p>
+            <p><span class="glyphicon-remove"></span>What are the specific use cases for the intended purpose? For example, holding 2 sheets of paper together, and up to 30 sheets. If it fails, does it fail gracefully?</p>
+            <p><span class="glyphicon-remove"></span>What does it mean for it to fail? Answer: "Failing gracefully" means for the paperclip to not hold paper together. If it snaps easily, that's proably not failing gracefully.</p>
+            <p><span class="glyphicon-remove"></span>Ask your interviewer - what are the expectations of it being used outside of the intended use case? Should we ensure that it has a minimum of usefulness for the other cases?</p>
+            <p><span class="glyphicon-remove"></span>What "stress" conditions might your paper clip be used in? <i>Answer:</i> hot weather, cold weather, frequent re-use, etc.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Problems</h3>
+            <p><span class="glyphicon-remove"></span><b>11.1</b> Find the mistake(s) in this code:</p>
+            <pre>
+            <span class="glyphicon-remove"></span>unsigned int i;
+            for(i = 100; i <= 0; --i)
+                printf("%d\n", i);
+            </pre>
+            <p><span class="glyphicon-remove"></span><b>11.2</b> You are given the source to an application which crashes when it runs. After running it ten times in a debugger, you find it never crashes in the same place. The application is single threaded, and uses only the C standard library. What programming errors could be causeing this crash? How would you test each one?</p>
+            <p><span class="glyphicon-remove"></span><b>11.3</b> We have the following method used in a chess game: boolean canMoveTo(intx, int y) x and y are the coordinates of the chess board and it returns whether or not the piece can move to that position. Explain how you would test this method.</p>
+            <p><span class="glyphicon-remove"></span><b>11.4</b> How would you load test a webpage without using any test tools?</p>
+            <p><span class="glyphicon-remove"></span><b>11.5</b> How would you test a pen?</p>
+            <p><span class="glyphicon-remove"></span><b>11.6</b> How would you test an ATM in a distributed banking system?</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="ca-7">
+    <h2>System Design and Memory Limits</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>How to Approach</h3>
+            <p><span class="glyphicon-remove"></span>Don't be scared by these types of questions. Unless you claim to know how to design large systems, your interviewer probably won't expect you to know this stuff automatically. They just want to see how you tackle these problems.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
