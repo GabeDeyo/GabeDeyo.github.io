@@ -1281,10 +1281,19 @@
             <p><span class="glyphicon-remove"></span>Don't be scared by these types of questions. Unless you claim to know how to design large systems, your interviewer probably won't expect you to know this stuff automatically. They just want to see how you tackle these problems.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>General Approach</h3>
+            <p><span class="glyphicon-remove"></span>The general approach is as follows: Imagine we're designing a hypothetical system X for millions of items (users, files, megabtyes, etc):</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 1. How would you solve it for a small number of items? Develop an algorithm for this case, which is often pretty straight-forward.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 2. What happens when you try to implement that algorithm with millions of items? It's likely hat you have run out of space on the computer. So, divide up the files across many computers.
+            <br> &nbsp; &bull; How do you divide up data across many machines? That is, do the first 100 items appear on the same computer? Or all items withthe same hash value mod 100?
+            <br> &nbsp; &bull; About how many computers will you need? To estimate this, ask how big each item is and take a guess at how much space a typical computer has.</p>
+            <p><span class="glyphicon-remove"></span> &nbsp; 3. Now, fix the problems that occur when you are using many computers. Make sure to answer the following questions:
+            <br> &nbsp; &bull; How does one machine know which machine it should access to look up data?
+            <br> &nbsp; &bull; Can data get out of sync across computer? How do you handle that?
+            <br> &nbsp; &bull; How can you minimize expensive reads across computers?</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>Example: Design a Web Crawler</h3>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
