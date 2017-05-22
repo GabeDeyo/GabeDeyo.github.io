@@ -115,6 +115,14 @@
                                 <a href="#3">Remote Procedure Calls</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Chat Clients</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#5">Synchronizing Object Transforms</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -487,6 +495,301 @@
 
 <div class="jumbotron col-md-12 heliList" id="3">
     <h2>Remote Procedure Calls</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over remote procedure calls, RPCs. These are pretty much what they sound like, a call made remotely to execute a procedure. A procedure, in this case, is just another word for method or function. We define methods with a specifal attribute, RPC, when we want to call them with an RPC call. Then, when a client or server is connected to us, they can ask us to run the code inside the tagged method. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see our <b>Remote Caller</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>[RequireComponent (typeof(NetworkView))]
+            public class RemoteCaller : MonoBehaviour {
+
+                public bool displayLog = true;
+                string log = "";
+                public string myName = "byte";
+
+                void Update () {
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        SendGreeting(myName);
+                    }
+                }
+
+                void SendGreeting(string myName) {
+                    GetComponent&lt;NetworkView&gt;().RPC("PrintGreeting", RPCMode.Others, myName);
+                    Log("Greeting Sent");
+                }
+
+                [RPC]
+                public void PrintGreeting(string name) {
+                    Log(name + " says: Hello!");
+                }
+
+                private void Log(string message) {
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    log += "\n" + message;
+                }
+
+                void OnGUI() {
+                    //Some simple logging on screen so we don't have to worry about the debug console.
+                    if(displayLog)
+                        GUI.TextArea(new Rect(220, 0, 230, 600), log);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "ServerHostOrJoin" object and attach the Server Host And Join script.
+            <br> &nbsp; Set player count to 8, server port to 23467, lan only to true, display log to false, position to (0,0), and log position to (450,0).</p>
+            <p><span class="glyphicon-remove"></span>Create an empty "Communicator" object.
+            <br> &nbsp; Attach the Remote Caller script. Set Display Log to true, and My Name to "client".
+            <br> &nbsp; Attach a Network View component. Set State Synchronization to 0, and leave Observed empty.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have a Remote Caller class that's going to require a component of NetworkView. Network View is a built-in Unity component used for synchronizing two game clients. For our uses, we can turn off state synchronization and set the observe component to none, since we're only using it for RPC calls. The Network View is required for remote procedure calls, so we need to have it for that. This is a simple class that's going to wait for the space key, and if detected, going to call SendGreeting, passing in the myName variable. When sending a greeting, we're going to use our networkView.RPC call and define and method we want to call on the remote end, who we want to send it to, and the parameters that the remote method is going to take.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this case, we're going to be calling the Print Greeting method which is also defined here, and we see it has the attribute RPC. In this case, we're going to be sending a string through the RPC call. The RPC call does have a limited type that it can accept. It can only accept an int, float, string, network player, network view id, vector3 or quaternion. It also accepts byte arrays which are not documented. We'll be using byte arrays in future sections. The RPC mode accepts various options.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We can send to All, we can send to Others, or we can send to Server. The buffered versions will be stored locally and sent to any clients when they connect. The first thing we want to do is ensure that our master server is started. Next we want to go to our build settings and ensure we have the RPC scene selected and build. We're going to override our existing executable. This will start a new instance of the game. Now that this is waiting for commands, we're going to go back to our editor and start another instance and start a server.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            If we check our master server, we can see that it has received the event to add our server to the list. Now going back to our spawned client, we can select Join Server and servers will be listed. We'll select Gabe's Game and join. The two are now connected. Pressing the space bar will call the RPC call, producing the greet sent message here, and our name and says hello on the other end. Alternatiively, we can press space in this client and send a greeting from here.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, I've shown you how remote procedure calls work, and when we can use them. RPCs are going to be used fairly widely in any Unity network game. They're a way of calling a method on a remote machine. There's a bit more setup and work and overhead to call the method, but it's a very powerful feature that's relatively simple to use. We'll use RPCs for a number of tasks in future sections.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="4">
+    <h2>Chat Clients</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over creating a Chat Client. Chat clients, typically a subcomponent of many multi player games, are great examples for showing how to manage connected users, and share data. We want the chat client to accept users that connect to it, and send messages they type to everyone else who is connected.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at our <b>Chatter</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>[RequireComponent (typeof (NetworkView))]
+            public class Chatter : MonoBehaviour {
+
+                MessageWindow messageWindow;
+                string chatInput = "";
+
+                float messageDisplayTime = 60;
+
+                public GUISkin chatterSkin;
+
+                Vector2 chatOutputSize = new Vector2(350, 175);
+                Vector2 chatOutputPosition = new Vector2(0, Screen.height - 200);
+
+                Vector2 chatInputSize = new Vector2(350, 25);
+                Vector2 chatInputPosition = new Vector2(0, Screen.height - 25);
+                
+                string myName = "NoName";
+                bool nameSet = false;
+
+                bool connected = false;
+                
+                Rect chatInputRect;
+                Rect chatOutputRect;
+                Rect entireChatArea;
+
+                Dictionary&lt;NetworkPlayer, string&gt; usersByID = new Dictionary&lt;NetworkPlayer, string&gt;();
+
+                void Start () {
+                    chatInputRect = new Rect(chatInputPosition.x, chatInputPosition.y, chatInputSize.x, chatInputSize.y);
+                    chatOutputRect = new Rect(chatOutputPosition.x, chatOutputPosition.y, chatOutputSize.x, chatOutputSize.y);
+
+                    entireChatArea = new Rect(chatInputPosition.x, chatInputPosition.y, Mathf.Max(chatInputSize.x, chatOutputSize.x), chatInputSize.y + chatOutputSize.y);
+
+                    messageWindow = new MessageWindow(chatOutputSize, chatterSkin);
+
+                }
+
+                void Update () {
+                    if(!GUIUtils.MouseOverRect(entireChatArea)) {
+                        messageWindow.pauseAutoScroll = false;
+                        messageWindow.CountDownTimers();
+                    } else {
+                        messageWindow.pauseAutoScroll = true;
+                    }
+                }
+
+                void SetName(string newName) {
+                    //Only after setting a name will the player be joined to the chat
+                    nameSet = true;
+                    if(Network.isServer) {
+                            JoinUser(newName, Network.player);
+                        } else {
+                            GetComponent&lt;NetworkView&gt;().RPC("JoinUser", RPCMode.Server, myName, Network.player);
+                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                        }
+                    }
+                    
+                    void ProcessInput() {
+                        if(chatInput.Length > 0)
+                            GetComponent&lt;NetworkView&gt;().RPC ("LogMessage", RPCMode.All, chatInput, Network.player);
+                        
+                        chatInput = "";
+                    }
+
+                    
+                    void OnConnectedToServer() {
+                        connected = true;
+                    }
+                    
+                    void OnServerInitialized() {
+                        connected = true;
+                    }
+                    
+                    void OnDisconnectedFromServer(NetworkDisconnection info) {
+                        if (Network.isServer)
+                            SystemMessage("Server connection lost!", Network.player);
+                        else
+                            if (info == NetworkDisconnection.LostConnection)
+                                SystemMessage("Lost connection to server!", Network.player);
+                        else
+                            SystemMessage("Successfully diconnected from server.", Network.player);
+                    }
+                    
+                    void OnPlayerDisconnected(NetworkPlayer player) {
+                        RemoveUser(player);
+                    }
+
+
+                    [RPC]
+                    void Server_SendCurrentUsers(NetworkPlayer recipient) {
+                        //In case someone else gets this message, only reply if we're the server
+                        if(Network.isServer) {
+                            foreach(NetworkPlayer user in usersByID.Keys) {
+                                GetComponent&lt;NetworkView&gt;().RPC("JoinUser", recipient, usersByID[user], user);
+                            }
+                        }
+                    }
+                    
+                    [RPC]
+                    void JoinUser(string name, NetworkPlayer player) {
+                        if(!this.usersByID.ContainsKey(player)) {
+                            this.usersByID.Add(player, name);
+
+                            if(Network.isServer) {
+                                //Since we're server, let everyone know when someone joins.
+                                //This includes the someone who joined, so they can add themselves and get the message
+                                GetComponent&lt;NetworkView&gt;().RPC("JoinUser", RPCMode.Others, name, player);
+                                GetComponent&lt;NetworkView&gt;().RPC("SystemMessage", RPCMode.All, "Joined chat.", player);
+                            }
+                        }
+                    }
+
+
+                    [RPC]
+                    void RemoveUser(NetworkPlayer player) {
+                        if(this.usersByID.ContainsKey(player)) {
+                            SystemMessage("Has left chat", player);
+                            //If we're the server, let everyone know when someone leaves.
+                            if(Network.isServer) {
+                                GetComponent&lt;NetworkView&gt;().RPC("RemoveUser", RPCMode.Others, player);
+                            }
+                            this.usersByID.Remove(player);
+                        }
+                    }
+
+                    [RPC] 
+                    void SystemMessage(string message, NetworkPlayer player) {
+                        if(usersByID.ContainsKey(player)) {
+                            message = usersByID[player] + ": " + message;
+                            messageWindow.AddMessage(messageDisplayTime, message);
+                            
+                        } else {
+                            //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
+                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                        }
+                    }
+
+                    [RPC] 
+                    void LogMessage(string message, NetworkPlayer player) {
+                        if(usersByID.ContainsKey(player)) {
+                            //If we didn't say it, enter add some info about who did
+                            if(player != Network.player) {
+                                message = usersByID[player] + " said: " + message;
+                            }
+
+                            messageWindow.AddMessage(messageDisplayTime, message);
+                        } else {
+                            //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
+                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                        }
+                    }
+
+
+                    void OnGUI() {
+                        if(connected) {
+                            if(nameSet) {
+
+                                messageWindow.Draw(chatOutputPosition);
+
+                                if (Event.current.Equals(Event.KeyboardEvent("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("TextInput")) {
+                                    ProcessInput();
+                                }
+                                GUI.SetNextControlName("TextInput");
+                                chatInput = GUI.TextField(chatInputRect, chatInput);
+
+                            } else {
+                                //Require the user set their name before they're fully joined to the chat server.
+                                GUI.Label(chatOutputRect, "Please enter your name");
+                                if (Event.current.Equals (Event.KeyboardEvent ("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("NameInput") &amp;&amp; myName.Length > 0) {
+                                    SetName (myName);
+                                }
+                                
+                                GUI.SetNextControlName("NameInput");
+                                myName = GUI.TextField(chatInputRect, myName);
+
+                                GUI.FocusControl("NameInput");
+                            }
+                        }
+                    }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty "ServerHostOrJoin" object.
+            <br> &nbsp; Attach the ServerHostAndJoin script. Set Player Count to 8, Server Port to 23467, Lan Only to true, Display Log to false, Position to (0,0), and Log Position to (210,0).</p>
+            <p><span class="glyphicon-remove"></span>Create an empty "ChatClient" object.
+            <br> &nbsp; Attach the Chatter script. Create a new "Chatter" guiskin object and place on the Chatter script. Look to video for guiskin settings. Also attach a Network View to ChatClient.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Chatter component is going to take care of all the chat client needs. It's going to require a Network View because we're going to be using RPC calls. It's local variables set information about display message timeout, it's representation on screen, and the current user name. Additionally it's going to contain a usersByID list, which will be a look up table for NetworkPlayers to their names. Much of the GUI functionality from a chat window comes from our message window class which we learned about in previous sections.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            After the client is connected, the first thing they'll do is set their name. If we are the server, we're going to directly join that user. Otherwise we're going to ask the server to join the user. And then send a request to the server to send us all the current users connected. The process input method is going to be called when the user hits Enter after entering a line of text. It will trigger an RPC call for the LogMessage method and send in our chat input. This RPC call will include the user who sent the message. In the LogMessage method, we're going to take a message and the sender. If we're the sender we're simply going to AddMessage to our screen. If someone else sent us a message, we're going to add their name and "said", plus the message to the screen. If we receive a message from an unknown user, we're going to ask the server to send us their current users, because something went wrong and our user list is out of date.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When the server is asked to send current users, it's going to go through its user list. And for each user in the list, it's going to send an RPC call JoinUser directly to the recipient who requested it, passing on the user name, and NetworkPlayer. When joining a new user, all users will add that user to the ID list and if it's a server, it's going to call JoinUser for all other connected clients and send a SystemMessage telling all connected clients that a user joined chat. Likewise we'll have a command for removing user where all users will be notified when they leave chat.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The difference between system message and LogMessage is that system messages are generally sent from the Server, and will be displayed differently. Let's take a look at this in Unity. You'll need to start the master server, and go through the build process to start a new client. Then launch another client in the Unity Editor and start the Server. Switch back to the other client and join the server and enter My Name as Client.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            You'll see a system message that have been sent saying that client has joined chat. When sending the message, on the Sender's end it will just print the message you typed and on the Receiver end it will say Client said "hello". When a Client Joins a server it is going to connect to the Server and the first thing its going to do is set it's name. When setting it's name it's going to send a JoinUser command to the Server. The Server will then add that user to it's local list and send a message to all other Clients saying that user has joined. This includes the Client who's just joined.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            After setting the name it's going to Send Current Users request to the Server. This Send Current User's request is going to iterate through all the user it has in it's list, and send a Join User RPC call to the Client that requested it. This will add all connected users to the local client's user list. When a Client is sending a message, it simply sends a Log Message command to all connected users. This includes a Server and All Clients.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've covered how to create a Chat Client. Chat Clients are very common in multi-player games. This Chat Client shows you how you might manage users joining to the game, and let other players know about those users joining. It also shows you how you can send information to everyone peer-to-peer style like when we process input to send messages. Or we can send information to the Server and have the Server distribute it, client-to-server style. Like when a new player joins. The Chat Client recreated, fulfills the basic requirements, but there are some features that are missing to be a full featured Chat Client. For example, I suggest you add a Tell feature to allow the client to send messages to specific users.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="5">
+    <h2>Synchronizing Object Transforms</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             XXX
