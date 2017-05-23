@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Advanced Scripting - Optimizations</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -93,7 +93,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Advanced Scripting - Optimizations</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -104,14 +104,725 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Finding Slow Code</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Nearest-Neighbor Search</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Object Pools</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Finding Slow Code</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over how you can place timers in your code to find where your code is running the slowest. This is the most basic function of a profiler. Profilers run along with your code to track the performance. Some advanced profilers will give you method level resolution and provide timings, CPU load, and various memory statistics, like total allocations and garbage collection. Unity Pro has such a profiler built in, which is far more rebust than the simple one I'm going to show you here. However this simple version should get you started using the Unity free version. We'll also cover how you can use the information you find, and when and where to start looking.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's check out our <b>Profile</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic, System.Text, System;
+
+            /* 
+            - Summary
+                Fixing slow code check list:
+                1. Is it required to run at all?
+                2. Is it required to run as often as it does?
+                3. Is it required to run in as many places as it does?
+                4. Can we make it run more efficiently?
+            */
+
+            public class Profile {
+
+                static int timerNameCounter = 0;
+
+                static Stack&lt;int> timerIndex = new Stack&lt;int>();
+	
+                static List&lt;TimeEntry> timeEntries = new List&lt;TimeEntry>();
+
+
+                class TimeEntry {
+                    public string name;
+                    public float time;
+                    public int startIndex;
+                    public int indent;
+
+                    public TimeEntry(string name, int startIndex, int indent) {
+                        this.name = name;
+                        this.time = Time.realtimeSinceStartup;
+                        this.startIndex = startIndex;
+                        this.indent = indent;
+                    }
+                }
+
+                //Starts a new timer.
+                public static void StartTimer() {
+                    StartTimer("Section " + timerNameCounter++);
+                }
+
+                // Starts a new timer with the specified name
+                public static void StartTimer(string name) {
+                    timeEntries.Add(new TimeEntry(name, -1, timerIndex.Count));
+                    timerIndex.Push(timeEntries.Count-1);
+                }
+                
+                // Ends the last timer started
+                public static void EndTimer() {
+                    int last = timerIndex.Pop();
+                    timeEntries.Add(new TimeEntry(timeEntries[last].name, last, timerIndex.Count));
+                }
+
+                // Returns the last time result without removing anything
+                public static float PeekLastTime() {
+                    if(timeEntries.Count > 0) {
+                        TimeEntry last = timeEntries[timeEntries.Count - 1];
+                        if(last.startIndex >= 0) {
+                            return (float)Math.Round((double)(last.time - timeEntries[last.startIndex].time), 4);
+                        }
+                    }
+                    return -1;
+                }
+
+                // Clears all results.
+                public static void Clear() {
+                    timerIndex.Clear();
+                    timeEntries.Clear();
+                }
+
+                // Outputs the results of the profiling to the debugger
+                public static void WriteResults() {
+
+                    foreach(TimeEntry timeEntry in timeEntries) {
+                        StringBuilder line = new StringBuilder();
+                        line.Append('\t',timeEntry.indent);
+
+                        if(timeEntry.startIndex >= 0) { //This is an end time
+                            line.Append("/");
+                            line.Append(timeEntry.name);
+                            line.Append(" : ");
+                            line.Append(timeEntry.time - timeEntries[timeEntry.startIndex].time);
+                        } else {
+                            line.Append(timeEntry.name);
+                        }
+                        Debug.Log(line.ToString());
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The Profile class is going to take care of most of the work for us. It's going to keep the list of time entries, where time entries have a name and a time, as well as a reference to when they were started, and some indent information for displaying them. When we start a new timer, we're going to add an entry to our time entries and push the index of the timer onto our stack. When ending a timer we are going to pop the last timer started off the stack and then add a new time entry referencing the last time we started, so that we can calculate the time it ran later. Peeking at the last time will give us the time run for the last time entry without removing it from the list. Next, we have a Clear method that will clean up our results, and finally have our WriteResults method which is going to go through all of our time entries pair th start with the end and calculate the time for each timer.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We will need an interface called <b>Profile Test Interface</b> in order to test this:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ProfileTestInterface : MonoBehaviour {
+
+                void Start () {
+                    Profile.StartTimer("All of Start");
+                    OuterProcess();
+                    Profile.EndTimer();
+                    Profile.WriteResults();
+                }
+
+                private void OuterProcess() {
+                    for(int i = 0; i < 3; i++) {
+                        Profile.StartTimer("Process");
+                        Process();
+                        Profile.EndTimer();
+                    }
+                }
+
+                private void Process() {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/100f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                
+                private void LargeMethod() {
+                    Profile.StartTimer("LargeMethod");
+                    ProcessA();
+                    ProcessB();
+                    ProcessC();
+                    ProcessD();
+                    ProcessE();
+                    ProcessF();
+                    Profile.EndTimer();
+                }
+
+
+                void ProcessA ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/300f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                void ProcessB ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/600f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                void ProcessC ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/600f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                void ProcessD ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/300f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                void ProcessE ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/10f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+                void ProcessF ()
+                {
+                    double t = double.MinValue;
+                    for(int i = 0; i < int.MaxValue/500f; i++) {
+                        t = Mathf.Sqrt(i);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This profile test interface is going to start a timer and its start method, run the method, and then end the timer and write the results. The outer process method is going to have some of its own timers, each wrapped around this process method, where process is just going to do some busy work and give us some timings. In the scene, make sure you check uncollapse so that we can see how things actually happen in the correct order. First we started our AllOfStart timer, then we started the Process timer, and ended the Process timer, which took 0.xx (test) seconds. We can do that two more times, and finally stoped the AllOfStart timer. It took 0.xx (test) seconds in total. This information shows us that essentially the AllOfStart method is simply a sum of each of the Process methods. That means there's nothing else we need to look into here. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now we want to focus our efforts on this process method. The process method is something we want ot improve. How to improve code, is something that is very specific to the code we're improving, so I won't go into much detail here. So how do we know when we need profiling? Typically, when a game is running slow, it has a low frame rate. This is because the time per frame is very high. In our example, we're not doing much of anything, so we have a very high frame rate, and a very low time per frame. Using this statistic information here, by clicking the Stats button, we can gain valuable information about what our game is doing and why it might be running slow. For example, we can see that zero time is being spent rendering because we have nothing rendered to the scene. And our main thread is taking three to five milliseconds per frame. This information, for example, could be be used to determine if it's a code issue, drawing issue, or something else that's causing our game to run slow. If we see a low main thread time, but a high render time, we might want to look at optimizing our meshes, or reducing draw calls in some ways. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            However a high main thread time and a low render time, would point to a scripting issue. We can narrow down the culprit script, by enabling it or disabling it here in the inspector. We can go a step further and enable or disable an entire object by clicking up here. Once we've identified a script as running slow. Inside the code of the script, we can essentially run a binary search using our profiling. For example, let's take a look at the large method. We're just going to call that one method and see what comes out. We see that the large method is taking 2.xx seconds to run. It's quite a long time. Let's see if we can narrow down the culprit. We might do this by a binary search method, which would simply be splitting our timers in two. We can now see which half of the method is taking longer. You see here that the first half only takes 0.1 seconds. The seconds half is taking 2.xx seconds. Let's continue our binary split into the second method. Now we see that the slowest method is somewhere in the 2a section. So finally we can ask, is it processD, or processE? We can get rid of the other times, just to make things cleaner. Now we can see that processE is the culprit.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This kind of binary search can help you quickly narrow down, where you code is slow. The next step would be to go into procsessE and find out why it's running so much slower. You see here that it has significantly more iterations than any other method. So the next question we ask is, how do we fix it? Here, you'll want to go through the slow code checklist to try and find how to fix the code. The first questions we ask is, is it required to run at all? For example, if there was another way to retrieve the data could we do that? Or can we run the code once and then cache the results not needing to run it anymore? Next questions would be, is it required to run as often as it does? Could we use coroutines or triggers to activate this code, instead of having it in the update loop? Next, is it required to run in as many places as it is? This example would be if we have multiple instances of a script, we could try and find some way to share the data or share the processing load. For example, path finding in a large scene, we can just path find once and use that path finding information for multiple characters. Finally, can we make it run more efficiently? The answer is almost always yes, but the next questions to ask is it worth it? This will depend entirely on the code we're running. But we might want to look into caching results or changing an algorithm.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section we've covered how to implement some basic timing to help track down code that's causing your game to run slowly. We wrap the method calls of interest with profiler calls, to get the results about the time it takes for each of those method calls to run. Finding the code that's running slow code, comes with some knowledge of the code base and experience with coding. Timings will help you narrow things down and confirm fixes to the code.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Nearest-Neighbor Search</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to discuss some of the nearest neighbor searches available to us, and see what kind of performance differences we see between them. Nearest neighbor searches, are commonplace in games, and used for thingks like AI decision making. One of the simplest ways to search for neighbors, is to essentially brute force the problem. This means we search every object in the scene and keep a reference to the nearest so far. This is actually a pretty effective method, it's very easy to implment, and can be used a lot of the time for small to medium number of objects.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Another option is something I've already touched on, spacial partitioning. There are lots of spacial partitioning algorithms, and we've already looked into Quad Trees already. The next dimension of Quad Trees, is Octrees. We'll be looking into those in this section, and we'll look at some different scenarios, for using these approaches and compare their run times.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The first thing we'll need to analyze is the <b>Linear Search Algorithms</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class LinearSearchAlgorithms {
+
+                public static GameObject LinearSearch(Vector3 position, GameObject[] neighbors) {
+                    float minDistance = float.MaxValue;
+                    float tmpDistance = float.MaxValue;
+                    GameObject nearest = null;
+                    float dx;
+                    float dy;
+                    float dz;
+                    Debug.Log("LinearSearch through: " + neighbors.Length + " neighbors");
+                    foreach(GameObject go in neighbors) {
+                        dx = go.transform.position.x - position.x;
+                        dy = go.transform.position.y - position.y;
+                        dz = go.transform.position.z - position.z;
+                        
+                        tmpDistance = Mathf.Sqrt((dx * dx) + (dy * dy) + (dz * dz));
+                        if(tmpDistance < minDistance) {
+                            minDistance = tmpDistance;
+                            nearest = go;
+                        }
+                    }
+                    return nearest;
+                }
+
+                //If a^2 > b^2 then, a > b
+                //This means we can remove the sqrt() call
+                public static GameObject LinearSearchOptimized(Vector3 position, GameObject[] neighbors) {
+                    float minDistance = float.MaxValue;
+                    float tmpDistance = float.MaxValue;
+                    GameObject nearest = null;
+                    float dx;
+                    float dy;
+                    float dz;
+                    Debug.Log("LinearSearchOptimized through: " + neighbors.Length + " neighbors");
+                    foreach(GameObject go in neighbors) {
+                        dx = go.transform.position.x - position.x;
+                        dy = go.transform.position.y - position.y;
+                        dz = go.transform.position.z - position.z;
+
+                        tmpDistance = ((dx * dx) + (dy * dy) + (dz * dz));
+                        if(tmpDistance < minDistance) {
+                            minDistance = tmpDistance;
+                            nearest = go;
+                        }
+                    }
+                    return nearest;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have a basic linear search. We're just going to take a group of objects to search, and a position we want to find the nearest object to. For each game object we're going to find the difference between that game object, and the position we're interested in. If that distance is less than the minimum distance we have so far, we're going to update our minimum distance, and set that object as the nearest.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We can make an optimization to this algorithm, because of the mathematical fact, if 'a' squared is greater than 'b' squared then it is also true that 'a' is greater than 'b'. This means when comparing distances, we don't need to take the square root. The square root call is an expensive mathematical operation. This linear search optimized method is going to remove the square root, and simply compare the distance squared. This will still find us the nearest, and I've included it so we can compare its runtime to that of a regular linear search.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Another method for finding the nearest neighbor is to use an <b>Octree</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Octree {
+
+                static int childCount = 8;
+                static int maxObjectCount = 100;
+                static int maxDepth;
+
+                //Used for visual debugging/demonstation
+                private bool searched = false;
+
+                private Octree nodeParent;
+                private Octree[] childNodes;
+                
+                private List&lt;GameObject> objects = new List&lt;GameObject>();
+
+                private int currentDepth = 0;
+
+                private Vector3 nodeCenter;
+                private Bounds nodeBounds = new Bounds();
+                
+                private float nodeSize = 0f;
+
+                public Octree(float worldSize, int maxNodeDepth, int maxNodeObjects, Vector3 center) :
+                            this(worldSize, 0, center, null) {
+                    maxDepth = maxNodeDepth;
+                    maxObjectCount = maxNodeObjects;
+                }
+
+                private Octree(float size, int depth, Vector3 center, Octree parent)
+                {
+                    this.nodeSize = size;
+                    this.currentDepth = depth;
+                    this.nodeCenter = center;
+                    this.nodeParent = parent;
+
+                    if(this.currentDepth == 0) {
+                        this.nodeBounds = new Bounds(center, new Vector3(size*2, size*2, size*2));
+                    } else {
+                        this.nodeBounds = new Bounds(center, new Vector3(size, size, size));
+                    }
+                }
+
+                public Octree Add(GameObject go)
+                {
+                    if (this.nodeBounds.Contains(go.transform.position))
+                    {
+                        return this.Add(go, go.transform.position);
+                    }
+                    return null;
+                }
+                
+                private Octree Add(GameObject obj, Vector3 objCenter)
+                {
+                    if (this.childNodes != null)
+                    {
+                        // Find the index of the child that contains the center of the object
+
+                        // Top four
+                        // ╒═╤═╕
+                        // │2│3│
+                        // ╞═╪═╡
+                        // │0│1│
+                        // ╘═╧═╛
+                        //
+                        // Bottom four
+                        // ╒═╤═╕
+                        // │6│7│
+                        // ╞═╪═╡
+                        // │4│5│
+                        // ╘═╧═╛
+
+                        int index = (objCenter.x < this.nodeCenter.x ? 0 : 1) //Add one to select between  3,1,7,5.
+                                                                            //Add zero to select between 2,0,6,4.
+                                + (objCenter.y < this.nodeCenter.y ? 4 : 0) //Add four to select between 2,3,0,1.
+                                                                            //Add zero to select between 6,7,4,5.
+                                + (objCenter.z < this.nodeCenter.z ? 0 : 2);//Add two to select between  2,3,6,7.
+                                                                            //Add zero to select between 0,1,4,5.
+
+                        return this.childNodes[index].Add(obj, objCenter);
+                    }
+                    //We've reached a root
+                    if(this.currentDepth < maxDepth &amp;&amp; this.objects.Count + 1 > maxObjectCount) {
+                        //If adding this object puts this node past its limit, and we're not at the 
+                        // maximum depth, split this node and redistribute its objects to its children
+                        Split(nodeSize);
+                        foreach(GameObject nodeObject in objects){
+                            Add(nodeObject);
+                        }
+                        this.objects.Clear();
+
+                        //And don't forget to add the object that caused us to split!
+                        return Add (obj);
+                    } else {
+                        //Otherwise, just add this object to this node pool
+                        this.objects.Add(obj);
+                    }
+                    return this;
+                }
+
+                public bool Remove(GameObject obj)
+                {
+                    if(objects.Contains(obj)) {
+                        objects.Remove(obj);
+                        return true;
+                    }
+                    else if(childNodes != null) {
+                        foreach(Octree child in childNodes) {
+                            if(child.Remove(obj))
+                                return true;
+                        }
+                    }
+                    return false;
+                }
+
+
+                private void Split(float parentSize)
+                {
+                    this.childNodes = new Octree[Octree.childCount];
+                    int depth = this.currentDepth + 1;
+                    float quarter = parentSize / 4f;
+                    
+                    this.childNodes[0] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(-quarter, quarter, -quarter), this);
+                    this.childNodes[1] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(quarter, quarter, -quarter), this);
+                    this.childNodes[2] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(-quarter, quarter, quarter), this);
+                    this.childNodes[3] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(quarter, quarter, quarter), this);
+
+                    this.childNodes[4] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(-quarter, -quarter, -quarter), this);
+                    this.childNodes[5] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(quarter, -quarter, -quarter), this);
+                    this.childNodes[6] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(-quarter, -quarter, quarter), this);
+                    this.childNodes[7] = new Octree(parentSize/2, depth,
+                                                    this.nodeCenter + new Vector3(quarter, -quarter, quarter), this);
+                }
+
+                public GameObject FindNearest(Vector3 position) {
+                    return FindNearest(position.x, position.y, position.z);
+                }
+                
+                public GameObject FindNearest(float x, float y, float z) {
+                    double maxDistance = double.MaxValue;
+                    return FindNearest(x, y, z, ref maxDistance);
+                }
+
+                private GameObject FindNearest(float x, float y, float z, ref double shortestDistance)
+                {
+                    GameObject closest = null;
+
+                    //Reached a root node, check its objects
+                    if (childNodes == null)
+                    {
+                        searched = true;
+                        //We're a root node, check the objects we have
+                        foreach (GameObject obj in objects)
+                        {
+                            double distance = Mathf.Sqrt(
+                                Mathf.Pow(x - obj.transform.position.x, 2.0f) +
+                                Mathf.Pow(y - obj.transform.position.y, 2.0f) +
+                                Mathf.Pow(z - obj.transform.position.z, 2.0f));
+                            
+                            if ((distance > shortestDistance)) 
+                                continue;
+                            
+                            shortestDistance = distance;
+                            closest = obj;
+                        }
+                        return closest;
+                    }
+
+                    //Keep stepping into the children until we reach a root (above)
+                    foreach (Octree child in childNodes)
+                    {
+                        double childDistance = GeneralUtils.DistanceToBoundsEdge(child.nodeBounds, x, y, z);
+                        if (childDistance > shortestDistance) 
+                            continue;
+                        
+                        GameObject tmpObject = child.FindNearest(x, y, z, ref shortestDistance);
+                        if (tmpObject != null)
+                            closest = tmpObject;
+                    }
+                    return closest;
+                }
+
+                private Octree GetNodeContaining(float x, float y, float z) {
+                    if (this.childNodes != null)
+                    {
+                        // Find the index of the child that contains the center of the object
+                        int index = (x < this.nodeCenter.x ? 0 : 1) 
+                                + (y < this.nodeCenter.y ? 4 : 0)
+                                + (z < this.nodeCenter.z ? 0 : 2);
+                        
+                        return this.childNodes[index].GetNodeContaining(x, y, z);
+                    } else {
+                        return this;
+                    }
+                }
+
+                public void ClearSearch() {
+                    searched = false;
+                    if(childNodes != null) {
+                        foreach(Octree child in childNodes) {
+                            child.ClearSearch();
+                        }
+                    }
+                }
+                
+                public void Clear() {
+                    objects.Clear();
+                    if(childNodes != null) {
+                        foreach(Octree child in childNodes) {
+                            child.Clear();
+                        }
+                        childNodes = null;
+                    }
+                }
+
+
+                public void Draw() {
+                    Gizmos.DrawWireCube(nodeCenter, new Vector3(nodeSize, nodeSize, nodeSize));
+
+                    if(searched) {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawWireSphere(nodeCenter, (nodeSize/2));
+                        Gizmos.color = Color.white;
+                    }
+
+                    if(childNodes != null) {
+                        foreach(Octree child in childNodes) {
+                            child.Draw();
+                        }
+                    }
+                }
+            }
+            </pre> 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This octree code is very similar to the quad tree code we've seen in a previous section. The difference is, it's going to split into eight, instead of four. Four cubes above, and four cubes below. The code is fairly similar to the quadtree code, except for the code added to handle the additional dimension.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the interface where we implement these called <b>Nearest Neighbor Interface</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>public class NearestNeighborInterface : MonoBehaviour {
+
+                List&lt;int> runSuites = new List&lt;int>();
+                public int nextSuiteCount = 50;
+                public int treeMaxDepth = 5;
+                public int treeMaxObjectsPerNode = 20;
+
+                delegate GameObject LinearNearest(Vector3 position, GameObject[] neighbors);
+
+                List&lt;LinearNearest> linearAlgorithms = new List&lt;LinearNearest>();
+                
+                Dictionary&lt;string, List&lt;string>> resultsData = new Dictionary&lt;string, List&lt;string>>();
+
+                public GUISkin tableSkin;
+
+                GameObject neighborParent = null;
+
+                Table resultsTable;
+
+                Octree testOctree;
+
+                QuadTree testQuadtree;
+
+                void Start () {
+                    linearAlgorithms.Add(LinearSearchAlgorithms.LinearSearch);
+                    linearAlgorithms.Add(LinearSearchAlgorithms.LinearSearchOptimized);
+
+                    resultsData.Add("Spawning", new List&lt;string>(){"Spawning"});
+                    resultsData.Add("Octree", new List&lt;string>(){"Octree"});
+                    resultsData.Add("Quadtree", new List&lt;string>(){"Quadtree"});
+
+                    foreach(LinearNearest algorithm in linearAlgorithms) {
+                        resultsData.Add(algorithm.Method.Name, new List&lt;string>(){algorithm.Method.Name});
+                    }
+                }
+
+                void Update () {
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        RunNextSuite();
+                    }
+                }
+
+                void RunNextSuite() {
+                    StartCoroutine(RunSuite(nextSuiteCount));
+                }
+
+                IEnumerator RunSuite(int neighborCount) {
+
+                    Debug.Log("Creating trees");
+                    if(testOctree != null)
+                        testOctree.Clear();
+                    testOctree = new Octree(2000, treeMaxDepth, treeMaxObjectsPerNode, Vector3.zero);
+
+                    if(testQuadtree != null)
+                        testQuadtree.Clear();
+                    testQuadtree = new QuadTree(2000, treeMaxDepth, treeMaxObjectsPerNode, Vector3.zero);
+
+
+                    Debug.Log("Spawning neighbors");
+                    Profile.StartTimer("Spawning");
+                    SpawnNeighbors(neighborCount, ref testQuadtree, ref testOctree);
+                    Profile.EndTimer();
+                    resultsData["Spawning"].Add(Profile.PeekLastTime().ToString());
+                    Profile.Clear();
+                    yield return new WaitForSeconds(1);
+
+                    GameObject[] objects = GameObject.FindGameObjectsWithTag("Neighbor") as GameObject[];
+
+
+                    Debug.Log("Running Quadtree");
+                    Profile.StartTimer("Quadtree");
+                    GameObject foundObject = testQuadtree.FindNearest(this.transform.position);
+                    Profile.EndTimer();
+                    resultsData["Quadtree"].Add(Profile.PeekLastTime().ToString() + ":"
+                                                + foundObject.transform.position.ToString());
+                    Profile.Clear();
+                    yield return new WaitForSeconds(1);
+
+
+                    Debug.Log("Running ");
+                    Profile.StartTimer("Octree");
+                    foundObject = testOctree.FindNearest(this.transform.position);
+                    Profile.EndTimer();
+                    resultsData["Octree"].Add(Profile.PeekLastTime().ToString() + ":"
+                                            + foundObject.transform.position.ToString());
+                    Profile.Clear();
+                    yield return new WaitForSeconds(1);
+
+
+                    Debug.Log("Running linear algorithms");
+                    foreach(LinearNearest algorithm in linearAlgorithms) {
+                        Debug.Log("Running " + algorithm.Method.Name);
+                        Profile.StartTimer(algorithm.Method.Name);
+                        foundObject = algorithm(this.transform.position, objects);
+                        Profile.EndTimer();
+                        resultsData[algorithm.Method.Name].Add(Profile.PeekLastTime().ToString() + ":"
+                                                            + foundObject.transform.position.ToString());
+                        Profile.Clear();
+                        yield return new WaitForSeconds(1);
+                    }
+
+                    
+                    Debug.Log("Destroying neighbors");
+                    if(neighborParent != null)
+                        GameObject.Destroy(neighborParent);
+
+                    yield return new WaitForSeconds(1);
+
+
+                    Debug.Log("Displaying results");
+                    runSuites.Add(neighborCount);
+                    DisplayResults();
+                }
+                
+                void SpawnNeighbors(int count, ref QuadTree quadTreeToPopulate, ref Octree octreeToPopulate) {
+                    neighborParent = new GameObject("Neighbors: " + count);
+                    
+                    for(int neighbor = 0; neighbor < count; neighbor++) {
+                        GameObject go = new GameObject("Neighbor");
+                        go.tag = "Neighbor";
+                        go.transform.position = new Vector3(Random.Range(-1000, 1000),
+                                                            Random.Range(-1000, 1000),
+                                                            Random.Range(-1000, 1000));
+                        go.transform.parent = neighborParent.transform;
+                        octreeToPopulate.Add(go);
+                        quadTreeToPopulate.Add(go);
+                    }
+                }
+                
+                void DisplayResults() {
+                    List&lt;string> header = new List&lt;string>(){"Algorithm"};
+                    foreach(int count in runSuites) {
+                        header.Add("@" + count + " neighbors");
+                    }
+                    resultsTable = new Table(new Vector2(900, 800), 22, tableSkin, header);
+                    
+                    foreach(string algorithm in resultsData.Keys) {
+                        resultsTable.AddRow(resultsData[algorithm]);
+                    }
+                }
+
+                void OnGUI() {
+                    if(resultsTable != null)
+                        resultsTable.Draw(new Vector2(0,0));
+                }
+
+                public bool showOctree = true;
+                public bool showQuadtree = true;
+
+                void OnDrawGizmos(){
+                    if(testOctree != null &amp;&amp; showOctree) {
+                        testOctree.Draw();
+                    }
+                    if(testQuadtree != null &amp;&amp; showQuadtree) {
+                        testQuadtree.Draw();
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This nearest neighbor interface is going to run through our algorithms, and compare the run times of each. It's going to use a table object which we created in a previous section, as well as our octree and quadtree, and linear search algorithms. When running a test suite, it's going to create a number of objects, which we'll define in Unity, and then run through each algorithm, trying to find the nearest object. Finally it'll remove all the objects from the scene. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the scene, we're going to have a Searcher Object. this implements the nearest neighbor search. We're going to pass in the number of objects we want to spawn, and we can set the max depth, and max objects per node for both our quad tree and oct tree. Once in play mode, hit the space bar to start a new test suite. We see that the table is created with the various algorithms, as well as the number of neighbors, and the time it took for each algorithm to run.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Additionally the position of the nearest object is returned to ensure that we're all returning the same nearest object. I found that the first result returned, is usualy not as accurate as the others, and you can see that remains true, with significantly faster octree and quadtree times. And subtley faster linear search times. The reason that octree and quadtree searches are so much faster is because of the way they search. If you look at the quadtree, the entire box is filled with objects, but the quadtree only had to search some boxes, on order to find the nearest neighbor. It didn't have to compare the distance from the center to all the objects found in all of the other rectangles. The same goes for the octree. It was able to just search some cubes. We can see that it started in the top corner, and then just searched the cubes around the center, our point of interest. That means we didn't have search any of the other areas. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The difference between linear search, and spatial partitioning becomes more apparent as we add more objects. For example, if we spawn 10,000 objects, it's going to take a bit of time, and we can see our results are very good for our spatial partitioning algorithms, while the linear algorithms start to suffer. And even more, if we look at what the octree and quadtree had to search is even less because their nodes were split into smaller squares.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've seen some options we have for nearest neighbor searches, and seeing what kind of performance gains you can get by using them for various situations. The nice thing about spatial partitioning is that you can essentially turn it off, by setting the number of objects per node very high, or setting the maxixmum depth very low. The overhead for spacial partitioning structures is fairly low for situations where objects are stationary. When objects are moving however, they need to be re-added whenever they leave on one node for another. This can increase the overhead of using these systems and can be an additional reason you would attempt to limit the number of nodes or switch to a different algorithm altogether.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Object Pools</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             XXX
@@ -150,9 +861,7 @@
         </nav>
     </footer>
 
-    <!-- Latest Minified Slim JQuery -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
-    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <script src="../js/selection.js" charset="utf-8"></script>
