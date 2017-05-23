@@ -815,6 +815,10 @@
             The difference between linear search, and spatial partitioning becomes more apparent as we add more objects. For example, if we spawn 10,000 objects, it's going to take a bit of time, and we can see our results are very good for our spatial partitioning algorithms, while the linear algorithms start to suffer. And even more, if we look at what the octree and quadtree had to search is even less because their nodes were split into smaller squares.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             In this section, we've seen some options we have for nearest neighbor searches, and seeing what kind of performance gains you can get by using them for various situations. The nice thing about spatial partitioning is that you can essentially turn it off, by setting the number of objects per node very high, or setting the maxixmum depth very low. The overhead for spacial partitioning structures is fairly low for situations where objects are stationary. When objects are moving however, they need to be re-added whenever they leave on one node for another. This can increase the overhead of using these systems and can be an additional reason you would attempt to limit the number of nodes or switch to a different algorithm altogether.
         </p></li>
     </ul>
@@ -825,13 +829,264 @@
     <h2>Object Pools</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section, we're going to go over how to implement and when to use object pools. Object pools are used to reduce the number of memory allocations a game has. In Unity, when creating a game object, memory is set aside for that object. When that object is later destroyed, the memory has to be reclaimed by a process called garbage collection. Allocation and garbage collection are somewhat heavy tasks that can take a significant amount of time. Further garbage collection is something that we for the most part don't have direct control over. So we don't know when it's going to happen. This can cause unexpected delays. Object pools avoid this by recycling. Instead of throwing away an object that's been marked not in use, dust it off and reuse it. This does mean that more memory might be in use throughout the course of your program. But it's typically worthwhile since memory usage is more predictable. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's look at our first script which is the <b>Game Object Pool</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class GameObjectPool {
+
+                //Don't pool more than 100 objects, after this we'll just destroy anything returned to the pool.
+                static public int maxPool = 100;
+
+                //Get some GameObjects ready. This is nice to do in advance for a small performance boost.
+                static public int preAllocate = 10;
+
+                //Set this to a value greater than 0 if you want to hard limit the number of game objects.
+                //This will ensure you don't create too many game objects for resource limited machines
+                // however, it might result in unexpected behavior. (But maybe more expected than running out
+                // of resources? Up to you.)
+                static public int hardlimit = -1;
+
+                //Create an object to make the parent of all the pooled objects
+                static GameObject objectParent = new GameObject("LifeGaurd");
+
+                static Dictionary&lt;string, Pool> pools = new Dictionary&lt;string, Pool>();
+
+                //One pool per prefab.
+                class Pool {
+                    GameObject sourcePrefab;
+                    Stack&lt;GameObject> objectPool;
+
+                    public Pool (GameObject sourcePrefab) {
+                        this.sourcePrefab = sourcePrefab;
+                        objectPool = new Stack&lt;GameObject>(preAllocate);
+                        Allocate(preAllocate);
+                    }
+
+                    public GameObject Spawn() {
+                        if(objectPool.Count > 0) {
+                            return RemoveFromPool();
+                        } else {
+                            GameObject go = GameObject.Instantiate(sourcePrefab) as GameObject;
+                            //For this simple example we rely on the name to discover the prefab pool, set it to the parent name
+                            go.name = sourcePrefab.name;
+                            return go;
+                        }
+                    }
+
+                    public void Recycle(GameObject go) {
+                        if(objectPool.Count < maxPool) {
+                            AddToPool(go);
+                        } else {
+                            GameObject.Destroy(go);
+                        }
+                    }
+
+                    private void Allocate(int allocateCount) {
+                        if ((hardlimit > 0) &amp;&amp; objectPool.Count + allocateCount > maxPool)
+                            allocateCount = hardlimit - objectPool.Count;
+                        
+                        for (int a = 0; a < allocateCount; a++)
+                        {
+                            GameObject go = GameObject.Instantiate(sourcePrefab) as GameObject;
+                            //For this simple example we rely on the name to discover the prefab pool, set it to the parent name
+                            go.name = sourcePrefab.name;
+                            AddToPool(go);
+                        }
+                    }
+
+                    private void AddToPool(GameObject go) {
+                        go.SetActive(false);
+                        go.transform.parent = objectParent.transform;
+                        
+                        objectPool.Push(go);
+                    }
+                    
+                    private GameObject RemoveFromPool() {
+                        GameObject go = objectPool.Pop();
+                        go.transform.parent = null;
+                        go.transform.position = Vector3.zero;
+                        go.transform.localScale = Vector3.one;
+                        go.transform.rotation = Quaternion.identity;
+                        go.SetActive(true);
+                        return go;
+                    }
+                }
+
+                public static void Initialize(GameObject poolObject) {
+                    if(!pools.ContainsKey(poolObject.name)) {
+                        pools.Add(poolObject.name, new Pool(poolObject));
+                    } 
+                }
+
+                static public GameObject Spawn(GameObject poolObject) {
+                    if(!pools.ContainsKey(poolObject.name)) {
+                        pools.Add(poolObject.name, new Pool(poolObject));
+                    } 
+                    return pools[poolObject.name].Spawn();
+                }
+
+                static public void Recycle(GameObject go) {
+                    if(pools.ContainsKey(go.name)) {
+                        pools[go.name].Recycle(go);
+                    } else {
+                        GameObject.Destroy(go);
+                    }
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Our game object pool class is going to manage pooling all of our game objects. It's going to have a maximum number of objects to pool, as well as an option to pre allocate some objects. It's also going to have a game object that we're going to use as a parent for organizing pooled objects in our scene. It's going to maintain a list of pools, reference by a prefab name. Each pool contains only one type of prefab, so that when adding or removing from that pool, we know we're going to get the same object out that we put in. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            When spotting a new game object, we're going to check to see if our pool has any game objects in it. If it does, we're going to remove from that pool. Otherwise we're going to instantitate a new game object and return that. Removing from the pool, pops the game object off our pool stack, resets its transfrom values, and sets it to active. when adding a game object to the pool we're going to set the object active to false, then set the parent to the object parent for organization. Lastly, we're going to push the object onto our object pool stack so that it can be popped off when we need a new object. For this demonstration, we're going to use two types of objects.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We're going to create bullets that will recycle themselves when they finish, and bullets that will destroy themselves when they are finished. You'll see why i'm doing this in a bit. Let's first see the <b>Bullet Destroy</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class BulletDestroy : MonoBehaviour {
+
+                float travelDistance = 10f;
+                float speed = 10f;
+
+                void OnEnable()
+                {
+                    StartCoroutine(Fire());
+                }
+                
+                void OnDisable()
+                {
+                    StopAllCoroutines();
+                }
+
+                IEnumerator Fire()
+                {
+                    float total = 0;
+                    while(total < travelDistance) {
+                        total += (speed * Time.deltaTime);
+                        this.transform.Translate(0f, 0f, (speed * Time.deltaTime), Space.Self);
+                        yield return 0;
+                    }
+
+                    GameObject.Destroy(this.gameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Now let's see it's counterpart, the <b>Bullet Recycle</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class BulletRecycle : MonoBehaviour {
+
+                float travelDistance = 10f;
+                float speed = 10f;
+                
+                void OnEnable()
+                {
+                    StartCoroutine(Fire());
+                }
+                
+                void OnDisable()
+                {
+                    StopAllCoroutines();
+                }
+                
+                IEnumerator Fire()
+                {
+                    float total = 0;
+                    while(total < travelDistance) {
+                        total += (speed * Time.deltaTime);
+                        this.transform.Translate(0f, 0f, (speed * Time.deltaTime), Space.Self);
+                        yield return 0;
+                    }
+
+                    GameObjectPool.Recycle(this.gameObject);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Before we talk about what we're doing, lets see the <b>Object Pool Test Interface</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic, System.Linq;
+
+            public class ObjectPoolTestInterface : MonoBehaviour {
+
+                List&lt;string> resultsData = new List&lt;string>();
+
+                public GUISkin tableSkin;
+
+                Table resultsTable;
+
+                public int addCount = 5;
+
+                GameObject bulletRecyclePrefab;
+                GameObject bulletDestroyPrefab;
+
+                void Start () {
+                    bulletDestroyPrefab = Resources.Load("BulletDestroy") as GameObject;
+                    bulletRecyclePrefab = Resources.Load("BulletRecycle") as GameObject;
+
+                    GameObjectPool.Initialize(bulletRecyclePrefab);
+                }
+
+                void PoolRun() {
+                    Profile.StartTimer("Pool");
+                    for(int i = 0; i < addCount; i++) {
+                        GameObjectPool.Spawn(bulletRecyclePrefab);
+                    }
+
+                    Profile.EndTimer();
+                    resultsData.Add(Profile.PeekLastTime().ToString() + " @ (" + addCount + ")");
+                    Profile.Clear();
+                }
+
+                void InstantiateRun() {
+                    Profile.StartTimer("Instantiate");
+                    for(int i = 0; i < addCount; i++) {
+                        GameObject.Instantiate(bulletDestroyPrefab);
+                    }
+
+                    Profile.EndTimer();
+                    resultsData.Add(Profile.PeekLastTime().ToString() + " @ (" + addCount + ")");
+                    Profile.Clear();
+                }
+
+                void Update () {
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        StartCoroutine(RunTest());
+                    }
+                }
+
+                IEnumerator RunTest() {
+                    InstantiateRun();
+                    Debug.Log("Waiting 1 second");
+                    yield return new WaitForSeconds(1);
+                    PoolRun();
+                    yield return new WaitForSeconds(1);
+                    DisplayResults();
+                }
+
+                void DisplayResults() {
+                    List&lt;string> header = new List&lt;string>(){"Instantiate", "Pool"};
+                    resultsTable = new Table(new Vector2(900, 800), 22, tableSkin, header);
+
+                    for(int result = 0; result < resultsData.Count; result+=2) {
+                        resultsTable.AddRow(resultsData[result], resultsData[result + 1]);
+                    }
+                }
+
+                void OnGUI() {
+                    if(resultsTable != null)
+                        resultsTable.Draw(new Vector2(0,0));
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The test interface ...
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -863,7 +1118,6 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
     <script src="../js/selection.js" charset="utf-8"></script>
 </body>
 
