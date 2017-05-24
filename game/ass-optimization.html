@@ -115,6 +115,10 @@
                                 <a href="#2">Object Pools</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Update() Overuse</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -941,10 +945,10 @@
             Our game object pool class is going to manage pooling all of our game objects. It's going to have a maximum number of objects to pool, as well as an option to pre allocate some objects. It's also going to have a game object that we're going to use as a parent for organizing pooled objects in our scene. It's going to maintain a list of pools, reference by a prefab name. Each pool contains only one type of prefab, so that when adding or removing from that pool, we know we're going to get the same object out that we put in. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            When spotting a new game object, we're going to check to see if our pool has any game objects in it. If it does, we're going to remove from that pool. Otherwise we're going to instantitate a new game object and return that. Removing from the pool, pops the game object off our pool stack, resets its transfrom values, and sets it to active. when adding a game object to the pool we're going to set the object active to false, then set the parent to the object parent for organization. Lastly, we're going to push the object onto our object pool stack so that it can be popped off when we need a new object. For this demonstration, we're going to use two types of objects.
+            When spotting a new game object, we're going to check to see if our pool has any game objects in it. If it does, we're going to remove from that pool. Otherwise we're going to instantitate a new game object and return that. Removing from the pool, pops the game object off our pool stack, resets its transfrom values, and sets it to active. when adding a game object to the pool we're going to set the object active to false, then set the parent to the object parent for organization. Lastly, we're going to push the object onto our object pool stack so that it can be popped off when we need a new object. For this demonstration, we're going to use two types of objects. We're going to create bullets that will recycle themselves when they finish, and bullets that will destroy themselves when they are finished. You'll see why i'm doing this in a bit. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            We're going to create bullets that will recycle themselves when they finish, and bullets that will destroy themselves when they are finished. You'll see why i'm doing this in a bit. Let's first see the <b>Bullet Destroy</b> script:
+            Let's first see the <b>Bullet Destroy</b> script:
             <pre>
             <span class="glyphicon-remove"></span>public class BulletDestroy : MonoBehaviour {
 
@@ -1090,6 +1094,278 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In the scene, we will have our pool tester that's going to have a specific number of objects to spawn, and hitting the space key will spawn those objects. We see then that our first run, the instantiate, and pool runs are very similar in times, with instantiate being slightly lower. But now that we have objects in our pool, we can see that the next run is significantly better for the pool run than the instantiate run. Additionally, we can increase the number of objects, and see similar results. Whether they be fairly close in the first run, and significantly better for the pool run in the future runs.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've gone over how to use pools and what they're used for. Their reuse of objects, provides significant performance improvements for CPU and RAM usage. We can likely improve the pool system we've created here for better tracking of different types of prefabs instead of using object names. Further we can add support for prefabs that have different start up values. In games where a large number of objects are going to be created over and over again, pools are essential. Pools are also fairly important on system with limited resources, like mobile or web. Reducing the amount of garbage produced by your game reduces the frequency of garbage collection, in addition to reducing the impact it has. Unexpected performance drops are frequently caused by garbage collection. Pools are an essential step towards implementing the three Rs in your development; reduce, recycle and reuse.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="3">
+    <h2>Update() Overuse</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over some techniques for optimizing on of the largest problems in scripting performance: overuse of the Update Method. The Update method is called on every script, inside every object, every frame. This is the first stop for optimizing the performance of your scripts. The goal is to reduce the amount of code that runs each frame. This makes the frame time shorter, and when the frame time is shorter, the frame rate improves. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll first analyze the <b>Optimized Script</b> code:
+            <pre>
+            <span class="glyphicon-remove"></span>public class OptimizedScript : MonoBehaviour {
+
+                //Cache searches and component lookups
+                Enemy targetObject;
+
+                void Start () {
+                    //Find methods are fairly expensive, and should be kept to a minimum.
+                    //Put this in start instead of each update.
+                    targetObject = GameObject.FindObjectOfType&lt;Enemy>();
+                }
+
+                void Update () {
+
+                    UpdateSteering();
+                    CheckSurroundingTargets();
+
+                    //StartCoroutine(SleepScript(5));
+                    //Debug.Log("Awake!");
+                    //Do regular update
+
+                }
+
+                void RunSlowUpdate() {
+                    StartCoroutine(SlowUpdate());
+                }
+                
+                public IEnumerator SlowUpdate() {
+                    while(true) {
+                        UpdateSteering();
+                        CheckSurroundingTargets();
+                        yield return new WaitForSeconds(.3f);
+                    }
+                }
+                
+                void FixedUpdate () {
+                    //AI update, phyics checks
+                }
+
+                //Sleep the script. This will disable the script for the specified sleepTime
+                public IEnumerator SleepScript(float sleepTime) {
+                    this.enabled = false;
+                    yield return new WaitForSeconds(sleepTime);
+                    this.enabled = true;
+                }
+
+                //If a script doesn't need to be updated when we're not watching it, we can disable it
+                void OnBecameInvisible() {
+                    //This is enabling on the script level. So for example we could disable an script
+                    // that's updating animations or providing other purely visual information
+                    //While leaving a script that checks for nearby enemies or a patrol script
+                    enabled = false;
+                }
+                //Then re-enable it when it becomes visible again.
+                void OnBecameVisible() {
+                    enabled = true;
+                }
+
+                void CheckSurroundingTargets() {
+
+                }
+
+                void UpdateSteering() {
+
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            With the Optimized Script, we're going to see some optimizations we can implement. Reducing the amount of code in the Update method is the first step. These UpdateSteering and CheckSurroundingTarget methods likely don't need to be run every single frame. We can remove those and extract them into a coroutine by running a slow update in our Start method, which will, for the entire time the game object is alive, start the co-routine for slow update, which will only run every 0.3 seconds. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Additionally, we could move these into our Fixedupdate method, which is going to run at a time specified by Unity. That rate can be found in Edit -> Project Settings -> Time, and our fixed time step will be in there. The fixed time step also applies to our physics step, so be very careful when changing it. If something absolutely can't be removed from the Update method, we can try to disable the script as often as possible. We can see that being utilized with our SleepScript method that will sleep the script for five seconds in between updates. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There are other ways to disable a script. For example, we can disable based on visibility. The MonoBehaviour class provides two methods, OnBecameInvisible and OnBecameVisible. These methods will be called when the camera can no longer see the object or the object just came into view. You can use this, for example, to disable an animation script or any other script that provieds purely visible information when it can't be seen by the camera. Another large change for managing the amount of code run per frame is to do something called flipping the responsibilities.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+             To demonstrate this, we'll take a look at the <b>Job Manager</b> script:
+             <pre>
+             <span class="glyphicon-remove"></span>public class JobManager : MonoBehaviour {
+
+                List<string> jobs;
+
+                void Start () {
+                    jobs = new List<string>();
+                    jobs.Add("pick up");
+                    jobs.Add("brew");
+                    jobs.Add("dispose");
+                }
+
+                public void AddJob(string job) {
+                    jobs.Add(job);
+                }
+                
+                public string GetJob() {
+                    if(jobs.Count > 0) {
+                        string job = jobs[jobs.Count-1];
+                        jobs.RemoveAt(jobs.Count-1);
+                        return job;
+                    }
+                    return "";
+                }
+             }
+
+             //public class JobManager : MonoBehaviour {
+            //	
+            //	List&lt;string> jobs;
+            //
+            //	Queue&lt;JobWorker> workers;
+            //
+            //	float pushInterval = 1f; //1 second interval.
+            //
+            //	// Use this for initialization
+            //	void Start () {
+            //		jobs = new List&lt;string>();
+            //		jobs.Add("pick up");
+            //		jobs.Add("brew");
+            //		jobs.Add("dispose");
+            //		workers = new Queue&lt;JobWorker>();
+            //		StartCoroutine(PushJobs());
+            //	}
+            //
+            //	public void AddWorker(JobWorker worker) {
+            //		workers.Enqueue(worker);
+            //		worker.enabled = false;
+            //	}
+            //
+            //	public void AddJob(string job) {
+            //		jobs.Add(job);
+            //	}
+            //	
+            //	string GetJob() {
+            //		if(jobs.Count > 0) {
+            //			string job = jobs[jobs.Count-1];
+            //			jobs.RemoveAt(jobs.Count-1);
+            //			return job;
+            //		}
+            //		return "";
+            //	}
+            //
+            //	public IEnumerator PushJobs() {
+            //		while(true) {
+            //			while(PushJob());
+            //			Debug.Log("Manager Update");
+            //			yield return new WaitForSeconds(pushInterval);
+            //		}
+            //	}
+            //
+            //	bool PushJob() {
+            //		if(jobs.Count > 0) {
+            //			if(workers.Count > 0) {
+            //				JobWorker jw = workers.Dequeue();
+            //				jw.enabled = true;
+            //				jw.DoJob(GetJob());
+            //				return true;
+            //			}
+            //		}
+            //		return false;
+            //	}
+            //}
+             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we'll need to see the <b>Job Worker</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class JobWorker : MonoBehaviour {
+
+                string currentJob;
+                float workingTime = 0;
+                float standardJobTime = 5;
+                bool working = false;
+
+                void Update () {
+                Debug.Log("Worker Update");
+                    if(working){
+                        DoWork();
+                    } else {
+                        string job = GameObject.FindObjectOfType&lt;JobManager>().GetJob();
+                        if(job != "") {
+                            currentJob = job;
+                            working = true;
+                        }
+                    }
+                }
+
+                void DoWork() {
+                    workingTime += Time.deltaTime;
+                    if(workingTime >= standardJobTime) {
+                        working = false;
+                        workingTime = 0;
+                        currentJob = "";
+                    }
+                }
+            }
+
+            //public class JobWorker : MonoBehaviour {
+            //	
+            //	string currentJob;
+            //	float workingTime = 0;
+            //	float jobUpdateFrequency = .1f;
+            //	float standardJobTime = 5;
+            //	bool working = false;
+            //	JobManager manager;
+            //
+            //	// Use this for initialization
+            //	void Start () {
+            //		manager = GameObject.FindObjectOfType&lt;JobManager>();
+            //	}
+            //	
+            //	// Update is called once per frame
+            //	void Update () {
+            //		Debug.Log("Worker Update");
+            //		if(working){
+            //			StartCoroutine(DoWork());
+            //		} else {
+            //			manager.AddWorker(this);
+            //		}
+            //	}
+            //	
+            //	IEnumerator DoWork() {
+            //		while(working) {
+            //			workingTime += Time.deltaTime;
+            //			if(workingTime >= standardJobTime) {
+            //				working = false;
+            //				workingTime = 0;
+            //				currentJob = "";
+            //			}
+            //			yield return new WaitForSeconds(jobUpdateFrequency);
+            //		}
+            //	}
+            //
+            //	public void DoJob (string job)
+            //	{
+            //		currentJob = job;
+            //		working = true;
+            //	}
+            //}
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            This Job Manager is responsible for accepting jobs and then allowing job workers to retrieve jobs. This system might be used in an RTS-type game where we want to queue up jobs for our worker units to do. Every frame, the job workers are going to be either working or looking for work. This means that the more workers we have, the more code is being run every frame because they each have work to do in their Update method. This is similar to the scenario where 100 enemies are checking to see if a player is near enough to attack; instead have the player script notify an enemy when that player is near enough. This means we only have to do one range check instead of 100.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's take a look at the job worker as it was at it's bad point. We can see that the worker update calls are logged there, and they're ever increasing. We have anumber of workers checking for new jobs every frame. Now let's take a look at how we can flip the responsibility. After the optimization, we can see that the improved version of both classes instead flips the responsibility and makes the job manager responsible for pushing jobs out to workers. This means the workers only need to update when they have a job to do, and when they no longer have a job, they simply add themselves to the job manager list as waiting for a job. In the scene, we'll see we only add 194 worker updates before all the jobs are completed, and now we only have one manager updating per second instead of hundreds of job workers updating per second.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've seen some techniques and strategies to reduce the amount of code that's executed each frame. This is essentially achieved by running code less often or running code once for the benefit of multiple entities. It's been famously said that premature optimization is the root of all evil. However, it's also important to design with performance in mind. There have been plenty of people that give up on their games because the performance made their game unplayable and it still wans't even done. Compared to a large amount of software, games are very resource intensive. This means that a game developer must spend more time considering performance than most other developers.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
