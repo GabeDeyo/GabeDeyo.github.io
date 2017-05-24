@@ -284,6 +284,11 @@
             <p><span class="glyphicon-remove"></span>It's going to take a number of items to be processed and process them, until it's completed. If we have a heavy task with yield, it's going to take a number of items to be processed, and process one per frame until it's completed. Let's see what the difference makes. If we turn on, UseYieldForHeavy, and then click our object, we'll see that it's going to move at the same time that it's processing the heavy task. And actually going to finish right around the same time.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a new sphere object called Sphere and attach the Coroutines script.
+            <br>Set Seconds To Wait to 5, Move to false, Complete to false, and Use Yield For Heavy to false.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             The coroutine is a powerful coding structure that allows further control and execution of our code. Common uses include distributing the processing of a heavy method over multiple frames. Offering an alternative for control of structures in our code, or making something happen regularly in game.
         </p></li>
     </ul>
@@ -507,6 +512,16 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a new cube named Broadcaster with the Event Broadcaster script attached.</p>
+            <p><span class="glyphicon-remove"></span>Create a new sphere named Sphere Down with the Event Move Listener attached.
+            <br>Set Event Move Direction to (0, -1, 0)</p>
+            <p><span class="glyphicon-remove"></span>Create a new sphere named Sphere Up with the Event Move Listener attached.
+            <br>Set Event Move Direction to (0, 1, 0)</p>
+            <p><span class="glyphicon-remove"></span>Create a new empty called GUI Event Listener and attach the Event GUI Listener script.
+            <br>Set Message To Display to "Event recieved!", and Seconds To Show to 3.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             Event systems are a great flexible way to communicate between objects without the objects even needing to know about each other in advance, or at all. It's important to note that there's not just one way to create event systems. There are dozens of ways to implement event systems and many different ways to use each implementation. However, event systems, in some form or another, are a very important aspect of game design. Without events, game objects come to rely heavily on each other, and changing one object can have a cascade effect throughout a number of objects. Messaging systems help reduce special case coding, improve seperation of game logic and user interface, and keep objects independent of each other.
         </p></li>
     </ul>
@@ -705,6 +720,23 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this case we're going to do the same thing where we get the number of sub objects, write the number of sub objects to the player preferences file, and then for each sub object, they will write their own state to the player preferences file. This is not an ideal system for web games since we are limited to one megabyte and can only store strings, floats, and ints. In a web environment the ideal situation would be to use a database. A similar tactic for data can be used in databases. We can break apart the serialization by object and store into tables, or it can combine together into a single binary data block.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty called The Simple Save Loader and attach the Save Load Simple Objects script.
+            <br>Set Save File to Assets\SaveFile.save</p>
+            <p><span class="glyphicon-remove"></span>Create a new empty called Simple One and attach the Simple Object script.
+            <br>Set A String Object to "First test string", and A Float Value to 23445.
+            <br>Create as a child, an empty called SubSimple with the Simple Sub Object script attached.
+            <br>Set Sub String to "Simple one sub simpler", Value X to 573452, and Value B to 9.</p>
+            <p><span class="glyphicon-remove"></span>Create a new empty called Simple Two and attache the Simple Object script.
+            <br>Set A String Object to "TwoSimple", and A Float Value to 2345.456
+            <br>Create as a child, an empty called Sub Simple, with the Simple Sub Object attached.
+            <br>Set Sub String to "Simple two sub simple", Value X to 364562, and Value B to 4
+            <br>Create as a second child, an empty called Sub Simple 2 with the Simple Sub Object attached.
+            <br>Set Sub String to "Simple two sub simple", Value X to 364562, and Value B to 4</p>
+            <p><span class="glyphicon-remove"></span>Create a new empty called Simple Three with the Simple Object script attached.
+            <br>Set A String Object to "Three", and A Float Value to 43.2.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this section, we've covered a simple strategy for saving games. There are a lot of different strategies for saving games, and they vary depending on the game type, game mechanics requirements, and even the devlopers personal style. Some games will only ever need to save the high score because the game state doesn't persist beyond that. Other games will need to save the state of hundreds of objects, with each object having dozens of data structures that need to be saved as they are. The strategy we've covered is just one of many. Choosing the right strategy for your game is an important decision that only you can make.
@@ -1209,6 +1241,11 @@
             Points will overlap, and that is fine because we can't share all of our points with each triangle, since this is more than just a position. Texture data and normals for lighting are also contained within the vertices. This system will need some experimenting to get used to but it is very powerful once figured out.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a new empty called Dynamic Mesh Object and attach the Dynamic Mesh Interface script.
+            <br>Set the Material to whatever material you would like.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             In this section we've gone over how to generate meshes at runtime. This opens up a number of possibilities for various types of gameplay and reducing content creation to algorithms. We saw that meshes are composed of vertices, and the order thaat they're defined does matter. We should define the vertices clockwise from the direction we want to view them in.
             <p><span class="glyphicon-remove"></span>Using the knowledge learned here, we can create procedurally generated meshes, or destructible terrain. Procedural generation doesn't just mean meshes that can be modified or random for everyone. The terrain objects generated could be the same for everyone and static. However, instead of defining all the vertices in a content generation program, like Blender or 3D Studio Max, we could define a series of algorithms and formulas that generate the mesh during runtime.</p>
         </p></li>
@@ -1512,6 +1549,11 @@
             So continuing to add objects causes deeper and deeper splits. So what's so beneficial about using this spatial partioning? Well, when adding a large number of objects like this, like 1000 of them, trying to find the nearest object the the point we click would require us to search through all of the objects in the scene and see which is closest. However, using a QuadTree structure like this, we can split the scene and search fewer objects. For example, the nodes marked in red for those searched for the nearest node. The green line drawn shows us the node closest to where we click. This means we didn't have to calculate the distance to these objects and only the objects found in the red circles. This gives us a significant improvement in searching speed.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a new empty called Quad Tree Interface with the Quad Tree Interface script attached.
+            <br>Set Max Node Depth to 8, Max Node Object to 2, and Items Per Add to 1.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             In this section we have covered how to create and use a Quad Tree. The Quad Tree is a nice structure for many situations. The 2D nature of the Quad Tree can be a limitation, however it doesn't limit you to a 2D world. Most games have a majority of their game objects in a relatively flat area for example, such as a 3D real time strategy game. The height of the world is significantly less than the length or the width.
             <p><span class="glyphicon-remove"></span>The Quad Tree we created here still accepts a third parameter, it's just ignored by the partitioning portion of the structure. However, it's still used to calculate the distance and find the nearest object. If we needed to also partition the vertical, we'd use an OctTree. Gets a bit more tricky.</p>
         </p></li>
@@ -1588,6 +1630,11 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In our test interface, we're going to create a test object, and then in the update method, look for a space input press. If the space key is pressed, we are going to call Reset on the test object, or if the left mouse button is pressed, we can call Move To Mouse. The nice thing about this is the game object here. We can see that we have all of our other parameters and methods and we see that our extension method has been added in auto complete.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a cube called TestObject.
+            <br>Attach the Extension Method Test Interface, and the Mouse Drag Objects scripts.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this quick section, we've covered using extension methods and the kind of situations we'd use them for. These methods are great for adding functionality to existing classes. Further they help us improve our efficiency when writing code. Now we don't have to go to a helper library to find the method that takes a game object and resets its values. Instead now we can just call a reset method on the game object itself. This is a coding efficiency improvement and an organizational improvement. The big bonus of it being added to the code completion is even better.

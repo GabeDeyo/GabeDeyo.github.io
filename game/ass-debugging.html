@@ -133,6 +133,48 @@
             In general terms, Debugging is the process of finding and removing bugs from the code. The Debugger is a tool that allows us to do this by analyzing the program during run time. It's not only great at catching run time errors but it provides a suite functionality that allows us to view the current state of the program at any given point, allowing us to find logic errors as well. With the Debugger, we can pause the execution of the code at break points, inspect the current state of the variables, step line by line through the code, and even modify values in memory.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            Let's see the <b>Debugging</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Debugging : MonoBehaviour {
+
+                void Start () {
+                    //Camera c = null;
+                    //Debug.Log(c.name);
+
+                    bool bValue = false; //set breakpoint here
+                    conditionalBreakpoints();
+                    if(bValue) {
+                        Debug.Log("bValue is true!");
+                    } else {
+                        Debug.Log("bValue is false!");
+                    }
+                    
+                    bValue = myInvertFunction(bValue);
+                    
+                    if(bValue) {
+                        Debug.Log("bValue is true!");
+                    } else {
+                        Debug.Log("bValue is false!");
+                    }
+                    
+                }
+
+                private bool myInvertFunction(bool value) {
+                    bool newValue = !value;
+                    return newValue;
+                }
+                
+
+                private void conditionalBreakpoints() {
+                    int totalValue = 0;
+                    for(int i = 0; i < 1000; i++) {
+                        totalValue += i; //
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             The Debugger should be your go-to tool for solving run time errors and analyzing algorithm errors. The difference between these two is simple. Runtime errors cause an exception in the game. If the exception is not handled, this will cause the game to crash. These errors can arise from a number of situations. One of the most common runtime errors is a null pointer exception. This error happens when you try and use an object that has not yet been initialized. Other examples are array out of bounds errors, divide by zero, IO errors like file not found, and so on. Algorithm or logic errors do not cause an exception, and do not cause the program to crash.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
@@ -150,7 +192,12 @@
         <li><p><span class="glyphicon-remove"></span>
             When the execution is paused we can hover over variables to see what their values are. We can stpe over code to continue execution line by line. We can step into functions and then step out of functions and we can right click on values and add a watch.
         </p></li>
-        <li><p><span class="glyphicon-remove"></span>Break points are great for a lot of situations. But what about if we only want to break on a line sometimes. Thats where conditional break points come in. To try this, right-click the break point and go to Breakpoint Properties and we see that we're allowed to set a condition here. Break when the condition is true for example. Then we can type an expression here so when that condition is true, it will break.
+        <li><p><span class="glyphicon-remove"></span>
+            Break points are great for a lot of situations. But what about if we only want to break on a line sometimes. Thats where conditional break points come in. To try this, right-click the break point and go to Breakpoint Properties and we see that we're allowed to set a condition here. Break when the condition is true for example. Then we can type an expression here so when that condition is true, it will break.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a cube with the Debugging script on it.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             In this quick look at the Debugger, we've seen the power of said Debugger and break points. These tools are incredibly useful when solving problems in your code and algorithms. The Debugger can also be used as a learning tool. If you're not sure how an algorithm works or unsure how a certain section of code behaves, step through it with the Debugger. The Debugger will show you step by step which line of code will be executed next, and you can analyze the inputs to the control flow systems like if, else, for, while, and see why the execution went the way it did.
@@ -166,7 +213,7 @@
             In this section we'll discuss the CallStack and its importance for debugging. The CallStack is a list of functions and their locations in the program. You can think of a CallStack like a map, leading back to the start of the program. Recall, in the debugging section, we used the debugger to step into a piece of code. Whenever the execution steps into a function call it leaves a marker on the stack. It's called a stack because like the stacked data structure, items are added and removed from the top only. In this way, stepping into or calling a method will push a marker onto the stack, and stepping out of or returning from a method will pop a marker off.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Let's check it out with a bit of code:
+            Let's check it out the <b>Call Stack</b> code:
             <pre>
             <span class="glyphicon-remove"></span>public class CallStack : MonoBehavior {
                 public GameObject targetObject;
@@ -215,6 +262,11 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a cube with the Call Stack script on it.
+            <p><span class="glyphicon-remove"></span>Create a sphere and name "target".</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
             After we attach the debugger, we make our calls to callAllOverThePlace. We will see that the break point has indeed triggered and the value is greater than one and using the call stack we can actually double click the methods there to navigate to exactly where the call is. So we would be able to search through the call stack through to the line: Debug.Log(calculate(22, 0.83 * 1.9f)); which is calculating a larger value than allowed. In this case, the call stack has made it very easy to find the offending line of code, simply by setting a bright blank on the method where we found the error.
             <p><span class="glyphicon-remove"></span>The call stack can also be found in the Unity Editor when the Debugger is not attached. Look for errors in the console window.</p>
         </p></li>
@@ -227,9 +279,32 @@
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             The immediate window allows us to execute a line of code, taking into account the current state of the program. This means we can write snippets of code that use the current values of our variables. This is great for situations where you want to say, what would happen if I tried it this way? Or a quick way to find out what the value inside an array is or the properties of an object are. We need to pause the execution of the code in order to get access to the immediate window. So in order to use, set a break point and attach the debugger.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at the <b>Immediate Window</b> code:
             <pre>
-            <span class="glyphicon-remove"></span>void Start() {
-                Debug.Log("break here");
+            <span class="glyphicon-remove"></span>public class ImmediateWindow : MonoBehaviour {
+
+                float[] floats = new float[]{342.43f, 234.566f, 593.234f, 19.43f, 59.234f, 56.56f};
+                public float strengthValue = 100f;
+                public float weaponValue = 48f;
+                public float criticalValue = 12f;
+                bool bValue = true;
+
+                void Start () {
+                    Debug.Log("Break here");
+
+
+                    while(bValue) {
+                        //Do stuff
+                    }
+
+                    Debug.Log("Finish start");
+                }
+
+                public float CalculateAttack() {
+                    return (strengthValue*(weaponValue/8.5f))*Mathf.Pow(criticalValue, 1.3f);
+                }
             }
             </pre>
         </p></li>
@@ -241,6 +316,11 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Something else we can do that is very powerful is running our method calls. This will run the call with whatever values you give it. For example we could change the values for a weapon attack and then call CalculateAttack to find out the details you need about those changed values. This would be very useful for figuring out a infinite loop error.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a cube with the Immediate Window script attached.
+            <br>Set Strength Value to 100, Weapon Value to 48, and Critical Value to 12.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             The immediate window is not only useful for testing if a specific set of inputs causes an error. It's also a great way to test various inputs to make sure the output is what you are expecting. The immediate window in Unity is lacking some nice features like code completion, but it can still be a valuable tool.
@@ -259,24 +339,215 @@
             Gizmos are very useful for visual debugging, however they are only in the debugger and it's only when the Gizmos button is checked. They're most useful in situations like movement, rotations, collisions or algorithms like pathfinding, anything where it's easier to see the data visually instead of trying to imagine the numbers. We have various options for drawing Gizmos.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            All the drawing for Gizmos is done in the OnDrawGizmos() method. Let's look at some Gizmos code.
+            Let's first look at the <b>Proximity Sensor</b> code:
             <pre>
-            <span class="glyphicon-remove"></span>public void OnDrawGizmos() {
-                //if there are any object in range, draw the range and make it red.
-                if(currentlyInRange) {
-                    Gizmos.color = Color.red;
-                    Gizmos.DrawWireSphere(this.transform.position, activationRadius);
-                    Gizmos.color = Color.white; //reset the color after we're done.
+            <span class="glyphicon-remove"></span>public class ProximitySensor : MonoBehaviour {
+
+                //Define the activate and forget radii. 
+                public float activationRadius = 4;
+                public float forgetRadius = 8;
+
+                //keep a list of the objects that entered and we're tracking
+                List&lt;GameObject> targeted = new List&lt;GameObject>();
+
+                //keep track if an object is currently in range
+                private bool currentlyInRange = false;
+
+                public void OnDrawGizmos() {
+                    //if there are any objects currently in range
+                    // draw the range and make it red.
+                    if(currentlyInRange) {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawWireSphere(this.transform.position, activationRadius);
+                        Gizmos.color = Color.white; //reset the color after we're done
+                    }
+
+                    //if there are any objects currently targeted
+                    // draw the range and make it yellow.
+                    if(targeted.Count > 0) {
+                        Gizmos.color = Color.yellow;
+                        Gizmos.DrawWireSphere(this.transform.position, forgetRadius);
+                        Gizmos.color = Color.white; //reset the color after we're done
+                    }
+
+                    //for each object of interest, draw a line to show we're currently tracking them
+                    Gizmos.color = Color.green;
+                    foreach(GameObject go in targeted) {
+                        Gizmos.DrawLine(this.transform.position, go.transform.position);
+                    }
+                    Gizmos.color = Color.white; //always reset the color at the end, so we don't change the color of any other gizmos
                 }
 
-                // For each object of interest, draw a line to show we're currently tracking them.
-                Gizmos.color = Color.green;
-                foreach(GameObject go in targeted) {
-                    Gizmos.DrawLine(this.transform.position, go.transform.position);
+                void Update () {
+                    //Get all the objects in range of us
+                    //The Physics.OverlapSphere function creates a sphere and checks to see if any colliders are intersecting it
+                    // it returns a list of all the colliders intersecting it.
+                    Collider[] nearByColliders = Physics.OverlapSphere(this.transform.position, activationRadius);
+
+                    //if the list is larger than 0 items, we found something
+                    //it's important to remember that the above function will not ignore the collider of the calling object
+                    // this means to not have false positives, we can either disable the collider on the calling object
+                    // or we can do a check similar to `if(collider != this.collider)` to ensure we're not detecting ourselves
+                    if(nearByColliders.Length > 0) {
+                        //we have an object in range, activate
+                        currentlyInRange = true;
+                        foreach(Collider collider in nearByColliders) {
+                            //for each collider in range, check to see if we're tracking it already, if not add it to the track list
+                            if(!targeted.Contains(collider.gameObject)) {
+                                targeted.Add(collider.gameObject);
+                            }
+                        }
+                    } else {
+                        //we didn't find anything in range, deactivate
+                        currentlyInRange = false;
+                    }
+
+                    if(targeted.Count > 0) {
+                        //since we're keeping a list, we need to remove objects when they get too far away
+                        // here we're going to go through and find the objects that are farther than forgetRadius
+                        // we're using two loops so we don't have a concurrent modification error, that error happens 
+                        // when you try to remove an item from the list you're currently iterating over
+
+                        List&lt;GameObject> objectsToRemove = new List&lt;GameObject>();
+                        foreach(GameObject go in targeted) {
+                            //build the list of objects that are out of range
+                            if(Vector3.Distance(this.transform.position, go.transform.position) > forgetRadius) {
+                                objectsToRemove.Add(go);
+                            }
+                        }
+                        //remove all the objects that are out of range from our targeted list
+                        foreach(GameObject objectToRemove in objectsToRemove) {
+                            targeted.Remove(objectToRemove);
+                        }
+                    }
                 }
-                Gizmos.color = Color.white; // always reset the color at the end, so we don't change the color of any other gizmo.
             }
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next we'll check out the <b>Move Towards Click</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class MoveTowardsClick : MonoBehaviour {
+
+                Vector3 targetPosition;
+	
+                //the speed, in units per second, we want to move towards the target
+                public float speed = 5f;
+
+                public bool holdToFollow = true;
+
+                public bool targetSet = false;
+
+                public float stoppingAccuracy = 2f;
+
+                public MouseUtils.Button respondToMouseButton = MouseUtils.Button.Left;
+                // Use this for initialization
+                void Start () {
+                
+                }
+
+                // Update is called once per frame
+                void Update () {
+                    if(holdToFollow) {
+                        if(Input.GetMouseButton((int)respondToMouseButton)) {
+                            //mouse has been clicked! Update position
+                            //Use the object's current depth, so we can move around on a 2D plane
+                            targetPosition = GetMouseAtObjectDepth();
+                            //make sure we "turn on" the movement
+                            targetSet = true;
+                        }
+                    } else {
+                        if(Input.GetMouseButtonDown((int)respondToMouseButton)) {
+                            //mouse has been clicked! Update position
+                            //Use the object's current depth, so we can move around on a 2D plane
+                            targetPosition = GetMouseAtObjectDepth();
+                            //make sure we "turn on" the movement
+                            targetSet = true;
+                        }
+                    }
+
+                    MoveTowardsTarget();
+                }
+
+                //Get position of the mouse at the depth of an object
+                Vector3 GetMouseAtObjectDepth() {
+
+                    //Find the depth into the scene, the distance won't work here because objects 
+                    // directly in front of the camera are closer than objects around the edges of the screen.
+                    //So we'll get the vector that points to the object, then use the dot product to see 
+                    // how much of that overlaps with the forward heading of the camera.
+                    //Get the vector from the camera to the object
+                    Vector3 headingToObject = this.transform.position - Camera.main.transform.position;
+                    //Find the projection on the forward vector of the camera
+                    float depth = Vector3.Dot(headingToObject, Camera.main.transform.forward);
+                    return GetMouseAtSpecifiedDepth(depth);
+                }
+
+                Vector3 GetMouseAtSpecifiedDepth(float depth) {
+                    Vector3 mouseScreenPosition = Input.mousePosition;
+                    mouseScreenPosition.z = depth;
+                    Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+                    return new Vector3(mouseWorldPosition.x, mouseWorldPosition.y, mouseWorldPosition.z);
+                }
+
+                public void OnDrawGizmos() {
+                    if(targetSet) {
+                        //Show a line from our current position to the target position
+                        Gizmos.DrawLine(this.transform.position, targetPosition);
+
+                        //show us where the minimum stopping distance is
+                        Gizmos.DrawWireSphere(targetPosition, stoppingAccuracy);
+
+                    }
+                }
+                
+                //move towards a target at a set speed.
+                private void MoveTowardsTarget() {
+                    //only do work if we have a valid target
+                    if(targetSet) {
+                        Vector3 currentPosition = this.transform.position;
+                        //first, check to see if we're close enough to the target
+                        //this check prevents us from oscillating back and forth over the target
+                        //if we're farther than 1 unit away, do the movement, otherwise do nothing
+                        if(Vector3.Distance(currentPosition, targetPosition) > stoppingAccuracy) { 
+                            
+                            //get the direction we need to go by subtracting the current position from the target position
+                            Vector3 directionOfTravel = targetPosition - currentPosition;
+                            //now normalize the direction, since we only want the direction information
+                            directionOfTravel.Normalize();
+                            
+                            //now move at the specified speed in the direction of travel
+                            //scale the movement on each axis by the directionOfTravel vector components
+                            
+                            this.transform.Translate(
+                                (directionOfTravel.x * speed * Time.deltaTime),
+                                (directionOfTravel.y * speed * Time.deltaTime),
+                                (directionOfTravel.z * speed * Time.deltaTime),
+                                Space.World);
+
+                        } else {
+                            //We've completed the move, indicate we're done by turning off targetSet
+                            targetSet = false;
+                        }
+                    }
+                }
+
+                public override string ToString ()
+                {
+                    return string.Format ("[MoveTowardsClick]: " + targetPosition + " @ "
+                                        + speed + "m/s, target set: " + targetSet);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create a sphere called Detector Large and attach the Proximity Sensor script.
+            <br>Set the Activation Radius to 5, and the Forget Radius to 7.</p>
+            <p><span class="glyphicon-remove"></span>Create a sphere called Detector Large and attach the Promity Sensor script.
+            <br>Set the Activation Radius to 2, and the Forget Radius to 4.</p>
+            <p><span class="glyphicon-remove"></span>Create a cube called Traveler Left and attach the Move Towards Click script.
+            <br>Set Speed to 5, Hold To Follow true, Target Set false, Stopping Accuracy to 0.5, and Respond to Mouse Button to Left.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -291,7 +562,10 @@
         <li><p><span class="glyphicon-remove"></span>
             For this we can produce a log file that will tell us exactly what the user was doing when it encountered an exception. For this we're going to use a method called Application.RegisteredLogCallback(). This register log callback method is going to accept a delegate method. The delegate method is going to pass in a method as a parameter. This will be covered further in the events and messaging section. Essentially what we're telling Unity with this RegisterLogCallback, is we're going to pass in our own method and say call this whenever you register a log. Let's take an initial look at some code:
             <pre>
-            <span class="glyphicon-remove"></span>public class ExceptionLogging : MonoBehaviour {
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.IO;
+
+            public class ExceptionLogging : MonoBehaviour {
+                
                 public string saveFile = @"Log.txt";
                 private StringWriter logWriter;
 
@@ -302,46 +576,49 @@
                 void OnDisable() {
                     Application.RegisterLogCallback(null);
                 }
-            }
-            </pre>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            The ExceptionWriter method that we're going to pass in is going to take a log string, stack trace and type. We're going to use a switch on the type, and if that's an exception or an error, we're going to open the log file and write to it. We're going to write the type, log, and stack trace here. We also have an exception generator calss that's going to generate exceptions for us so we can test this out. Let's see what it looks like. So, hitting space will generate an exception for us. And we see that we do have a divide by zero exception, and it gives us the line number, and if we look at our file location, we can see that a log file has been generated, and it matches the log generated by the Unity editor. Lets see the code.
-            <pre>
-            <span class="glyphicon-remove"></span>public class ExceptionLogging : MonoBehavior {
-                //Previous code...
 
+                //This is an instance of a delegate, we'll cover these in more detail in the Advanced scripting chapter
+                //Changing the types or order of the types in this method will break the code.
+                //You can name it whatever you like.
                 void ExceptionWriter(string logString, string stackTrace, LogType type) {
                     switch(type) {
-                        case LogType.Exception:
-                        case LogType.Error:
-                            using(StreamWriter writer = new StreamWriter(new FileStream(saveFile, FileMode.Append))) {
-                                writer.WriteLine(type);
-                                writer.WriteLine(logString);
-                                writer.WriteLine(stackTrace);
-                            }
-                            break;
-                        default;
-                            break;
+                    case LogType.Exception:
+                    case LogType.Error:
+                        using(StreamWriter writer = new StreamWriter(new FileStream(saveFile, FileMode.Append))) {
+                            writer.WriteLine(type);
+                            writer.WriteLine(logString);
+                            writer.WriteLine(stackTrace);
+                        }
+                        break;
+                    default:
+                        break;
                     }
                 }
             }
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Here is the ExceptionGenerator code as well:
+            The ExceptionWriter method that we're going to pass in is going to take a log string, stack trace and type. We're going to use a switch on the type, and if that's an exception or an error, we're going to open the log file and write to it. We're going to write the type, log, and stack trace here. We also have an exception generator calss that's going to generate exceptions for us so we can test this out. Let's see what it looks like. So, hitting space will generate an exception for us. And we see that we do have a divide by zero exception, and it gives us the line number, and if we look at our file location, we can see that a log file has been generated, and it matches the log generated by the Unity editor. Lets see the code.
             <pre>
-            <span class="glyphicon-remove"></span>private int zero = 0;
+            <span class="glyphicon-remove"></span>public class ExceptionGenerator : MonoBehaviour {
 
-            void Update() {
-                if(Input.GetKeyDown(KeyCode.Space)) {
-                    float exceptionValue = 10/zero;
-                }
-                if(Input.GetKeyDown(KeyCode.A)) {
-                    throw new MissingComponentException("Missing a component.");
+                private int zero = 0;
+	
+                void Update () {
+                    if(Input.GetKeyDown(KeyCode.Space)) {
+                        float exceptionValue = 10/zero;
+                    }
+                    if(Input.GetKeyDown(KeyCode.A)) {
+                        throw new MissingComponentException("Missing a component.");
+                    }
                 }
             }
             </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>Create an empty GameObject and attach both the Exception Generator and Exception Logging scripts.
+            <br>Set the Save File to "Log.txt".</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             The logging will be invaluable when tracking down issues in the field. Everyone knows eye witness testimony is unreliable. If a user has an issue have them send you the log. Of course it will help if they can explain what they were doing at the same time. The log file will help show you waht the user was doing leading up to their description of the events that caused the game to function improperly.

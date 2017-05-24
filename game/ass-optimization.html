@@ -1086,7 +1086,10 @@
             </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            The test interface ...
+            The test interface we're going to use is simply going to create a number of destory bullets and a number of recycle bullets, and then compare the run time for creating each group of objects. When starting a pool run, we're going to start our timer, run through the number of items we're going to add, and spawn each game object using our game object pool. When doing an InstantiateRun, we're going to run through the number of objects and use GameObject.Instantiate. Hitting the space key will start the test run. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the scene, we will have our pool tester that's going to have a specific number of objects to spawn, and hitting the space key will spawn those objects. We see then that our first run, the instantiate, and pool runs are very similar in times, with instantiate being slightly lower. But now that we have objects in our pool, we can see that the next run is significantly better for the pool run than the instantiate run. Additionally, we can increase the number of objects, and see similar results. Whether they be fairly close in the first run, and significantly better for the pool run in the future runs.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
