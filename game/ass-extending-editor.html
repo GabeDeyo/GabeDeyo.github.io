@@ -107,6 +107,14 @@
                                 <a href="#0">Property Drawers</a>
                                 </p>
                             </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Custom Editor Elements</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Editor Windows</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -114,18 +122,402 @@
     <h2>Property Drawers</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In this section, we're going to go over how to use Property Drawers (like drawings, not the utility furniture) to extend the organization and functionality of the Inspector window in Unity. Property Drawers are like creating our own GUI elements, except these elements are used inside the Unity editor. These custom elements are specifically for drawing a property of a script. We tell Unity which property drawer we want to use with an attribute. Unity only has a few property drawers buil-in, but that's okay since we can create our own. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Let's first look at the <b>Enemy</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>public class Enemy : MonoBehaviour {
+
+                [Range (10f, 80f)]
+                public float attackPower = 10f;
+
+                #if UNITY_EDITOR
+                    [MyPropertyDrawers.PopupAttribute ("Hello!", "Howdy", "DIE!!", "How can I help you?", "Let's dance!")]
+                #endif
+                public string defaultGreeting;
+
+                #if UNITY_EDITOR
+                    [MyPropertyDrawers.IncrementalChange(5f)]
+                #endif
+                public float lookAngle = 0f;
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            The Enemy script has three variable; the attack power, default greeting, and look angle. If we want to modify these variables to be easier to use and input new variables, we can do the following. We can limit the range of tag power from 10 to 80. This can help us avoid errors of a negative attack power or attack power that's too high. We see that adding this attribute to the attack power will now add this range slider into the Unity inspector. This slider will go form 10 to 80. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Additionally, there are some custom property modifiers that will do the following. The Pop-Up attribute is going to take an array of strings, which will be the values available to us when setting the default greeting. The Incremental Change attribute is going to take a value, which is an increment, so that when this value is changed it'll only change by increments of X degrees.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's see how these work with the <b>My Property Drawers</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>#if UNITY_EDITOR
+            //using System, UnityEditor, UnityEngine, System.Linq,
+                System.Text.RegularExpressions, System.Globalization;
+
+            namespace MyPropertyDrawers {
+                public class IncrementalChange : PropertyAttribute {
+                    public float increment;
+                    public IncrementalChange(float increment) {
+                        this.increment = increment;
+                    }
+                }
+
+                [CustomPropertyDrawer( typeof( IncrementalChange ))]
+                public class IncrementalChangeDrawer : PropertyDrawer
+                {
+                    private int textHeight = 16;
+
+                    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+                        
+                        EditorGUI.BeginProperty( position, label, property );
+                        int origIndent = EditorGUI.indentLevel;
+
+                        //Retrieve the increment from the attribute.
+                        float increment = ((IncrementalChange)attribute).increment;
+
+                        //Hidden slider allows us to replicate the slide over name to change the value
+                        EditorGUI.Slider(new Rect( position.xMin, position.yMin, position.width/3f, textHeight),
+                                        property, property.floatValue - 200, property.floatValue + 200);
+
+                        EditorGUI.LabelField(new Rect( position.xMin, position.yMin, position.width/3f, textHeight),
+                                            GUIUtils.PrettyPrintVariableName(property.name));
+
+                        property.floatValue = EditorGUI.FloatField(
+                            new Rect( position.xMax/3f, position.yMin,
+                            position.width - (position.width/3f),
+                            textHeight), Mathf.Round(property.floatValue/increment)*increment);
+
+                        EditorGUI.indentLevel = origIndent;
+                        EditorGUI.EndProperty();
+                    }
+                }
+
+                public class PopupAttribute : PropertyAttribute {
+                    public string[] items;
+                    public PopupAttribute(params string[] values) {
+                        this.items = values;
+                    }
+                }
+
+                [CustomPropertyDrawer( typeof( PopupAttribute ))]
+                public class PopupDrawer : PropertyDrawer
+                {
+                    private int textHeight = 16;
+
+                    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+                        
+                        EditorGUI.BeginProperty( position, label, property );
+                        int origIndent = EditorGUI.indentLevel;
+                        string[] values = ((PopupAttribute)attribute).items;
+                        int index = 0;
+                        for(; index < values.Count()-1; index++) {
+                            if(values[index].Equals(property.stringValue))
+                                break;
+                        }
+
+                        EditorGUI.LabelField(new Rect( position.xMin, position.yMin, position.width/3f, textHeight),
+                                            GUIUtils.PrettyPrintVariableName(property.name));
+
+                        index = EditorGUI.Popup(
+                            new Rect( position.xMax/3f,
+                                position.yMin, position.width - (position.width/3f),
+                                textHeight), index, values);
+
+                        if(index < values.Count())
+                            property.stringValue = values[index];
+
+                        EditorGUI.indentLevel = origIndent;
+                        EditorGUI.EndProperty();
+                    }
+                }
+
+                public class InventoryItemAttribute : PropertyAttribute {
+                    
+                }
+
+                [CustomPropertyDrawer( typeof( InventoryItemAttribute ))]
+                public class InventoryDrawer : PropertyDrawer
+                {
+                    private int textHeight = 16;
+                    private string itemName;
+
+                    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
+                        
+                        EditorGUI.BeginProperty( position, label, property );
+                        
+                        int origIndent = EditorGUI.indentLevel;
+                        
+                        SerializedProperty itemName = property.FindPropertyRelative( "itemName" );
+                        SerializedProperty itemType = property.FindPropertyRelative( "type" );
+                        SerializedProperty itemID = property.FindPropertyRelative( "ID" );
+                        
+                        string[] enumValues = Enum.GetNames(typeof(Inventory.InventoryItem.InventoryItemType));
+                        string longest = enumValues.Aggregate("", (max, cur) => max.Length > cur.Length ? max : cur);
+                        //Calculate the width of the largest item. And add some padding to fit the popup control around it
+                        float widthOfPopup = EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector).label.CalcSize(
+                            new GUIContent(longest)).x + 25;
+                        //Don't go beyond the size we're alloted 
+                        widthOfPopup = Math.Min((position.width/2), widthOfPopup);
+                        
+                        itemName.stringValue = EditorGUI.TextArea( new Rect( position.xMin, position.yMin,
+                                                                            (position.width/2), textHeight ),
+                                                                            itemName.stringValue );
+                        itemType.enumValueIndex = EditorGUI.Popup(new Rect( (position.xMax/2f), position.yMin,
+                                                                            widthOfPopup, textHeight),
+                                                                            itemType.enumValueIndex,
+                                                                    Enum.GetNames(typeof(
+                                                                    Inventory.InventoryItem.InventoryItemType)));
+                        
+                        //We don't have to limit ourselves to EditorGUI, we can use regular GUI items too
+                        
+                        if(GUI.Button(new Rect(position.width - 25, position.yMin, 25, textHeight), "-")) {
+                            //We can even call functions inside the script
+                            ((Inventory)property.serializedObject.targetObject).RemoveItem(itemID.intValue);
+                        }
+                        
+                        EditorGUI.indentLevel = origIndent;
+                        EditorGUI.EndProperty();
+                    }
+                }
+            }
+            #endif
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Property Drawers require two components. The first being our property attribute, which we're going to add above the properties we want to use our custom drawer. We're going to define our custom property drawer as a type of drawer for our incremental change attribute. This way, whenever we tag a property with our incremental change attribute, this is the drawer that will be used when drawing it. We're going to override the OnGUI method of the property drawer class for inheriting. It's going to add a slider and a label. The slider will be hidden. It will allow us to slide and change the value just like Unity does by default, and the lablel will show us the property value. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Finally, we're going to round the property value to the nearest increment. The pop up attribute is going to take an array of strings, which will then be drawn by the pop-up drawer. This pop-up drawer is likewise going to override the ongoing method. It's going to add a pop-up field that includes the values defined in our attribute. We're also going to pass in an index of the selected item.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            There is a lot more here involving an Inventory system which is really cool but there is no code provided. Look into it if you're super interested.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span></p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we have gone over how to use property drawers to extend the inspector in Unity. These property drawers enable you to truly make Unity your own. If there's smoething you don't like about the way the inspector displays data, you can change it. Additionally being able to call methods inside your scripts with the push of a button really opens up the possibilities. Allowing us to modify the way data is displayed, and create custom drawers for a custom data structure lets us use the Unity Editor in the most efficient way possible.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Custom Editor Elements</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over how to use custom editors. These are similar to, but more complex than property drawers which we learned about in the first section here. Custom editors handle the entire component. This means we can get information about other properties selectively display or hide components on a conditional basis and add additional functionality to the component. These editors can speed up and facilitate content creation, help debug, and many other functions. We'll create a custom editor that will extend our custom prefab system to make it more user friendly and easier to test and debug custom prefabs. It's important to note that editor scripts must be placed in a special editor directory under the Assets folder.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            We'll start off with our <b>Ship Component</b> class:
+            <pre>
+            <span class="glyphicon-remove"></span>public class ShipComponent : AdvComponent {
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float armor;
+                
+                [PrefabAttribute(RequiresDefinition=true)]
+                public float structure;
+
+                [PrefabAttribute(RequiresDefinition=true)]
+                public ShipComponentType type;
+
+                [PrefabAttribute(RequiresDefinition=false)]
+                public string history;
+
+                [PrefabAttribute(RequiresDefinition=false)]
+                public Vector3 targetPosition;
+
+                public enum ShipComponentType {
+                    Weapon,
+                    Storage,
+                    Shield,
+                    Command,
+                    Power,
+                    Structural
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have a Ship Component that's going to extend an advanced component. We've seen something similar in a previous section. This class is going to define various attributes, defining whether we are required to define them in our scripts. Here we have three attributes that will require definition in our scripts and we have two optional. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Next, we'll need the <b>Custom Prefab Editor</b> script:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic
+                    UnityEditor, System.Reflection;
+
+            //[CustomEditor(typeof(AdvComponent), true)]
+            public class CustomPrefabEditor : Editor {
+
+                List&lt;SerializedProperty> requiredProperties;
+                List&lt;SerializedProperty> optionalProperties;
+                AdvComponent advancedComponent;
+
+                string generatedScript = "";
+
+                void OnEnable() {
+                    advancedComponent = serializedObject.targetObject as AdvComponent;
+                    requiredProperties = new List&lt;SerializedProperty>();
+                    optionalProperties = new List&lt;SerializedProperty>();
+
+                    foreach(FieldInfo fieldInfo in target.GetType().GetFields(BindingFlags.Public |
+                                                                            BindingFlags.Instance |
+                                                                            BindingFlags.DeclaredOnly)) {
+                        if(AdvComponent.RequiresDefinition(fieldInfo)) {
+                            SerializedProperty requiredProperty = serializedObject.FindProperty(fieldInfo.Name);
+                            if(requiredProperty != null) {
+                                requiredProperties.Add(requiredProperty);
+                            }
+                        } else {
+                            SerializedProperty optionalProperty = serializedObject.FindProperty(fieldInfo.Name);
+                            if(optionalProperty != null) {
+                                optionalProperties.Add(optionalProperty);
+                            }
+                        }
+                    }
+                }
+                
+                public override void OnInspectorGUI() {
+                    //Always update the object
+                    serializedObject.Update();
+
+                    EditorGUILayout.LabelField("Required fields (" + requiredProperties.Count + ")");
+                    EditorGUI.indentLevel++;
+                    foreach(SerializedProperty required in requiredProperties) {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.PropertyField(required);
+                        EditorGUILayout.EndHorizontal();
+                    }
+                    EditorGUI.indentLevel--;
+
+                    EditorGUILayout.LabelField("Optional fields (" + optionalProperties.Count + ")");
+                    EditorGUI.indentLevel++;
+                    foreach(SerializedProperty optional in optionalProperties) {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.PropertyField(optional);
+                        EditorGUILayout.EndHorizontal();
+                    }
+                    EditorGUI.indentLevel--;
+
+                    if(GUILayout.Button("Generate script")) {
+                        generatedScript = advancedComponent.GenerateComponentScript();
+                    }
+                    if(generatedScript.Length > 0) {
+                        EditorGUILayout.TextArea(generatedScript);
+                    }
+
+                    //And always apply changes. This will update the serialized properties of the serialized object
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Ouur Custom Prefab Editor is going to extend the editor class. We're alos going to tag it with an attibute telling Unity that it's a custom editor of the type of advanced component. Make sure that tag is commented out initially. When rendering our component in the inspector, we're going to group the properties based on if they're required or optional. The first thing we'll do is OnEnable, for each field we're going to group it as required or optional into our serialized property lists. Next in our OnInspector GUI method, we're going to draw each group, specifying the number of required and the number of optional, and drawing each property below. Finally, we're going to add a custom button called generate script. This generate script button is going to use the advanced component generate component script method. This method returns a string that contains the script defined by the current values of the advanced component. We're then going to display that script inside of a text area box.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the scene, we'll have the ship component, where the required fields and optional fields are grouped seperately. We still have all our options for showing enums, and we also have this option to generate a script. This is going to generate script which we can paste into an entity file to add this component to that entity. Generating a script automatically ensures the script matches the syntax to find in our parser. This helps reduce errors. It also saves time by giving us a template if we wanted to erase these values and fill in our own.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this seciton, we've seen how you can extend Unity with a custom editor that provides additional functionality and information. These custom editors handle the entire component and not just one protpert of them. This makes for a very powerful interface for generating content, debugging and more. This particular editor is very useful at reducing errors and producing templates for components. This is exactly what custom editors are great for. If there's a task that's error prone, or tedious, you can essentially automate it with scripts in the editor.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Editor Windows</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we're going to go over how you can create and use Editor Windows. This is the top of the line when it comes to modifying the Unity editor. Editor windows are windows just like the inspector, hierarchy, or console windows. You can create your own editor windows to add additional debugging information and functionality to the entire editor. These editor windows are not dependent on a specific property or component, so they can be used everywhere. For example, you can create a windwo that contains a number of buttons that perform common task, like clearing a scene of a certain type of object or setting the positions or values for object in your scene.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Let's look at the code of our <b>Prefab Manager Editor</b>:
+            <pre>
+            <span class="glyphicon-remove"></span>//using UnityEngine, System.Collections, System.Collections.Generic,
+                    UnityEditor, System.Reflection;
+
+            public class PrefabManagerEditor : EditorWindow {
+
+                static string scriptToParse = "";
+                bool validScript = false;
+                bool error = false;
+                AdvCustomPrefab myPrefab;
+                
+                //[MenuItem ("GameObject/Prefab Manager")]
+                static void Init () {
+                    //GetWindow will either retrieve an existing window, or create a new one if one doesn't exist.
+                    PrefabManagerEditor newManager = (PrefabManagerEditor)EditorWindow.GetWindow (typeof (PrefabManagerEditor));
+                }
+
+
+                public void OnGUI () {
+
+                    bool wrap = EditorStyles.textField.wordWrap;
+                    EditorStyles.textField.wordWrap = true;
+                    //Create a text area that fills the window
+                    string updatedScript = EditorGUILayout.TextArea(scriptToParse, GUILayout.ExpandHeight (true));
+                    EditorStyles.textField.wordWrap = wrap;
+
+
+                    if(!updatedScript.Equals(scriptToParse)) {
+                        //invalidate our prefab and script when the script changes
+                        validScript = false;
+                        error = false;
+                    }
+                    scriptToParse = updatedScript;
+
+
+                    if(GUILayout.Button("Parse script")) {
+                        //Pass in the contents of the textarea as the script for this prefab
+                        myPrefab = new AdvCustomPrefab("TestPrefab", scriptToParse);
+                        if(myPrefab.PrepAndVerify()) {
+                            validScript = true;
+                            error = false;
+                        } else {
+                            validScript = false;
+                            error = true;
+                        }
+                    }
+                    
+                    //If it's valid, let the user know in the window, and give them the option to instantiate a copy.
+                    if(validScript) {
+                        EditorGUILayout.HelpBox("Parse complete. No errors, check console for any warnings.", MessageType.Info, true);
+                        if(GUILayout.Button("Instantiate")) {
+                            myPrefab.Instantiate();
+                        }
+                    }
+
+                    //If there's an error, the user know.
+                    if(error) {
+                        EditorGUILayout.HelpBox("Error parsing! See console for errors.", MessageType.Error, true);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Here we have our Prefab Manager Editor, which is going to extend the Editor Window class. Our Prefab Manager Editor is going to accept a script, validate it, and have the option to produce new game objects. We're going to uncomment this line. This attribute will add our PrefabManager as a menu item into the game object drop down. Let's take a look at that. So here in the game object drop down, we now have a PrefabManager. If you open that up, we can see our PrefabManager. This will have a place to put a script and a button for parsing. In the ongoing method, we're going to create that text area for the script as well as the button for parsing scripts. The button is oing to create a new Prefab and use our Advanced Custom Prefab method, Prep and Verify, to verify the syntax of the script. If we have a valid script, we're going to add another button to our window that say Instantiate, and this will call MyPrefabInstantiate. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In the scene, our custom window can be docked just like regular windows. In the previous section, we saw about extending the Unity editor to produce a custom viewer for Advanced Prefab Components. This allowed us to generate a script based on the values entered into the inspector. So here we can quickly generate a script and paste it into our Prefab Manager, and parse it to ensure its valid. After we ensured it's valid, we can use our instantitate button. This instantiates a new Prefab, using this script as a base. We see here that we generated a ship component with the value specified in our script. It's also important to test to ensure that our Prefab Manager actually validates scripts. We can do that by entering an invalid script and hitting Parse Script. We see that we'll get an error about an invalid syntax when defining a vector three.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Scene Setup</b>
+            <p><span class="glyphicon-remove"></span>TODO</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            In this section, we've seen how to create editor windows. Editor windows allow you to completely customize Unity to fit your needs. I found this editor window particularly useful for debugging the lexer and parser for custom entities. Another great thing about editor windows is you're not even limited to Unity functionality. Since you have access to the entire C# language with .NET, you possibilities are hardly limited. For example, you could create a check-in button that runs a command to check in your source files to a repository of your choice. This allows you to easily back things up before making a major change. Creating your own editor windows is a great way to add functionality you think is missing from Unity or to streamline your productivity while working on your game.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
                     <!-------------------------------------->
                 </div>
             </div>
