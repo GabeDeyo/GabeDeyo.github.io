@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>CodeWars</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/page.css">
+    <link rel="stylesheet" href="../../css/page.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -70,16 +70,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -97,7 +97,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">CodeWars</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -108,23 +108,71 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#1">Credit Card Mask</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Sum of Numbers</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="1">
+    <h2>Credit Card Mask</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Usually when you buy something you're asked whether your credit card number, phone number or answer to your most secret question is still correct. However, since someone could look over your shoulder, you don't want that shown on your screen. Instead, we mask it.
+            <b>Task: </b> Write a function <i>maskify</i>, which changes all but the last four characters into '#'.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Examples</b>
+            <pre>
+            <span class="glyphicon-remove"></span>Maskify('1234567890123'); // returns '#########0123'
+            Maskify('12345'); //returns '#2345'
+            Maskify('1'); //returns '1'
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Best Solution</b>
+            <pre>
+            <span class="glyphicon-remove"></span>public static string Maskify(string cc) {
+                int len = cc.Length;
+                if(len <= 4)
+                    return cc;
+
+                return cc.Substring(len-4).PadLeft(len, '#');
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class="jumbotron col-md-12 heliList" id="2">
+    <h2>Sum of Numbers</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Given two integers, which can be positive and negative, find the sum of all the numbers between including them too and return it. If both numbers are equal return a or b. Note! a and b are not ordered!
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Examples</b>
+            <pre>
+            <span class="glyphicon-remove"></span>GetSum(1, 0) == 1   // 1 + 0 = 1
+            GetSum(1, 2) == 3   // 1 + 2 = 3
+            GetSum(0, 1) == 1   // 0 + 1 = 1
+            GetSum(1, 1) == 1   // 1 Since both are same
+            GetSum(-1, 0) == -1 // -1 + 0 = -1
+            GetSum(-1, 2) == 2  // -1 + 0 + 1 + 2 = 2
+            </pre>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Best Solution</b>
+            <pre>
+            <span class="glyphicon-remove"></span>public int GetSum(int a, int b) {
+                return (a + b) * (Math.Abs(a - b) + 1) / 2;
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -154,9 +202,12 @@
         </nav>
     </footer>
 
+    <!-- Latest Minified Slim JQuery -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="../js/selection.js" charset="utf-8"></script>
+
+    <script src="../../js/selection.js" charset="utf-8"></script>
 </body>
 
 </html>

@@ -3,13 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Game Development</title>
+    <title>C++ - Basic Syntax</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../css/section.css">
+    <link rel="stylesheet" href="../../../css/page.css">
 </head>
 
 <body>
@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
@@ -36,31 +36,32 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
+                        
                         <!-- PROGRAMMING -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- LANGUAGES -->
-                                <li><a href="../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ALGORITHMS -->
-                                <li><a href="../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PROBLEMS -->
-                                <li><a href="../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- RANDOM -->
-                                <li><a href="../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -69,16 +70,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -95,32 +96,43 @@
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">C++ Basic Syntax</h1>
 
-                <div class="jumbotron">
-                    <h1 class="text-center">Game Development</h1>
-                    <ul class="list-group">
-                        <!-- CONCEPTS -->
-                        <a href="Categories/concepts.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right pull-right"></span> Concepts</h3>
-                            <p class="list-group-item-text">A series of notes on game development in general.</p>
-                        </a>
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
 
-                        <!-- ENGINE -->
-                        <a href="Categories/engine.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right pull-right"></span> Engine</h3>
-                            <p class="list-group-item-text">A series of tips on Game Engines.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#sectionID">Section Link</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- IMPLEMENTATIONS -->
-                        <a href="Categories/implementations.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right pull-right"></span> Game Implementations</h3>
-                            <p class="list-group-item-text">A series of instructions for quick game implementations</p>
-                        </a>
-                    </ul>
+<div class="jumbotron col-md-12 heliList" id="sectionID">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
@@ -144,7 +156,27 @@
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="../js/selection.js" charset="utf-8"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
 </body>
 
 </html>
+
+<!-- Section Template
+
+<div class="jumbotron col-md-12 heliList" id="">
+    <h2>XXX</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+-->
