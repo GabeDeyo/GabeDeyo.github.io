@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>C++ - Basic Syntax</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">C++ Basic Syntax</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">What is C++</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Identifiers</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Defining Variables</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Pointers</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>References</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>C-Arrays and C-Strings</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Conditionals</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Branching Conditionals</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>While/Do Loop</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>For Loop</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#10'>Range-Based Loop</a>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#11'>Using stdout</a>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>What is C++</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; General-purpose programming language
+            <br> Some <b>Programming Paradigms</b> C++ supports are:
+            <br> &nbsp; &bull; Object-oriented
+            <br> &nbsp; &bull; Functional
+            <br> &nbsp; &bull; Procedural
+            <br> &nbsp; &bull; Generic
+            <p><span class='glyphicon-remove'></span>&bull; Developed in the 1970's by Bjarne Stroustrup with the idea that it's "C with classes". Developed with functional, procedural, and generic programming in mind.
+            <br>&bull; Used to write programs at all levels including; Applications, OS, Firmware.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            C++ is made up of a number of different components, parts of which require understanding distinct sets of grammar. Think of it as five connected languages.
+            <br> &nbsp; &bull; <b>Preprocessor</b> serves as the language definition.
+            <br> &nbsp; &bull; <b>C Language Syntax</b> is the basis of C++.
+            <br> &nbsp; &bull; <b>Classes and Object</b> are used for OOP programming.
+            <br> &nbsp; &bull; <b>Templates</b> are used for generic programming.
+            <br> &nbsp; &bull; <b>STL (Standard Template Library)</b> makes up the C++ Standard, and provides a tremendous amount of common functionality.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Identifiers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ identifiers are tokens that provide readable names for variables, functions, labels, and defined types. Identifiers are made up of the 26 letters of the ISO basic Latin alphabet, in lower and upper case, the 10 Wester Arabic numberals, and the ASCII underscore (_) character. They may <b>not</b> <i>begin with a number, or conflict with reserved words.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Official standards allow identifiers to be of any length, although only the first 63 characters are guaranteed to be checked for uniqueness, and only the first 31 characters are guaranteed for external identifiers, so keep it below 31 chars.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            An initial underscore character is commonly used for private identifiers. More than one initial underscore is normally reserved for system level private use. 
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Defining Variables</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Variables are <b>strongly typed</b> in C++. That means that the token representing a variable represents both its value and its type.
+            <br>&bull; When a statement defines an integer variable and does not assign it to anything, it is said to be <b>undefined</b>. An undefined is a very dangerous thing, so be sure to always assign a value to a variable before you use it. Once a variable is defined, you may assign a value to it and use it. This is called <b>initializing</b> the variable. It's a good idea to initialize a variable <i>as soon as possible</i>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; C++ uses <b>qualifiers</b>, sometimes called <b>modifiers</b>, that change the behavior of variables in various ways. A qualifier becomes part of the type.
+            <br> &bull; For example, we can put the <i>const</i> qualifier before an int type, and this assure the value of this variable cannot change once it's defined. (Read-only variable)
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Pointers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Pointers are a very powerful, useful, dangerous, and common data type in C++. We first need to understand the fundamentals of how variables work however.
+            <br> &bull; A variables is a <i>typed and named location in memory</i>. Memory is allocated for a value the size of the type and associated with the variable name. The variable value is copied into the memory location associated with the variable.
+            <pre>
+            <span class='glyphicon-remove'></span>int x; //Variable definition
+            x = 1; //Variable initialization
+            int y = x; //Variable definition and copied initialization
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ provides the ability to create a variable that is a <b>pointer</b> to a value as opposed to carrying the value itself.
+            <pre>
+            <span class='glyphicon-remove'></span>int *ip; //Pointer definition
+            ip = &amp;x; //Address of ip -> Address of x
+            y = *ip; //Value of y -> Value of ip
+            </pre>
+            <p><span class='glyphicon-remove'></span>Here we see the variable named ip is of the type pointer to int. So memory is allocated in the size of a pointer. The pointer is also strongly typed. The compiler retains an association with this pointer that it points to a value of type int.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Pointer Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>int main( int argc, char ** argv ) {
+                int x = 7; 
+                int y = 42;
+                int ip = &amp;x;
+
+                printf("%d", x); //7
+                printf("%d", y); //42
+                printf("%d", *ip); //7
+
+                x = 73;
+                printf("%d", x); //73
+                printf("%d", y); //42
+                printf("%d", *ip); //73
+
+                ip = &amp;y;
+                printf("%d", x); //73
+                printf("%d", y); //42
+                printf("%d", *ip); //42
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>References</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The C++ reference type is a lot like a pointer but with some significant differences. Let's see the first example:
+            <pre>
+            <span class='glyphicon-remove'></span>int main( int argc, char ** argv) {
+                int x = 7;
+                int *ip = &amp;x;
+                int &amp;y = x;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Here we have y as a reference and it's initialized with the address of x.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Remember, reference is very much like a pointer but it has some significant differences. On of the differences is that you cannot define a reference without also initializing it. When you define a reference you must say what the reference is in reference to, and in the example case, it's a reference to x. So throughout it's life, y will always be a reference to x. Anytime you use y, it's exactly the same as if you're using x. 
+            <br>So if you changed the variable y, x would follow suit.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; References are effectively <b>immutable</b>, once it refers to a variable it will always refer to that same variable.
+            <br>&bull; References are used frequently in C++, especially in functions and classes.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>C-Arrays and C-Strings</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This section is not about the STL classes called Array and String. This covers <b>C-Arrays</b> and <b>C-Strings</b> which are very different than their corresponding STL classes.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; An array is a fixed sizezd container for elements with a common type.
+            <br>&bull; Arrays are indexed with integer values. The first element is always number 0.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>int ia[5]; //Declaring int array of size 5
+            ia[0] = 1; //Initializing the array at element 0 to 1
+            *ia = 1; //Does the same exact thing as the last statement
+            int *ip = ia; //Defines an int pointer and assigns the address of the array to the pointer
+            *ip = 2; //Assigns 2 to the first element of the array
+            ++ip; //Now points to the second element
+            *ip = 3; //Assigns 3 to the second element of the array
+            *(++ip) = 4; //Incrementing and using the pointer
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initializing an array with an initializer list
+            int ia[5] = {1, 2, 3, 4, 5};
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A <b>C-String</b> is a special type of array containing characters and is terminated with a 0. Also called a <b>null-terminated string</b>.
+            <br>&bull; This allows you to access the individual characters just as you would in an array.
+            <br>&bull; <b>Remember the 0 otherwise it will break!</b>
+            <pre>
+            <span class='glyphicon-remove'></span>char cString[] = {'s','t','r','i','n','g',0};
+            printf("String is: %s\n", cString); //String is: string
+
+            for(int i  = 0; cString[i]; ++i) {
+                printf("Char is %c\n", cString[i]); //Prints each character in cString
+            }
+
+            //Exactly the same declaration/initialization
+            char string[] = "string";
+            printf("String is: %s\n", string); //String is: string
+
+            for(char c : string) {
+                if(c == 0) break;
+
+                printf("%c", c);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Conditionals</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ has two basic forms of conditional statements; if else, and the ternary conditional operator.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//If-Else Example
+            if(2 >= 1)
+                return true;
+            else if (0 <= 1)
+                return true;
+            else
+                return false;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//Ternary Example
+            int new = 1 > 2 ? x : y;
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Branching Conditional</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ provides a special multi-way conditional using a <b>switch statement</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>//switch input must be constant
+            const Type input;
+
+            switch(input) {
+                case X:
+                    //Do something
+                    break;
+                case XX:
+                    //Do something
+                    break;
+                case XXX:
+                    //Do something
+                    break;
+                default:
+                    //do something
+                    break;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>While/Do Loop</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The While loop tests the condition at the top of the loop, and can support testing conditions at the bottom.
+            <br> &nbsp; &bull; Make sure to iterate out of the loop to avoid <b>infinite loops</b>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>While</b>
+            <pre>
+            <span class='glyphicon-remove'></span>while(condition) {
+                statement
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Do/While</b>
+            <pre>
+            <span class='glyphicon-remove'></span>do {
+                statement
+            } while(condition)
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>For Loop</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ uses an even more convenient loop structure called the <b>for loop</b>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Structure</b>
+            <pre>
+            <span class='glyphicon-remove'></span>for(<b>initialization</b>; <b>condition</b>; <b>iteration</b>) {
+                statement
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>C-String For Loop</b>
+            <pre>
+            <span class='glyphicon-remove'></span>char s[] = "string";
+            for(char * cp = s; *cp; ++cp) {
+                printf("element %c\n", *cp);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='10'>
+    <h2>Range-Based Loop</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            C++ gives us a simple way of iterating over the elements of a container, using a range-based for loop.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Structure</b>
+            <pre>
+            <span class='glyphicon-remove'></span>for(Type item : container) {
+                statements
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Could be read as: "For each Type item in container, perform statement with that item.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>C-String Range-Based Loop</b>
+            <pre>
+            <span class='glyphicon-remove'></span>char s[] = "string";
+
+            for(char c : s) {
+                if(c==0) break; //Breaks at null character
+                statements
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='11'>
+    <h2>Using stdout</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            In the terminology of the C++ standard library, the standard output stream is how text is displayed on the console. There's several way to send output to the standard output stream. We've seen so far, the puts and printf functions. The C-Out class is part of the standard C++ library and it works quite a bit differently than puts or printf.
+            <br> &nbsp; &bull; You'll need to include &lt;iostream&gt; if you want to use it, as well as the <i>std</i> namespace.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Cout is a class that overloads the bitwise left shift operator to send a stream of characters to the standard output stream.
+            <br> &nbsp; &bull; Used like so: 
+            <pre>
+            <span class='glyphicon-remove'></span>cout &lt;&lt; "Hello World" &lt;&lt; endl;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Some people 
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
