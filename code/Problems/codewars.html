@@ -115,6 +115,14 @@
                                 <a href="#2">Sum of Numbers</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>0-9 -> String</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Number of People in the Bus</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -176,6 +184,99 @@
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>0-9 -> String</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When provided with a number between 0-9, return it in words.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Notes</b>
+            <br> &bull; My solution used a simple <b>switch statement</b> returning each case directly.
+            <br> &bull; Using a <b>dictionary</b>, you can use a key/value pair to grab from one data structure.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>public static string SwitchItUp(int number) {
+                //Define <i>dictionary</i> with the numbers as keys and strings as values.
+                var dict = new Dictionary&lt;int, string&gt;() {
+                    {0, "Zero"},
+                    {1, "One"},
+                    {2, "Two"},
+                    {3, "Three"},
+                    {4, "Four"},
+                    {5, "Five"},
+                    {6, "Six"},
+                    {7, "Seven"},
+                    {8, "Eight"},
+                    {9, "Nine"}
+                };
+                //Return Value at <i>dict</i> Key
+                return dict[number];
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Number of People in the Bus</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There is a bus moving in the city, and it takes and drop some people in each bus stop.
+            <br>You are provided a list (or array in JS) of integer arrays. Each integer array has two items which represent number of people get into bus (The first item) and number of people get off the bus (The second item).
+            <br>The second value in the first integer array is 0, since the bus is empty in the first bus stop.
+            <br>Your task is to return number of people who are still in the bus after the last bus station (after the last array).
+            <br>Please keep in mind that the test cases ensure that the number of people in the bus is always >= 0. So the return integer can't be negative.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Notes</b>
+            <br> &bull; Need to understand what data we have. There is a single <b>List</b>. It contains an number of <b>integer arrays</b>.
+            <br> &bull; Need to <b>loop through</b> the list, in order to work with the data in the integer arrays.
+            <br> &bull; Once we access the first element of each array, add that number to the final result.
+            <br> &bull; Once we access the second element of each array, subtract that number from the final result.
+            <br> &bull; Seems like most practical solutions involve using LINQ.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>My Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List&lt;int[]> peopleListInOut) {
+                int peopleOn = 0;
+                
+                foreach(int[] intArray in peopleListInOut){
+                    peopleOn += intArray[0];
+                    peopleOn -= intArray[1];
+                }
+                
+                return peopleOn;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Best LINQ Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
+                return peopleListInOut.Sum(Item => Item[0] - Item[1]);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Best Non-LINQ Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
+                int result = 0;
+                
+                foreach(int[] onOff in peopleListInOut) result += onOff[0] - onOff[1];
+                
+                return result;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->
