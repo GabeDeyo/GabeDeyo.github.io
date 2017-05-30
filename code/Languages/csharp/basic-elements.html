@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>C# - Basic Elements</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">C# - Basic Elements</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Data Types</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Program Flow</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Object-Oriented Programming</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Data Types</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; C# provides built-in data types, sometimes called intrinsic types or simple data types.
+            <br>&bull; They store the information directly in the data type itself, and there's no complexity invovled in what the data type looks like.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; C# also has support for something known as a <b>custom type</b>, which are considered to be complex types because they contain more than just a simple data type.
+            <br>&bull; These allow you to create things such as <i>structure</i> or perhaps <i>classes</i>.
+            <br>&bull; Those two types allow you to encapsulate attributes and functionality within them. 
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; C# also has support for <b>interfaces</b>.
+            <br>&bull; Interfaces are kind of like classes in that they allow you to specify how something might work in terms of functionality.
+            <br>&bull; However they leave the implementation details for a little bit later down the road.
+            <br>&bull; Another complex type is whats called an <b>enumeration</b>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; C# is based on what is known as the <b>Common Type System</b>.
+            <br>&bull; This means that as we work with data types in our program, each one is either a value type of a reference type. 
+            <br>&bull; There are specific differences between the two in how the compiler reacts with them.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The Common Type System supports inheritance within the .NET framework, which means it supports parent and child classes.
+            <br>&bull; When you create a subclass of a parent class, you inherit the functionality from the parent to your subclass.
+            <br>&bull; All value types in C# will derive from the System.Value type.
+            <br>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <br>&bull; All reference types, including all value types, ultimately derive from something known as System.Object.
+            <br>&bull; System.Object is the highest class in the .NET framework that all objects derive from.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Value Types</b>
+            <br> &nbsp; &bull; Built-In Types
+            <br> &nbsp; &bull; Structures
+            <br> &nbsp; &bull; Enumerations
+            <br> &nbsp; &bull; Stored on the Stack
+            <br> &nbsp; &bull; Pass-by-Value
+            <br>&bull; Value types get stored on the stack, which is a logical seperation of the memory in the computer where we store information for the program execution.
+            <br>&bull; Any time we have data and instruction pointers that get pulled from memory, they get stored on the stack so that the operating system can keep track of where the execution needs to either come back to or continue on from a certain point.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Reference Types</b>
+            <br> &nbsp; &bull; Classes
+            <br> &nbsp; &bull; Interfaces
+            <br> &nbsp; &bull; Stored on the Heap
+            <br> &nbsp; &bull; Pass-by-Reference
+            <br>&bull; Reference types are stored on the heap, which again is another logical area of memory that the compiler works with when storing inforamtion about the data we have in our application.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Numeric Data Types</b>
+            <pre>
+            <span class='glyphicon-remove'></span>sbyte aSignedByte = 127;
+            byte aByte = 255;
+            ushort anUnsignedShort = 65535;
+            short aShort = 32767;
+            int anInt = 2147483647;
+            uint anUnsignedInt = 4294967295;
+            ulong anUnsignedLong = 18446744073709551615;
+            long aLong = 9223372036854775807;
+            float aFloat = 105.5678493F;
+            double aDouble = 105.567849312873245;
+            decimal aDecimal = 105.84923797593487492387492374982347987293487M;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Character Data Types</b>
+            <pre>
+            <span class='glyphicon-remove'></span>char aChar = 'A';
+            string aString = "A string of chars";
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Boolean Types</b>
+            <pre>
+            <span class='glyphicon-remove'></span>bool trueResult = true;
+            bool falseResult = false;
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Program Flow</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; C# provides us with different looping structures which are meant to repeat, or iterate, over and over again.
+            <pre>
+            <span class='glyphicon-remove'></span>for(initialization; condition; iteration) {
+                //Statements
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>foreach(Type item in list/array) {
+                //Statements 
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>while(condition) {
+                //Statements
+                //iteration
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>If/Else Logic</b>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Switch Logic</b>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Object-Oriented Programming</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A class can be considered the blueprint for building something.
+            <br>&bull; The blueprint describes the characteristics of the object, and the object is actually created from that blueprint.
+            <br>&bull; In order to actually use the object, you need to build it from the blueprint.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; You can't actually assign values to a class. You need to create an instance of a class in your program in order to do that.
+            <br>&bull; Class are considered a container for the attributes and behaviors of the objects in the program that we're going to work with.
+            <br>&bull; C# supports <b>encapsulateion</b>, <b>inheritance</b>, and <b>polymorphicsm</b>. Although unlike other languages, C# does not support <b>multiple inheritance</b> where one class will inherit from multiple other classes.
+            <br>&bull; When creating a new instance of a class, we're essentially telling the compiler to be prepared to set aside enough memory for this variable that will store a type of whatever class you create.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Encapsulation</h3>
+            <br>&bull; Encapsulation basically means to hide the implementation.
+            <br>&bull; It's important to control the data that get assigned to your classes, or get sent into the member variables. We want correct data going to the correct places.
+            <br>&bull; By creating member variables with the <b>private access modifier</b>, you can then create whats known as properties, or accessor methods. (Getters or Setters)
+            <br>&bull; Properties allow you to control how your variables are changed throughout the program.
+            <pre>
+            <span class='glyphicon-remove'></span>class Animal {
+
+                private int age;
+                private int color;
+
+                public int Age {
+                    get { return this.age; }
+                    set { 
+                        if(value < 0) {
+                            Console.WriteLine("Age cannot be less than zero.");
+                        } else {
+                            this.age = value;
+                        }
+                    }
+                }
+
+                public string Color {
+                    get {return this.color; }
+                    set {this.color = value; }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Inheritance</h3>
+            <br>&bull; With OOP, we can create inheritance hierarchies of the classes that we have, where a subclass becomes a child of a parent class.
+            <br>&bull; This will allow subclasses to inherit behavior and functionality from a parent class.
+            <br>&bull; To declare a child:
+            <pre>
+            <span class='glyphicon-remove'></span>class Subclass : Parentclass {
+
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Polymorphism</h3>
+            <br>&bull; Polymorphism essentially means many states or many forms.
+            <br>&bull; A subclass can create it's own variables and methods while also inheriting the parents variables and methods.
+            <br>&bull; In a parent method, we can declare methods as <b>virtual methods</b> which basically means that they can be overridden in the subclasses.
+            <br>&bull; Overriding a parents method allows a subclass to create it's own unique behaviors to it's class.
+            <br>&bull; When overriding a class, it will be autofilled with a base.Foo() in the body. This will call the parent function. 
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

@@ -113,36 +113,47 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#1'>Identifiers</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#2'>Defining Variables</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#3'>Pointers</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#4'>References</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#5'>C-Arrays and C-Strings</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#6'>Conditionals</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#7'>Branching Conditionals</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#8'>While/Do Loop</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#9'>For Loop</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#10'>Range-Based Loop</a>
+                                </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#11'>Using stdout</a>
+                                </p>
                             </li>
                         </ul>
                     </div>
@@ -478,7 +489,7 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             In the terminology of the C++ standard library, the standard output stream is how text is displayed on the console. There's several way to send output to the standard output stream. We've seen so far, the puts and printf functions. The C-Out class is part of the standard C++ library and it works quite a bit differently than puts or printf.
-            <br> &nbsp; &bull; You'll need to include &lt;iostream&gt; if you want to use it, as well as the <i>std</i> namespace.
+            <br> &nbsp; &bull; You'll need to include <i>&lt;iostream&gt;</i> if you want to use it, as well as the <i>std</i> namespace.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             Cout is a class that overloads the bitwise left shift operator to send a stream of characters to the standard output stream.
@@ -488,7 +499,11 @@
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            Some people 
+            Some people maintain that <i>cout</i> should be preferred because it's more object oriented than puts and you should disagree with that. From a purely language standpoint, while <i>cout</i> is certainly a class, it's not used in the traditional OO way. In fact, it's rarely even used to create an instance of an object. Instead it's used as it's class by overloading this bitwise left shift operator to do something that actually has nothing to do with shifting bits. It's very clever, but it redefines the meaning of overloading operators. When we see an operator, we should know what they do. By sending a stream of characters to the console rather than left shifting any bits, it makes this operator a bit more confusing.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            You'll want to prefer <i>puts/printf</i> rather than cout because you'll find that after compiled, cout code will be more than twice as large as the others. That's because in order for it to do it's thing, it has to bring a whole lot of the STL library just to support it. 
+            <p><span class='glyphicon-remove'></span>C++ is often used for system programming and other large projects where every bit of performance and sometimes every bit of memory space is vitally important. So as a programmer, it's good to be conscious of how much a bit of code costs in terms of performance and memory space and this is really part of what being a system programmers job is. So it's important to understand how <i>cout</i> works and we'll cover it a bit later. But it's also important to understand the impact of your library choices. Using existing libraries always means tradeoffs, usually tradeoffs between convenience and performance. A general purpose libary like the C++ STL is often very convenient but it's not always efficient.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

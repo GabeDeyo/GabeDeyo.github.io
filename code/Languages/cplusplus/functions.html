@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>C# - Basic Syntax</title>
+    <title>C++ - Functions</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -45,7 +45,6 @@
                                 <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
-
                         
                         <!-- PROGRAMMING -->
                         <li class="dropdown">
@@ -97,7 +96,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">C# - Basic Syntax</h1>
+                    <h1 id="title">C++ - Functions</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -108,26 +107,126 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Overview</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Defining a Function</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Passing Values</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Overview</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; All code in a C++ program happens in functions starting with the main function.
+            <br>&bull; Functions are analogous to procedures, or subroutines in other programming languages.
+            <br>&bull; Functions allow you to generalize and marginalize your code by creating containers for logical subsets of code and by allowing code reuse.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Function arguments are passed in to functions <b>by value</b>, so when you call a function and pass it a variable, a copy of the variable is passed to the function. 
+            <br>&bull; If the function then changes the value, the caller's copy <b>remains unchanged</b>. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; The alternative to Call-by-Value is <b>Call-by-Reference</b>.
+            <br>&bull; These must be called explicitly: <pre><span class='glyphicon-remove'></span>foo(&var);</pre>
+            <br>&bull; This will pass a pointer to the passed in variable instead of a value of that variable.
+            <br>&bull; Then using a <i>pointer with that variable</i> in the function will allow you to access and manipulate the variable.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; <b>Function Signature</b> is a combination of function name, return type, and types of function arguments.
+            <br>&bull; Function Signature is used by the rest of the code to <i>identify the function</i>.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Defining a Function</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A function is declared with a <b>return type</b> first, followed by the <b>function name</b>, with <b>parenthesis</b> containing the function <b>parameters</b>.
+            <br>&bull; After the parenthesis is curly brackets containing the body of the function.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Main is never called directly, it's called by the system at entry.
+            <br>&bull; Every other function must be called in order to be used.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A function must be declared before it's called. This is why the function must be called before the main function.
+            <br>&bull; In C++ everything must be declared before it's used.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A common workaround is to declare your function above the main, but keep the function below. This is <b>forward declaration.</b>
+            <br>&bull; Example:
+            <pre>
+            <span class='glyphicon-remove'></span>void func();
+
+            int main() {
+                printf("this is main()");
+                func();
+                return 0;
+            }
+
+            void func() {
+                printf("this is func()");
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Doing the forward declaration in the cpp file is <b>NOT</b> the common way of facing that problems however.
+            <br>&bull; The correct common way to do this is with a <b>Header File</b> which contains the forward declaration separately.
+            <br>&bull; Example:
+            <pre>
+            <span class='glyphicon-remove'></span>//Main
+            #include "func.h"
+
+            int main() {
+                printf("main");
+                func();
+                return 0;
+            }
+
+            void func() {
+                printf("func");
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>//func.h
+            #ifndef FUNC_H_
+            #define FUNC_H_
+
+            void func();
+
+            #endif
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Passing Values</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Parameters are passed into a function by declaring them inside the parentheses of a function definition and passing them in the parentheses of a function call.
+            &bull; A function call must match the function signature or it will error out.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; By default, functions in C++ pass variables <i>by value</i>. (Pass-by-Value)
+            &bull; 
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

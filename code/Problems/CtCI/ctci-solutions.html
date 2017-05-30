@@ -108,17 +108,46 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Arrays and Strings</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Arrays and Strings</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>1.1 Unique Character Test</h3>
+            <b>Initial Questions</b>
+            <br>&bull; Does it need to check if it's case sensitive: abc == ABC -> false
+            <br> &nbsp; &bull; Could make everything lowercase or uppercase if it doesn't matter.
+            <br>&bull; Does it need to check if spaces count: " " == " " -> false
+            <br> &nbsp; &bull; Could clean spaces from the string before checking if it doesn't matter.
+            <br><b>Initial Ideas</b>
+            <br>&bull; Create a boolean array with the size of ASCII characters (256)
+            <br>&bull; For each character in the string, access the location of the bool array of the character parsed as an int.
+            <br>&bull; If the value there true, return false.
+            <br>&bull; Else, set the value there to true.
+            <br>&bull; If it makes it through all the characters with no collision, return true.
+            <br>&bull; Time complexity here would be O(n) where n is the length of the string, and space complexity is also O(n).
+            <br><b>Initial Code</b>
+            <pre>
+            <span class='glyphicon-remove'></span>static string UniqueChars(string str) {
+                bool[] ascii = new bool[256];
+
+                foreach(char character in str) {
+                    if(ascii[(int)character])
+                        return false;
+                    else
+                        ascii[(int)character]) = true;
+                }
+
+                return true;
+            }
+            </pre>
+            <b>Second Problem (No Data Structure)</b>
+            <br>&bull; NEED TO KNOW BITWISE OPERATIONS
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             XXX
