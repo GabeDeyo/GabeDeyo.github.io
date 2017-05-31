@@ -119,6 +119,10 @@
                                 <a href='#2'>Object-Oriented Programming</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Structured Exception Handling</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -152,7 +156,7 @@
             <br>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <br>&bull; All reference types, including all value types, ultimately derive from something known as System.Object.
+            &bull; All reference types, including all value types, ultimately derive from something known as System.Object.
             <br>&bull; System.Object is the highest class in the .NET framework that all objects derive from.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
@@ -255,7 +259,7 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Encapsulation</h3>
-            <br>&bull; Encapsulation basically means to hide the implementation.
+            &bull; Encapsulation basically means to hide the implementation.
             <br>&bull; It's important to control the data that get assigned to your classes, or get sent into the member variables. We want correct data going to the correct places.
             <br>&bull; By creating member variables with the <b>private access modifier</b>, you can then create whats known as properties, or accessor methods. (Getters or Setters)
             <br>&bull; Properties allow you to control how your variables are changed throughout the program.
@@ -285,22 +289,97 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Inheritance</h3>
-            <br>&bull; With OOP, we can create inheritance hierarchies of the classes that we have, where a subclass becomes a child of a parent class.
+            &bull; With OOP, we can create inheritance hierarchies of the classes that we have, where a subclass becomes a child of a parent class.
             <br>&bull; This will allow subclasses to inherit behavior and functionality from a parent class.
             <br>&bull; To declare a child:
-            <pre>
-            <span class='glyphicon-remove'></span>class Subclass : Parentclass {
-
-            }
-            </pre>
+            <pre><span class='glyphicon-remove'></span>class Subclass : Parentclass { ... }</pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Polymorphism</h3>
-            <br>&bull; Polymorphism essentially means many states or many forms.
+            &bull; Polymorphism essentially means many states or many forms.
             <br>&bull; A subclass can create it's own variables and methods while also inheriting the parents variables and methods.
             <br>&bull; In a parent method, we can declare methods as <b>virtual methods</b> which basically means that they can be overridden in the subclasses.
             <br>&bull; Overriding a parents method allows a subclass to create it's own unique behaviors to it's class.
             <br>&bull; When overriding a class, it will be autofilled with a base.Foo() in the body. This will call the parent function. 
+            <br>&bull; Work with your hierarchy to set up this whole inheritance hierarchy of classes, then you'll have the ability to morph and make changes to those classes in your programs.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Namespaces</h3>
+            &bull; Namespaces are used as <i>logical containers</i> for our classes.
+            <br>&bull; Namespaces are used to organize classes so we can create a hierarchical structure of where to find these classes.
+            <br>&bull; Namespaces are used to control the scope of the classes in large projects, or where we will gain access to a specific class.
+            <br>&bull; Namespaces can be used to prevent <i>duplicate names</i> when using multiple vendors' code.
+            <br>&bull; C# provides the <b>using</b> directive to help shorten <b>namespace.class.method</b> typing in code.
+            <br>&bull; This is why we can use the <b>Dictionary</b> class in our code instead of saying <b>System.Collections.Generic.Dictionary</b>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Base Class Library (BCL)</h3>
+            &bull; The BCL is essentially a library of classes, interfaces, and value types that you can use to provide common functionality in all of your .NET applications.
+            <br>&bull; It's divided into namespaces to make locating that functionality easier.
+            <br>&bull; You are able to view it's contents by opening the <b>Object Browser</b> window. This can give you information about what C# can already do for you.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Structured Exception Handling</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Try-Catch-Finally</h3>
+            &bull; The .NET framework in C# allows us to deal with error handling in our application through a concept known as, <b>structured exception handling</b>.
+            <br>&bull; Structured Exception Handling is a concept that focuses on going through the application, and wrapping code within protective blocks that will monitor and search for any kind of an exception that happens in our application.
+            <br>&bull; An <b>Exception</b> is basically an unexpected event in your code, and we call it an exception because it's an exception to the <i>normal flow of our program</i>.
+            <br>&bull; C# uses the <b>try-catch and finally</b> keywords to allow us to deal with our structured exception handling.
+            <br>Example:
+            <pre>
+            <span class='glyphicon-remove'></span>static void Main(string[] args) {
+                string errorMessage;
+
+                try {
+                    Divide();
+                }
+                catch(OverflowException ofEx) {
+                    errorMessage = ofEx.Message;
+                    Console.WriteLine("Overflow Exception: " + errorMessage);
+                }
+                catch(DivideByZeroException dEx) {
+                    errorMessage = dEx.Message;
+                    Console.WriteLine("DivideByZero Exception: " + errorMessage);
+                }
+                catch(Exception e) {
+                    errorMessage = e.Message;
+                    Console.WriteLine("Generic Exception: " + errorMessage);
+                } 
+                finally {
+                    // put clean up here
+                }
+            }
+
+            static void Divide() {
+                int numerator;
+                int denominator;
+                int result;
+
+                Console.WriteLine("Enter the numerator:");
+                numerator = Int32.Parse(Console.ReadLine());
+
+                Console.WriteLine();
+                Console.WriteLine("Enter the denominator:");
+                denominator = Int32.Parse(Console.ReadLine());
+
+                result = numerator / denominator;
+
+                Console.WriteLine();
+                Console.WriteLine("The result is: " + result);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+        
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

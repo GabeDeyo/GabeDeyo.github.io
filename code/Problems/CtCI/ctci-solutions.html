@@ -148,9 +148,39 @@
             </pre>
             <b>Second Problem (No Data Structure)</b>
             <br>&bull; NEED TO KNOW BITWISE OPERATIONS
+            <br><b>Additional Solutions</b>
+            <br> &nbsp; 1. Check every char of the string with every other char of the string for duplicate occurrences. This will take O(n^2) time and no space.
+            <br> &nbsp; 2. If we are allowed to destory the input string, we could sort the string in O(n*log(n)) time and then linearly check the string for neighboring characters that are identical. Careful, though - many sorting algorithms take up extra space.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>1.2 Reverse C-String</h3>
+            <b>Initial Questions</b>
+            <br>&bull; What is the return case?
+            <br> &nbsp; &bull; Is it returning a new string, char array, nothing (printed), itself mutated, etc.
+            <br>&bull; Does it still need a null character?
+            <br><b>Some Answers</b>
+            <br>&bull; Manipulate original string.
+            <br>&bull; Function Signature - <pre><span class='glyphicon-remove'></span>void reverse(char *str) {...}</pre>            
+            <br><b>Initial Ideas</b>
+            <br>&bull; Create new character array and result counter to track iterating index of result
+            <br>&bull; Loop through the string backwards.
+            <br>&bull; Start loop right before null character.
+            <br>&bull; Build return result from characters at loop index.
+            <br>&bull; Add null character to end if needed. Return
+            <br><b>Initial Code</b>
+            <pre>
+            <span class='glyphicon-remove'></span>static char[] ReverseCString(char[] str) {
+                char[] result = new char[str.Length];
+                int resultCounter = 0;
+
+                for(int i = str.Length-2; i >= 0; i--) {
+                    result[resultCounter] = str[i];
+                    resultCounter++;
+                }
+
+                return result;
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             XXX

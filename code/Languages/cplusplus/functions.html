@@ -118,6 +118,18 @@
                                 <a href='#2'>Passing Values</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Automatic and Static Variables</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Returning Variables</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Function Pointers</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -219,8 +231,172 @@
             &bull; A function call must match the function signature or it will error out.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            &bull; By default, functions in C++ pass variables <i>by value</i>. (Pass-by-Value)
-            &bull; 
+            &bull; By default, functions in C++ pass variables <i>by value</i>, which only give the calling function a copy of the variable. (Pass-by-Value)
+            <br>&bull; By passing in an address to a variable, said variable can be changed in the calling function.
+            <pre>
+            <span class='glyphicon-remove'></span>int iterateUp(int &amp;num) {
+                return num++;
+            }
+            </pre>
+            <br>&bull; You can prevent any dangerous issues with passed in references by making it <b>const</b>. This makes the value in that referenced address <i>read-only</i>.
+            <pre><span class='glyphicon-remove'></span>int iterateUp(const int &amp;num) { }</pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; One main reason references were created for C++ was to allow Call-by-Reference for functions so that you can pass large object.
+            <br>&bull; It's important to undertstand that values are passed to and from a function on a small data structure called a <i>stack</i>.
+            <br>&bull; The stack is a small space and it requires processing power to manage it, because it's a data structure.
+            <br>&bull; So passing large values to a function requires copying large amounts of data onto the stack, which often times doesn't have enough room and computationally expensive.
+            <br>&bull; It's going to be time consuming, but it can also cause the stack to overflow, which can crash your program and create a security vulnerability.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; When you're passing something larger than a simple scalar value like an integer or a long or a double, you're going to want to use a reference.
+            <br>&bull; You're almost always going to want to make that a constant reference.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Automatic and Static Variables</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Storage (variables declared) inside a function block <i>default to automatic storage</i>.
+            <br>&bull; Other storage options are available however.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Automatic storage is stored on the stack, which is created fresh for each invocation of the function.
+            <br>&bull; Therefore, the value of the variable is not carried over from invocation to invocation. 
+            <br>&bull; Each time a function is invoked, a new copy of it's variables is allocated on the stack, and it's initialized.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; By declaring a variable as static, it will be set to static storage.
+            <br>&bull; Static storage is not stored on the stack, so it's persistent for the life of the entire process.
+            <br>&bull; Therefore, a value will be carried from one invocation to another.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Because automatic storage is stored on the stack, it is not suitable for larger objects. 
+            <br>&bull; It's always a good idea to avoid using automatic storage for anything larger than a few scalar variables.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Returning Variables</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Just like passing values to a function, return values are <i>copied to</i> and <i>returned on</i> the <b>stack</b>.
+            <br>&bull; This means you cannot return anything very large, or at least would have to by reference.
+            <pre>
+            <span class='glyphicon-remove'></span>const string &amp; func() {
+                static string s = "This is a static string";
+                return s;
+            }
+
+            int main() {
+                printf("returned value is %s\n", func().c_str());
+                return0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Notice in the func() method that the string was declared as static. That's because local storage inside a function defaults to automatic, and only lasts as long as the function is operating, and stores it on the stack.
+            <br>&bull; In order to return a reference, it has to be a reference to something in <b>static storage space</b>.
+            <br>&bull; Also, the other reason is that automatic storage space is stored on the stack, so we wouldn't want to store a large string in there.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Also notice the function is declared as constant because, then we could actually change the string in the caller, and then next time the function would be called, the string would be different.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In Summary: You return things from a function using the return statement.
+            <br>&bull; You declare the type of the return value in the function definition.
+            <br>&bull; By default, things that you return are returned on the stack in automatic storage space.
+            <br>&bull; If you need to return something larger, you want to use <i>static storage space</i> and a <i>reference</i>.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Function Pointers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In C++, it's possible to take the address of a function and assign it to a pointer. (Function Pointer)
+            <br>Let's start with an example:
+            <pre>
+            <span class='glyphicon-remove'></span>void func(){
+                printf("Func");
+            }
+
+            int main() {
+                void (*fp)() = func; //Function pointer -> func() method
+                //void (*fp)() = &amp;func; //Same as above
+                fp();
+                //(*fp)(); //Same as above, prefered for explicitness
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example - Jump</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>#include &lt;cstdio&gt;
+            using namespace std;
+
+            const char * prompt();
+            int jump( const char * );
+
+            void fa() { puts("this is fa()"); }
+            void fb() { puts("this is fb()"); }
+            void fc() { puts("this is fc()"); }
+            void fd() { puts("this is fd()"); }
+            void fe() { puts("this is fe()"); }
+
+            void (*funcs[])() = { fa, fb, fc, fd, fe, nullptr };
+
+            int main(int argc, char ** argv) {
+                while(jump(prompt()));
+                puts("\nDone.");
+                return 0;
+            }
+
+            const char * prompt() {
+                puts("Choose an options:");
+                puts("1. Function fa()");
+                puts("2. Function fb()");
+                puts("3. Function fc()");
+                puts("4. Function fd()");
+                puts("5. Function fe()");
+                puts("Q. Quit.");
+                printf(">> ");
+
+                fflush(stdout);                 // flush after prompt
+                const int buffsz = 16;          // constant for buffer size
+                static char response[buffsz];   // static storage for the response buffer
+                fgets(response, buffsz, stdin); // get response from console
+
+                return response
+            }
+
+            int jump( const char * rs) {
+                char code = rs[0];
+                if(code == 'q' || code == 'Q') return 0;
+
+                // count the length of the funcs array
+                int func_length = 0;
+                while( funcs[func_length] != NULL) func_length++;
+
+                int i = (int) code - '0'; // convert ASCII numeral to int
+                i--;      // list is zero-based
+                if( i < 0 || i >= func_length) {
+                    puts("invalid choice");
+                    return 1;
+                } else {
+                    funcs[i]();
+                    return 1;
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             XXX
