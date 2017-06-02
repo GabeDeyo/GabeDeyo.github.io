@@ -123,6 +123,14 @@
                                 <a href='#3'>Structured Exception Handling</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Resource Management (Garbage Collector)</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Extensible Types</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -259,10 +267,10 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Encapsulation</h3>
-            &bull; Encapsulation basically means to hide the implementation.
+            <p><span class='glyphicon-remove'></span>&bull; Encapsulation basically means to hide the implementation.
             <br>&bull; It's important to control the data that get assigned to your classes, or get sent into the member variables. We want correct data going to the correct places.
             <br>&bull; By creating member variables with the <b>private access modifier</b>, you can then create whats known as properties, or accessor methods. (Getters or Setters)
-            <br>&bull; Properties allow you to control how your variables are changed throughout the program.
+            <br>&bull; Properties allow you to control how your variables are changed throughout the program.</p>
             <pre>
             <span class='glyphicon-remove'></span>class Animal {
 
@@ -289,34 +297,34 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Inheritance</h3>
-            &bull; With OOP, we can create inheritance hierarchies of the classes that we have, where a subclass becomes a child of a parent class.
-            <br>&bull; This will allow subclasses to inherit behavior and functionality from a parent class.
+            <p><span class='glyphicon-remove'></span>&bull; With OOP, we can create inheritance hierarchies of the classes that we have, where a subclass becomes a child of a parent class.
+            <br>&bull; This will allow subclasses to inherit behavior and functionality from a parent class.</p>
             <br>&bull; To declare a child:
             <pre><span class='glyphicon-remove'></span>class Subclass : Parentclass { ... }</pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Polymorphism</h3>
-            &bull; Polymorphism essentially means many states or many forms.
+            <p><span class='glyphicon-remove'></span>&bull; Polymorphism essentially means many states or many forms.
             <br>&bull; A subclass can create it's own variables and methods while also inheriting the parents variables and methods.
             <br>&bull; In a parent method, we can declare methods as <b>virtual methods</b> which basically means that they can be overridden in the subclasses.
             <br>&bull; Overriding a parents method allows a subclass to create it's own unique behaviors to it's class.
             <br>&bull; When overriding a class, it will be autofilled with a base.Foo() in the body. This will call the parent function. 
-            <br>&bull; Work with your hierarchy to set up this whole inheritance hierarchy of classes, then you'll have the ability to morph and make changes to those classes in your programs.
+            <br>&bull; Work with your hierarchy to set up this whole inheritance hierarchy of classes, then you'll have the ability to morph and make changes to those classes in your programs.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Namespaces</h3>
-            &bull; Namespaces are used as <i>logical containers</i> for our classes.
+            <p><span class='glyphicon-remove'></span>&bull; Namespaces are used as <i>logical containers</i> for our classes.
             <br>&bull; Namespaces are used to organize classes so we can create a hierarchical structure of where to find these classes.
             <br>&bull; Namespaces are used to control the scope of the classes in large projects, or where we will gain access to a specific class.
             <br>&bull; Namespaces can be used to prevent <i>duplicate names</i> when using multiple vendors' code.
             <br>&bull; C# provides the <b>using</b> directive to help shorten <b>namespace.class.method</b> typing in code.
-            <br>&bull; This is why we can use the <b>Dictionary</b> class in our code instead of saying <b>System.Collections.Generic.Dictionary</b>
+            <br>&bull; This is why we can use the <b>Dictionary</b> class in our code instead of saying <b>System.Collections.Generic.Dictionary</b></p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Base Class Library (BCL)</h3>
-            &bull; The BCL is essentially a library of classes, interfaces, and value types that you can use to provide common functionality in all of your .NET applications.
+            <p><span class='glyphicon-remove'></span>&bull; The BCL is essentially a library of classes, interfaces, and value types that you can use to provide common functionality in all of your .NET applications.
             <br>&bull; It's divided into namespaces to make locating that functionality easier.
-            <br>&bull; You are able to view it's contents by opening the <b>Object Browser</b> window. This can give you information about what C# can already do for you.
+            <br>&bull; You are able to view it's contents by opening the <b>Object Browser</b> window. This can give you information about what C# can already do for you.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
@@ -327,10 +335,10 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Try-Catch-Finally</h3>
-            &bull; The .NET framework in C# allows us to deal with error handling in our application through a concept known as, <b>structured exception handling</b>.
+            <p><span class='glyphicon-remove'></span>&bull; The .NET framework in C# allows us to deal with error handling in our application through a concept known as, <b>structured exception handling</b>.
             <br>&bull; Structured Exception Handling is a concept that focuses on going through the application, and wrapping code within protective blocks that will monitor and search for any kind of an exception that happens in our application.
             <br>&bull; An <b>Exception</b> is basically an unexpected event in your code, and we call it an exception because it's an exception to the <i>normal flow of our program</i>.
-            <br>&bull; C# uses the <b>try-catch and finally</b> keywords to allow us to deal with our structured exception handling.
+            <br>&bull; C# uses the <b>try-catch and finally</b> keywords to allow us to deal with our structured exception handling.</p>
             <br>Example:
             <pre>
             <span class='glyphicon-remove'></span>static void Main(string[] args) {
@@ -376,10 +384,183 @@
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-        
+            <h3>Exception Flow</h3>
+            <p><span class='glyphicon-remove'></span>&bull; The .NET framework will throw exceptions back to our code when it encounter one.
+            <br>&bull; We can intercept those exceptions and handle them. 
+            <br>&bull; We can also re-throw those exceptions and pass them back up the stack if we decide that wen don't want to handle thme or maybe there's structured exception handling earlier on in the code.
+            <br>&bull; .NET has a very specific manner in which it handles exceptions in code. When exceptions are generated, it looks in the method where the exception occurred for handling routine. If not found, it passes up the call stack until it either finds an exception handling routine or the application crashes because one doesn't exist. 
+            <br>&bull; Don't let your application crash because you didn't anticiapte exceptions.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Throwing Exceptions</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Throwing exceptions comes in handy when you don't want to handle the exception in the function in which it was generated.
+            <br>&bull; Let's look back at the Divide exception handling code and add a <b>throw</b></p>
+            <pre>
+            <span class='glyphicon-remove'></span>try {
+                result = numerator / denominator;
+
+                Console.WriteLine();
+                Console.WriteLine("The result is: " + result);
+            }
+            catch(DivideByZeroException dEx) {
+                // Creates a new Exception class
+                // Add custom message
+                // Add the Inner Exception information
+                throw new Exception("Division by zero is not permitted, please change the denominator", dEx.InnerException);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>&bull; So using the throw keyword is a great way to rethrow exceptions back up the call stack so it can be handled someplace else in the application.
+            <br>&bull; Primarily you may use this if you have a specific set of classes that are designed to handle exceptions and write that information out to a log file.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Resource Management</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Garbage Collector</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Garbage collection essentially means that the .NET framework, the compiler, and the operating system are handling resources that are no longer required.
+            <br>&bull; Much like you would throw away something into an actual trash can when you don't need it, we're going to do the same thing with our data types within the .NET framework.
+            <br>&bull; The <b>Garbage Collection </b>will deal with reference types, which are the classes or the objects that we create within our applications themselves.
+            <br>&bull; Reference types remain in scope until they are no longer needed.
+            <br>&bull; Value types are managed and stored on the stack.
+            <br>&bull; Value types go in and out of scope automatically as functions or the areas of the applications in which they're used go in and out of scope...
+            <br>&bull; However reference types may remain in scope even though an application function no longer needs that object.
+            <br>&bull; C and C++ devs had to release memory resources themselves, so each time they created an object in their code, they had to monitor and manage the pointers or references to those actual resources or those objects within the code. Then when they no longer required them, they had to destory them. Not doing so created memory leaks within their applicatons.
+            <br><b>How does it work?</b>
+            <br>&bull; The garbage collector checks for objects on the heap that are no longer referenced, and it does this as soon as your application starts running. 
+            <br>&bull; When it starts to run, it assumes that all objects in memory on the heap are actually garbage, but it doesn't necessarily release everything at start-up though because your application may be requiring those objects at the time.
+            <br>&bull; Instead, what it does is it walks the root of all the objects, and it checks for references to other objects and references to the objects it's looking at. 
+            <br>&bull; Then once it finds all the references, it will generate a graph of all objects that can be collected.
+            <br>&bull; Any object that can be collected is one that no longer has a reference to it. We're assuming it's no longer being used in the application.
+            <br>&bull; From a performance perspective, the garbage collector will exact a performance hit on your application because it has to walk that stack of objects that are existing in your code, but it will attempt to do this when an application is not running or not performing a lot of tasks.
+            <br>&bull; So basically, it runs when the computer has freed up some resources for the garbage collector to run.
+            <br>&bull; It doesn't run all the time, only when the system has actual available resources for the garbage collector to execute.
+            <br>&bull; The garbage collector will be <i>invoked automatically</i> when the heap is full, and, as a result, you should never receive an out of memory exception.
+            <br>&bull; So we should never run out of heap memory when the garbage collector is running.
+            <br><b>How to Use the GC</b>
+            <br>&bull; The first thing you should know is that the GC basically runs by itself.
+            <br>&bull; If you're confident that you want the GC to collect at a certain point, you can call <i>GC.Collect</i> to do this, but know it's non-deterministic.
+            <br>&bull; That means the GC isn't necessarily going to immediately going to run just because you called it. The .NET framework still manages the GC.
+            <br>&bull; The GC will only run when the system resources permit, and that is why calling GC.Collect doesn't mean it's automatically going to kick in and start executing.
+            <br>&bull; However when you do call GC.Collect, or when the GC runs itself, it supports something known as <b>finalization stage</b> for you object. This means it gives your object the ability to clean up after itself, which is done through something called a <i>finalized method</i>.
+            <br>&bull; When somewhat unfamiliar with the GC and Finalize methods, stick to just letting the GC run itself. Later on you can start writing Finalize methods to clean up your code yourself.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Destructors</h3>
+            <p><span class='glyphicon-remove'></span>&bull; As we work with objects in our C# apps, we generate class files to form the definition of the objects we'll use in our code.
+            <br>&bull; When we <i>instantiate</i> an object, we use a constructor to build the object, or to initialize instance variables, setting values for any of the member variables that may exist within it.
+            <br>&bull; We do have the opportunity as well to create something called the <b>Destructor</b>, which is used to tear down our object.
+            <br>&bull; So constructors build our object in code or apply values to the instances of objects, and destructors <i>tear down or destory</i> the object when we're finished with it.
+            <br>&bull; <i>Destructors <b>cannot</b> be used with structs.</i> Although structs in classes are similar in C#, only classes actually use destructors because classes are reference types, while structs are value types.
+            <br>&bull; Each class can only have <i>one destructor</i>, so you're not going to have multiple destructors existing within a single class.
+            <br>&bull; Destructors <i>cannot be overloaded or inherited</i> by subclasses.
+            <br>&bull; Destructors take <i>no modifiers, and no parameters</i>.</p>
+            <br>Example:
+            <pre>
+            <span class='glyphicon-remove'></span>class Dog {
+                public Dog() {                  //Constructor
+                    // initialization statements 
+                }
+
+                ~Dog() {                 //Destructor
+                    // cleanup statements
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>How It Works</b>
+            <br>&bull; Cannot be called; it's invoked automatically by the GC.
+            <br>&bull; If present, destructors will implicitly call the <b>Finalize()</b> method.
+            <br>&bull; Not commonly required</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>IDisposable</h3>
+            <p><span class='glyphicon-remove'></span>&bull; This is a semi-advanced concept that you should know exists, and may be used in your resource management later on.
+            <br>&bull; IDisposable is an <i>interface</i>, which is basically like a class, only it has method signatures only on the implementation details.
+            <br>&bull; We'll use IDisposable to release unmanaged resources. <b>Unmanaged Resources</b> are typically resources, such as files that you may have opened in the system, or streams that you may be working with.</p>
+            <br>Example:
+            <pre>
+            <span class='glyphicon-remove'></span>protected virtual void Dispose(bool disposing) {
+                if(disposed)
+                    return;
+
+                if(disposing) {
+                    //Free managed objects here.
+                }
+                //Free any un-managed objects here
+                disposed = true;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Extensible Types</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Generics</h3>
+            &bull; Generics are a concept for allowing you to <i>define type safe classes</i> without committing to actual data types at the time that you define the class itself.
+            <br>&bull; The Generics will help you to maximize code reuse, type safety, and performance of your application.
+            <br>&bull; So we can defer the type that we're going to use with the class or with the collection until we <i>actually use it</i>.
+            <br>&bull; This means we can create <b>general purpose collections</b>, using generics that perform much better than the non-generic type collections.
+            <br>&bull; Generic based collections actually store objects of different types as they're already defined in the type that they represent.
+            <br>So lets see an example of a collections Stack vs. a generic stack:
+            <pre>
+            <span class='glyphicon-remove'></span>//Instantiating a new collection Stack
+            Stack myStack = new Stack();
+
+            //These are all perfectly legal
+            myStack.Push("a string");
+            myStack.Push(34);
+            myStack.Push(myStack);
+
+            //This is legal as well
+            myStack.Pop();
+            //We're going to see problems here because we need to define the type that it's supposed to be
+            int numberFromStack = myStack.Pop();
+
+            //Instantiating a new Generic Stack
+            Stack&lt;string> strStack = new Stack&lt;string>();
+
+            //Legal
+            strStack.Push("a string");
+
+            //Not-Legal
+            strStack.Push(34);
+            </pre>
+            <p><span class='glyphicon-remove'></span>&bull; Generics give us more control over what are data structures are doing, and are actually better with performance, since non-genric classes will need to deal with boxing and unboxing and casting value types back and forth.
+            <br>&bull; Generics will allow us to create more type safe code, more type safe applications.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Collections</h3>
+            <p><span class='glyphicon-remove'></span>&bull; The ability to <i>store and manage groups of objects or items</i> within C#, can be handled through the use of <b>Collections</b>.
+            <br>&bull; The collections we have available to us through the .NET framework, provide some specific functionality, or even just general functionality for us to use.</p>
+            <table class="table table-condensed">
+                <tr>
+                    <th>Non-Generic Collections</th>
+                    <th>Generic Collections</th>
+                </tr>
+                <tr>
+                    <td>Stack myStack = new Stack();</td>
+                    <td>Stack&lt;int> intStack = new Stack&lt;int>();</td>
+                </tr>
+                <tr>
+                    <td>Queue myQueue = new Queue();</td>
+                    <td>Queue&lt;char> charQ = new Queue&lt;char>();</td>
+                </tr>
+                <tr>
+                    <td>SortedList srtList = new SortedList();</td>
+                    <td>SortedList&lt;string, string> strList = new SortedList&lt;string, string>();</td>
+                </tr>
+                <tr>
+                    <td>ArrayList arrList = new ArrayList();</td>
+                    <td></td>
+                </tr>
+            </table>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

@@ -130,6 +130,22 @@
                                 <a href='#5'>Function Pointers</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Overloading Functions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Operator Overloading</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Defining a Variable Number of Arguments</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>Recursion</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -399,7 +415,189 @@
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            &bull; This is a very simple implementation of a really useful technique called a jump table or a jump array.
+            <br>&bull; We can use this technique often in console programs that have a little text menu or something.
+            <br>&bull; Or we could use it in CGI or web services where, because the web is stateless, when somebody puts in a response from a webpage, then that response, based on whatever that response is, we might need to call a different function.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Overloading Functions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In C++ it's possible to have different functions with the same name.
+            <br>&bull; The compiler selects which function to call based on the entire function signature, not just the function name.
+            <br>&bull; A function will only call the function where the function signature matches, which allows for many functions of the same name with all different signatures.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The return type of a function cannot be its only distinguishing factor. The const-ness of the return type can be though and often is.
+            <br>&bull; There are specific rules about how types are promoted to distinguish parameters, so make sure to test overloaded functions.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Overloaded function is a significant area where C++ differs from C. They do not compile in C.
+            <br>&bull; In C++, functions are distinguished by their entire signature.
+            <br>&bull; So it's possible to have multiple functions with the same name that operate with different parameters, and with different return types.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+        <pre>
+        <span class='glyphicon-remove'></span>// volume of a cube
+        double volume(double a) {
+            printf("cube of %.31f\n", a);
+            return a * a * a;
+        }
+
+        // volume of a cylinder
+        double volume(double r, double h) {
+            const static double _pi = 3.141592653589793;
+            printf("cylinder of %.31f x %.31f\n", r, h);
+            return _pi * r * r * h;
+        }
+
+        // volume of a cuboid
+        double volume(double a, double b, double c) {
+            printf("cuboid of %.31f x %.31f x %.31f\n", a, b, c);
+            return a * b * c;
+        }
+
+        int main() {
+            printf("Volume of a 2x2x2 cube: %.31f\n", volume(2.0));
+            printf("Volume of a cylinder, radius 2, height 2: %.31f\n", volume(2.0, 2.0));
+            printf("Volume of a 2x3x4 cuboid: %.31f\n", volume(2.0, 3.0, 4.0));
+            return 0;
+        }
+        </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Operator Overloading</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When you're dealing with simple built-in scaler values, it's usually pretty obvious what most operators will do. Two plus two will generally get you four. But when you're dealing with classes in C++, it's not obvious at all, in fact, <i>C++ operators do no work with class types unless you create specific functions for those operators.</i> These functions are called operator overloads or operator functions. There's basically two ways of overloading operators. On is with class methods and the other is with functions.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            This section will be covering <b>overloading operators with functions.</b> Let's see the code:
+            <pre>
+            <span class='glyphicon-remove'></span>class A {
+                int a;
+            public:
+                A (const in &amp;a) : a(a) {}
+                const int &amp; value() const { return a; }
+            };
+
+            int operator + (const A &amp; lhs, const A &amp; rhs) {
+                puts("operator + for class A");
+                return lhs.value() + rhs.value();
+            }
+
+            int main() {
+                A a(7);
+                A b(42);
+                printf("add them up. %d\n", a + b);
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            So we have a simple class that overloads an integer and it provides one method for returning a value. Down in main, we declare two variables of type A, and A is our class. One of them has a value of seven, and other has a value of 42. Then we add them up using the + operator  in the printf call. This is our <b>operator overload function.</b> The function signature, you'll notice, returns an integer and then the name of it is operator and a symbol.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The <i>operator</i> is a keyword that says that this is an operator overload function. Then the symbol is the operator that's going to be overloaded. There are rules for which operators can be overloaded in what way and how many parameters they have. So we see with the + operator, it takes two parameters; one is the left-hand side and one is the right-hand side. They are name lhs and rhs which is a very standard way to name them. They're of type A with constant and reference because you really want to use references for classes to pass into functions.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            You'll <i>generally always</i> want to use constant references because they ttend to be rather large and you don't want to pass the entire class on the stack and create problems of stack overflow. This operator + function calls puts, so that we know when it's being called. <i>Don't do this in practice.</i>
+            <br>The we return the value of the left-hand side plus the value of the right-hand side as integer. 
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            It's important to note that this is not completely adding any functionality that's not otherwise available. It's always possible to just have an Add method in your class and get the same result. This just allows you to use a normal looking expression in your source code.
+            <br>It is a powerful tool and like any powerful tool it can be abused and you should use operator overloading with a lot of caution.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Defining a Variable Number of Arguments</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; For times when a function needs to take a varying number of arguments, C++ provides <b>variadic functions.</b>
+            <br>&bull; Let's look at the code:
+            <pre>
+            <span class='glyphicon-remove'></span>#include cstdio, cstdarg
+
+            // first argument is int count of remaining args
+            // ... remaining args are doubles for average
+            double average(const int count, ...) {
+                va_list ap;
+                int i;
+                double total = 0.0;
+
+                va _start(ap, count);
+                for(i = 0; i < count; ++i) {
+                    total += va_arg(ap, double);
+                }
+                va_end(ap);
+                return total / count;
+            }
+
+            // works like printf, format plus args
+            int message(const char * fmt, ...) {
+                va_list ap;
+                va_start(ap, fmt);
+                int rc = vfprintf(stdout, fmt, ap);
+                puts("");
+                va_end(ap);
+                return rc;
+            }
+
+            int main() {
+                message("This is a message");
+                message("Average: %1f", average(5, 25.0, 35.7, 50.1, 127.6, 75.0));
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The first variadic function we have is <i>average</i> which returns a double. It takes an integer which is the count of the number of values that are being averaged, and then it takes a variable number of arguments. Those arguments are double which will be averaged. We also have a macro called <i>va_list</i> which declares the list of arguments that appear after the first argument, and then there's a va_start macro which points at the va-list variable and the count variable.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            So our count variable declares where the start of the variable argument list begins. So whatever you put here is the last argument that's not one of the variable list. Then the last one is explicitly declared, in this case it's the count one, which also happens to be the first one, and that's what you put there with va_start. Then in the loop, we have the va_arg macro which grabs the next variable from the list, and it also declared its type there. The va_end needs to be called at the end or it could cause issues.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>Recursion</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A <b>recursive</b> function is a function that calls itself. 
+            <br>&bull; Let's see some code:
+            <pre>
+            <span class='glyphicon-remove'></span>unsigned long int factorial(unsigned long int n) {
+                if(n < 2) return 1;
+                return factorial(n - 1) * n;
+            }
+
+            int main() {
+                unsigned long int n = 7;
+                printf("Factorial of %ld is %ld\n", n, factorial(n));
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Because a recursive function calls itself, it can use a lot of resources.
+            <br>&bull; For every recursive function call, memory is allocated for the parameters, for any local variables, for the return value, and for other overhead that you might have in your function. 
+            <br>&bull; All of this is allocated on the stack which means that it's very possible to overrun your stack and create a security vulnerability.
+            <br>&bull; In fact, a looping version of the factorial problem is more efficient than the recursive version.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; So C++ supports recursive functions, but be careful, for problems that may require a lot of iterations.
+            <br>&bull; Recursion can quickly use up a lot of resources which can easily create buffer overflow related security vulnerabilities. 
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
