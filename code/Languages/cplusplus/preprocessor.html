@@ -115,6 +115,26 @@
                                 <a href='#1'>Macros as Constants</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Including Files</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Conditional Compilation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Defining Macros</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Line Continuation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Include Files Only Once</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -196,6 +216,160 @@
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Including Files</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The <b>include</b> directive is used to include a header file on your source code.
+            <br>&bull; Essentially, the preprocessor <i>replaces the include directive</i> with the entire contents of the included header file then passes that combined file to the compiler.
+            <br>&bull; Multiple include directives are allowed and in fact common. They can usually be found nested within include files.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Angled Includes</h3>
+            <pre><span class='glyphicon-remove'></span>#include &lt;cstio></pre>
+            <p><span class='glyphicon-remove'></span>This form is used for system level headers that are common to different projects and source files.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Quoted Includes</h3>
+            <pre><span class='glyphicon-remove'></span>#include "stdafx.h"</pre>
+            <p><span class='glyphicon-remove'></span>This form is commonly used for header files specific to a given project or source file.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Conditional Compilation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The preprocessor provides a number of directives for <i>conditional compilation</i>.
+            <br>&bull; Typically used for separate versions of code, for debugging, or for supporting different target environments.
+            <br>&bull; #if, #ifdef -> <i>if defined</i>
+            <br>&bull; #ifndef -> <i>if not defined</i>
+            <br>&bull; #else, #elif -> <i>else if and end if</i>
+            <br>&bull; #if defined(MACRO), #if !defined(MACRO) == #ifdef and #ifndef
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>#ifndef CONDITIONAL_H_
+            #define CONDITIONAL_H_
+
+            #ifdef FOO
+            #define NUMBER 47
+            #else
+            #define NUMBER 2
+            #endif
+            #endif //CONDITIONAL_H_
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Defining Macros</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The preprocessor provides a <i>powerful and flexible macro system</i>.
+            <br>&bull; We've already covered <b>constant macros</b> in previous sections.
+            <br>&bull; You can give macros <b>parameters</b>, and preform operations with the inputs.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>//No space between MACRO and it's parameters!
+            #define MACRO(a, b) ( a * b )
+
+            int main() {
+                int ia = 5;
+                int ib = 7;
+                printf("value is %d\n", MACRO(ia, ib)); // 35
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Max Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>#define MAX(a, b) (a > b ? a : b)
+
+            int main() {
+                int ia = 5;
+                int ib = 7;
+                printf("value is %d\n", MAX(ia, ib)); // 7
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Because Macros are expanded to text before the compiler ever sees it, there's a potential for side effects.
+            <br>&bull; For many uses, <b>C++ templates</b> are a superior solution.
+            <br>&bull; Parameterized macros can work fine, but generally speaking, templates are recommended over parameterized macros.
+            <br>&bull; Preprocessor Macros can be very useful, but there's also a real possibility of unintended results.
+            <br>&bull; One common cause of problems is parameters <i>being evaluated more than once</i>.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Line Continuation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; <b>Line Continuation</b> in C++ allows you to use <i>backslash</i> as an editor escape character.
+            <br>&bull; Perfect for doing multi-line statements with macros.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Non-Working Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>//Errors
+            #define SWAP(a, b) do {
+                    a ^= b;
+                    b ^= a;
+                    a ^= b;
+                } while(0)
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Fixed Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>//No Errors
+            #define SWAP(a, b) do {  /
+                            a ^= b;  /
+                            b ^= a;  /
+                            a ^= b;  /
+                        } while(0)
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Include Files Only Once</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; When a header file is included by other header files there is a possibility that it can be <i>included more than once</i> and create errors.
+            <br>&bull; The most common solution to this issue is called a <b>include guard</b>.
+            <br>&bull; Simply looks like this:
+            <pre>
+            <span class='glyphicon-remove'></span>#ifndef _INCLUDEA_H
+            #define _INCLUDEA_H_
+
+            //includeA.h header contents
+
+            #endif /* _INCLUDEA_H_
+            </pre>
+            <p><span class='glyphicon-remove'></span>&bull; A less common but simpler solution is to use <i>#pragma once</i>
+            <br>&bull; Two disadvantages to this solution however is that the compiler may be fooled by symbolic links, and it may not be supported by all compilers.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>#pragma once
+            //includeA.h header contents
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
                     <!-------------------------------------->
                 </div>
             </div>
@@ -226,3 +400,4 @@
 </body>
 
 </html>
+ 

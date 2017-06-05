@@ -108,26 +108,232 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Creating C# Delegates</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Anonymous Delegates</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Composable Delegates</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Creating C# Delegates</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Delegates are analogous to <i>C++ function pointers</i>, or <i>JavaScript's callbacks</i>.
+            <br>&bull; Delegates are <b>type safe</b>, so the C# compiler checks the function signatures of delegates at runtime. This helps prevent common errors, like passing wrong arguments or getting wrong results back.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Delegates are used to define what are called <b>callback functions</b>. These allow you to pass functions around as if they were objects themselves.
+            <br>&bull; So the class that you pass the function to, can call the function itself. This is helpful when we need to dynamically switch the delegate at runtime.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Delegates are created using the <i>delegate</i> keyword, along with a function signature that defines the type of function that the delegate will refer to.
+            <br>&bull; Using the function signature will allow the compiler to check to make sure that the delegate being called has the right number of types and arguments, making them type safe.
+            <br><b>Example</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public delegate int MyDelegate(int i, string s);
+
+            int MyFunction(int i, string s) {
+                // delegate implementation goes here
+            }
+
+            // Somewhere in the app code
+            MyDelegate f = MyFunc;
+            // later, call the delegate
+            int result = f(250, "Hello World");
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Real World Example 1</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace BasicDelegates {
+                // Declare the delegate type
+                public delegate string MyDelegate(int arg1, int arg2);
+
+                class Program {
+                    // Insert Delegates Here
+                    static string func1(int a, int b) {
+                        return (a + b).ToString();
+                    }
+
+                    static string func2(int a, int b) {
+                        return (a * b).ToString();
+                    }
+
+                    static void Main(string[] args) {
+                        // Declare delegate here
+                        MyDelegate f = func1;
+                        Console.WriteLine("The number is: " + f(10, 20)); // The number is: 30
+                        f = func2;
+                        Console.WriteLine("The number is: " + f(10, 20)); // The number is: 200
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Real World Example 2</h3>
+            <p><span class='glyphicon-remove'></span>&bull; You can also use <i>instance methods of classes</i> as delegates. Let's change the first example a little:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>nnamespace BasicDelegates {
+                // Declare the delegate type
+                public delegate string MyDelegate(int arg1, int arg2);
+
+                class MyClass {
+                    // Delegates can be bound to instance members as well as
+                    // static class functions
+                    public string instanceMethod1(int arg1, int arg2)
+                    {
+                        return ((arg1 + arg2) * arg1).ToString();
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        MyClass mc = new MyClass();
+                        f = mc.instanceMethod1;
+                        Console.WriteLine("The number is: " + f(10, 20)); // The number is: 300
+                    }
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Anonymous Delegates</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In addition to explicitly declaring and naming your Delegate functions, they can also be created as anonymous functions.
+            <br>&bull; This is useful when your Delegate is a one-off function, or a function small enough to be declared in-line so that the code is more readable.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; When declaring the delegate, it's the same way as declaring an explicit delegate.
+            <pre><span class='glyphicon-remove'></span>public delegate int MyDelegate(int arg1, int arg2);</pre>
+            <p><span class='glyphicon-remove'></span>&bull; However, instead of writing a named function, and then assigning that function to a variable of the Delegate type, we simply declare the function directly in line with no name.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>{
+                ...
+                // Somewhere in app code
+                MyDelegate f = delegate(int arg1, int arg2) {
+                    //implementation code goes here, right inline
+                    return (arg1 + arg2).ToString();
+                };
+
+                // later, call the delegate
+                Console.WriteLine("The number is: " + f(10, 20)); // The number is: 30
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Functionally this is no different than declaring a regular function, and then doing the assignment in two different steps.
+            <br>&bull; It's simply a little more convenient to do it this way when the Delegate is relatively simple.
+            <br>&bull; Anonymous Delegates can usually be found being used with Event Handlers, which we'll see later.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Composable Delegates</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; An interesting feature of delegates is that they are <b>composable</b>. Which means you can chain delegates together.
+            <br>&bull; This allows delegates to be called in order that they were added to the chain.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Unhandled exceptions will skip all remaining delegates.
+            <br>&bull; Only the last return value will be returned to the calling function
+            <br>&bull; To pass results from one delegate to another, use <i>ref</i> variables.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Chaining/Unchaining Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace ComposableDelegates {
+                // declare the delegate type
+                public delegate void MyDelegate(int arg1, int arg2);
+
+                class Program {
+
+                    static void func1(int arg1, int arg2) {
+                        string result = (arg1 + arg2).ToString();
+                        Console.WriteLine(result);
+                    }
+                    static void func2(int arg1, int arg2) {
+                        string result = (arg1 * arg2).ToString();
+                        Console.WriteLine(result);
+                    }
+
+                    static void Main(string[] args) {
+                        MyDelegate f1 = func1;
+                        MyDelegate f2 = func2;
+                        //Chained delegate
+                        MyDelegate f1f2 = f1 + f2;
+
+                        // call each delegate and then the chain
+                        f1(10, 20); // 30
+                        f2(10, 20); // 200
+                        f1f2(10, 20); // 30 \n 200
+
+                        //Unchain f1 from chained delegate
+                        f1f2 -= f1;
+                        f1f2(20, 20); // 400
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; A more advanced composable delegate strategy is using reference arguments.
+            <br>&bull; These allow the function to change the value of that argument and have it take effect outside of the function.
+            <br>&bull; This is where we'll use this ability to pass changes from one delegate to the next.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Reference Chain Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace ComposableDelegates2 {
+                // Using reference parameters enables results to be passed
+                // along from one delegate to the next
+                public delegate void MyDelegate(int arg1, ref int arg2);
+
+                class Program {
+
+                    static void func1(int arg1, ref int arg2) {
+                        string result = (arg1 + arg2).ToString();
+                        arg2 += 20; // arg2 is a ref parameter, so this will change it's value
+                        Console.WriteLine(result);
+                    }
+
+                    static void func2(int arg1, ref int arg2) {
+                        string result = (arg1 * arg2).ToString();
+                        Console.WriteLine(result); 
+                    }
+
+                    static void Main(string[] args) {
+                        int a = 10, b = 10;
+                        MyDelegate f1 = func1;
+                        MyDelegate f2 = func2;
+                        MyDelegate combined = f1 + f2;
+
+                        Console.WriteLine("The value of b is: {0}", b);
+                        combined(a, ref b);
+                        Console.WriteLine("The value of b is: {0}", b);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

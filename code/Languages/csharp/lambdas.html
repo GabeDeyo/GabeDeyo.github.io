@@ -108,26 +108,138 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Lambda Functions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Lambdas as Delegates</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Lambda Functions</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Lambdas are essentially a shorthand way of writing anonymous functions in C#.
+            <br>&bull; Because they are based on delegates, you can use them anywhere you would normally use a delegate function.
+            <br>&bull; Lambdas are typically used when the logic that they implement is small enough and compact enough to fit into an in-line declaration.
+            <br>&bull; Defined using the => operator
+            <br>&bull; With the arrow operator, the expression <i>MyDelegate foo = (x) => x * x;</i> can be read as x such that x times x.
+            <br>&bull; Because they are essentially delegates, you also define a delegate signature like you normally would:
+            <pre>
+            <span class='glyphicon-remove'></span>public delegate int MyDelegate(int i);
+            </pre>
+            <p><span class='glyphicon-remove'></span>&bull; Then to declare the lambda, you would declare a variable of the delegate type, and then write the labmda expression using the arrow operator:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Expression lambda
+            MyDelegate f = x => x * x;
+
+            //Statement lambda
+            (x, y) => {
+                Function1(x);
+                Function2(y);
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <b>Lambda Examples</b>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace BasicLambdas {
+                // define a few delegate types
+                public delegate int MyDelegate(int x);
+                public delegate void MyDelegate2(int x, string prefix);
+                public delegate bool ExprDelegate(int x);
+
+                class Program {
+                    static void Main(string[] args) {
+                        // Create a basic delegate that squares a number
+                        MyDelegate foo = (x) => x * x;
+                        Console.WriteLine("The result of foo is: {0}", foo(5)); // The result of foo is: 25
+
+                        // Dynamically change the delegate to something else
+                        foo = (x) => x * 10;
+                        Console.WriteLine("The result of bar is: {0}, foo(5)); // The result of foo is: 50
+
+                        // Create a delegate that takes multiple arguments
+                        MyDelegate2 bar = (x, y) => {
+                            Console.WriteLine("The two-arg lambda: {1}, {0}", x * 10, y);
+                        };
+
+                        bar(25, "Some string"); // The two-arg lambda: Some string, 250 
+
+                        // Define an expression delegate
+                        ExprDelegate baz = (x) => x > 10;
+                        Console.WriteLine("Calling baz with 5: {0}", baz(5));   //Calling baz with 5: False
+                        Console.WriteLine("Calling baz with 15: {0}", baz(15)); //Calling baz with 15: True
+                    }
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             XXX
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Lambdas as Delegates</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Because lambdas are shorthand ways of writing anonymous delegate functions, you can use lambdas in places where you would otherwise use delegate function, including Events.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; We'll see this implemented with an older Event project.
+            <pre>
+            <span class='glyphicon-remove'></span>namespace LambdaDelegates {
+                // define a delegate
+                public delegate void myEventHandler(string value);
+
+                class MyClass {
+                    private string theVal;
+                    public event myEventHandler valueChanged;
+
+                    public string Val {
+                        set {
+                            this.theVal = value;
+                            // when the value changes, fire the event
+                            this.valueChanged(theVal);
+                        }
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        MyClass obj = new MyClass();
+
+                        // Use a Lambda expression to define an event handler
+                        // Note that this is a statement lambda, due to use of  { }
+                        obj.valueChanged += (x) => {
+                            Console.WriteLine("The value changed to {0}", x);
+                        };
+
+                        string str;
+                        do {
+                            str = Console.ReadLine();
+                            if(!str.Equals("exit")) {
+                                obj.Val = str;
+                            }
+                        } while(!str.Equals("exit"));
+
+                        Console.WriteLine("Goodbye!");
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

@@ -108,26 +108,249 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">Event Handlers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Event Chaining/Unchaining</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
-    <h2>XXX</h2>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Event Handlers</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Once we're proficient with delegates, we can start using events which are <i>based on the mechanism that delegates</i> use to work.
+            <br>&bull; Events are useful for broadcasting messages to and receiving messages from other parts of your program, or even the OS, or other programs.
+            <br>&bull; This enables your application to <i>communicate asynchronously</i>, so without having to wait for the other end point with other parts of the system.
+            <br>&bull; Events can be switched <i>on and off</i>, which further enhances your applications responsiveness. 
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            &bull; Defining an event starts off just like <i>defining a delegate</i>, in that you use the delegate syntax to declare the event handler signature.
+            <pre><span class='glyphicon-remove'></span>public delegate void MyEventHandler(int i);</pre>
+            <p><span class='glyphicon-remove'></span>&bull; Then, in the class for your object, you use the keyword <b>event</b>, instead of delegate, to declare an event.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class MyClass {
+                public event MyEventHandler myEvent;
+
+                public void RaiseEvent() {
+                    myEvent(123);
+                }
+            }
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>Basic Event Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace BasicEvents {
+                // define the delegate for the event handler
+                public delegate void myEventHandler(string value);
+
+                class EventPublisher {
+                    private string theVal;
+
+                    //declare the event
+                    public event myEventHandler valueChanged;
+
+                    public string Val {
+                        set {
+                            this.theVal = value;
+                            // when the value changes, fire the event
+                            this.valueChanged(theVal);
+                        }
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        // use a named function as an event handler
+                        EventPublisher obj = new EventPublisher();
+                        obj.valueChanged += obj_valueChanged;
+
+                        // use an anonymous delegate as an event handler
+                        /*
+                        obj.valueChanged += delegate(string val) {
+                            Console.WriteLine("The value changed to {0}", val);
+                        }
+                        */
+
+                        string str;
+                        do {
+                            Console.WriteLine("Enter a value: ");
+                            str = Console.ReadLine();
+                            if(!str.Equals("exit")) {
+                                obj.Val = str;
+                            }
+                        } while(!strin.Equals("exit"));
+                        Console.WriteLine("Goodbye!");
+                    }
+
+                    static void obj_valueChanged(string value) {
+                        Console.WriteLine("The value changed to {0}", value);
+                    }
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Event Chaining/Unchaining</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Like delegates, events can be <i>chained together</i> so that more than one handler can execute for a given event.
+            <br>&bull; This requires the same "plus-equals" notation as you would use for normal delegates.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's first look at an example:
+            <pre>
+            <span class='glyphicon-remove'></span>namespace ChainedEvents {
+                // define the delegate for the event handler
+                public delegate void myEventHandler(string value);
+
+                class MyClass {
+                    private string theVal;
+                    // declare the event handler
+                    public event myEventHandler valueChanged;
+
+                    public string Val {
+                        set {
+                            this.theVal = value;
+                            // when the value changes, fire the event
+                            this.valueChanged(theVal);
+                        }
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        // create the test class
+                        MyClass obj = new MyClass();
+
+                        // Connect multiple event handlers
+                        obj.valueChanged += changeListener1;
+                        obj.valueChanged += changeListener2;
+
+                        // Use an anonymous delegate as the event handler
+                        obj.valueChanged += delegate(string s) {
+                            Console.WriteLine("This came from the anonymous handler!");
+                        };
+
+                        string str;
+                        do {
+                            Console.WriteLine("Enter a value: ");
+                            str = Console.ReadLine();
+                            if(!str.Equals("exit")) {
+                                obj.Val = str;
+                            }
+                        } while(!str.Equals("exit"));
+                        Console.WriteLine("Goodbye!");
+                    }
+
+                    static void changeListener1(string value) {
+                        Console.WriteLine("The value changed to {0}", value);
+                    }
+
+                    static void changeListener2(string value) {
+                        Console.WriteLine("I also listen to the event, and got {0}", value);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; You can also use the .NET framework guidlines for defining event handlers. 
+            <br>&bull; The .NET framework defines a predefined event handler as a template that you can use to send events using the same format that .NET does.
+            <br>&bull; .NET event handlers typically take the form of having two arguments. The <i>first</i> one is the object where the event originated. The <i>second</i> is a custom sub-class derived from the .NET event args base-class.
+            <br>&bull; To declare the event, you use the event handler class, with the name of the event arg sub-class you've created inside angle brackets along with the name of the event.
+            <pre>
+            <span class='glyphicon-remove'></span>public delegate void EventHandler(object sender, EventArgs e);
+            
+            class MyEventArgs : Event Args {
+                public string someData;
+            }
+
+            public event EventHandler&lt;MyEventArgs> myEventName;
+
+            myEventName(this, new MyEventArgs() { someData = "data" });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>.NET Guidline Event Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>namespace ChainedEvents {
+                // define the delegate for the event handler
+                public delegate void myEventHandler(string value);
+
+                class MyClass {
+                    private string theVal;
+                    // declare the event handler
+                    public event myEventHandler valueChanged;
+                    // event handler based on the .NET framework guidlines
+                    public event EventHandler&lt;ObjChangeEventArgs> objChanged;
+
+                    public string Val {
+                        set {
+                            this.theVal = value;
+                            // when the value changes, fire the event
+                            this.valueChanged(theVal);
+
+                            this.objChanged(this, new ObjChangeEventArgs() { propChanged = "Val" });
+                        }
+                    }
+                }
+
+                class ObjChangeEventArgs : EventArgs {
+                    public string propChanged;
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        // create the test class
+                        MyClass obj = new MyClass();
+
+                        // Connect multiple event handlers
+                        obj.valueChanged += changeListener1;
+                        obj.valueChanged += changeListener2;
+
+                        // Use an anonymous delegate as the event handler
+                        obj.valueChanged += delegate(string s) {
+                            Console.WriteLine("This came from the anonymous handler!");
+                        };
+
+                        // H
+                        obj.objChanged += delegate(object sender, ObjChangeEventArgs e) {
+                            Console.WriteLine("{0} had the '{1}' property changed, sender.GetType(), e.propChanged);
+                        }
+
+                        string str;
+                        do {
+                            Console.WriteLine("Enter a value: ");
+                            str = Console.ReadLine();
+                            if(!str.Equals("exit")) {
+                                obj.Val = str;
+                            }
+                        } while(!str.Equals("exit"));
+                        Console.WriteLine("Goodbye!");
+                    }
+
+                    static void changeListener1(string value) {
+                        Console.WriteLine("The value changed to {0}", value);
+                    }
+
+                    static void changeListener2(string value) {
+                        Console.WriteLine("I also listen to the event, and got {0}", value);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->
