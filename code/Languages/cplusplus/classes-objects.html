@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>C# - Interfaces</title>
+    <title>C++ - Classes &amp; Objects</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -97,7 +97,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">C# - Interfaces</h1>
+                    <h1 id="title">C++ - Classes &amp; Objects</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -108,164 +108,162 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">Interfaces</a>
+                                <a href="#0">Overview</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#1'>Defining and Implementing</a>
+                                <a href='#1'>Defining Classes</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#2'>Casting Interfaces</a>
+                                <a href='#2'>Data Members</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#3'>Implementing Multiple Interfaces</a>
+                                <a href='#3'>Function Members</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2>Interfaces</h2>
+    <h2>Overview</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            &bull; Interfaces describe common behavior, not individual objects.
-            <br>&bull; An interface can be shared among several different classes.
-            <br>&bull; Classes can implement multiple interfaces.
-            <br>&bull; Interfaces provide no logic themselves.
-            <br>&bull; When defining an interface, placing an 'I' in front of the interface name is standard naming convention.
+            &bull; In C++, classes are like <i>custom data types</i>.
+            <br>&bull; They are designed to be used like the fundamental types provided by the C++ language.
+            <br>&bull; A <b>class</b> is the definition of a class, or using the class keyword.
+            <br>&bull; An <b>object</b> is created from that class definition, hence why it's called an instance of a class.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            &bull; When you want a class to implement the logic of an interface, the class would need to declare itself as a child of the interface.
-            <br>&bull; Because the interface acts as a contract towards the class, the class is then responsible for implementing the logic of that interface.
-            <br>&bull; By using an interface, different kinds of objects can provide the same capabilities using the same set of defined methods.
-            <br>&bull; Using interfaces gives you a way to separate out common sets of behavior in your application, and comsume them in multiple places.
+            &bull; A common term to describe the process of creating an object is the verb <i>instantiate</i>.
+            <br>&bull; <b>Members</b> are the contents of an object. And there are two types:
+            <br> &nbsp; &bull; <b>Data</b> members are sometimes called properties.
+            <br> &nbsp; &bull; <b>Function</b> members are members that represent functions associated with the class.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; <i>Constructors</i> and <i>Destructors</i> are special function members that are called when an object is created or destroyed respectively.
+            <br>&bull; A <b>Constructor</b> is called when the object is created. There may be several defined, but <i>only one</i> is called depending on how the object is created.
+            <br>&bull; The <b>Destructor</b> is called when the object is destroyed. There can only be one destructor to find. 
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; It's important to <i>Allocate</i> and <i>Deallocate</i> memory appropriately, so that your objects run smoothly.
+            <br>&bull; <i>Overload operators</i> so that you objects can use those operators intelligently.
+            <br>&bull; <i>Overload the function</i> call operators so that your objects can operate like a function.
+            <br>&bull; Create <i>Conversion operators</i> so that your objects behave as you expect them to in different contexts. 
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='1'>
-    <h2>Defining and Implementing</h2>
+    <h2>Defining Classes</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            &bull; Let's take the idea of a Document. The document will need a name and a constructor that sets that name. 
-            <br>&bull; The first step to figuring out how to incorporate an interface is to think about logic it will be implementing.
-            <br>&bull; In the case of our Document, we'll have three core members. It will need to <i>Save and Load</i>, and it will need to check if it needs to Save.
-            <br>&bull; This gives us two methods, Save() and Load, and a boolean that checks if saving is needed, NeedsSave.
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            Let's see the code:
+            &bull; Classes in C++ are very powerful and flexible, and they are the fundamental unit of object oriented programming.
+            <br>Lets look at some code:
             <pre>
-            <span class='glyphicon-remove'></span>namespace BasicInterfaces {
+            <span class='glyphicon-remove'></span>//A very simple class
+            class Class1 {
+            private:
+                int i = 0;
+            public:
+                void setvalue( const int value) { i = value; }
+                int getvalue() const { return i; }
+            };
 
-                interface IStorable {
-                    void Save();
-                    void Load();
-                    Boolean NeedsSave { get; set; }
-                }
+            int main(int argc, char ** argv) {
+                int i = 47;
+                Class1 object1;
 
-                class Document : IStorable {
-                    private string name;
-                    private Boolean _NeedsSave = false;
-
-                    public Document(string s) {
-                        name = s;
-                        Console.WriteLine("Created a document with name '{0}'", s);
-                    }
-
-                    public void Save() {
-                        Console.WriteLine("Saving the document");
-                    }
-
-                    public void Load() {
-                        Console.WriteLine("Loading the document");
-                    }
-
-                    public Boolean NeedsSave {
-                        get { return _NeedsSave; }
-                        set { _NeedsSave = value; }
-                    }
-                }
-
-                class Program {
-                    static void Main(string[] args) {
-                        Document d = new Document("Test Doc");
-                        d.Save();
-                        d.Load();
-                        d.NeedsSave = false;
-                    }
-                }
+                object1.setvalue(i);
+                printf("value is %d\n", object1.getvalue());
+                return 0;
             }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            &bull; Notice there are no access modifiers in the interface definition. 
-            <br>&bull; This is because interfaces are designed to expose functionality to other classes, so their contents must be implicitly public.
+            &bull; Member functions can be declared out of the class definition like so:
+            <pre>
+            <span class='glyphicon-remove'></span>//Typically goes in a header file
+            class Class1 {
+                int i;
+            public:
+                void setvalue( const int value );
+                int getvalue() const;
+            };
+
+            //Typically go in a separate implementation file
+            void Class1::setvalue(const int value) {
+                i = value;
+            }
+            int Class1::getvalue() const {
+                return i;
+            }
+
+            //Main goes in it's own program file
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='2'>
-    <h2>Casting Interfaces</h2>
+    <h2>Data Members</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            &bull; You can cast a given object to an interface using the C# keywords <b>IS</b> and <b>AS</b>.
-            <br>&bull; The <b>IS</b> operator can be used to determine if a given object <i>is</i> an instant of, or derived from, a specific class.
-            <br>&bull; The <b>AS</b> performs the cast or conversion from one type to another.
+            &bull; C++ objects are based on C structures. In fact, you can create objects using either the struct or object keyword.
+            <br>Let's look at some <b>struct</b> code:
             <pre>
-            <span class='glyphicon-remove'></span>Class A -> Class B -> Class C
-            void f() {
-                B obj = new B();
+            <span class='glyphicon-remove'></span>struct A {
+                int ia;
+                int ib;
+                int ic;
+            };
+
+            int main() {
+                A a = {1, 2, 3};
+                printf("%d, %d, %d\n", a.ia, a.ib, a.ic);
+                return 0;
             }
-
-            if(obj is A) {} //true
-            if(obj is B) {} //true
-            if(obj is C) {} //false
-
-            A obj2 = obj as A // obj2 is A
-            C obj2 = obj as C // obj2 is null
             </pre>
-            </p>
+            <p><span class='glyphicon-remove'></span>&bull; !Note! class declarations default their data members to private while struct defaults to public.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            Let's see the casting interfaces code with our previous example:
+            &bull; In terms of C, this would be considered a variable of a structure.
+            <br>&bull; In terms of C++, it's an object base on this structure and the name of the variable is A.
+            <br>&bull; <i>Data members</i> are accessed using the <i>elements selection operator</i>. The perios after the object call.
+            <br>&bull; Another way to access data members is through a pointer and the arrow pointer:
             <pre>
-            <span class='glyphicon-remove'></span>//Use the IStorable and Document classes from last section
-            class Program {
-                static void Main(string[] args) {
-                    Document d = new Document("Test Document");
-
-                    // Use the 'is' operator
-                    if(d is IStorable) { // true
-                        d.Save();
-                    }
-
-                    // Use the 'as' operator
-                    IStorable intStor = d as IStorable;
-                    if(intStor != null) { // true
-                        d.Load();
-                    }
-                }
+            <span class='glyphicon-remove'></span>int main() {
+                A a = {1, 2, 3};
+                A *pa = &amp;a;
+                printf("ia is %d", pa->ia);
             }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            &bull; This kind of casting ability is very useful when you combine it with data structures like Collections.
-            <br>&bull; One example is if you have a list of objects of various types, and you might want to be able to call certain methods on them, but only if they implement a specific interface.
-            <br>&bull; Using the <i>IS</i> and <i>AS</i> operators, you can determine if an object implements that interface and call the methods appropriately so.
+            &bull; The only difference between a <b>Class</b> and a <b>Struct</b> is that members of a class default to private and members of a struct default to public.
+            <br>&bull; It's good practice to use <i>struct</i> when the structure will only have data members and to use classes when they're all function members.
+            <br>&bull; Typically, data members in a class are kept private and that's why it defaults to private, which are then accessed through public function methods called <b>accessors</b>.
+            <br>&bull; Acessor methods have <b>setters</b> and <b>getters</b>. Setters and getters are for setting and returning private data members respectively.
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='3'>
-    <h2>Implementing Multiple Interfaces</h2>
+    <h2>Function Members</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            &bull; C++ classes can have <i>member functions</i> that act as methods for the class.
+            <br>Let's see some member function code:
+            <pre>
+            <span class='glyphicon-remove'></span>
+            </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             XXX

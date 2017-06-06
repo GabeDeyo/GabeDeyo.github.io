@@ -130,6 +130,10 @@
                                 <a href="#sample-code">Sample Code</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#design-decisions'>Design Decisions</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -283,9 +287,171 @@
             <span class="glyphicon-remove"></span>Audio *audio = Locator::getAudio();
             audio->playSound(VERY_LOUD_BANG);
             </pre>
+            <p><span class='glyphicon-remove'></span>The way it "locates" is very simple - it relies on some outside code to register a service provider before anything tries to use the service. When the game is starting up, it calls some code like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>ConsoleAudio *audio = new ConsoleAudio();
+            Locator::provide(audio);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            They key part to notice here is that the code that calls playSound() isn't aware of the concrete <i>ConsoleAudio</i> class; it only knows the abstract Audio interface. Equally important, not even the <i>locator</i> class is coupled to the concrete service provider. The <i>only</i> place in the code that knows about the actual concrete class is the initialization code that provides the service.
+            <p><span class='glyphicon-remove'></span>There's one more level of decoupling here: the <i>Audio</i> interface isn't aware of the fact that it's being accessed in most places through a service locator. As far as it knows, it's just a regular abstract base class. This is useful because it means we can apply this pattern to <i>existing</i> classes that weren't necessarily designed around it. This is in contrast with the Singleton, which affects the design of the "service" class itself.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>A Null Service</h3>
+            <p><span class='glyphicon-remove'></span>Our implementation so far is certainly simple, and it's pretty flexible too. But it has one big shortcoming: if we try to use the service before a provider has been registered, it returns NULL. If the calling code doesn't check that, we're going to crash the game.</p>
+            <p><span class='glyphicon-remove'></span>You'll sometimes here this called <i>"temporal coupling"</i> - two separate pieces of code that must be called in the right order for the program to work correclty. All stateful software has some degree of this, but as with other kinds of coupling, reducing temporal coupling makes the codebase easier to manage.</p>
+            <p><span class='glyphicon-remove'></span>Fortunately, there's another design pattern called <i>"Null Object"</i> that we can use to address this. The basic idea is that in places where we would return NULL when we fail to find or create an object, we instead return a special object that implements the same interface as the desired object. Its implementation basically does nothing, but it allows code that receives the object to safely continue on as if it had received a "real" one.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            To use this, we'll define another "null" service provider:
+            <pre>
+            <span class='glyphicon-remove'></span>class NullAudio : public Audio {
+            public:
+                virtual void playSound(int soundID) { /* Do nothing */ }
+                virtual void stopSound(int soundID) { /* Do nothing */ }
+                virtual void stopAllSounds() { /* Do nothing */ }
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>As you can see, it implements the service interface, but doesn't actually do anything. Now, we change our locator to this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Locator {
+            public:
+                static void initialize() {service_ = &amp;nullService_; }
+
+                static Audio&amp; getAudio() {return *service_; }
+
+                static void provide(Audio* service) {
+                    if(service == NULL) {
+                        //Revert to null service.
+                        service_ = &amp;nullService_;
+                    } else {
+                        service_ = serivce;
+                    }
+                }
+
+            private:
+                static Audio* service_;
+                static NullAudio nullService_;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>You may notice we're returning the service by referencing instead of by pointer now. Since references in C++ are (in theory) never NULL, returning a reference is a hint to users of the code that they can expect to always get a valid object back.</p>
+            <p><span class='glyphicon-remove'></span>The other thing to notice is that we're checking for NULL in the provide() function instead of checking for the accessor. That requires us to call initialize() early on to make sure that the locator initially correctly defaults to the null provider. In return, it moves the branch out of getAudio(), which will save us a couple of cycles every time the service is accessed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Calling code will never know that a "real" service wasn't found, nor does it have to worry about handling NULL. It's guaranteed to always get back a valid object.
+            <br>This is also useful for <i>intentionally</i> failing to find services. If we want to disable a system temporarily, we now have an easy way to do so: simply don't register a provider for the service, and the locator will default to a null pointer.
+            <p><span class='glyphicon-remove'></span>Something extra to note: Turning off audio is handy during development. It frees up some memory and CPU cycles. More importantly, when you break into a debugger just as a loud sound starts playing, it saves you from having your eardrums shredded.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Logging Decorator</h3>
+            <p><span class='glyphicon-remove'></span>Now that our system is pretty robust, let's discuss another refinement this patter lets us do - decorated services. We'll need to see an example.</p>
+            <p><span class='glyphicon-remove'></span>During development, a little logging when interesting events occur can help you figure out what's going on under the hood of your game engine. If you're working on AI, you'd like to know when the entity changes AI states. If you're the sound programmer, you may want a record of every sound as it plays so you can check that they trigger in the right order.</p>
+            <p><span class='glyphicon-remove'></span>The typical solution is to litter the code with calls to some <i>log()</i> function. Unfortunately, that replaces one problem with another - now we have <i>too much</i> logging. The AI coder doesn't care when sounds are playing, and the sound person doesn't care about AI state transitions, but now they both have to wade through each other's messages.</p>
+            <p><span class='glyphicon-remove'></span>Ideally, we would be able to selectively enable logging for just the stuff we care about, and in the final game build, there's be no logging at all. If the different systems we want to conditionally log are exposed as services, then we can solve this using the Decorator pattern.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's define another audio service provider implementation like this:
+            <pre>
+            <span class='glyphicon-remove'></span>class LoggedAudio : public Audio {
+            public:
+                LoggedAudio(Audio &amp;wrapped) : wrapped_(wrapped) {}
+
+                virtual void playSound(int soundID) {
+                    log("play sound");
+                    wrapped_.playSound(soundID);
+                }
+
+                virtual void stopSoud(int soundID) {
+                    log("stop sound");
+                    wrapped_.stopSound(soundID);
+                }
+
+                virtual void stopAllSounds() {
+                    log("stop all sounds");
+                    wrapped_.stopAllSounds();
+                }
+
+            private:
+                void log(const char* message) {
+                    //Code to log message...
+                }
+
+                Audio &amp;wrapped_;
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            As you can see, it wraps another audio provider and exposes the same interface. It forwards the actual behavior to the inner provider, but it also lgs each sound call. If a programmer wants to enable audio logging, they call this:
+            <pre>
+            <span class='glyphicon-remove'></span>void enableAudioLoggin() {
+                //Decorate the existing service.
+                Audio *service = new LoggedAudio(Locator::getAudio());
+
+                //Swap it in.
+                Locator::provide(service);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now, any calls to the audio service will be logged before continuing as before. And, of course, this plays nicely with our null service, so you can both <i>disable</i> audio and yet still log the sounds that it <i>would</i> play if sound were enabled.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='design-decisions'>
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            We've covered a typical implementation, but there are a couple of ways that it can vary based on differing answers to a few core questions:
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How is the Service Located?</h3>
+            <p><span class='glyphicon-remove'></span>&bull; <b>Outside code registers it:</b>
+            <br>This is the mechanism our sample code uses to locate the service, and it's the most common design in games:
+            <br> &nbsp; &bull; <i>It's fast and simple.</i> The <i>getAudio()</i> function simply returns a pointer. It will often get inlined by the compiler, so we get a nice abstracion layer at almost no performance cost.
+            <br> &nbsp; &bull; <i>We control how the provider is constructed.</i> Consider a service for accessing the game's controllers. We have two concrete providers: one for regular games and one for playing online. The online provider passes controller input over the network so that, to the rest of the game, remote players appear to be using local controllers.
+            <br> &nbsp; To make this work, the online concrete provider needs to know the IP address of the other remote player. If the locator itself was constructing the object, how would it know what to pass in? The <i>Locator</i> class doesn't know anything about online at all, much less some other user's IP address.
+            <br> &nbsp; Externally registered providers dodge the problem. Instead of the locator constructing the class, the games' networking code instantiates the online-specific service provider, passing in the IP address it needs. Then it give that to the locator, who knows only about the service's abstract interface.
+            <br> &nbsp; &bull; <i>We can change the service while the game is running.</i> We may not use this in the final game, but it's a neat trick during development. While testing, we can swap out, for example, the audio service with the null service we talked about earlier to temporarily disable sound while the game is still running.
+            <br> &nbsp; &bull; <i>The locator depends on outside code.</i> This is the downside. Any code accessing the service presumes that some code somewhere has already registered it. If that initialization doesn't happen, we'll either crash or have a service mysteriously not working.</p>
+            <p><span class='glyphicon-remove'></span>&bull; <b>Blind to it at compile time:</b>
+            <br>The idea here is that the "location" process actually occurs at compile time using preprocessor macros. Like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Locator {
+            public:
+                static Audio&amp; getAudio() { return service_; }
+
+            private:
+                #if DEBUG
+                    static DebugAudio service_;
+                #else
+                    static ReleaseAudio service_;
+                #endif
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Locating the service like this implies a few things:
+            <br> &nbsp; &bull; <i>It's fast.</i> Since all fo the real work is done at compile time, there's nothing left to do at runtime. The compiler will likely inline the <i>getAudio()</i> call, giving us a solution that's as fast as we could hope for.
+            <br> &nbsp; &bull; <i>You can guarantee the service is available.</i> Since the locator owns the service now and selects it at compile time, we can be assured that if the game compiles, we won't have to worry about the service being unavailable.
+            <br> &nbsp; &bull; <i>You can't change the service easily.</i> This is the major downside. Since the binding happens at build time, anytime you want to change the service, you've got to recompile and restart the game.</p>
+            <p><span class='glyphicon-remove'></span>&bull; <b>Configure it at runtime:</b>
+            <br>Over in the khaki-clad land of enterprise business software, if you say "service locator", this is what they'll have in mind. When the service is requested, the locator does some magic at runtime to hunt down the actual implementation requested.
+            <br><i>Reflection</i> is a capability of some programming languages to interact with the type system at runtime. For example, we could find a class with a given name, find its constructor, and then invoke it to create an instance.
+            <br>Typically, this means loading a configuration file that identifies the provider and then using reflection to instantiate that class at runtime. This does a few things for us:
+            <br> &nbsp; &bull; <i>We can swap out the service without recompiling.</i> This is a little more flexible than a compile-time-bound service, but not quite as flexible as a registered one where you can actually change the service while the game is running.
+            <br> &nbsp; &bull; <i>Non-programmer can change the service.</i> This is nice for when the designers want to be able to turn certain game features on and off but aren't comfortable mucking though source code. (Or, more likely, the <i>coders</i> aren't comfortable with them mucking through it.)
+            <br> &nbsp; &bull; <i>The same codebase can support multiple configurations simultaneously.</i> Since the location process has been moved out of the codebase entirely, we can use the same code to support multiple service configurations simultaneously.
+            <br>&nbsp; This is one of the reasons this model is appealing over in enterprise web-land; you can deploy a single app that works on different server setups just by changing some configs. Historically, this was less useful in games since console hardware is pretty well-standardized, but as more games target a heaping hodgepodge of mobile devices, this is becoming more relevant.
+            <br> &nbsp; &bull; <i>It's complex.</i> Unlike the previous solutions, this one is pretty heavyweight. You have to create some configuration system, possibly write code to load and parse a file, and generally <i>do some stuff</i> to locate the service. Time spent writing this code is time not spent on other game features.
+            <br> &nbsp; &bull; <i>Locating the service takes time.</i> And now the smiles really turn to frowns. Going with runtime configuration means you're burning some CPU cycles locating the service. Caching can minimize this, but that still implies that the first time you use the service, the game's got to go off and spend some time hunting it down. Game developers <i>hate</i> burning CPU cycles on something that doesn't improve the player's game experience.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What Happens if the Service Can't be Located?</h3>
+            <p><span class='glyphicon-remove'></span> &bull; <b>Let the user handle it:</b>
+            <br>The simplest solution is to pass the buck. If the locator can't find the service, it just returns NULL. This implies:
+            <br> &nbsp; &bull; <i>It lets users determine how to handle failure.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->
