@@ -123,6 +123,14 @@
                                 <a href='#3'>Function Members</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Constuctors and Destructors</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Implicit vs. Explicit Constructors</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -260,16 +268,229 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             &bull; C++ classes can have <i>member functions</i> that act as methods for the class.
+            <br>&bull; Like mentioned in the last section; class definition, function definitions, and main should all be <i>separated into their seperate files</i>.
             <br>Let's see some member function code:
             <pre>
-            <span class='glyphicon-remove'></span>
+            <span class='glyphicon-remove'></span>class A {
+                int ia;
+            public:
+                void setvalue( const int a );
+                int getvalue() const;
+            };
+
+            void A::setvalue( const int a ) {
+                ia = a;
+            }
+
+            int A::getvalue() const {
+                return ia;
+            }
+
+            int main() {
+                A a;
+                const A b = a;
+                printf("value is %d\n", b.getvalue());
+
+                return 0;
+            }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            &bull; Notice that the getter for our class variable is marked as constant, if not the getter would not be const safe.
+            <br>&bull; Because object b is a const type A, this means it cannot be modified.
+            <br>&bull; Any method that's called on a const object must be const safe.
+            <br>&bull; A const safe method cannot modify any of its data members.
+            <br>&bull; Likewise, if we try to run <i>setvalue()</i> on b we'll get an error become the setter is not const safe and the object b is. We can't let the setter be const because it actually is needed to change a value.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            &bull; One interesting thing you could do here is actually create a const-safe getter and a non-const-safe getter.
+            <br>&bull; The result of doing this is that non-const object will call the non-const-safe getter and the const object will call the const-safe getter.
+            <br>&bull; So we can actually have two versions of the same method that are only distinguishable in their signature by whether or not they're const safe.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Constructors and Destructors</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Constructors and Destructors are special member functions that serve a particular purpose.
+            <br>Let's see some <b>Constructor</b> code:
+            <pre>
+            <span class='glyphicon-remove'></span>const string unk = "unknown";
+            const string clone_prefix = "clone-";
+
+            // interface
+            class Animal {
+                string _type = "";
+                string _name = "";
+                string _sound = "";
+            public:
+                Animal();    //default constructor
+                Animal(const string &amp; type, const string &amp; name, const string &amp; sound);
+
+                Animal(const Animal &amp;); //copy constructor
+                Animal &amp; operator=(const Animal &amp;); //copy constructor
+                ~Animal(); //destructor
+                void print() const;
+            };
+
+            // implementation
+            Animal::Animal() : _type(unk), _name(unk), _sound(unk) {
+                put("default constructor");
+            }
+
+            Animal::Anima(const string &amp; type, const string &amp; name, const string &amp; sound)
+                    : _type(type, _name(name), _sound(sound) {
+                puts("constructor with arguments");
+            }
+
+            Animal::Animal(const Animal &amp; a) {
+                puts("copy constructor");
+                _name = clone_prefix + a._name;
+                _type = a._type;
+                _sound = a._sound;
+            }
+
+            Animal::~Animal() {
+                printf("destructor: %s the %s\n", _name.c_str(), _type.c_str());
+            }
+
+            void Animal::print() const {
+                printf("%s the %s says %s\n", _name.c_str(), _type.c_str(), _sound.c_str());
+            }
+
+            Animal &amp; Animal::operator=(const Animal &amp; o) {
+                puts("assignment operator");
+                if(this != &amp;o) {
+                    _name = clone_prefix + o._name;
+                    _type = o._type;
+                    _sound = o._sound;
+                }
+                return *this;
+            }
+
+            int main() {
+                Animal a;
+                a.print();
+
+                const Animal b("goat", "bob", "baah");
+                b.print();
+
+                const Animal c = b;
+                c.print();
+
+                a = c;
+                a.print();
+
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The first constructor we have is the <i>Default Constructor</i>.
+            <br>&bull; This Constructor is used when the class is created with no parameters.
+            <br>&bull; Notice there's a list of initializers, just like a class initializer.
+            <br>&bull; In the example, we're simply filling in the values with a string unknown constant.
+            <br>&bull; If we want to force the class to be initialized with parameters, we can simply move this constructor as a private member.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The second constructor is a <i>Constructor with Parameters</i>.
+            <br>&bull; If the class is created with parameters, this constructor will use those values inputed to create the object.
+            <br>&bull; Our example has three constant string references as parameters. These get initialized with the constructors initializer list.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The next constructor we have is the <b>Copy Constructor</b>.
+            <br>&bull; This constructor takes an object of the same class as it's parameter.
+            <br>&bull; It simply copies the values over from the other object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Next up is the <b>Destructor</b>, which in this case doesn't need to do anything.
+            &bull; For this example, we're just printing out the values of whichever object is being destroyed.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The last thing we'll see in this example is the <i>Assignment Operator</i>. This will be covered more in a later section.
+            <br>&bull; If you already have a copy constructor, it's usually a good idea to also define the copy operator.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; When dealing with classes, there's something called the <b>Rule of Threes</b>.
+            <br>&bull; This says that if you're overloading any of the implicit copy constructor, destructor or copy operator, that it's a good idea to overload all three or things can go wrong.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Implicit vs. Explicit Constructors</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; When a constructor only has <i>one parameter</i>, it can be used to provide <i>implicit type conversion</i>.
+            <br>&bull; The explicit function modifer prevents this behavior.
+            <br>Lets see some code:
+            <pre>
+            <span class='glyphicon-remove'></span>const size_t _maxsize = 1024;
+
+            class strsize {
+                size_t _size = 0;
+            public:
+                explicit strsize(const int);     // constructor: size from int
+                explicit strsize(const char *);  // constructor: size from c-string
+                size_t size() const;
+            };
+
+            strsize::strsize(const int n) {
+                puts("constructor: size from int");
+                _size = (n <= _maxsize) ? n : 0;
+            }
+
+            strsize::strsize(const char * s) {
+                puts("constructor: size from c-string");
+                for(size_t i = 0; i < _maxsize; i++) {
+                    if(s[i] == 0) {
+                        _size = i;
+                        return;
+                    }
+                }
+                _size = 0;
+            }
+
+            size_t strsize::size() const {
+                return _size;
+            }
+
+            using namespace std;
+
+            void func(const strsize &amp; s) {
+                printf("size is %ld\n", s.size());
+            }
+
+            int main() {
+                strsize s = 'x';
+                printf("size is %ld\n", s.size());
+                func('x'); //120
+
+                strsize c = "x";
+                printf("size is %ld\n", c.size());
+                func("x"); //1
+
+                strsize i(7);
+                printf("size is %ld\n", i.size()); //7
+                func(strsize(5)); // 5
+
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The goal of this code is to get the size of the string, however it's just partial.
+            <br>&bull; You'll notice that we have two constructors. One takes an int and one take a char string.
+            <br>&bull; The difference is that the int constructor simply copies the value of the int into the size data member. And the character string constructor calculates the length of the string by looking for the null terminator at the end of the string.
+            <br>&bull; They both check against the max size constant to make sure that the value is never too big. 
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Implicit conversion happens when you assign a value to an object during construction.
+            <br>&bull; That value, if possible, will get converted using a constructor that's available that it can promote to. 
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

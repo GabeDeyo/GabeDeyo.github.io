@@ -123,6 +123,14 @@
                                 <a href='#3'>Implementing Multiple Interfaces</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Explicit Interface Implementation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>.NET Defined Interfaces</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -265,13 +273,200 @@
     <h2>Implementing Multiple Interfaces</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
+            &amp; One of the main limitations of C# is that classes can only inherit from a single-parent class. However, sometimes we do want to draw functionality from different sources. This is were Interfaces can help.
+            <br>&bull; C# classes can implement multiple interfaces which can help when designing classes that have to support a variety of features.
+            <br>&bull; In order to do this, you simply need to place a comma between the names of the interfaces you want to implement.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's demonstrate this by adding another interface to our Document example:
+            <pre>
+            <span class='glyphicon-remove'></span>//Below IStorable Interface
+            interface IEncryptable {
+                void Encrypt();
+                void Decrypt();
+            }
+
+            class Document : IStorable, IEncryptable {
+                //other stuff
+
+                public void Encrypt() {
+                    Console.WriteLine("Encrypting the document");
+                }
+
+                public void Decrypt() {
+                    Console.WriteLine("Decrypting the document");
+                }
+            }
+
+            class Program {
+                static void Main(string[] args) {
+                    Document d = new Document("Test Document");
+
+                    d.Load();
+                    d.Encrypt();
+                    d.Save();
+                    d.Decrypt();
+                    d.NeedsSave = false;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Explicit Interface Implementation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; One issue that can arise from the previous example is that two separate interfaces can define the same method? What happens then?
+            <br>&bull; The solution to this problem is <b>Explicit Interface Implementation</b>.
+            <br>&bull; Using this technique, we can easily resolve any naming conflicts among interfaces that your application uses.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            This is luckily an easy fix and can be shown in one example.
+            <pre>
+            <span class='glyphicon-remove'></span>namespace ExplicitInterfaces {
+                interface IFoo {
+                    void SomeMethod();
+                }
+                interface IBar {
+                    void SomeMethod();
+                }
+
+                class FooBar : IFoo, IBar {
+                    void IFoo.SomeMethod() {
+                        Console.WriteLine("This is IFoo's SomeMethod");
+                    }
+                    void IBar.SomeMethod() {
+                        Console.WriteLine("This is IBar's SomeMethod");
+                    }
+
+                    public void SomeMethod() {
+                        Console.WriteLine("This is the class SomeMethod");
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        FooBar fb = new FooBar();
+                        fb.SomeMethod();
+
+                        IFoo ifoo = fb as IFoo;
+                        ifoo.SomeMethod();
+
+                        IBar ibar = fb as IBar;
+                        ibar.SomeMethod();
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>.NET Defined Interfaces</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In addition to defining you're own interfaces, your application can use ones that are already built into the .NET framework.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Notable .NET Interfaces</b>
+            <table class="table table-condensed">
+                <tr>
+                    <td>IComparable,<br>IComparer</td>
+                    <td>Used to compare objects of the same type</td>
+                </tr>
+                <tr>
+                    <td>IDisposable</td>
+                    <td>Give callers a ways to safely dispose of your object and release resources</td>
+                </tr>
+                <tr>
+                    <td>IEquatable</td>
+                    <td>Used to determine equality of two objects of the same type</td>
+                </tr>
+                <tr>
+                    <td>INotifyPropertyChanged</td>
+                    <td>Broadcast changes to property values on your object</td>
+                </tr>
+            </table>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's see some code:
+            <pre>
+            <span class='glyphicon-remove'></span>// Include the namespace that contains INotifyPropertyChanged
+            using System.ComponentModel;
             
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            XXX
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            XXX
+            namespace DotNetInterfaces {
+
+                interface IStorable {
+                    void Save();
+                    void Load();
+                    Boolean NeedsSave { get; set; }
+                }
+
+                class Document : IStorable {
+                    private string name;
+                    private Boolean _NeedsSave = false;
+
+                    // INotifyPropertyChanged requires the implementation of 1 event
+                    public event PropertyChangedEventHandler PropertyChanged;
+
+                    // Utility function to call the PropertyChanged event
+                    private void NotifyPropoChanged(string propName) {
+                        PropertyChanged(this, new PropertyChangedEventArgs(propName));
+                    }
+
+                    public Document(string s) {
+                        name = s;
+                        Console.WriteLine("Created a document with name '{0}'", s);
+                    }
+
+                    public string DocName {
+                        get { return name; }
+                        set {
+                            name = value;
+                            NotifyPropChanged("DocName");
+                        }
+                    }
+
+                    public void Save() {
+                        Console.WriteLine("Saving the document");
+                    }
+
+                    public void Load() {
+                        Console.WriteLine("Loading the document");
+                    }
+
+                    public Boolean NeedsSave {
+                        get { return _NeedsSave; }
+                        set { 
+                            _NeedsSave = value; 
+                            NotifyPropChanged("NeedsSave");
+                        }
+                    }
+                }
+
+                class Program {
+                    static void Main(string[] args) {
+                        Document d = new Document("Test Doc");
+
+                        d.PropertyChanged += delegate(object sender,
+                            PropertyChangedEventArgs e) {
+                                Console.WriteLine("Document property changed: {0}", e.PropertyName);
+                        }
+
+                        d.DocName = "My Document";
+                        d.NeedsSave = true;
+                    }
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

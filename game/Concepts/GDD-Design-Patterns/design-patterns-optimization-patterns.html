@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Optimization Patterns</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Optimization Patterns</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Optimization Patterns</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                While the rising tide of faster and faster hardware has lifted most software above worrying about performance, games are one of the few remaining exceptions. Players always want richer, more realistic and exciting experiences. Screens are crowded with games vying for a player's attention - and cash! - and the game that pushes the hardware the furthest often wins.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                Optimizing the performance is a deep art that touches all aspects of software. Low-level coders master the myriad idiosyncrasies of hardware architectures. Meanwhile, algorithms researchers compete to prove mathematically whose procedure is the most efficient.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                In these sections, we'll touch on a few mid-level patterns that are often used to speed up a game. <b>Data Locality</b> introduces you to the modern computer's memory hierarchy and how you can use it to your advantage. The <b>Dirty Flag</b> pattern helps you avoid unnecessary computation. <b>Object Pools</b> will help you avoid unnecessary allocation. <b>Spatial Partitioning</b> speeds up the virtual world and its inhabitants' arrangement in space.
+                            </p></li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <h3>The Paterns</h3>
+                                <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-data-locality.html">Data Locality</a></p>
+                                <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-dirty-flag.html">Dirty Flag</a></p>
+                                <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-object-pool.html">Object Pool</a></p>
+                                <p><span class="glyphicon-remove"></span> &bull; <a href="design-patterns-spatial-partition.html">Spatial Partition</a></p>
+                            </p></li>
+                        </ul>
+                        <a href="#title"><span class="glyphicon-menu-up"></span></a>
+                    </div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
