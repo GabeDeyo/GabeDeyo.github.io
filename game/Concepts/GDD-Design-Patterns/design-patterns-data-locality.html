@@ -130,6 +130,14 @@
                                 <a href='#5'>Sample Code</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Design Decisions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -372,7 +380,7 @@
                 // Position, velocity, etc...
             };
 
-            class ParticleSyste {
+            class ParticleSystem {
             public:
                 ParticleSystem() : numParticles_(0) { }
                 void update();
@@ -381,8 +389,211 @@
 
                 int numParticles_;
                 Particle particles_[MAX_PARTICLES];
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>A rudimentary update method for the system just looks like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticleSyste::update() {
+                for(int i = 0; i < numParticles_; i++) {
+                    particles_[i].update();
+                }
             }
             </pre>
+            <p><span class='glyphicon-remove'></span>But it turns out that we don't actually need to process <i>all</i> of the particles all the time. The particle system has a fixed-size pool of objects, but they aren't usually all actively twinkling across the screen. The easy answer is something like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>for(int i = 0; i < numParticles_; i++) {
+                if(particles_[i].isActive()) {
+                    particles_[i].update();
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>We give <i>Particle</i> a flag to track whether its in use or not. In the update loop, we check that for each particle. That loads the flag into a cache along with all of the particle's other data. If the particle <i>isn't</i> active, then we skip over it to the next one. The rest of the particle's data that we loaded into the cache is a waste.</p>
+            <p><span class='glyphicon-remove'></span>Savvy low-level coders can see another problem here. Doing an <i>if</i> check for every particle can cause a <i>branch misprediction</i> and a <i>pipeline stall</i>. In modern CPUs, a single "instruction" actually takes several clock cycles. To keep the CPU busy, instructions are <i>pipelined</i> so that the subsequent instructions start processing before the first one finishes.
+            <br>To do that, the CPU has to guess which instructions it will be executing next. In straight line code, that's easy, but with control flow, it's harder. While it's executing the instructions for that <i>if</i>, does it guess that the particle is active and start executing the code for that update() call, or does it guess that it isn't?
+            <br>To answer that, the chip does <i>branch prediction</i> - it sees which branches your code previously took and guesses that it will do that again. But when the loop is constantly toggling between particles that are and aren't active, that prediction fails.
+            <br>When it does, the CPU has to ditch the instructions it has started speculatively processing (a pipeline flush) and start over. The performance impact of this varies widely by machine, but this is why you sometimes see developers avoid flow control in hot code.</p>
+            <p><span class='glyphicon-remove'></span>The fewer active particles there are, the more we're skipping across memory. The more we do that, the more cache misses there are between actually doing useful work updating active particles. If the array is large and has <i>lots</i> of inactive particles in it, we're back to thrashing the cache again.</p>
+            <p><span class='glyphicon-remove'></span>Having objects in a contiguous array doesn't solve much if the objects we're actually processing aren't contiguous in it. If it's littered with inactive objects we have to dance around, we're right back to the original problem.</p>
+            <p><span class='glyphicon-remove'></span>Given the title of this section, you can probably guess the answer. Instead of <i>checking</i> the active flag, we'll <i>sort</i> by it. We'll keep all of the active particles in the front of the list. If we know all of those particles are active, we don't have to check the flag at all. We can also easily keep track of how many active particles there are. With this, our update loop turns into this thing of beauty:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>for(int i = 0; i < numActive_; i++) {
+                particles[i].update();
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now we aren't skipping over <i>any</i> data. Every byte that gets sucked into the cache is a piece of an active particle that we actually need to process.</p>
+            <p><span class='glyphicon-remove'></span>Of course, I'm not saying you should quicksort the entire collection of particles every frame. That would more than eliminate the gains here. What we want to do is <i>keep</i> the array sorted.</p>
+            <p><span class='glyphicon-remove'></span>Assuming the array is already sorted - and it is at first when all particles are inactive - the only time it can become <i>unsorted</i> is when a particle has been activated or deactivated. We can handle those two cases pretty easily. When a particle gets activated, we move it up to the end of the active particles by swapping it with the first <i>inactive</i> one:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticleSystem::activateParticle(int index) {
+                //Shouldn't already be active!
+                assert(index >= numActive_);
+
+                //Swap it with the first inactive particle
+                // right after the active ones.
+                Particles temp = particles_[numActive_];
+                particles_[numActive_] = particles_[index];
+                particles_[index] = temp;
+
+                //Now there's one more.
+                numActive_++;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>To deactivate a particle, we just do the opposite:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticleSystem::deactivateParticle(int index) {
+                //Shouldn't already be inactive!
+                assert(index < numActive_);
+
+                //There's one fewer
+                numActive_--;
+
+                //Swap it with the last active particle
+                // right before the inactive ones
+                Particle temp = particles_[numActive_];
+                particles_[numActive_] = particles_[index];
+                particles_[index] = temp;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Lots of programmer have developed allergies to moving things around in memory. Schlepping a bunch of bytes around <i>feels</i> heavyweight compared to assigning a pointer. But when you add in the cost of <i>traversing</i> that pointer, it turns out that our intuition is sometimes wrong. In some cases, it's cheaper to push things around in memory if it helps you keep the cache full.</p>
+            <p><span class='glyphicon-remove'></span>There's a neat consequence of keeping the particles <i>sorted</i> by their active state - we don't need to store an active flag in each particle at all. It can be inferred by its position in the array and the numActive_ counter. This makes our particle objects smaller, which means we can pack more in our cache lines, and that makes them even faster.</p>
+            <p><span class='glyphicon-remove'></span>It's not all rosy, though. As you can see from the API, we've lost a bit of object orientation here. The <i>Particle</i> class no longer controls its own active state. You can't call some <i>active()</i> method on it since it doesn't know its index. Instead, any code that wants to active particles needs access to the particle <i>system</i>.</p>
+            <p><span class='glyphicon-remove'></span>In this case, we can be OK with <i>ParticleSystem</i> and <i>Particle</i> being tightly tied like this. We can think of them as a single <i>concept</i> spread across two physical <i>classes</i>. It just means accepting the idea that particles are <i>only</i> meaningful in the context of some particle system. Also, in this case it's likely to be the particle system that will be spawning and killing particles anyways.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Hot/Cold Splitting</h3>
+            <p><span class='glyphicon-remove'></span>OK, this is the last example of a simple technique for making your cache happier. Say we've got an AI component for some game entity. It has some state in it - the animation it's currently playing, a goal position its heading towards, energy level, etc. - stuff it checks and tweaks every single frame. Something like:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class AIComponent {
+            public:
+                void update() { /* ... */ }
+
+            private:
+                Animation* animation_;
+                double energy_;
+                Vector goalPos_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>But it also has some state for rarer eventualities. It stores some data describing what loop it drops when it has an unfortunate encounter with the noisy end of a shotgun. That drop data is only used once in the entity's lifetime, right at its bitter end:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class AIComponent {
+            public:
+                void update() { /* ... */ }
+
+            private:
+                //Previous fields...
+                LootType drop_;
+                int minDrops_;
+                int maxDrops_;
+                double chanceOfDrop_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>Assuming we followed the earlier patterns, when we update these AI components, we walk through a nice packed, continuous array of data. But that data includes all of the loot drop information. That makes each component bigger, which reduces the number of components we can fit in a cache line. We get more cache misses because the total memory we walk over is larger. The loot data gets pulled into the cache for every component in every frame, even though we aren't even touching it.</p>
+            <p><span class='glyphicon-remove'></span>The solution for this is called <i>"hot/cold splitting"</i>. The idea is to break our data structure into two separate pieces. The first holds the "hot" data, the state we need to <i>touch every frame</i>. The other pieces is the "cold" data, everything else that gets used less frequently.</p>
+            <p><span class='glyphicon-remove'></span>The hot piece is the <i>main</i> AI component. It's the one we need to use the most, so we don't wan to chase a pointer to find it. The cold component can be off to the side, but we still need to get to it, so we give the hot component a pointer to it, like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class AIComponent {
+            public:
+                //Methods...
+            private:
+                Animation* animation_;
+                double energy_;
+                Vector goalPos_;
+
+                LootDrop* loot_;
+            };
+
+            class LootDrop {
+                friend class AIComponent;
+                LootType drop_;
+                int minDrops_;
+                int maxDrops_;
+                double chanceOfDrop_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>We could conceivably ditch the pointer too by having parallel arrays for the hot and cold components. then we can find the cold AI data for a component since both pieces will be at the same index in their respective arrays.</p>
+            <p><span class='glyphicon-remove'></span>You can see how this starts to get fuzzy, though. In the example here, it's pretty obvious which data should be hot and cold, but in a real game it's rarely so clear-cut. What if you have fields that are used when an entity is in a certain mode but not in others? What if entities use a certain chunk of data only when they're in certain parts of the level?</p>
+            <p><span class='glyphicon-remove'></span>Doing this kind of optimization is somewhere between a black art and a rathole. It's easy to get sucked in and spend endless time pushing data around to see what speed difference it makes. It will take practive to get a handle on where to spend your efforts.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This pattern is really about a mindset - it's getting you to think about your data's arrangement in memory as a key part of your game's performance story. The actual concrete design space is wide open. You can let data locality affect your whole architecture, or maybe it's just a localized pattern you apply to a few core data structures.
+            <p><span class='glyphicon-remove'></span>Noel Llopis' <a href="http://gamesfromwithin.com/data-oriented-design">famous article</a> that got a lot more people thinking about designing games around cache usage calls this "data-oriented design". The biggest questions you'll need to answer are when and where you apply this pattern, but here are a couple of other that may come up.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How do you Handle Polymorphism?</h3>
+            <p><span class='glyphicon-remove'></span>Up to this point, we've avoided subclassing and virtual methods. We have assumed we have nice packed arrays of <i>homogeneous</i> objects. That way, we know they're all the exact same size. But polymorphism and dynamic dispatch are useful tools too. How do we reconcile this?</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>Don't:</b>
+            <br>The simplest answer is to avoid subclassing, or at least avoid it in places where you're optimizing for cache usage. Software engineer culture is drifting away from heavy use of inheritance anyway.
+            <br> &nbsp; &bull; <i>It's safe and easy</i>. You know exactly what class you're dealing with, and all objects are obviously the same size.
+            <br> &nbsp; &bull; <i>It's faster.</i> Dynamic dispatch means looking up the method in the vtable and then traversing that pointer to get to the actual code. While the cost of this varies widely across different hardware, there is <i>some</i> cost to dynamic dispatch.
+            <br> &nbsp; &bull; <i>It's inflexible</i>. Of course, the reason we use dynamic dispatch is because it gives us a powerful way to vary behavior between objects. If you want different entities in you game to have their own rendering styles or their own special moves and attacks, virtual methods are a proven way to model that. Having to instead stuff all that code into a single non-virtual method that does something like a big switch gets messy quickly.</p>
+            <p><span class='glyphicon-remove'></span>As usual, the only absolute is that there are no absolutes. In most cases, a C++ compiler will require an indirection for a virtual method call. But in <i>some</i> cases, the compiler will require an indirection for a virtual method call. But in <i>some</i> cases, the compiler may be able to do <i>devirtualization</i> and statically call the right method if it knows what concrete type the receiver is. Devirtualization is more common in just-in-time compilers for languages like Java and JavaScript.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>Use separate arrays for each type:</b>
+            <br>We use polymorphism so that we can invoke behavior on an object whose type we don't know. In other words, we have a mixed bag of stuff, and we want each object in there to do its own thing when we tell it to go. But that raises the question of why mix the bag to begin with? Instead, why not maintain separate, homogenous collections for each type?
+            <br> &nbsp; &bull; <i>It keeps objects tightly packed</i>. Since each array only contains objects of one class, there's no padding or other weirdness.
+            <br> &nbsp; &bull; <i>You can statically dispatch</i>. Once you've got objects partitioned by type, you don't need polymorphism at all any more. You can use regular, non-virtual method calls.
+            <br> &nbsp; &bull; <i>You have to keep track of a bunch of collections</i>. If you have a lot of different object types, the overhead and complexity of maintaining separate arrays for each can be a chore.
+            <br> &nbsp; &bull; <i>You have to be aware of every type</i>. Since you have to maintain separate collections for each type, you can't be decoupled from the <i>set</i> of classes. Part of the magic of polymorphism is that it's open-ended - code that works with an interface can be completely decoupled from the potentially large set of types that implement that interface.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>Use a collection of pointers:</b>
+            <br>If you weren't worried about caching, this is the natural solution. Just have an array of pointers to some base class or interface type. You get all the polymorphism you could want and objects can be whatever size they want.
+            <br> &nbsp; &bull; <i>It's flexible</i>. The code that consumes the collection can work with objects of any type as long as it supports the interface you care about. It's completely open-ended.
+            <br> &nbsp; &bull; <i>It's less cache-friendly</i>. Of course, the whole reason we're discussing other options here is because this means cache-unfriendly pointer indirection. But, remember, if this code isn't performance-critical, that's probably OK.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How are Game Entities Defined?</h3>
+            <p><span class='glyphicon-remove'></span>If you use this pattern in tandem with the Component pattern, you'll have nice contiguous arrays for all of the components that make up your game entities. The game loop will be iterating over those directly, so the object for the game entity itself is less important, but it's still useful in other parts of the codebase where you want to work with a single conceptual "entity". The question then is how should it be represented? How does it keep track of its components?</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If game entities are classes with pointers to their components:</b>
+            <br>This is what our first example looked like. It's sort of the vanilla OOP solution. You've got a class for <i>GameEntity</i>, and it has pointers to the components it owns. Since they're just pointers, it's agnostic about where and how those components are organized in memory.
+            <br> &nbsp; &bull; <i>You can store components in contiguous arrays</i>. Since the game entity doesn't care where its components are, you can organize them in a nice packed array to optimize iterating over them.
+            <br> &nbsp; &bull; <i>Given an entity, you can easily get to its components</i>. They're just a pointer indirection away.
+            <br> &nbsp; &bull; <i>Moving components in memory is hard</i>. When components get enabled or disabled, you may want to move them around in the array to keep the active ones up front and contiguous. If you move a component while the entity has a raw pointer to it, though, that pointer gets broken if you aren't careful. You'll have to make sure to update the entity's pointer at the same time.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If game entities are classes with IDs for their components:</b>
+            <br>The challenge with raw pointers to components is that it makes it harder to move them around in memory. You can address that by using something more abstract: an ID or index that can be used to <i>look up</i> a component.
+            <br>The actual semantics of the ID and lookup process are up to you. It could be as simple as storing a unique ID in each component and walking the array, or more complex like a hash table that maps IDs to their current index in the component array.
+            <br> &nbsp; &bull; <i>It's more complex</i>. Your ID system doesn't have to be rocket science, but it's still more work than a basic pointer. You'll have to implement and debug it, and there will be memory overhead for bookkeeping.
+            <br> &nbsp; &bull; <i>It's slower</i>. It's hard to beat traversing a raw pointer. There may be some searching or hashing involved to get from an entity to one of its components.
+            <br> &nbsp; &bull; <i>You'll need access to the component "manager"</i>. The basic idea is that you have some abstract ID that identifies a component. You can use it to get a reference to the actual component object. But to do that, you need to hand that ID to something that can actually find the component. That will be the class that wraps your raw contiguous array of component objects.
+            <br>With raw pointers, if you have a game entity, you can find its components. With this, you need that game entity <i>and the component registry too</i>.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If the game entity is <i>itself</i> just an ID:</b>
+            <br>This is a newer style that some game engines use. Once you've moved all of your entity's behavior and state out of the main class and into components, what's left? It turns out, not much. The only thing an entity does is bind a set of components together. It exists just to say <i>this</i> AI component and <i>this</i> physics component and <i>this</i> render component define one living entity in the world.
+            <br>That's important because component interact. The render component needs to know where the entity is, which may be a property of the physics component. The AI component wants to move the entity, so it needs to apply a force to the physics component. Each component needs a way to get the other sibling components of the entity it's a part of.
+            <br>Some smart people realized all you need for that is an ID. Instead of the entity knowing its components, the components know their entity. Each component knows the ID of the entity that owns it. When the AI component needs the physics component for its entity, it simply asks for the physics component with the same entity ID that it holds. Your entity <i>classes</i> disappear entirely, replaced by a glorified wrapper around a number.
+            <br> &nbsp; &bull; <i>Entities are tiny</i>. When you want to pass around a reference to a game entity, it's just a single value.
+            <br> &nbsp; &bull; <i>Entities are empty</i>. Of course, the downside of moving everything out of entities is that you <i>have</i> to move everything out of entities. You no longer have a place to put non-component-specific state or behavior. This style doubles down on the Component pattern.
+            <br> &nbsp; &bull; <i>You don't have to manage their lifetime</i>. Since entities are just dumb value types, they don't need to be explicitly allocated and freed. An entity implicitly "dies" when all of its components are destroyed.
+            <br> &nbsp; &bull; <i>Looking up a component for an entity may be slow</i>. This is the same problem as the previous answer, but in the opposite direction. To find a component for some entity, you have to map an ID to an object. That process may be costly.
+            <br>This time, though, it <i>is</i> performance-critical. Components often interact with their siblings during update, so you will need to find components frequently. One solution is to make the "ID" of an entity the index of the componet in its array.
+            <br>If every entity has the same set of components, then your component arrays are completely parallel. The component in slot three of the AI component array will be for the same entity that the physics component in slot three of <i>its</i> array is associated with.
+            <br>Keep in mind, though, that this <i>forces</i> you to keep those arrays in parallel. That's hard if you want to start sorting or packaging them by different criteria. You may have some entities with disabled physics and others that are invisible. There's no way to sort the physics and render components arrays optimally for both cases if they have to stay in sync with each other.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Much of this chapter revolves around the Component pattern, and that pattern is definitely one of the most common data structures that gets optimized for cache usage. In fact, using the Component pattern makes this optimized for cache usage. In fact, using the Component pattern makes this optimization easier. Since entities are updated one "domain" (AI, physics, etc.) at a time, splitting them out into components lets you slice a bunch of entities into the right pieces to be cache-friendly.
+            <p><span class='glyphicon-remove'></span>But doesn't mean you can <i>only</i> use this pattern with components! Any time you have performance-critical code that touches a lot of data, it's important to think about locality.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Tonly Albrecht's <a href="http://research.scee.net/files/presentations/gcapaustralia09/Pitfalls_of_Object_Oriented_Programming_GCAP_09.pdf">"Pitfalls of Object-Oriented Programming"</a> is probably the most widely-read introduction to designing your game's data structures for cache-friendliness. It made a lot more people aware of how big of a deal this is for performance.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Again, look at the <a href="http://gamesfromwithin.com/data-oriented-design">very influential blog post</a> on the same topic written by Noel Llopis.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            This pattern almost invariably takes advantage of a contiguous array of homogeneous objects. Over time, you'll very likely be adding and removing objects from that array. The Object Pool pattern is about exactly that.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The <b>Artemis</b> game engine is one of the first and better-known frameworks that uses simple IDs for game entities.
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

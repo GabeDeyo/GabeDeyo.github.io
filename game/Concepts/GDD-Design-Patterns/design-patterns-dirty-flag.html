@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Dirty Flag</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Dirty Flag</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Intent</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Motivation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Dirty Flag</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>When to Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Keep In Mind</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Sample Code</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Intent</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <i>Avoid unnecessary work by deferring it until the result is needed.</i>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Motivation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Many games have something called a <i>scene graph</i>. This is a big data structure that contains all of the object in the world. The rendering engine uses this to determine where to draw stuff on the screen.
+            <p><span class='glyphicon-remove'></span>At its simplest, a scene graph is just a flat list of objects. Each object has a model, or some other graphic primitive, and a <i>transform</i>. The transform describes the object's position, rotation, and scale in the world. To move or turn an object, we simply change its transform.</p>
+            <p><span class='glyphicon-remove'></span>The mechanics of <i>how</i> this transform is stored and manipulated are unfortunately out of scope here. The comically abbreviated summary is that it's a 4x4 matrix. You can make a single transform that combines two transforms - for example, translating and then rotating an object - by multiplying the two matrices.</p>
+            <p><span class='glyphicon-remove'></span>When the renderer draws an object, it takes the object's model, applies the transform to it, and then renderers it there in the world. If we had a scene <i>bag</i> and not a scene <i>graph</i>, that would be it, and life would be simple.</p>
+            <p><span class='glyphicon-remove'></span>However, most scene graphs are <i>hierarchical</i>. An object in the graph may have a parent object that it is anchored to. In that case, its transform is relative to the <i>parent's</i> position and isn't an absolute position in the world.</p>
+            <p><span class='glyphicon-remove'></span>This way, when a parent object moves, its children move with it automatically. If we change the local transform of the ship, a ship, the crow's nest, a pirate, and a parrot on his shoulder go along for the ride. It would be a total headache if, when the ship moved, we had to manually adjust the transforms of all the objects on it to keep them from sliding off.</p>
+            <p><span class='glyphicon-remove'></span>But to actually draw the parrot on screen, we need to know its absolute position in the world. I'll call the parent-relative transform the object's <i>local transform</i>. To render an object, we need to know its <i>world transform</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Local and World Transforms</h3>
+            <p><span class='glyphicon-remove'></span>Calculating an object's world transform is pretty straightforward - you just walk its parent chain starting at the root al the way down to the object, combining transforms as you go. In other words, the parrot's world transform is: 
+            <br>Parrot(Word) = Ship(local) x Nest(local) x Pirate(local) x Parrot(local)
+            <br>In the degenerate case where the object has no parent, its local and world transforms are equivalent.</p>
+            <p><span class='glyphicon-remove'></span>We need the world transform for every object in the world every frame, so even though there are only a handful of matrix multiplications per model, it's on the hot code path where performance is critical. Keeping them up to date is tricky because when a parent object moves, that affects the world transform of itself and all of its children, recursively.</p>
+            <p><span class='glyphicon-remove'></span>The simplest approach is to calculate transforms on the fly while rendering. Each frame, we recursively traverse the scene graph starting at the top of the hierarchy. For each object, we calculate its world transform right then and draw it.</p>
+            <p><span class='glyphicon-remove'></span>But this is terribly wasteful of our precious CPU juice. Many objects in the world are <i>not</i> moving every frame. Think of all of the static geometry that makes up the level. Recalculating their world transforms each frame even though they haven't changed is a waste.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Cached World Transforms</h3>
+            <p><span class='glyphicon-remove'></span>The obvious answer is to <i>cache</i> it. In each object, we store its local transform and its derived world transform. When we render, we only use the precalculated world transform. If the object never moves, the cached transform is always up to date and everything's happy.</p>
+            <p><span class='glyphicon-remove'></span>When an object <i>does</i> move, the simple approach is to refresh its world transform right then. But don't forget the hierarchy! When a parent moves, we have to recalculate its world transform <i>and all of its children's, recursively.</i></p>
+            <p><span class='glyphicon-remove'></span>Imagine some busy gameplay. In a single frame, the ship gets tossed on the ocean, the crow's nest rocks in the wind, the pirate leans to the edge, and the parrot hops onto his head. We changed four local transforms. If we recalculated world transforms eagerly whenever a local transform changes, what ends up happening?</p>
+            <p><span class='glyphicon-remove'></span>We'll see that we need to recursively work our way from the top level parent down to the parent, and at each step the parrot is recalculated. So by the time we get to the end of the parrot movement, we've only moved four objects, but we did <i>ten</i> world transform calculations. That's six pointless calculations that get thrown out before they are ever used by the renderer. We calculated the parrot's world transform <i>four</i> times, but it is only rendered once.</p>
+            <p><span class='glyphicon-remove'></span>The problem is that a world transform may depend on several local transforms. Since we recalculated immediately each time <i>one</i> of the transforms changes, we end up recalculating the same transform multiple times when more than one of the local transforms it depends on changes in the same frame.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Deferred Recalculation</h3>
+            <p><span class='glyphicon-remove'></span>We'll solve this by decoupling changing local transforms from updating the world transforms. This lets us change a bunch of local transforms in a single batch and <i>then</i> recalculate the affected world transform just once after all of those modifications are done, right before we need it to render.</p>
+            <p><span class='glyphicon-remove'></span>To do this, we add a <i>flag</i> to each object in the graph. "Flag" and "bit" are synonymous in programming - they both mean a single micron of data that can be in one of two states. We call those "true" and "false", or sometimes "set" and "cleared". I'll use all of these interchangeably.</p>
+            <p><span class='glyphicon-remove'></span>When the local transform changes, we set it. When we need the object's world transform, we check the flag. If it's set, we calculate the world transform and then clear the flag. If it's set, we calculate the world transform and then clear the flag. The flag represents, "Is the world transform out of date?" For reasons that aren't entirely clear, the traditional name for this "out-of-date-ness" is "dirty". Hend: a <i>dirty flag</i>. "Dirty bit" is an equally common name for this pattern, but I figured I'd stick with the name that didn't seem as prurient.</p>
+            <p><span class='glyphicon-remove'></span>If we apply this pattern and then move all of the objects in our previous example, the game ends up doing:
+            <br>Moves ship, next, pirate, then parrot. I then renders and recalculates objects in a top-down order.
+            <br>That's the best you could hope to do - the world transform for each affected object is calculated exactly once. With only a single bit of data, this pattern does a few things for us:
+            <br> &nbsp; &bull; It collapses modifications to multiple local transforms along an object's parent chain into a single recalculation on the object.
+            <br> &nbsp; &bull; It avoids recalculation on objects that didn't move.
+            <br> &nbsp; &bull; And a minor bonus: if an object gets removed before it's rendered, it doesn't calculate its world transform at all.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Dirty Flag</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A set of <b>primary data</b> changes over time. A set of <b>derived data</b> is determined from this using some <b>expensive process</b>. A <b>"dirty" flag</b> tracks when the derived data is out of sync with the primary data. It is <b>set when the primary data changes</b>. If the flag is set when the derived data is needed, then <b>it is reprocessed and the flag is cleared.</b> Otherwise, the previous <b>cached derived data</b> is used.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>When to Use It</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Compared to some other patterns in this book, this one solves a pretty specific problem. Also, like most optimizations, you should only reach for it when you have a performance problem big enough to justify the added code complexity.
+            <p><span class='glyphicon-remove'></span>Dirty flags are applied to two kinds of work: <i>calculation</i> and <i>synchronization</i>. In both cases, the process of going from the primary data to the derived data is time - consuming or otherwise costly.</p>
+            <p><span class='glyphicon-remove'></span>In our scene graph exapmle, the process is slow because of the amount of math to perform. When using this pattern for synchronization, on the other hand, it's more often that the derived data is <i>somewhere else</i> - either on disk or over the networ on another machine - and simply getting it from point A to point B is what's expensive.</p>
+            <p><span class='glyphicon-remove'></span>There are a couple of other requirements too:
+            <br> &nbsp; &bull; <b>The primary data has to change more often than the derived data is used.</b> This pattern works by avoiding processing derived data when a subsequent primary data change would invalidate it before it gets used. If you find yourself always needing that derived data after every single modification to the primary data, this pattern can't help.
+            <br> &nbsp; &bull; <b>It would be hard to update incrementally.</b> Let's say the pirate ship in our game can only carry so much booty. We need to know the total weight of everything in the hold. We <i>could</i> use this pattern and have a dirty flag for the total weight. Every time we add or remove some loot, we set the flag. When we need the total, we add up all of the booty and clear the flag.
+            <br> &nbsp; But a simpler solution is to <i>keep a running total</i>. When we add or remove an item, just add or remove its weight from the current total. If we can "pay as we go" like this and keep the derived data updated, then that's often a better choice than using this pattern and calculating the derived data from scratch when needed.</p>
+            <p><span class='glyphicon-remove'></span>This makes it sound like dirty flags are rarely appropriate, but you'll find a place here or there where they help. Searching your average game codebase for the word "dirty" will often turn up uses of this pattern.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Keep In Mind</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Even after you've convinced yourself this pattern is a good fit, there are a few wrinkles that can cause you some discomfort.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>There is a cost to deferring for too long</h3>
+            <p><span class='glyphicon-remove'></span>This pattern defers some slow work until the result is actually needed, but when it is, it's often needed <i>right now</i>. But the reason we're using this pattern to begin with is because calculating that result is slow!</p>
+            <p><span class='glyphicon-remove'></span>This isn't a problem in our example because we can still calculate world coordinates fast enough to fit within a frame, but you can imagine other cases where the work you're doing is a big chunk that takes noticeable time to chew through. If the game doesn't <i>start</i> chewing until right when the player expects to see the result, that can cause an unpleasant visible pause.</p>
+            <p><span class='glyphicon-remove'></span>Another problem with deferring is that if something goes wrong, you may fail to the work at all. This can be particularly problematic when you're using this pattern to save some state to a more persisten form.</p>
+            <p><span class='glyphicon-remove'></span>For example, text editors know if your document has "unsaved changes". That little bullet or start in your file's title bar is literlly the dirty flag visualized. The primary data is the open document in memory, and the derived data is the file on disk.</p>
+            <p><span class='glyphicon-remove'></span>Many programs don't save to disk until either the document is closed or the application is exited. That's fine most of the time, but if you accidentally kick the power cable out, there goes you're masterpiece.</p>
+            <p><span class='glyphicon-remove'></span>Editors that auto-save a backup in the background are compensating specifically for this shortcoming. The auto-save frequency is a point on the continuum between not losing too much work when a crash occurs and not thrashing the file system too much by saving all the time.</p>
+            <p><span class='glyphicon-remove'></span>This mirrors the different garbage colleciton strategies in systems that automatically manage memory. Reference counting frees memory the second it's no longer needed but it burns CPU time updating ref counts eagerly every time references are changed.
+            <br>Simple garbage collectors defer reclaiming memory until it's really needed, but the cost is the dreaded "GC pause" that can freeze your entire game until the collector is done scouring the heap.
+            <br>In between the two or more complex systems like deferred ref-counting and incremental GC that reclaim memory less eagerly than pure ref-counting but more eagerly than stop-the-world collectors.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>You have to make sure to set the flag <i>every</i> time the state changes</h3>
+            <p><span class='glyphicon-remove'></span>Since the derived data is calculated form the primary data, it's essentially a cache. Whenevver you have cached data, the trickiest aspect of it is <i>cache invalidation</i> - correctly noting when the cache is out of sync with its source data. In this pattern, that means setting the dirty flag when <i>any</i> primary data changes.</p>
+            <p><span class='glyphicon-remove'></span>Miss it in one place, and your program will incorrectly use stale derived data. This leads to confused players and bugs that are very hard to track down. When you use this pattern, you'll have to take care that any code that modifies the primary state also sets the dirty flag.</p>
+            <p><span class='glyphicon-remove'></span>One way to mitigate this is by encapsulating modifications to the primary data behind some interface. If anything that can change the state goes through a single narrow API, you can set the dirty flag there and rest assured that it won't be missed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>You have to keep the previous derived data in memory</h3>
+            <p><span class='glyphicon-remove'></span>When the derived data is needed and the dirty flag isn't set, it uses the previously calculated data. This is obvious, but that does imply that you have to keep that derived data around in memory in case you end up needing it later. This isn't much of an issue when you're using this pattern to synchronize the primary state to some other place. In that case, the derived data isn't usually in memory at all.</p>
+            <p><span class='glyphicon-remove'></span>If you weren't using this pattern, you could calculate the derived data on the fly whenever you needed it, then discard it when you were done. That avoids the expense of keeping it cached in memory at the cost of having to do that calculation every time you need the result.</p>
+            <p><span class='glyphicon-remove'></span>Like many optimizations, then, this pattern trades memory for speed. In return for keeping the previously calculated data in memory, you avoid having to recalculate it when it hasn't changed. This trade-off makes sense when the calculation is slow and memory is cheap. When you've got more time than memory on your hands, it's better to calculate it as needed. Conversely, compression algorithms make the opposite trade-offs: they optimize <i>space</i> at the expense of the processing time needed to decompress.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Sample Code</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's assume we've met the surprisingly long lost of requirements and see how the pattern looks in code. As I mentioned before, the actual math behind transform matrices is beyond the humble aims of this book, so I'll just encapsulate that in a class whose implementation you can presume exists somewhere out in the æther:
+            <pre>
+            <span class='glyphicon-remove'></span>class Transform {
+            public:
+                static Transform origin();
+
+                Transform combine(Transform&amp; other);
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>The only operation we need here is <i>combine()</i> so that we can get an object's world transform by combining all of the local transforms along its parent chain. It also has a method to get an "origin" transform - basically an identity matrix that means no translation, rotation, or scaling at all.</p>
+            <p><span class='glyphicon-remove'></span>Next, we'll sketch out the class for an object in the scene graph. This is the bare minimum we need <i>before</i> applying this pattern:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class GraphNode {
+            public:
+                GraphNode(Mesh* mesh)
+                : mesh_(mesh),
+                    local_(Transform::origin())
+                {}
+
+            private:
+                Transform local_;
+                Mesh* mesh_;
+
+                GraphNode* children_[MAX_CHILDREN];
+                int numChildren_;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Each node has a local transform which describes where it is relative to its parent. It has a mesh which is the actual graphic for the object. (We'll allow mesh_ to be NULL too to handle non-visual nodes that are used just to group their children.) Finally, each node has a possibly empty collection of child nodes.</p>
+            <p><span class='glyphicon-remove'></span>With this, a "scene graph" is really only a single root GraphNode whose children (and grandchildren, etc) are all of the objects in the world:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>GraphNodes* graph_ = new GraphNode(NULL);
+            // Add children to root graph node...
+            </pre>
+            <p><span class='glyphicon-remove'></span>In order to render a scene graph, all we need to do is traverse that tree of nodes, starting at the root, and call the following function for each node's mesh with the right world transform:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void renderMesh(Mesh* mesh, Transform transform);
+            </pre>
+            <p><span class='glyphicon-remove'></span>We won't implement this here, but if we did, it would do whatever magic the renderer needs to draw that mesh at the given location in the world. If we can call that correctly and efficiently on every node in the scene graph, we're happy.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>An Unoptimized Traversal</h3>
+            <p><span class='glyphicon-remove'></span>To get our hands dirty, let's throw together a basic traversal for rendering the scene graph that calculates the world positions on the fly. It won't be optimal, but it will be simple. we'll add a new method to GraphNode:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void GraphNode::render(Transform parentWorld) {
+                Transform world = local_.combine(parentWorld);
+
+                if(mesh_)
+                    renderMesh(mesh_, world);
+
+                for(int i = 0; i < numChildren_; i++) {
+                    children_[i]->render(world);
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>We pass the world transform of the node's parent into this using parentWorld. With that, all that's left to get the correct world transform of <i>this</i> node is to combine that with its own local transform. We don't have to walk <i>up</i> the parent chain to calculate world transofmrs because we calculate as we go while walking <i>down</i> the chain.</p>
+            <p><span class='glyphicon-remove'></span>We calculate the node's world transform and store it in world, then we render the mesh, if we have one. Finally, we recurse into the child nodes, passing in <i>this</i> node's world transform. All in all, it's a tight, simple recursive method.</p>
+            <p><span class='glyphicon-remove'></span>To draw an entire scene graph, we kick off the process at the root node:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>graph_->render(Transform::origin());
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Let's Get Dirty</h3>
+            <p><span class='glyphicon-remove'></span>So this code does the right thing - it renders all the meshes in the right place - but it doesn't do it efficiently. It's calling local_.combine(parentWorld) on every node in the graph, every frame. Let's see how this pattern fixes that. First, we need to add two fields to GraphNode:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class GraphNode {
+            public:
+                GraphNode(Mesh* mesh)
+                : mesh_(mesh),
+                    local_(Transform::origin()),
+                    dirty_(true)
+                {}
+
+                // Other methods...
+
+            private:
+                Transform world_;
+                bool dirty_;
+                //Other fields...
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>The world_ field caches the previously calculated world transform, and dirty_, of course, is the dirty flag. Note that the flag starts out true. When we create a new node, we haven't calculated its world transform yet. At birth, it's already out of sync with the local transform.</p>
+            <p><span class='glyphicon-remove'></span>The only reason we need this pattern is because objects can <i>move</i>, so let's add support for that:</p>
+            <pre>
+                
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
