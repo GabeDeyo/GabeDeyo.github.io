@@ -330,11 +330,59 @@
             <p><span class='glyphicon-remove'></span>Instead of a giant constellation of game entities and components scattered across the inky darkness of address space, we're going to get back down to Earth. We'll have a big array for each type of component: a flat array of AI components, another for physics, and another for rendering.</p>
             <p><span class='glyphicon-remove'></span>Like this:</p>
             <pre>
-            <span class='glyphicon-remove'></span>
+            <span class='glyphicon-remove'></span>AIComponent* aiComponents = 
+                new AIComponent[MAX_ENTITIES];
+            PhysicsComponent* physicsComponents = 
+                new PhysicsComponent[MAX_ENTITIES];
+            RenderComponent* renderComponents = 
+                new RenderComponent[MAX_ENTITIES];
             </pre>
+            <p><span class='glyphicon-remove'></span>Let me stress that these are arrays of <i>components</i> and <i>not pointers to components</i>. The data is all there, one byte after another. The game loop can then walk these directly:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>while(!gameOver) {
+                //Process AI
+                for(int i = 0; i < numEntities; i++) {
+                    aiComponents[i].update();
+                }
+
+                //Update Physics
+                for(int i = 0; i < numEntities; i++) {
+                    physicsComponents[i].update();
+                }
+
+                //Draw to screen
+                for(int i = 0; i < numEntities; i++) {
+                    renderComponents[i].update();
+                }
+
+                //Other game lop machinery for timing...
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>We've ditched all of that pointer chasing. Instead of skipping around in memory, we're doing a straight crawl through three contiguous arrays. This pumps a solid stream of bytes right into the hungry maw of the CPU. In my testing, this change made the update loop <i>fifty times</i> faster than the previous version.</p>
+            <p><span class='glyphicon-remove'></span>Interestingly, we haven't lost much encapsulation here. Sure, the game loop is updating the components directly instead of going through the game entities, but it was doing that before to ensure they were processed in the right order. Even so, each component itself is still nicely encapsulated. It owns its own data and methods. We simply changed the way it's used.</p>
+            <p><span class='glyphicon-remove'></span>This doesn't mean we need to get rid of GameEntity either. We can leave it as it is with pointers to its components. They'll just point into those arrays. This is still useful for other parts of the game where you want to pass around a conceptual "game entity" and everything that goes with it. The important part is that the performance-critical game loop sidesteps that and goes straight to the data.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Packed Data</h3>
+            <p><span class='glyphicon-remove'></span>Say we're doing a particle system. Following the advice of the previous section, we've got all of our particles in a nice big contiguous array. Let's wrap it in a little manager class too:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+            public:
+                void update() { /* Gravity, etc. */ }
+                // Position, velocity, etc...
+            };
+
+            class ParticleSyste {
+            public:
+                ParticleSystem() : numParticles_(0) { }
+                void update();
+            private:
+                static const int MAX_PARTICLES = 100000;
+
+                int numParticles_;
+                Particle particles_[MAX_PARTICLES];
+            }
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
