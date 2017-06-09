@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Design Patterns - Object Pool</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Design Patterns - Object Pool</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Intent</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Motivation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Object Pool</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>When to Use It</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Keep in Mind</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Sample Code</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Design Decisions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>See Also</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Intent</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <i>Improve performance and memory use by reusing objects from a fixed pool instead of allocating and freeing them individually.</i>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Motivation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's say we're working on the visual effects for our game. When the hero casts a spell, we want a shimmer of sparkles to burst across the screen. This calls for a <i>particle system</i>, an engine that spawns little sparkly graphics and animates them until they wink out of existence.
+            <p><span class='glyphicon-remove'></span>Since a single wave of the wand could cause hundreds of particles to be spawned, our system needs to be able to create them very quickly. More importantly, we need to make sure that creating and destroying these particles don't cause <i>memory fragmentation</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The Curse of Fragmentation</h3>
+            <p><span class='glyphicon-remove'></span>Programming for a game console or mobile device is closer to embedded programming than conventional PC programming in many ways. Memory is scarce, users expect games to be rock solid, and efficient compacting memory manager are rarely available. In this environment, memory fragmentation is deadly.</p>
+            <p><span class='glyphicon-remove'></span>Fragmentation means the free space in our heap is broken into smaller pieces of memory instead of one large open block. The <i>total</i> memory available may be large, but the largest <i>contiguous</i> region might be painfully small. Say we've got fourteen bytes free, but it's fragmented into two sever-byte pieces with a chunk of in-use memory between them. If we try to allocate a twelve-byte object, we'll fail. No more sparklies on screen.</p>
+            <p><span class='glyphicon-remove'></span>It's like trying to parallel park on a busy street where the already parked cars are spread out a bit too far. If they'd bunch up, there would be room, but the free space is <i>fragmented</i> into bits of open curb between half a dozen cars.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Heap is initially empty
+            [                   ]
+
+            Allocate object 'FOO' (7-bytes)
+            [ FOO  |            ]
+
+            Then allocate 'BAR' (12-bytes)
+            [ FOO  | BAR   |    ]
+
+            Delete 'FOO', leaving heap in two fragments
+            [      | BAR   |    ]
+
+            If we try to allocate another 'BAR', it won't fit anywhere
+            [      |  BAR  |    ]
+            |  BAR   |  |   BAR |
+            </pre>
+            <p><span class='glyphicon-remove'></span>Here's how a heap becomes fragmented and how it can cause an allocation to fail even where there's theoretically enough memory avaiblabe.</p>
+            <p><span class='glyphicon-remove'></span>Even if framentation is infrequent, it can still gradually reduce the heap to an unusable foam of open holes and filled-in crevices, ultimatly hosing the game completely.</p>
+            <p><span class='glyphicon-remove'></span>Most console makers require games to pass "soak tests" where they leave the game running in demo mode for several days. If the game grashes, they don't allow it to ship. While soak tests sometimes fail because of a rarely occurring bug, it's usually creeping fragmentation or memory leakage that brings the game down.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The Best of Both Worlds</h3>
+            <p><span class='glyphicon-remove'></span>Because of fragmentation and because allocation may be slow, games are very careful about when and how they manage memory. A smiple solution is often best - grab a big chunk of memory when the game starts, and don't free it until the game ends. But this is a pain for systems where we need to create and destroy things while the game is running.</p>
+            <p><span class='glyphicon-remove'></span>An object pool gives us the best of both worlds. To the memory manager, we're just allocating one big hunk of memory up front and not freeing it while the game is playing. To the user of the pool, we can freely allocate and deallocate objects to our heart's content.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Object Pool</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Define a <b>pool</b> class that maintains a collection of <b>reusable objects</b>. Each object supports an <b>"in use" query</b> to tell if it is currently "alive". When the pool is initialized, it creates the entire collection of objects up front (usually in a single contiguous allocation) and initialized them all to the "not in use" state.
+            <p><span class='glyphicon-remove'></span>When you want a new object, ask the pool for one. It finds an available object, initializes it to "in use", and returns it. When the object is no longer needed, it is set back to the "not in use" state. This way, objects can be freely created and destroyed without needing to allocate memory or other resources.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>When to Use It</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This pattern is used widely in games for obvious things like game entities and visual effects, but it is also used for less visible data structures such as currently playing sounds. Use Object Pool when:
+            <br> &nbsp; &bull; You need to frequently create and destroy objects.
+            <br> &nbsp; &bull; Objects are similar in size.
+            <br> &nbsp; &bull; Allocating objects on the heap is slow or could lead to memory fragmentation.
+            <br> &nbsp; &bull; Each object encapsulates a resource such as a database or network connection that is expensive to acquire and could be reused.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Keep in Mind</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You normally rely on a garbage collector or <i>new</i> and <i>delete</i> to handle memory management for you. By using an object pool, you're saying, "I know better how these bytes should be handled." That means the onus is on you to deal with this pattern's limitations.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The pool may waste memory on unneeded objects</h3>
+            <p><span class='glyphicon-remove'></span>The size of an object pool needs to be tuned for the game's needs. When tuning, it's usually obvious when the pool is too <i>small</i> (there's nothing like a crash to get your attention). But also take care that the pool isn't too <i>big</i>. A smaller pool frees up memory that could be used for other fun stuff.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Only a fixed number of objects can be active at any one time</h3>
+            <p><span class='glyphicon-remove'></span>In some ways, this is a good thing. Partitioning memory into separate pools for different types of objects ensures that, for example, a huge sequence of exposions won't cause your particle system to eat <i>all</i> of the available memory, preventing something more critical like a new enemy from being created.</p>
+            <p><span class='glyphicon-remove'></span>Nonetheless, this also means being preprared for the possibility that your attempt to reuse an object from the pool will fail because they are all in use. There are a few common strategies to handle this:</p>
+            <p><span class='glyphicon-remove'></span> &nbsp;  &bull; <i>Prevent it outright.</i> This is the most common "fix": tune the pool size so that they never overflow regardless of what the user does. For pools of important objects like enemies or gameplay items, this is often the right answer. There may be no "right" way to handle the lack of a free slot to create the big boss when the player reaches the end of the level, so the smart thing to do is make sure that never happens.
+            <br> &nbsp; The downside is that this can force you to sit on a lot of memory for object slots that are needed only for a couple of rare edge cases. Because of this, a single fixed pool size may not be the best fit for all game states. For instance, some levels may feature effects prominently while other focus on sound. In such cases, consider having pool sizes tuned differently for each scenario.</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <i>Just don't create the object.</i> This sounds harsh, but it makes sense for cases like our particle system. If all particles are in use, the screen is probably full of flashing graphics. The user won't notice if the next explosion isn't quite as impressive as the ones currently going off.</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <i>Forcibly kill an existing object.</i> Consider a pool for currently playing sounds, and assume you want to start a new sound but the pool is full. You do <i>not</i> want to simply ignore the new sound - the user will notice if their magical wand swishes dramatically <i>sometimes</i> and stays stubbornly silent other times. A better solution is to find the quietest sound already playing and replace that with our new sound. The new sound will mask the audible cutoff of the previous sound.
+            <br> &nbsp; In general, if the <i>disappearance</i> of an existing object would be less noticeable than the <i>absence</i> of a new one, this may be the right choice.</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <i>Increase the size of the pool.</i> If your game lets you be a bit more flexible with memory, you may be able to increase the size of the pool at runtime or create a second overflow pool. If you do grab more memory in either of these ways, consider whether or not the pool should contract to its previous size when the additional capacity is no longer needed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Memory size for each object is fixed</h3>
+            <p><span class='glyphicon-remove'></span>Most pool implemetations store the objects in an array of in-place objects. If all of you objects are of the same type, this is fine. However, if you want to store objects of different types in the pool, or instances of subclasses that may add fieds, you need to ensure that each slot in the pool has enough memory for the <i>largest</i> possible object. Otherwise, an unexpectedly large object will stomp over the next one and trash memory.
+            <br> &nbsp; At the same time, when your objects vary in size, you waste memory. Each slot needs to be big enough to accommodate the largest object. If objects are rarely that big, you're throwing away memory every time you put a smaller one in that slot. It's like going through airport security and using a huge carry-on-sized luggage tray just for your keys and wallet.
+            <br> &nbsp; When you find yourself burning a lot of memory this way, consider splitting the pool into separate pools for different sizes of object - big trays for luggage, little trays for pocket stuff.</p>
+            <p><span class='glyphicon-remove'></span>This is a common pattern for implementing speed-efficient memory managers. The manager has a number of pools of different block sizes. When you ask it to allocate a block, it finds in an open slot in the pool of the approprate size and allocates from that pool.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Reused objects aren't automatically cleared</h3>
+            <p><span class='glyphicon-remove'></span>Most memory manager have a debug feature that will clear freshly allocated or freed memory to some obvious magic value like <i>0xdeadbeef</i>. This helps you find painful bugs cause by uninitialized variables or using memory after it's freed.</p>
+            <p><span class='glyphicon-remove'></span>Since our object pool isn't going through the memory manager any more when it reuses an object, we lose that safety net. Worse, the memory used for a "new" object previously held an object of the exact same type. This makes it nearly impossible to tell if you forgot to initialize something when you created the new object: the memory where the object is stored may already contain <i>almost</i> correct data from its past life.</p>
+            <p><span class='glyphicon-remove'></span>Because of this, pay special care that the code initializes new objects in the pool <i>fully</i> initializes the object. It may even be worth spending a bit of time adding a debug feature that clears the memory for an object slot when the object is reclaimed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Unused objects will remain in memory</h3>
+            <p><span class='glyphicon-remove'></span>Object pools are less common in systems that support garbage collection because the memory manager will usually deal with fragmentation for you. But pools are still useful there to avoid the cost of allocation and deallocation, especially on mobile devices with slower CPUs and simpler garbage collectors.</p>
+            <p><span class='glyphicon-remove'></span>If you do use an object pool in concert with a garbage collector, beware of a potential conflict. Since the pool doesn't actually deallocate objects when they're no longer in use, they remain in memory. If they contain references to <i>other</i> objects, it will prevent the collector from reclaiming those too. To avoid this, when a pooled object is no longer in use, clear any references it has to other objects.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Sample Code</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Real-world particle systems will often apply gravity, wind, friction, and other physical effects. Our much simpler sample will only move particles in a straight line for a certain number of frames and then kill the particle. Not exactly film caliber, but it should illustrate how to use an object pool.
+            <p><span class='glyphicon-remove'></span>We'll start with the simplest possible implementation. First up is the little particle class:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+            public:
+                Particle()
+                : framesLeft_(0)
+                {}
+
+                void init(double x, double y,
+                        double xVel, double yVel, int lifetime){
+                    x_ = x;
+                    y_ = y;
+                    xVel_ = xVel;
+                    yVel_ = yVel;
+                    framesLeft_ = lifetime;
+                }
+
+                void animate() {
+                    if(!inUse()) return;
+
+                    framesLeft_--;
+                    x_ += xVel_;
+                    y_ += yVel_;
+                }
+
+                bool inUse() const { return framesLeft_ > 0; }
+
+            private:
+                int framesLeft_;
+                double x_, y_;
+                double xVel_, yVel_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>The default constructor initializes the particle to "not in use". A later call to <i>init()</i> initializes the particle to a live state. Particles are animated over time using the unsurprisingly named animate() function, which should be called once per frame.</p>
+            <p><span class='glyphicon-remove'></span>The pool needs to know which particles are available for reuse. It gets this from the particle's <i>inUse()</i> function. This function takes advantage of the fact that particles have a limited lifetime and uses the <i>_framesLeft</i> variable to discover which particles are in use without having to store a separate flag.</p>
+            <p><span class='glyphicon-remove'></span>The pool class is also simple:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class ParticlePool {
+            public:
+                void create(double x, double y,
+                        double xVel, double yVel, int lifetime);
+
+                void animate() {
+                    for(int i = 0; i &lt; POOL_SIZE; i++) {
+                        particles_[i].animate();
+                    }
+                }
+
+            private:
+                static const int POOL_SIZE = 100;
+                Particle particles_[POOL_SIZE];
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <i>create()</i> function lets external code create new particles. The game calls <i>animate()</i> once per frame, which in turn animates each particle in the pool.</p>
+            <p><span class='glyphicon-remove'></span>The particles themselves are simply stored in a fixed-size array in the class. In this sample implementation, the pool size is hardcoded in the class declaration, but this could be defined externally by using a dynamic array of a given size or by using a value template parameter.</p>
+            <p><span class='glyphicon-remove'></span>Creating a new particle is straightforward:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticlePool::create(double x, double y,
+                        double xVel, double yVel,
+                        int lifetime) {
+                //Find an available particle.
+                for(int i = 0; i &lt; POOL_SIZE; i++) {
+                    if(!particles_[i].inUse()) {
+                        particles[i].init(x, y, xVel, yVel, lifetime);
+                        return;
+                    }
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>We iterate through the pool looking for the first available particle. When we find it, we initialize it and we're done. Note that in this implemenation, if there aren't any available particles, we simply don't create a new one.</p>
+            <p><span class='glyphicon-remove'></span>That's all there is to a simple particle system, aside from rendering the particles, of course. We can now create a pool and create some particles using it. Creating a particle has O(n) complexity, for those of use who remember our algorithms class. The particles will automatically deactivate themselves when their lifetime has expired.</p>
+            <p><span class='glyphicon-remove'></span>This is good enough to ship a game, but keen eyes may have noticed that creating a new particle requires iterating through (potentially) the entire collection until we find an open slot. If the pool is very large and mostly full, that can get slow. Let's see how we can improve that.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>A Free List</h3>
+            <p><span class='glyphicon-remove'></span>If we don't want to waste time <i>finding</i> free particles, the obvious answer is to not lose track of them. We could store a separate list of pointers to each unused particle. Then, when we need to create a particle, we remove the first pointer from the list and reuse the particle it points to.</p>
+            <p><span class='glyphicon-remove'></span>Unfortunately, this would require us to maintain an entire separate array with as many pointers as there are objects in the pool. After all, when we first create the pool, all particles are unused, so the list would initially have a pointer to every object in the pool.</p>
+            <p><span class='glyphicon-remove'></span>It would be nice to fix our performance problems <i>without</i> sacrificing any memory. Conveniently, there is some memory already lying around that we can borrow - the data for the unused particles themselves.</p>
+            <p><span class='glyphicon-remove'></span>When a particle isn't in use, most of its state is irrelevant. Its position and velocity aren't being used. The only state it needs is the stuff required to tell if it's dead. In our example, that's the <i>_framesLeft</i> member. All those other bits can be reused. Here's a revised particle:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+            public:
+                //...
+
+                Particles* getNext() const { return state_.next; }
+                void setNext(Particle* next) {state_.next = next; }
+
+            private:
+                int framesLeft_;
+
+                union {
+                    //State when it's in use.
+                    struct {
+                        double x, y;
+                        double xVel, yVel;
+                    } live;
+
+                    //State when it's availabe.
+                    Particle* next;
+                } state_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>We've moved all of the member variables except for <i>framesLeft_</i> into a <i>live</i> struct inside a <i>state_</i> union. This struct holds the particle's state when it's being animated. When the particle is unused, the other case of the union, the <i>next</i> member, is used. It holds a pointer to the next available particle after this one.</p>
+            <p><span class='glyphicon-remove'></span>Unions don't seem to be used that often these days, so the syntax may be unfamiliar to you. If you're on a game team, you've probably got a "memory guru", that beleaguered compatriots whose job it is to come up with a solution when the game has inevitably blown its memory budget. Ask them about unions. They'll know all about them and other fun bit-packing tricks.</p>
+            <p><span class='glyphicon-remove'></span>We can use these pointers to build a linked list that chains together every unused particle in the pool. We have the list of available particles we need, but we didn't need to use any additional memory. Instead, we cannibalize the memory of the dead particles themselves to store the list.</p>
+            <p><span class='glyphicon-remove'></span>This clever technique is called a <b>free list</b>. For it to work, we need to make sure the pointers are initialized correctly and are maintained when particles are created and destroyed. And, of course, we need to keep track of the list's head:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class ParticlePool {
+                //..
+            private:
+                Particle* firstAvailable_;
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>When a pool is first created, <i>all</i> of the particles are available, so our free list should thread through the entire pool. the pool constructor sets that up:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>ParticlePool:ParticlePool() {
+                //The first one is available
+                firstAvailable_ = &amp;particles_[0];
+
+                //Each particle points to the next
+                for(int i = 0; i &lt; POOL_SIZE - 1; i++) {
+                    particles_[i].setNext(&amp;particles_[i + 1]);
+                }
+
+                //The last one terminates the list
+                particles_[POOL_SIZE - 1].setNext(NULL);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>O(1) complexity, baby! Now we're cooking! So to create a new particle, we jump directly to the first available one:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticlePool::create(double x, double y,
+                        double xVel, double yVel,
+                        int lifetime) {
+                //Make sure the pool isn't full
+                assert(firstAvailable_ != NULL);
+
+                //Remove it from the available list
+                Particle* newParticle = firstAvailable_;
+                firstAvailable_ = newParticle->getNext();
+
+                newParticle->init(x, y, xVel, yVel, lifetime);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>We need to know when a particle dies so we can add it back to the free list, so we'll change <i>animate()</i> to return true if the previously live particle gave up the ghost in that frame:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>bool Particle::animate() {
+                if(!inUse()) return false;
+
+                framesLeft_--;
+                x_ += xVel_;
+                y_ += yVel_;
+
+                return framesLeft_ == 0;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>When that happens, we simply thread it back onto the list:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void ParticlePool::animate() {
+                for(int i = 0; i &lt; POOL_SIZE; i++) {
+                    if(particles_[i].animate()) {
+                        //Add this particle to the front of the list
+                        particles_[i].setNext(firstAvailable_);
+                        firstAvailable_ = &amp;particles_[i];
+                    }
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>There you go, a nice little object pool with constant-time creation and deletion.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            As you've seen, the simplest object pool implementation is almost trivial: create an array of objects and reinitialize them as needed. Production code is rarely that minimal. There are several ways to exapand on that to make the pool more generic, safer to use, or easier to maintain. As you implement pools in your games, you'll need to answer these questions.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Are objects coupled to the pool?</h3>
+            <p><span class='glyphicon-remove'></span>The first question you'll run into when writing an object pool is whether the objects themselves know they are in a pool. Most of the time they will, but you won't have that luxury when writing a generic pool class that can hold arbitrary objects.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If objects are coupled to the pool:</b>
+            <br> &nbsp; &bull; <i>The implementation is simpler.</i> You can simply put an "in use" flag or function in your pooled object and be done with it.
+            <br> &nbsp; &bull; <i>You can ensure that the objects can only be created by the pool.</i> In C++, a simple way to do this is to make the pool class a friend of the object class and then make the object's constructor private.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+                friend class ParticlePool;
+
+            private:
+                Particle()
+                : inUse_(false)
+                {}
+
+                bool inUse_;
+            };
+
+            class ParticlePool {
+                Particle pool_[100];
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span> &nbsp; This relationship documents the intended way to use the class and ensures your users don't create objects that aren't tracked by the pool.
+            <br> &nbsp; &bull; <i>You may be able to avoid storing an explicit "in use" flag.</i> Many objects already retain some state that could be used to tell whether it is alive or not. For example, a particle may be available for reuse if its current position is offscreen. If the object class knows it may be used in a pool, it can provide an <i>inUse()</i> method to query that state. This saves the pool from having to burn some extra memory storing a bunch of "in use" flags.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If objects are not coupled to the pool:</b>
+            <br> &nbsp; &bull; <i>Objects of any type can be pooled.</i> This is the big advantage. By decoupling objects from your pool, you may be able to implement a generic reusable pool class.
+            <br> &nbsp; &bull; <i>The "in use" state must be tracked outside the objects.</i> The simplest way to do this is by creating a separate bit field:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>template &lt;class TObject>
+            class GenericPool {
+            private:
+                static const int POOL_SIZE = 100;
+
+                TObject pool_[POOL_SIZE];
+                bool inUse_[POOL_SIZE];
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is responsible for initializing the reused objects?</h3>
+            <p><span class='glyphicon-remove'></span>In order to reuse an existing object, it must be reinitialized with new state. A key question here is whether to reinitialize the object inside the pool class or outside.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If the pool reinitializes internally:</b>
+            <br> &nbsp; &bull; <i>The pool can completely encapsulate its objects.</i> Depending on the other capabilities your objects need, you may be able to keep them completely internal to the pool. this makes sure that other code doesn't maintain references to objects that could be unexpectedly reused.
+            <br> &nbsp; &bull; <i>The pool is tied to how objects are initialized.</i> A pooled object may offer multiple functions that initialize it. If the pool manages initialization, its interface needs to support all of those and forward them to the object.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+                //Multiple ways to initialize
+                void init(double x, double y);
+                void init(double x, double y, double angle);
+                void init(double x, double y, double xVel, double yVel);
+            };
+
+            class ParticlePool {
+            public:
+                void create(double x, double y) {
+                    // Forward to Particle...
+                }
+
+                void create(double x, double y, double angle) {
+                    // Forward to Particle...
+                }
+
+                void create(double x, double y, double xVel, double yVel) {
+                    // Forward to Particle...
+                }
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If outside code initializes the object:</b>
+            <br> &nbsp; &bull; <i>The pool's interface can be simpler.</i> Instead of offering multiple functions to cover each way an object can be initialized, the pool can simply return a reference to a new object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Particle {
+            public:
+                // Multiple ways to initialize.
+                void init(double x, double y);
+                void init(double x, double y, double angle);
+                void init(double x, double y, double xVel, double yVel);
+            };
+
+            class ParticlePool {
+            public:
+                Particle* create() {
+                    // Return reference to available particle...
+                }
+            private:
+                Particle pool_[100];
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span> &nbsp; The caller can then initialize the object by calling any method the object exposes:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>ParticlePool pool;
+
+            pool.create()->init(1, 2);
+            pool.create()->init(1, 2, 0.3);
+            pool.create()->init(1, 2, 3.3, 4.4);
+            </pre>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <i>Outside code may need to handle the failure to create a new object.</i> The previous example assumes that <i>create()</i> will always successfully return a pointer to an object. If the pool is full, though, it may return NULL instead. To be safe, you'll need to check for that before you try to initialize the object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Particle* particle = pool.create();
+            if(particle != NULL) particle->init(1, 2);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; This looks a lot like the Flyweight pattern. Both maintain a collection of reusable object. The difference is what "reuse" means. Flyweight objects are reused by sharing the same instance between multiple owners <i>simultaneously</i>. The Flyweight pattern avoids <i>duplicate</i> memory usage by using the same object in multiple contexts.
+            <p><span class='glyphicon-remove'></span>The objects in a pool get reused too, but only over time. "Reuse" in the context of an object pool means reclaiming the memory for an object <i>after</i> the original owner is done with it. With an object pool, there isn't any expectation that an object will be shared within its lifetime.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Packing a bunch of objects of the same type together in memory helps keep your CPU cache full as the game iterates over those objects. The Data Locality pattern is all about that.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
