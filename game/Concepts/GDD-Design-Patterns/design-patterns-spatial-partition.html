@@ -130,6 +130,14 @@
                                 <a href='#5'>Sample Code</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Design Decisions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>See Also</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -215,13 +223,318 @@
     <h2>Sample Code</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            The nature of patterns is that they <i>vary</i> - each implementation will be a bit different, and spatial partitions are no exception. Unlike other patterns though, many of these variations are well-documented. Academia likes publishing papers that prove performance gains. Since I only care about the concept behind the pattern, we're going to go through the simplest spatial partition: a <i>fixed grid</i>.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>A sheet of graph paper</h3>
+            <p><span class='glyphicon-remove'></span>Imagine the entire field of battle. Now, superimpose a grid of fixed-size squares onto it like a sheet of graph paper. Instead of storing our units in a single array, we put them in the cells of this grid. Each cell stores the list of units whose positions are within that cell's boundary.</p>
+            <p><span class='glyphicon-remove'></span>When we handle combat, we only consider units within the same cell. Instead of comparing each unit in the game with every other unint, we've <i>partitioned</i> the battlefield into a bunch of smaller mini-battlefields, each with many fewer units.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>A grid of linked units</h3>
+            <p><span class='glyphicon-remove'></span>OK, let's get coding. First, some prep work. Here's our basic <i>Unit</i> class:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Unit {
+                friend class Grid;
+            public:
+                Unit(Grid* grid, double x, double y)
+                : grid_(grid),
+                  x_(x),
+                  y_(y)
+                {}
+
+                void move(double x, double y);
+
+            private:
+                double x_, y_;
+                Grid* grid_;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Each unit has a position (in 2D) and a pointer to the <i>Grid</i> that it lives on. We make <i>Grid</i> a <i>friend</i> class because, as we'll see, when a unit's position changes, it has to do an intricate dance with the grid to make sure everything is updated correctly.</p>
+            <p><span class='glyphicon-remove'></span>Here's a sketch of the grid:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>class Grid {
+            public:
+                Grid() {
+                    //Clear the grid.
+                    for(int x = 0; x &lt; NUM_CELLS; x++) {
+                        for(int y = 0; y &lt; NUM_CELLS; y++) {
+                            cells_[x][y] = NULL;
+                        }
+                    }
+                }
+
+                static const int NUM_CELLS = 10;
+                static const int CELL_SIZE = 20;
+
+            private:
+                Unit* cells_[NUM_CELLS][NUM_CELLS];
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that each cell is just a pointer to a unit. Next, we'll extend Unit with <i>next</i> and <i>previous</i> pointers:</p>
+            <pre> 
+            <span class='glyphicon-remove'></span>class Unit {
+                //Previous Code...
+            private:
+                Unit* prev_;
+                Unit* next_;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This lets us organize units into a <i>doubly linked list</i> instead of an array.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>CELL -> [UNIT] &lt;-> [UNIT] &lt;-> [UNIT]
+            </pre>
+            <p><span class='glyphicon-remove'></span>Each cell in the grid points to the first unit in the list of units within that cell, and each unit has pointers to the units before it and after it in the list. We'll see why soon.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Entering the field of battle</h3>
+            <p><span class='glyphicon-remove'></span>The first thing we need to do is make sure new units are actually placed into the grid when they are created. We'll make <i>Unit</i> handle this in its constructor:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Unit::Unit(Grid* grid, double x, double y)
+            : grid_(grid),
+              x_(x),
+              y_(y),
+              prev_(NULL),
+              next_(NULL) {
+                grid_->add(this);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>That <i>add()</i> method is deifned like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::add(Unit* unit) {
+                //Determine which grid cell it's in.
+                int cellX = (int)(unit->x_ / Grid::CELL_SIZE);
+                int cellY = (int)(unit->y_ / Grid::CELL_SIZE);
+
+                //Add to the front of list for the cell it's in.
+                unit->prev_ = NULL;
+                unit->next_ = cells_[cellX][cellY];
+                cells_[cellX][cellY] = unit;
+
+                if(unit->next_ != NULL) {
+                    unit->next_->prev_ = unit;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It's a little finicky like linked list code always is, but the basic idea is pretty simple. We find the cell that the unit is sitting in and then add it to the front of that list. If there is already a list of units there, we like it in after the new unit.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>A clash of swords</h3>
+            <p><span class='glyphicon-remove'></span>Once all of the units are nesteled in their cells, we can let them start hacking at each other. With this new grid, the method for handling combat looks like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::handleMelee() {
+                for(int x = 0; x &lt; NUM_CELLS; x++) {
+                    for(int y = 0; y &lt; NUM_CELLS; y++) {
+                        handleCell(cells_[x][y]);
+                    }
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It walks each cell and then calls handleCell() on it. As you can see, we really have partitioned the battlefield into little isolated skirmishes. Each cell then handles its combat like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::handleCell(Unit* unit) {
+                while(unit != NULL) {
+                    Unit* other = unit->next_;
+                    while(other != NULL) {
+                        if(unit->x_ == other->x_ &amp;&amp; unit->y_ == other->y_) {
+                            handleAttack(unit, other);
+                        }
+                        other = other->next_;
+                    }
+                    unit = unit->next_;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Aside from the pointer shenanigans to deal with walking a linked list, note that this is exactly like our original naive method for handling combat. It compares each pair of units to see if they're in the same position.</p>
+            <p><span class='glyphicon-remove'></span>The only difference is that we no longer have to compare <i>all</i> of the units in the battle to each other - just the ones close enough to be in the same cell. That's the heart of the optimization.</p>
+            <p><span class='glyphicon-remove'></span>From a simple analysis, it looks like we've actually made the performance <i>worse</i>. We've gone from a double nested loop over the units to a <i>triply</i> nested loop over the cells and then the units. The trick here is that the two inner loops are now over a smaller number of units, which is enough to cancel out the cost of the outer loop over the cells. However, that does depend a bit on the granularity of our cells. Make them too small and that outer loop can start to matter.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Charging forward</h3>
+            <p><span class='glyphicon-remove'></span>We've solved our performance problem, but we've created a new problem in its stead. Units are now stuck in their cells. If we move a unit past the boundary of the cell that contains it, units in the cell won't see it anymore, but neither will anyone else. Our battlefield is a little <i>too</i> partitioned.</p>
+            <p><span class='glyphicon-remove'></span>To fix that, we'll need to do a little work each time a unit moves. If it crosses a cell's boundary lines, we need to remove it from that cell and add it to the new one. First, we'll give <i>Unit</i> a method for changing it's position:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Unit::move(double x, double y) {
+                grid_=>move(this, x, y);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Presumably, this gets called by the AI code for computer-controlled units and by the user input code for the player's units. All it does is hand off control to the grid, which then does:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::move(Unit* unit, double x, double y) {
+                //See which cell it was in.
+                int oldCellX = (int)(unit->x_ / Grid::CELL_SIZE);
+                int oldCellY = (int)(unit->y_ / Grid::CELL_SIZE);
+
+                //See which cell it's moving to.
+                int cellX = (int)(x / Grid::CELL_SIZE);
+                int cellY = (int)(y / Grid::CELL_SIZE);
+
+                unit->x_ = x;
+                unit->y_ = y;
+
+                //If it didn't change cells, we're done
+                if(oldCellX == cellX &amp;&amp; oldCellY == cellY) return;
+
+                //Unlink it from the list of its old cell
+                if(unit->prev_ != NULL) {
+                    unit->prev_->next_ = unit->next_;
+                }
+
+                if(unit->next_ != NULL) {
+                    unit->next_->prev_ = unit->prev_;
+                }
+
+                //If it's the head of a list, remove it
+                if(cells_[oldCellX][oldCellY] == unit) {
+                    cells_[oldCellX][oldCellY] = unit->next_;
+                }
+
+                //Add it back to the grid at its new cell
+                add(unit);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>That's a dickload of code, but it's pretyt straightforward. The first bit checks to see if we've crossed a cell boundary at all. If not, all we need to do is update the unit's position and we're done.</p>
+            <p><span class='glyphicon-remove'></span>If the unit <i>has</i> left its current cell, we remove it from the cell's linked list and then add it back to the grid. Like with adding a new unit, that will insert the unit in the linked list for its new cell.</p>
+            <p><span class='glyphicon-remove'></span>This is why we're using a doubly linked list - we can very quickly add and remove units from lists by setting a few pointer. With lots of units moving around each frame, that can be important.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>At arm's length</h3>
+            <p><span class='glyphicon-remove'></span>This seems pretty simple, but we have cheated in one way. In the example we've been going through, units only interact when they have the <i>exact same</i> position. That's true for checkers and chess, but less true for more realistic games. Those usually have attack <i>distances</i> to take into account.</p>
+            <p><span class='glyphicon-remove'></span>This pattern still works fine. Instead of just checking for an exact location match we'll do something more like:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>if(distance(unit, other) &lt; ATTACK_DISTANCE) {
+                handleAttack(unit, other);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>When range gets involved, there's a corner case we need to consider: units in different cells may still become close enough to interact. So let's say unit B is within unit A's attack radius even through their centerpoints are in different cells. To handle this, we will need to compare units not only in the same cell, but in neighboring cells too. To do this, first we'll split the intter loop out of <i>handleCell():</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::handleUnit(Unit* unit, Unit* other) {
+                while(other != NULL) {
+                    if(distance(unit, other) &lt; ATTACK_DISTANCE) {
+                        handleAttack(unit, other);
+                    }
+                    other = other->next_;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now we have a function that will take a single unit and a list of other units and see if there are any hits. Then we'll make <i>handleCell()</i> use that:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::handleCell(int x, int y) {
+                Unit* unit = cells_[x][y];
+                while(unit != NULL) {
+                    //Handle other units in this cell.
+                    handleUnit(unit, unit->next_);
+
+                    unit = unit->next_;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that we now also pass in the coordinates of the cell, not just its unit list. Right now, this doesn't do anything differently from the previous example, but we'll expand it slightly:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>void Grid::handleCell(int x, int y) {
+                Unit* unit = cells_[x][y];
+                while(unit != NULL) {
+                    //Handle other units in this cell
+                    handleUnit(unit, unit->next_);
+
+                    //Also try the neighboring cells.
+                    if(x > 0 &amp;&amp; y > 0) handleUnit(unit, cells_[x-1][y-1]);
+                    if(x > 0) handleUnit(unit, cells_[x-1][y]);
+                    if(y > 0) handleUnit(unit, cells_[x][y-1]);
+                    if(x > 0 &amp;&amp; y &lt; NUMM_CELLS - 1) {
+                        handleUnit(unit, cells_[x-1][y+1]);
+                    }
+
+                    unit = unit->next_;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Those additional <i>handleUnit()</i> calls look for hits between the current unit and units in four of the eight neighboring cells. If any unit in those neighboring cells is close enough to the edge to be within the unit's attack radius, it will find the hit. The cell with the unit is U, and the neighboring cells it looks at are X.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[X][X][ ]
+            [X][U][ ]
+            [X][ ][ ]
+            </pre>
+            <p><span class='glyphicon-remove'></span>We only look at <i>half</i> of the neighbors for the same reason that the inner loop starts <i>after</i> the current unit - to avoid comparing each pair of units twice. Consider what would happen if we did check all eight neighboring cells.</p>
+            <p><span class='glyphicon-remove'></span>Let's say we have two units in adjacent cells close enough to hit each other, like the previous example. Here's what would happen if we looked at all eight cells surrounding each unit:
+            <br> &nbsp; 1. When finding hits for A, we would look at its neighbor on the right and find B. So we'd register an attack between A and B.
+            <br> &nbsp; 2. Then, when finding hits for B, we would look at its neighbor on the <i>left</i> and find A. So we'd register a <i>second</i> attack between A and B.
+            <br>Only looking at half of the neighboring cells fixes that. <i>Which</i> half we look at doesn't matter at all.</p>
+            <p><span class='glyphicon-remove'></span>There's another corner case we may need to consider too. Here, we're assuming the maximum attack distance is smaller than a cell. If we have small cells and large attack distances, we may need to scan a bunch of neighboring cells several rows out.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Design Decisions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There's a relatively short list of well-defined spatial partitioning data structures, and one option would be to go through them one at a time here. Instead, I tried to organize this by their essential characteristics. My hope is that once you do learn about quadtrees and binary space partitions (BSPs) and the like, this will help you understand <i>how</i> and <i>why</i> they work and why you might choose one over the other.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Is the partition hierarchical or flat?</h3>
+            <p><span class='glyphicon-remove'></span>Our grid example partitioned spaced into a single flat set of cells. In contrast, hierarchical spatial partitions divide partitions divide the space into just a couple of regions. Then, if one of these regions still contains many objects, it's subdivided. This process continues recursively until every region has fewer than some maximum number of objects in it.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If it's a flat partition:</b>
+            <br> &nbsp; &bull; <i>It's simpler.</i> Flat data structures are easier to reason about and simpler to implement.
+            <br> &nbsp; &bull; <i>Memory usage is constant.</i> Since adding new objects doesn't require creating new partitions, the memory used by the spatial partition can often be fixed ahead of time.
+            <br> &nbsp; &bull; <i>It can be faster to update when objects change their positions.</i> When an object moves, the data structure needs to be updated to find the object in its new location. With a hierarchical spatial partition, this can mean adjusting several layers of the hierarchy.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If it's hierarchical:</b>
+            <br> &nbsp; &bull; <i>It handles empty space more efficiently.</i> Imagine in our earlier example if one whole side of the battlefield was empty. We'd have a large number of empty cells that we'd still have to allocate memory for and walk each frame.
+            <br> &nbsp; Since hierarchical space partitions don't subdivide sparse regions, a large empty space will remain a single partition. Instead of lots of little partitions to walk, there is a single big one.
+            <br> &nbsp; &bull; <i>It handles densely populated areas more efficiently.</i> This is the other side of the coind: if you have a bunch of objects all clumped together, a non-hierarchical partition can be ineffective. You'll end up with one partition that has so many objects in it that you may as well not be partitioning at all. A hierarchical partition will adaptively subdivde that into smaller partitions and get you back to having only a few objects to consider at a time.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Does the partitioning depend on the set of objects?</h3>
+            <p><span class='glyphicon-remove'></span>In our sample code, the grid spacing was fixed beforehand, and we slotted units into cells. Other partitioning schemes are adaptable - they pick partition boundaries based on the actual set of objects and where they are in the world.</p>
+            <p><span class='glyphicon-remove'></span>The goal is have a <i>balanced</i> partitioning where each region has roughly the same number of objects in order to get the best performance. Consider in our grid example if all of the units are clustered in one corner of the battlefield. They'd all be in the same cell, and our code for finding attacks would regress right back to the original O(n^2) problem that we're trying to solve.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If the partitioning is object-independent:</b>
+            <br> &nbsp; &bull; <i>Objects can be added incrementally.</i> Adding an object means finding the right partition and dropping it in, so you can do this one at a time without many performance issues.
+            <br> &nbsp; &bull; <i>Objects can be moved quickly.</i> With fixed partitions, moving a unit means removing it from one and adding it to another. If the partition boundaries themselves change based on the set of objects, then moving one can cause a boundary to move, which can in turn cause lots of other objects to need to be moved to different partitions.
+            <br> &nbsp; This is directly analogous to sorted binary search trees like red-black trees or AVL trees: when you add a single item, you may end up needing to resort the tree and shuffle a bunch of nodes around.
+            <br> &nbsp; &bull; <i>The partitions can be imbalanced.</i> Of course, the downside of this rigidity is that you have less control over your partitions being evenly distributed. If objects clump together, you get worse performance there while wasting memory in the empty areas.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If the partitioning adapts to the set of objects:</b>
+            <br>Spatial partitions like BSPs and k-d trees split the world recursively so that each half contains about the same number of objects. To do this, you have to count how many objects are on each side when selecting the planes you partition along. Bounding volume hierarchies are another type of spatial partition that optimizes for the specific set of objects in the world.
+            <br> &nbsp; &bull; <i>You can ensure the partitions are balanced.</i> This gives not just good performance, but <i>consistent</i> performance: if each partition has the same number of objects, you ensure that all queries in the world will take about the same amount of time. When you need to maintain a stable frame rate, this consistency may be more important than raw performance.
+            <br> &nbsp; &bull; <i>It's more efficient to partition an entire set of objects at once.</i> When the <i>set</i> of objects affects where boundaries are, it's best to have all of the objects up front before you partition them. This is why these kinds of partitions are more frequently used for art and static geometry that stays fixed during the game.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If the partitioning is object-oriented, but <i>hierarchy</i> is object dependent:</b>
+            <br>One spatial partition deservers special mention because it has some of the best characteristics of both fixed partitions and adaptable ones: <b>quadtrees.</b> A quadtree partitions 2D space. Its 3D analogue is the octree, which takes a volume and partitions it into eight <i>cubes</i>. Aside from the extra dimension, it works the same as its flatter simpling.
+            <br>A quadtree starts with the entire space as a single partition. If the number of objects in the space exceeds some threshhold, it is sliced into four smaller squares. The <i>boundaries</i> of these squares are fixed: they always slice space right in half.
+            <br>Then, for each of the four squares, we do the same process again, recursively, until every square has a smaller number of objects in it. Since we only recursively subdivide squares that have a high population, this partitioning adapts to the set of objects, but the partitions don't <i>move</i>.
+            <br> &nbsp; &bull; <i>Objects can be added incrementally.</i> Adding a new object means finding the right square and adding it. If that bumps that square above the maximum count, it gets subdivided. The other objects in that square get pushed down into the smaller squares. This requires a little work but it's a <i>fixed</i> amount of effort: the number of objects you have to move will always be less than the maximum object count. Adding a single object can never trigger more than one subdivision.
+            <br> &nbsp; Removing objects is equally simple. You remove the object from its square and if the parent square's total count is now below the threshold, you can collapse those subdivisions.
+            <br> &nbsp; &bull; <i>Objects can be moved quickly.</i> This, of course, follows from the above. "Moving" an object is just an add and a remove, and both of those are pretty quick with quadtrees.
+            <br> &nbsp; &bull; <i>The partitions are balanced.</i> Since any given square will have less than some fixed maximum number of objects, even when objects are clustered together, you don't have single partitions with a huge pile of objects in them.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Are objects only stored in the partition?</h3>
+            <p><span class='glyphicon-remove'></span>You can treat your spatial partition as <i>the</i> place where the objects in your game live, or you can consider it just a secondary cache to make look-up faster while alos having another collection that directly hold the list of objects.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If it is the only place objects are stored:</b>
+            <br> &nbsp; &bull; <i>It avoids the memory overhead and complexity of two collections.</i> Of course, it's always cheaper to store something once instead of twice. Also, if you have two collections, you have to make sure to keep them in sync. Every time an object is created or destroyed, it has to be added or removed from both.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <b>If there is another collection for the objects:</b>
+            <br> &nbsp; &bull; <i>Traversing all objects is faster.</i> If the objects in question are "live" and have some processing they need to do, you may find yourself frequently needing to visit every object regardless of its location. Imagine if, in our earlier example, most of the cells were empty. Having to walk the full grid of cells to find the non-empty ones can be a waste of time.
+            <br> &nbsp; A second collection that just stores the objects gives you a way to walk all them directly. You have two data structures, one optimized for each use case.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; I've tried not to discuss specific spatial partitioning structures in detail here to keep the chapter high-level, but your next step from here should be to learn a few of the common structures. Despite their scary names, they are all surprisingly straightforward. The common ones are:
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Grid_(spatial_index)">Grid</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Quadtree">Quadtree</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Binary_space_partitioning">BSP</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/K-d_tree">k-d tree</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Bounding_volume_hierarchy">Bounding volume hierarchy</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Each of these spatial data structures basically extends an existing well-known data structure from 1D into more dimensions. Knowing their linear cousins will help you tell if they are a good fit for your problem;
+            <br> &nbsp; &bull; A grid is a persistent <a href="https://en.wikipedia.org/wiki/Bucket_sort">bucket sort</a>.
+            <br> &nbsp; &bull; BSPs, k-d trees, and bounding volume hierarchies are <a href="https://en.wikipedia.org/wiki/Binary_search_tree">binary search trees</a>.
+            <br> &nbsp; &bull; Quadtrees and octrees are <a href="https://en.wikipedia.org/wiki/Trie">tries</a>.
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
