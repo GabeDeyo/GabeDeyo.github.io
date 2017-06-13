@@ -281,14 +281,14 @@
     <h2>Finite State Machine to the Rescue</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            After struggling with the code above, you give up and write out by hand a <b>flowchart</b>. You draw a box for each thing the heroine can do: stand, jump, duck, and dive. When she can respond to a button press in one of those states, you draw an arrow from that box, label it with that button, and connect it to the state she changes to.
+            After struggling with the code above, you give up and write out by hand, a <b>flowchart</b>. You draw a box for each thing the heroine can do: stand, jump, duck, and dive. When she can respond to a button press in one of those states, you draw an arrow from that box, label it with that button, and connect it to the state she changes to.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             Well you've just created a <i>Finite State Machine</i>. They come from a branch of computer science called <i>automata theory</i> whose family of data structures also includes the famous Turing machine. FSMs are the most simple member of that family.
             <br>If you're still confused, a good analogy for a FSM si the old text adventure games like Zork. You have a world of rooms that are connected to each other by exits. You explore them by entering commands like "go north". This maps directly to a state machine: Each room is a state. The room you are in is the current state. Each rooms exists are its transitions. The navigation commands are the inputs.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            The gist fo FSMS is this:
+            The gist of FSM is this:
             <br>&nbsp; <b>You have a fixed <i>set of states</i> that the machine can be in.</b> For example, we have standing, jumping, ducking, and diving.
             <br>&nbsp; <b>The machine can only be in <i>one</i> state at a time.</b> Our heroine can't be jumping and standing simultaneously. In fact, preventing that is one reason we're going to use an FSM.
             <br>&nbsp; <b>A sequence of <i>inputs</i> or <i>events</i> is sent to the machine.</b> In our example, that's the raw button presses and releases.
@@ -296,7 +296,7 @@
             <br>For example, pressing down while standing transitions to the ducking state. Pressing down while jumping transitions to diving. If no transition is defined for an input on the current state, the input is ignored.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            Inn their pure form, that's the whole banana: states, inputs, and transitions. You can draw it out like a little flowchart. Unfortunately, the compiler doesn't recognize our scribbles, so how do we <i>implement</i> one? The State pattern is one method, but we'll need to start simpler.
+            In their pure form, that's the whole banana: states, inputs, and transitions. You can draw it out like a little flowchart. Unfortunately, the compiler doesn't recognize our scribbles, so how do we <i>implement</i> one? The State pattern is one method, but we'll need to start simpler.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -398,7 +398,7 @@
     <h2>State</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            For programmers depp into a OOP mindset, every conditional branch is an opportunity to use dynamic dispatch (a virtual method call). I think you can go too far down that rabbit hole. Sometimes an <i>f</i> is all you need.
+            For programmers depp into a OOP mindset, every conditional branch is an opportunity to use dynamic dispatch (a virtual method call). I think you can go too far down that rabbit hole. Sometimes an <i>if</i> is all you need.
             <br>But in our example, we've reached a tipping point where something OOP is a better fit. That puts us to the State pattern. First a description:
             <br> &nbps; <i>Allow an object to alter its behavior when its internal state changes. The object will appear to change its class.</i>
             <br>That doesn't tell us much, however. And still our switch does that. The concrete pattern they describe looks like this when applied to our heroine.
