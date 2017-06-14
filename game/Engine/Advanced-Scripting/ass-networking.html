@@ -610,7 +610,7 @@
                 Rect chatOutputRect;
                 Rect entireChatArea;
 
-                Dictionary&lt;NetworkPlayer, string&gt; usersByID = new Dictionary&lt;NetworkPlayer, string&gt;();
+                Dictionary&lt;NetworkPlayer, string> usersByID = new Dictionary&lt;NetworkPlayer, string>();
 
                 void Start () {
                     chatInputRect = new Rect(chatInputPosition.x, chatInputPosition.y, chatInputSize.x, chatInputSize.y);
@@ -619,9 +619,8 @@
                     entireChatArea = new Rect(chatInputPosition.x, chatInputPosition.y, Mathf.Max(chatInputSize.x, chatOutputSize.x), chatInputSize.y + chatOutputSize.y);
 
                     messageWindow = new MessageWindow(chatOutputSize, chatterSkin);
-
                 }
-
+                
                 void Update () {
                     if(!GUIUtils.MouseOverRect(entireChatArea)) {
                         messageWindow.pauseAutoScroll = false;
@@ -635,135 +634,133 @@
                     //Only after setting a name will the player be joined to the chat
                     nameSet = true;
                     if(Network.isServer) {
-                            JoinUser(newName, Network.player);
-                        } else {
-                            GetComponent&lt;NetworkView&gt;().RPC("JoinUser", RPCMode.Server, myName, Network.player);
-                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                        JoinUser(newName, Network.player);
+                    } else {
+                        GetComponent&lt;NetworkView>().RPC("JoinUser", RPCMode.Server, myName, Network.player);
+                        GetComponent&lt;NetworkView>().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                    }
+                }
+                
+                void ProcessInput() {
+                    if(chatInput.Length > 0)
+                        GetComponent&lt;NetworkView>().RPC ("LogMessage", RPCMode.All, chatInput, Network.player);
+                    
+                    chatInput = "";
+                }
+
+                void OnConnectedToServer() {
+                    connected = true;
+                }
+                
+                void OnServerInitialized() {
+                    connected = true;
+                }
+                
+                void OnDisconnectedFromServer(NetworkDisconnection info) {
+                    if (Network.isServer)
+                        SystemMessage("Server connection lost!", Network.player);
+                    else
+                        if (info == NetworkDisconnection.LostConnection)
+                            SystemMessage("Lost connection to server!", Network.player);
+                    else
+                        SystemMessage("Successfully diconnected from server.", Network.player);
+                }
+                
+                void OnPlayerDisconnected(NetworkPlayer player) {
+                    RemoveUser(player);
+                }
+
+                [RPC]
+                void Server_SendCurrentUsers(NetworkPlayer recipient) {
+                    //In case someone else gets this message, only reply if we're the server
+                    if(Network.isServer) {
+                        foreach(NetworkPlayer user in usersByID.Keys) {
+                            GetComponent&lt;NetworkView>().RPC("JoinUser", recipient, usersByID[user], user);
                         }
                     }
-                    
-                    void ProcessInput() {
-                        if(chatInput.Length > 0)
-                            GetComponent&lt;NetworkView&gt;().RPC ("LogMessage", RPCMode.All, chatInput, Network.player);
-                        
-                        chatInput = "";
-                    }
+                }
+                
+                [RPC]
+                void JoinUser(string name, NetworkPlayer player) {
+                    if(!this.usersByID.ContainsKey(player)) {
+                        this.usersByID.Add(player, name);
 
-                    
-                    void OnConnectedToServer() {
-                        connected = true;
-                    }
-                    
-                    void OnServerInitialized() {
-                        connected = true;
-                    }
-                    
-                    void OnDisconnectedFromServer(NetworkDisconnection info) {
-                        if (Network.isServer)
-                            SystemMessage("Server connection lost!", Network.player);
-                        else
-                            if (info == NetworkDisconnection.LostConnection)
-                                SystemMessage("Lost connection to server!", Network.player);
-                        else
-                            SystemMessage("Successfully diconnected from server.", Network.player);
-                    }
-                    
-                    void OnPlayerDisconnected(NetworkPlayer player) {
-                        RemoveUser(player);
-                    }
-
-
-                    [RPC]
-                    void Server_SendCurrentUsers(NetworkPlayer recipient) {
-                        //In case someone else gets this message, only reply if we're the server
                         if(Network.isServer) {
-                            foreach(NetworkPlayer user in usersByID.Keys) {
-                                GetComponent&lt;NetworkView&gt;().RPC("JoinUser", recipient, usersByID[user], user);
-                            }
+                            //Since we're server, let everyone know when someone joins.
+                            //This includes the someone who joined, so they can add themselves and get the message
+                            GetComponent&lt;NetworkView>().RPC("JoinUser", RPCMode.Others, name, player);
+                            GetComponent&lt;NetworkView>().RPC("SystemMessage", RPCMode.All, "Joined chat.", player);
                         }
                     }
-                    
-                    [RPC]
-                    void JoinUser(string name, NetworkPlayer player) {
-                        if(!this.usersByID.ContainsKey(player)) {
-                            this.usersByID.Add(player, name);
+                }
 
-                            if(Network.isServer) {
-                                //Since we're server, let everyone know when someone joins.
-                                //This includes the someone who joined, so they can add themselves and get the message
-                                GetComponent&lt;NetworkView&gt;().RPC("JoinUser", RPCMode.Others, name, player);
-                                GetComponent&lt;NetworkView&gt;().RPC("SystemMessage", RPCMode.All, "Joined chat.", player);
-                            }
+
+                [RPC]
+                void RemoveUser(NetworkPlayer player) {
+                    if(this.usersByID.ContainsKey(player)) {
+                        SystemMessage("Has left chat", player);
+                        //If we're the server, let everyone know when someone leaves.
+                        if(Network.isServer) {
+                            GetComponent&lt;NetworkView>().RPC("RemoveUser", RPCMode.Others, player);
                         }
+                        this.usersByID.Remove(player);
                     }
+                }
 
+                [RPC] 
+                void SystemMessage(string message, NetworkPlayer player) {
+                    if(usersByID.ContainsKey(player)) {
+                        message = usersByID[player] + ": " + message;
+                        messageWindow.AddMessage(messageDisplayTime, message);
+                        
+                    } else {
+                        //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
+                        GetComponent&lt;NetworkView>().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                    }
+                }
 
-                    [RPC]
-                    void RemoveUser(NetworkPlayer player) {
-                        if(this.usersByID.ContainsKey(player)) {
-                            SystemMessage("Has left chat", player);
-                            //If we're the server, let everyone know when someone leaves.
-                            if(Network.isServer) {
-                                GetComponent&lt;NetworkView&gt;().RPC("RemoveUser", RPCMode.Others, player);
-                            }
-                            this.usersByID.Remove(player);
+                [RPC] 
+                void LogMessage(string message, NetworkPlayer player) {
+                    if(usersByID.ContainsKey(player)) {
+                        //If we didn't say it, enter add some info about who did
+                        if(player != Network.player) {
+                            message = usersByID[player] + " said: " + message;
                         }
-                    }
 
-                    [RPC] 
-                    void SystemMessage(string message, NetworkPlayer player) {
-                        if(usersByID.ContainsKey(player)) {
-                            message = usersByID[player] + ": " + message;
-                            messageWindow.AddMessage(messageDisplayTime, message);
+                        messageWindow.AddMessage(messageDisplayTime, message);
+                    } else {
+                        //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
+                        GetComponent&lt;NetworkView>().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                    }
+                }
+
+
+                void OnGUI() {
+                    if(connected) {
+                        if(nameSet) {
+
+                            messageWindow.Draw(chatOutputPosition);
+
+                            if (Event.current.Equals(Event.KeyboardEvent("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("TextInput")) {
+                                ProcessInput();
+                            }
+                            GUI.SetNextControlName("TextInput");
+                            chatInput = GUI.TextField(chatInputRect, chatInput);
+
+                        } else {
+                            //Require the user set their name before they're fully joined to the chat server.
+                            GUI.Label(chatOutputRect, "Please enter your name");
+                            if (Event.current.Equals (Event.KeyboardEvent ("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("NameInput") &amp;&amp; myName.Length > 0) {
+                                SetName (myName);
+                            }
                             
-                        } else {
-                            //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
-                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
+                            GUI.SetNextControlName("NameInput");
+                            myName = GUI.TextField(chatInputRect, myName);
+
+                            GUI.FocusControl("NameInput");
                         }
                     }
-
-                    [RPC] 
-                    void LogMessage(string message, NetworkPlayer player) {
-                        if(usersByID.ContainsKey(player)) {
-                            //If we didn't say it, enter add some info about who did
-                            if(player != Network.player) {
-                                message = usersByID[player] + " said: " + message;
-                            }
-
-                            messageWindow.AddMessage(messageDisplayTime, message);
-                        } else {
-                            //We don't know that user? Why not? Get the user list again, maybe we'll know for next time.
-                            GetComponent&lt;NetworkView&gt;().RPC("Server_SendCurrentUsers", RPCMode.Server, Network.player);
-                        }
-                    }
-
-
-                    void OnGUI() {
-                        if(connected) {
-                            if(nameSet) {
-
-                                messageWindow.Draw(chatOutputPosition);
-
-                                if (Event.current.Equals(Event.KeyboardEvent("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("TextInput")) {
-                                    ProcessInput();
-                                }
-                                GUI.SetNextControlName("TextInput");
-                                chatInput = GUI.TextField(chatInputRect, chatInput);
-
-                            } else {
-                                //Require the user set their name before they're fully joined to the chat server.
-                                GUI.Label(chatOutputRect, "Please enter your name");
-                                if (Event.current.Equals (Event.KeyboardEvent ("return")) &amp;&amp; GUI.GetNameOfFocusedControl().Equals("NameInput") &amp;&amp; myName.Length > 0) {
-                                    SetName (myName);
-                                }
-                                
-                                GUI.SetNextControlName("NameInput");
-                                myName = GUI.TextField(chatInputRect, myName);
-
-                                GUI.FocusControl("NameInput");
-                            }
-                        }
-                    }
+                }
             }
             </pre>
         </p></li>
