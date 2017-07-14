@@ -131,6 +131,18 @@
                                 <a href='#5'>Implicit vs. Explicit Constructors</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Namespaces</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>*this</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Overloading Operators with Member Functions</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -491,6 +503,114 @@
         <li><p><span class='glyphicon-remove'></span>
             &bull; Implicit conversion happens when you assign a value to an object during construction.
             <br>&bull; That value, if possible, will get converted using a constructor that's available that it can promote to. 
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Namespaces</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Namespaces in C++ are a great tool for managing the possibility of <i>name inclusions</i>.
+            <br>&bull; A common namespace used is the <b>std</b> namespace. It allows you to use classes and objects from the standard namespace in your code.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's see an example:
+            <pre>
+            <span class='glyphicon-remove'></span>#include &lt;cstdio>
+            #include &lt;string>
+
+            namespace bwstring {
+
+                const std::string prefix = "(bwstring)";
+
+                class string {
+                    std::string _s = "";
+                    string();
+                public:
+                    string(const std::string &amp; s) : _s(prefix + s) {};
+                    const char * c_str() { return _s.c_str(); }
+                    operator const std::string &amp; () { return _s; };
+                };
+            }; // namespace bwstring
+
+            std::string s1("This is a string");
+
+            int main() {
+                bwstring::string s(s1);
+                std::puts(s.c_str());
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; You can use a namespace by saying <i>using namespace</i> with the name of your namespace.
+            &bull; Alterately, if you just want to use a part of the namespace, you can say <i>using using bwstring::string</i>, which would just use the string object from bwstring namespace.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>*this</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Object member function in C++ make use of a keyword <i>"this"</i> to provide a pointer to the current object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            First, the code:
+            <pre>
+            <span class='glyphicon-remove'></span>#include &lt;cstdio>
+            using namespace std;
+
+            //a very simple class
+            class Class1 {
+                int i = 0;
+            public:
+                void setvalue( const int value) { i = value; }
+                int getvalue() const;
+            };
+
+            int Class1:;getvalue() const {
+                printf("getvalue(): this is %p\n", this);
+                return i;
+            }
+
+            int main() {
+                int i = 47;
+                class1 object1;
+                class1 object2;
+
+                object1.setvalue(i);
+                object2.setvalue(i);
+                printf("value is %d\n", object1.getvalue());
+                printf("address of object1 is %p\n", &amp;object1);
+                printf("value is %d\n", object2.getvalue());
+                printf("address of object2 is %p\n", &amp;object2);
+                return 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; In the example, were returning the <i>this</i> pointer for each object in the getvalue() function.
+            &bull; This returns the address of the specified object.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Overloading Operators with Member Functions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; There are two distinct ways to overload operators in C++. One is with member functions as part of a class definition and the other is a separate nonmember functions. 
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
