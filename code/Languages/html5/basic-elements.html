@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>HTML5 - Basic Elements</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">HTML5 - Basic Elements</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Basic Verbage</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Resources</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Document Structure</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Content Models</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Basic Verbage</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; HTML is a <b>markup language</b>. HyperText Markup Language.
+            <br>&bull; HTML is used to <i>mark up</i> content in order to explain what that content is and how it relates to other content on the page.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; HTML uses <b>tags</b> which identify specific types of content.
+            <br>&bull; <b>Elements</b> refer to tags and their contents.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; There are basically two types of <b>attributes</b> that can be assigned to elements.
+            <br> &nbsp; &bull; <i>Informative</i> attributes give extra information about the element.
+            <br> &nbsp; &bull; <i>Functional</i> attributes change the behavior of the element.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; <b>Nesting</b> allows one element to be placed inside of another as a child of it's parent element.
+            <br>&bull; Some elements <i>cannot nest inside others</i> and child tags must be closed before their parents tags.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Resources</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Specificiations</h3>
+            <p><span class='glyphicon-remove'></span>
+            <a href="http://www.w3.org/TR/html5">W3C - Latest Published Version</a> - latest version of HTML5
+            <br><a href="http://www.w3.org/html/wg/drafts/html/CR/">W3C - Latest Editor's Draft</a> - what's to come in upcoming versions
+            </p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Documentation</h3>
+            <p><span class='glyphicon-remove'></span>
+            <a href="https://www.w3schools.com/">W3Schools</a>
+            <br><a href="http://www.webplatform.org">Web Platform</a>
+            <br><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Reference">MDN</a> (Mozilla Developer Network)
+            </p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Document Structure</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Basic Structure</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!doctype html>
+            
+            &lt;html lang='en'>
+            &lt;head>
+                &lt;meta charset='utf-8'>
+            
+                &lt;title>HTML5 Standard Template&lt;/title>
+                &lt;meta name='description' content='HTML5 Standard Template'>
+                &lt;meta name='author' content='website'>
+            
+                &lt;link rel='stylesheet' href='css/styles.css?v=1.0'>
+            &lt;/head>
+            
+            &lt;body>
+                &lt;script src='script.js'>&lt;/script>
+            &lt;/body>
+            &lt;/html>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; The <b>DOCTYPE</b> declaration tell the user agents which version of HTML it's using.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Head</h3>
+            <p><span class='glyphicon-remove'></span>
+            &bull; The <b>Head</b> is where you'll place info about the document, references to scripts, styles, linkes, etc., and additional instructions to the browser about how the document should be rendered.
+            <br>&bull; What can go in the head?
+            <br> &nbsp; &bull; <b>Title</b> - &lt;title>The Title of the Page&lt;/title>
+            <br> &nbsp; &bull; <b>Metadata</b> - Declares the metadata of your page
+            <br> &nbsp; &bull; <b>Icons</b> - &lt;link rel="shortcut icon" href="facison.ico" type="image/x-icon"> adds a favicon (Tab Icon) to the page.
+            <br> &nbsp; &bull; <b>CSS Links</b> - always sit in the head to help render the elements first
+            <br> &nbsp; &bull; <b>Language</b> - &lt;html lang="en-US"> sets the primary language of the document.
+            </p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Meta Attributes</h3>
+            <p><span class='glyphicon-remove'></span>
+            &bull; When declaring metadata with the <b>meta tag</b>, the following structure is the standard syntax: <br><i>&lt;meta UNIQUE_ATTR="..." content="..."></i>
+            </p>
+            <p><span class='glyphicon-remove'></span>Attribute: <b>charset</b> - specifies the <i>character encoding</i> for the HTML document
+            <br>&bull; Value: <b>character_set</b>
+            <br> &nbsp; &bull; UTF-8 - Character encoding for Unicode
+            <br> &nbsp; &bull; ISO-8859-1 - Character encoding for the Latin alphabet</p>
+            <p><span class='glyphicon-remove'></span>Attribute: <b>http-equiv</b>
+            <br>&bull; Value: content-type - specifies the character encoding for the document
+            <br> &nbsp; &bull; text/html
+            <br>&bull; Value: default-style - specifies the preferred style sheet to use
+            <br> &nbsp; &bull; "link to preferred stylesheet"
+            <br>&bull; Value: refresh - defines a time interval for the document to refresh itself (!Using refresh causes a failure in W3C's Accessiblity Guidelines)
+            <br> &nbsp; &bull; some integer</p>
+            <p><span class='glyphicon-remove'></span>Attribute: <b>name</b> - names a specific piece of metadata
+            <br>&bull; Value: application-name - specifies the name of the Web application that the page represents
+            <br>&bull; Value: author - specifies the name of the author of the document
+            <br>&bull; Value: description - specifies a description for the page
+            <br>&bull; Value: generator - specifies on of the <i>software packages</i> used to generate the document
+            <br>&bull; Value: keywords - specifies a comma separates list of keywords relevant to the page (helps seo)
+            <br>&bull; Value: viewport - controls the viewport
+            <br> &nbsp; &bull; "width=device-width" - sets the width of the page to follow the screen-width of the device
+            <br> &nbsp; &bull; "initial-scale=1.0" - sets the initial zoom level when the page is first loaded by the browser.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Body</h3>
+            <p><span class='glyphicon-remove'></span>
+            &bull; The <b>Body</b> simply holds all of the documents page content.
+            <br>&bull; The standard structure places the <b>page content</b> at the top of the body.
+            <br>&bull; Then <b>script links</b> are placed below the page content so that the page can render <i>before</i> any interaction can happen.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Content Models</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
