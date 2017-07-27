@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Programming Paradigms</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Programming Paradigms</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Overview</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>History</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Multi-Paradigm</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Programming paradigms are a way to classify programming languages based on their features. Languages can be classified into multiple paradigms. Some paradigms are concerned mainly with implications for the execution model (how work takes place) of the language, such as allowing side effects (if a function modifies state outside its scope || has observable interaction with its calling functions || the outside world besides returning a value), or whether the sequence of operations is defined by the execution model. Other paradigms are concerned mainly with the way that code is organized, such as grouping a code into units along with the state that is modified by the code. Yet others are concerned mainly with the style of syntax and grammar.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Common programming paradigms include:
+            <br> &nbsp; &bull; <a href="#">Imperative</a> - which allows side effects
+            <br> &nbsp; &bull; <a href="#">Functional</a> - which disallows side effects
+            <br> &nbsp; &bull; <a href="#">Declarative</a> - which does not state the order in which operations execute
+            <br> &nbsp; &bull; <a href="#">Object-Oriented</a> - which groups code together with the state the code modifies
+            <br> &nbsp; &bull; <a href="#">Procedural</a> - which groups code into functions
+            <br> &nbsp; &bull; <a href="#">Logic</a> - which has a particular style of execution model coupled to a particular style of syntax and grammar
+            <br> &nbsp; &bull; <a href="#">Symbolic</a> - which has particular style of syntax and grammar.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Languages that fall into the <b>imperative paradigm</b> have two main features: they state the order in which operations occur, with constructs that explicitly control that order, and they allow side effects, in which state can be modified at one point in time, within one unit of code, and then later read at a different point in time inside a different unit of code. The communication between the units of code is not explicit. Meanwhile, in <b>object-oriented</b> programming, code is organized into objects that contain state that is only modified by the code that is part of the object. Most object-oriented languages are also imperative languages. In contrast, languages that fit the <b>declarative paradigm</b> do not state the order in which to execute operations. Instead, they supply a number of operations that are available in the system, along with the conditions under which each is allowed to execute. The implementation of the languages's execution model tracks which operations are free to execute and chooses the order on its own.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Overview</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Just as software engineering (as a process) is defined by different <i>methodologies</i>, so the programming languages (as models of computation) are defined by different <i>paradigms</i>. Some languages are designed to support one paradigm while other programming languages support multipl paradigms. For example, programs written in C++, Object Pascal or PHP can be purely procedura, purely object-oriented, or can contain elements of both or other paradigms. Software designers and programmers decide how to use those paradigm elements.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In object-oriented programming, programs are treated as a set of interacting objects. In functional programming, programs are treaded as a sequence of stateless function evalutations. When programming computers or systems with many processors, in process-oriented programming, programs are treated as sets of concurrent processes acting on logically shared data structures.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Many programming paradigms are as well known for the techniques they <i>forbid</i> as for those they <i>enable</i>. For instance, pure functional programming disallows use of side-effects, while structured programming disallws use of the <i>goto</i> statement. Partly for this reason, new paradigms are often regarded as doctrinaire or overly rigid by those accustomed to earlier styles. Yet, avoiding certain techniques can make it easier to understand program behavior, and to prove theorems about program correctness.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Programming paradigms can also be compared with <b>programming models</b> which allow invoking an execution model by using only an API. Programming models can also be classified into paradigms, based on features of the execution model.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            For parallel computing, using a programming model instead of a language in common. The reason is that details of the parallel hardware leak into the abstractions used to program the hardware. This causes the programmers to have to map patterns in the algorithm onto patterns in the execution model (which have been inserted due to leakage of hardware into the abstraction). As a consequence, no one parallel programming language maps well to all computation problems. It is thus more convenient to use a base sequential language and insert API calls to parallel execution models, via a programming model. Such parallel programming models can be classified according to abstractions that reflect the hardware, such as shared memory, distributed memory with message passing, notions of <i>place</i> visible in the code, and so forth. These can be considered flavors of programming paradigm that pply to only parallel languages and programming models.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>History</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Different approaches to programming have developed over time, being identified as such either at the time or retrospectively. An early approach conciously identified as such is <b>structured programming</b>, advocated since the mid 1960s. The concept of a "programming paradigm" as such dates at least to 1978, in the Turing Award lecutre of Robert W. Floyd, entitled <i>The Paradigms of Programming</i>, which cites the notion of paradigm as used by Thomas Kuhn in his <i>The Structure of Scientific Revolutions</i>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Machine Code</h3>
+            <p><span class='glyphicon-remove'></span>The lowest-level programming paradigms are <b>machine code</b>, which directly represents the instructions (contents of program memory) as a sequence of numbers, and assembly language where the machine instructions are represented by mnemonics and memory addresses can be given symbolic labels. These are sometimes called first- and second-generation languages.</p>
+            <p><span class='glyphicon-remove'></span>In the mid 1960s, assembly languages were developed to support library COPY and quite sophisticated conditional macro generation and preprocessing abilities, CALL to (subroutines), external variables and common sections (globals), enabling significant code re-use and isolation from hardware specifics via use of logical operators such as READ/WRITE/GET/PUT. Assembly was, and still is, used for time critical systems and often in embedded systems as it gives the most direct control of what the machine does.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Procedural Languages</h3>
+            <p><span class='glyphicon-remove'></span>The next advance was the development of <b>procedural languages</b>. These third-generation languages (the first described as high-level languages) use vocabulary related to the problem being solved. For example:</p>
+            <p><span class='glyphicon-remove'></span>&bull; COmmon Business Oriented Language (COBOL) - uses terms like <i>file</i>, <i>move</i>, and <i>copy</i>.
+            <br>&bull; FORmula TRANslation (FORTRAN) - uses mathematical language terminology, it was developed mainly for scientific and engineering problems.
+            <br>&bull; ALGOrithmic Language (ALGOL) - focused on being an appropriate language to define algorithms, while using mathematical language terminology and targeting scientific and engineering problems just like FORTRAN.
+            <br>&bull; Programming Language One (PL/I) - a hybrid commercial-scientific general purpose language supporting pointers.
+            <br>&bull; Beginners All purpose Symbolic Instruction Code (BASIC) - It was developed to enable more people to write programs.
+            <br>&bull; C - a general-purpose programming language, initially developed by Dennis Ritchie between 1969 and 1973 at AT&amp;T Bell Labs.</p>
+            <p><span class='glyphicon-remove'></span>All these languages follow the procedural paradigm. That is, they describe, step by step, exactly the procedure that should, according to the particular programmer at least, be followed to solve a specific problem. The efficacy and eifficiency of any such solution are both therefore entirely subjective and highly dependent on that programmer's experience, inventiveness, and ability.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Object-Oriented Programming</h3>
+            <p><span class='glyphicon-remove'></span>Following the widespread use of procedural languages, object-oriented programming (OOP) languages were created, such as Simula, Smalltalk, C++, C#, Eiffel, PHP, and Java. In these languages, data and methods to manipulate it are kept as one unit called an object. The only way that another object or user can access the data is via the object's methods. Thus, the inner working of an object may be changed without affecting any code that uses the object. There is still some controversy raised by Alexander Stepanov, Richard Stallman and other programmers, concerning the efficacy of the OOP paradigm versus the procedural paradigm. The need for every object to have associative methods leads some skeptics to associate OOP with software bloat; an attempt to resolve this dilemma came through polymorphism.</p>
+            <p><span class='glyphicon-remove'></span>Because object-oriented programming is considered a paradigm, not a language, it is possible to create even an object-oriented assembler language. High Level Assembly (HLA) is an example of this that fully supports advanced data types and object-oriented assembly language programming - despite its early origins. Thus, differing programming paradigms can be seen rather like <i>motivational memes</i> of their advocates, rather than necessarily representing progress from one level to the next. Precise comparisons of the efficacy of competing paradigms are frequently made more difficult because of new and differing terminology applied to similar entities and processes together with numerous implementation distinctions across languages.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Further Paradigms</h3>
+            <p><span class='glyphicon-remove'></span>Literate programming, as a form of <b>imperative programming</b>, structures programs as a human-centered web, as in a hypertext essay: documentation is integral to the program, and the program is structured following the logic of prose and exposition, rather than compiler convenience.</p>
+            <p><span class='glyphicon-remove'></span>Independent of the imperative branch, <b>declarative programming</b> paradigms were developed. In these languages, the computer is told what the problem is, not how to solve the problem - the program is structured as a set of properties to find in the expected result, not as a procedure to follow. Given a database or a set of rules, the computer tries to find a solution matching all the desired properties. An archetype of a declarative language is the fourth generation language SQL, and the family of functional languages and logic programming.</p>
+            <p><span class='glyphicon-remove'></span><b>Functional programming</b> is a subset of declarative programming. Programs written using this paradigm use function, blocks of code intended to behave like mathematical functions. Functional languages discourage changes in the value of variables through assignment, making a great deal of use of recursion instead.</p>
+            <p><span class='glyphicon-remove'></span>The <b>logic programming</b> paradigm views computation as automated reasoning over a body of knowledge. Facts about the problem domain are expressed as logic formulae, and programs are executed by applying inference rules over them until an answer to the proble is found, or the set of formulae is proved inconsistent.</p>
+            <p><span class='glyphicon-remove'></span><b>Symbolic programming</b> is a paradigm that describes programs able to manipulate formulas and program components as data. Programs can thus effectively modify themselves, and appear to "learn", making them suited for applications such as artificial intelligence, expert systems, natural language processing and computer games. Languages that support this paradigm include Lisp and Prolog.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Multi-Paradigm</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A multi-paradigm programming language is a programming language that supports more than one programming paradigm. The design goal of such languages is to allow programmers to use the most suitable programming style and associated language constructs for a given job, considering that no single paradigm solves all problems in the easiest or most efficient way.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            One example is C#, which includes imperative and object-oriented paradigms, together with a certain level of support for functional programming with features like delegates (allowing functions to be treated as first-order objects), type inference, anonymous functions and Language Integrated Query. Other examples are F#, Python and Scala, which provide similar functionality to C# but also include full support for functional programming (including currying, pattern matching, algebraic data types, lazy evaluation, tail recursion, immutability, etc.). Perhaps the most extreme exapmle is Oz, which has subsets that adhere to logic (Oz descends from logic programming), functional, object-oriented, dataflow concurrent, and other paradigms. Oz was designed over a ten-year period to combine in a harmonious way concepts that are traditionally associated with different programming paradigms. Lisp, while often taught as a functional language, is known for its malleability and thus its ability to engulf many paradigms.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

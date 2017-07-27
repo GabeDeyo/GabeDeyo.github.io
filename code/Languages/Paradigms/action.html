@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>C# 6.0 Features</title>
+    <title>Action Language</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -97,7 +97,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">C# 6.0 Features</h1>
+                    <h1 id="title">Action Language</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -108,142 +108,57 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">Enhanced IDE (VS15)</a>
+                                <a href="#0">Action Language</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#1'>Expression-Level Features</a>
+                                <a href='#1'>Formal Definition</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>See Also</a>
                                 </p>
                             </li>
                         </ul>
-                    </div>  
+                    </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2>Enhanced IDE (VS15)</h2>
+    <h2>Action Language</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            <h3>Enhanced Features in Visual Studio 2015</h3>
-            <p><span class='glyphicon-remove'></span> &nbsp; 1. Improved syntax IntelliSense - to easily find keywords in methods and classes
-            <br> &nbsp; 2. New lightbulb - to suggest changes
-            <br> &nbsp; 3. Preview window - to look at modifications before committing
-            <br> &nbsp; 4. Easier renaming/refactoring - for changing names</p>
+            In computer science, an <b>action language</b> is a language for specifying <i>state transition systems</i>, and is commonly used to create formal models of the effects of actions on the world. Action languages are commonly used in the artificial intelligence and robotic domains, where they describe how actions affect the state of systems over time, and may be used for automated planning.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            <h3>Syntax IntelliSense</h3>
-            <p><span class='glyphicon-remove'></span>&bull; When you hover over variables, we get color on the syntax to make it easier on the eyes when looking at keywords.
-            <br>&bull; Outlining is displayed with rich semantics highlighting when hovering.</p>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            <h3>Light Bulb</h3>
-            <p><span class='glyphicon-remove'></span>VS 2015 will now give you a lightbulb which allows you to perform certain suggested actions and will give you a preview window before executing changes.</p>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Renaming and Refactoring</h3>
-            <p><span class='glyphicon-remove'></span>You can now rename anything in real time by right-clicking the variable you want to change, and simply type it out. Other references to that thing will change as the current one does.</p>
-        </p></li>
+            Action languages fall into two classes: <b>action description languages</b> and <b>action query languages</b>. Examples of the former include STRIPS, PDDL, Language A (a generalization of STRIPS; the propositional part of Pednault's ADL), Language B (an extension of A adding <i>indirect effects</i>, distinguishing static and dynamic laws) and Language C (which adds indirect effects also, and does not assume that every fluent is automaticlly "inertial"). There are also the Action Query Languages P, Q and R. Several different algorithms exist for converting action languages, and in particular, action language C, to answer set programs. Since modern answer-set solvers make use of boolean SAT algorithms to very rapidly ascertain satisfability, this implies that action languages can also enjoy the process being made in the domain of boolean SAT solving.
+        </p></li>        
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='1'>
-    <h2>Expression-Level Features</h2>
+    <h2>Formal Definition</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Nameof</h3>
-            <p><span class='glyphicon-remove'></span>You can now use the <i>nameof</i> reference to obtain the simple <i>string name</i> of a variable, type, or member.</p>
+            All action languages supplement the definition of a state transition system with a set F of fluents, a set V of values that fluents may take, and a function mapping S x F to V, where S is the set of states of a state transition system.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/Linear_temporal_logic">Linear Temporal Logic</a>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>String Interpolation</h3>
-            <p><span class='glyphicon-remove'></span>Interpolating over a string allows you to manipulate a string more presicely than just string formatting, which is often error prone. Just as a reminder, lets see what regular formatting looks like with placeholders:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>private static void Test_StringInterpolation() {
-                var city = "Burbank";
-                var state= "CA";
-                var zip = 55912
-
-                var address_oldSchool = string.Format("\n334 S. Main St., {0}, {1}, {2}\n", city, state, zip);
-                Console.WriteLine(address_oldSchool); //334 S. Main St., Burbank, CA, 55912
-            }
-            </pre>
-            <p><span class='glyphicon-remove'></span>Let's see how <b>String Interpolation</b> in 6.0 can help. Instead of setting our variables aside as placeholder, then can sit in the string ready to go:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>private static void Test_StringInterpolation() {
-                    var city = "Burbank";
-                    var state= "CA";
-                    var zip = 55912
-
-                    var address_newSchool = $"\n334 S. Main St., {city}, {state}, {zip}\n";
-                    Console.WriteLine(address_newSchool); //334 S. Main St., Burbank, CA, 55912
-                }
-            </pre>
-            <p><span class='glyphicon-remove'></span>Another new feature with string interpolation is easily accessing date and currency information. Let's look at an example that uses the date class and prints currency as well:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>private static void Test_StringInterpolation() {
-                decimal money = 15;
-
-                var moneyOwed = $"Today: {DateTime.Now.ToShortDateString()}, Dollars owed: {money:C}";
-                Console.WriteLine(moneyOwed); // Today: 7/22/2017, Dollars owed: $15.00
-            }
-            </pre>
+            <a href="https://en.wikipedia.org/wiki/Situation_calculus#GOLOG">GOLOG</a>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Null-Conditional Operators</h3>
-            <p><span class='glyphicon-remove'></span>This great feature allows you to reach members and elements only when the receiver is not null. Let's see an example before and after 6.0:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>//Old approach
-            int? numberOfItems = (items == null) ? (int?)null : artists.Count;
-
-            //New Way
-            int? numberOfItems = artists?.Count();
-
-            //Or...
-            Item defaultItem = item?[0];
-            Console.WriteLine($"Default item name is: {defaultItem?.Name}");
-
-            //Or...
-            int theCount = items?.Count ?? 0;
-            Console.WriteLine($"theCount={theCount}"); // items.Count if not null || 0 if null
-            </pre>
+            <a href="https://en.wikipedia.org/wiki/Fluent_calculus">Fluent Calculus</a>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Index Initializers</h3>
-            <p><span class='glyphicon-remove'></span>Index Initializers extend object initializers so that you can now initialize not only members but also indices of the new objects. Let's see the old vs new:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>private static void Test_IndexInitializer() {
-                //Old approach
-                var myOldDictionary = new Dictionary&lt;string, string>
-                {
-                    { "Name", "Robert DeNiro" },
-                    { "ArtistType", "Mafia" },
-                    { "FamousQuote", "Insulted him a little bit" }
-                };
-
-                //New approach
-                var myNewDictionary = new Dictionary&lt;string, string>
-                {
-                    ["Name"] = "Robert Deniro",
-                    ["ArtistType] = "Mafia",
-                    ["FamousQuote"] = "Insulted him a little bit"
-                };
-            }
-            </pre>
-            <p><span class='glyphicon-remove'></span>So as a result, these initializers can be used for any objec supporting an indexer, like a generic list:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>var array = new[] { "Name", "ArtistType" };
-            var thisArrayList = new List&lt;string>(array)
-            {
-                [0] = "Robert DeNiro",
-                [1] = "Mafia"
-            };
-
-            foreach(var item in thisArrayList) {
-                Console.WriteLine(item);
-            }
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Extension Add Methods</h3>
-            <p><span class='glyphicon-remove'></span>Extension add methods are useful when you have a custom collection class that has a method with a different name to semantically add new items.</p> !!FOLLOW UP ON DOCS.MICROSOFT.COM!!
+            <a href="https://en.wikipedia.org/wiki/Situation_calculus">Situation Calculus</a>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
