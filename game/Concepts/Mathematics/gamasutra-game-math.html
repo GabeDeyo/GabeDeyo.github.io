@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Gamasutra Game Math</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Gamasutra Game Math</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Numbers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Discreteness</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Geometry</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Co-ordinate Systems</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Iteration</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Physics</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Cheating</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Intelligent Motion</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Pitfalls</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>Summary</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Number</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Numbers are the foundation of mathematics - you can't do much of any practical use without them. And everyone knows computers are great with numbers. So why are there so many different types of them and what are they useful for?
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Integers: Whole numbers are easy</h3>
+            <p><span class='glyphicon-remove'></span>The numbers which range in steps of one unit both up and down from zero (--, -3, -2, -1, 0, 1, 2, 3, ++) are called integers. Computers love integers. They can be stored exactly in binary and have efficient methods for addition and subtraction, as well as slightly less efficient methods of multiplication and division.</p>
+            <p><span class='glyphicon-remove'></span>When used in computers, integers have upper and lower limits. For 16 bit signed integers stored in twos complement format (the format used for nearly all signed integers these days), the limit is -32768 to 32767. This limit is important when you are performing certain operations as overflow can occur.</p>
+            <p><span class='glyphicon-remove'></span>For many years integers have been favoured for storing variables used in games because operations on them (such as addition) were much faster than on other types of numbers. However these days the speed advantage of integers over floating point numbers has been somewhat diminished by fast co-processors on modern chips such as the Intel Pentium.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Scaling: Making the most of integers</h3>
+            <p><span class='glyphicon-remove'></span>If you store object co-ordinates or other values as integers, you may find they lack precision. You may want to animate the sprite at less than one per frame, or move it by less than one pixel per frame. Do not do this by putting pauses in your code! You can allow much more flexibility by scaling the system of numbers you are using. For instance, you could divide the horizontal position of your main game sprite by 100 before plotting it on the screen. This allows you to give a horizontal velocity of 50 to the sprite to get it to move one pixel every second frame. It also allows you to give a wide range of velocities to it that cannot be emulated simply by pausing the movement for a number of frames.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Fixed point numbers: Efficient scaling</h3>
+            <p><span class='glyphicon-remove'></span>Dividing an integer by a scale factor is an expensive operation! So a more efficient way of doing this should be used. When the scaling factor is a power of two, the division can easily be performed by using binary shifts (the >> operation in C). When a number is stored in this manner it is called a fixed point number, as the integer represents a number of both integer and fractional parts, separated by a binary point (like a decimal point but in binary) at a fixed position.</p>
+            <p><span class='glyphicon-remove'></span>When game programmers say they use fast integer maths throughout their graphics routines, they often mean they are using fixed point numbers.</p>
+            <p><span class='glyphicon-remove'></span>The most commonly used powers of two are 256 and 65536, but other ones are in use in many games (and in the operating systems of some next generation consoles). They can prove to be particiularily efficient running on some machines.</p>
+            <p><span class='glyphicon-remove'></span>Naming conventions for fixed point numbers specify the number of bits on both sides of the binary point. For example a 12.4 fixed point number has 12 bits of integral value and 4 bits of fractional value. If it is unsigned it can range from 0 to 4095.9375 in steps of 0.0625 (1/16 or 2^-4).</p>
+            <p><span class='glyphicon-remove'></span>Addition and subtraction are simple on fixed point numbers; just perform the operation on them as if they were integers (of course, they must be compatible by having the same scale factor). Multiplication on the other hand requires you to shift the result to the right before using it.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Floating point numbers: Flexible ranges</h3>
+            <p><span class='glyphicon-remove'></span>The main disadvantage of fixed point numbers is that they lack precision over a large range: they cannot hold very large or very small numbers, and when they do hold small numbers these are not very accurate. The way to get around this is to use floating point numbers. These are formed of two parts: a signed exponent (the range shift) and signed mantissa (the raw value). You can turn a floating point number into a fixed point number by shifting the mantissa by the number of bits specified in the exponent: left for positive exponents and right for negative exponents.</p>
+            <p><span class='glyphicon-remove'></span>Floating point numbers are supported in hardware on some new processor chips like the Intel Pentium. The C and C++ languages support them as primitive types: float (32 bit), double (64 bit) and long double (80 bit). In machines which do not support them in hardware their operations have to be emulated in software, which is much slower.</p>
+            <p><span class='glyphicon-remove'></span>Multiplication on floating point numbers is easier than addition! This is the opposite to the situation with integer and fixed point numbers. So when you are using floating point maths you may find algorithms different from the ones you use with integers appropriate.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Discreteness</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Discreteness is a way of saying that values in computer games often have integer values. Time is not continuous - it is split up into frames of 1/60th of a second (for NTSC video consoles). Sprite positions are not continuous - they are displayed on pixel boundaries. This can be very useful as an apporximation to a smooth universe.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Spatial discreteness: Aligning objects to grid boundaries</h3>
+            <p><span class='glyphicon-remove'></span>On nearly all video game consoles sprites must be placed on integral pixel boundaries. The exception is the Nintendo 64, which has hardware anti-aliasing built-in. This should allow it to display sprites on half-pixel or quarter-pixel boundaries. We will need to wait and see if 2D sprite based games for that machine are able to take advantage of this.</p>
+            <p><span class='glyphicon-remove'></span>The use of fixed point (or floating point) numbers for game objects means that the objects are held with greater precision than shown on screen. When you are smooth scrolling a screen you need to stop its motion if it gets too small (e.g. less than 1/8th pixel per frame) to avoid jitter. In this case, to take account of spatial discreteness you should halt the scroll at the half-way point of the pixel rather than the edge. When the scroll restarts, it will then have a fair chance of moving in either direction.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Temporal discreteness: Game frames</h3>
+            <p><span class='glyphicon-remove'></span>The concept of game frames is fundamental to traditional games programming. While it is possible to have an asynchronous even driven game, most games are based on the ticking of a clock which happens a fixed number of times per second.</p>
+            <p><span class='glyphicon-remove'></span>Every time this clock signal is processed the game executes one cycle of thought. Each game object may move by a slight amount, some decisions may be made, and the display may be updated. Operations which you may have been taught to calculate all at once (such as the trajectory of a rocket) have to be done one step at a time.</p>
+            <p><span class='glyphicon-remove'></span>What happens when you "miss a frame" and the game takes longer than expected to execute a game frame cycle (this is usually the fault of the graphics routines being overloaded by the current view being too complex)? How do you catch up and avoid the game slowing down? There are two main methods: running the game engine multiple times and scaling velocites.</p>
+            <p><span class='glyphicon-remove'></span>The "multiple times" method is simple: you time how many frames you missed and run the game code again that many times to catch up. This can work only because the game code is usually much faster than the display code - the display code does not need to be run multiple times. If the game code is very complex or the game is running on a slow machine, this method does not work. This method is often used on console games.</p>
+            <p><span class='glyphicon-remove'></span>The other method (which works on slow machines) is to time how long each game frame is taking to process and then multiply each game speed by the appropriate number. This is rather harder for accelerations than velocities. This is the method most often used on PC games, because the machines have such a wide range of speeds.</p>
+            <p><span class='glyphicon-remove'></span>In modern games the game frame is not the same as the display frame. The game is run in a separate "thread" from the display code, and so should be immune to the display code being bogged down by too many objects or a scene being too complex. This is a variation of the "run the game multiple times" solution, but requires some more thought to co-ordinate the game and the display thread. The shared variables that are written by the game code and read by the display code (such as sprite position and animation requests) should be double-buffered to prevent synchronisation problems.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Geometry</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Classic or Euclidean geometry (named after the Greek mathematician, Euclid), is based on right angled triangles. It is customary to use Greek letters for angles, and in the following examples I use q (theta) for the main angle and f (phi) for the other angle.
+            <p><span class='glyphicon-remove'></span>There are two points named, A and B. There are three sides, the adjacent, the opposite and the hypotenuse. The hypotenuse is the longest side in the triangle. The opposite is the side which is not near the angle you are interested in. The adjacent is the other side. There are two angles named in the triangle, f and q, as well as the 90i right angle. The sides are labelled with q being the angle we are loking at. In any triangle, the sums of the interior angles add up to 180i. Therefore, q + f + 90i = 180i, so f = 90i - q. This means that one angle can be calcualted from the other. The triangle can be defined by an angle and the length of one of the sides, or by the length of two of the sides. this leads to polar and Cartesian co-ordinates.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Trigonometry: Those sine and cosine functions</h3>
+            <p><span class='glyphicon-remove'></span>What do the trigonometric functions mean? Well, sin q is the length of the opposite side divided by the length of the hypotenuse. Cos q is the length of the adjacent side divided by the hypotenuse. Tan q is the length of the opposite side divided by the length of the adjacent side. Since these functions take a lot of time to calculate, in a computer game you would generally store them in a look-up table. They are useful in converting between polar and Cartesian co-ordinate systems.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Pythagoras: Calculating distances</h3>
+            <p><span class='glyphicon-remove'></span>The Pythagorean theorem states that the square of the hypotenuse of a right angled triangle is equal to the sums of the square of the other two sides. This is useful in computer games because it lets you calculate the distance between two points accurately.</p>
+            <p><span class='glyphicon-remove'></span>Now back to games. Imagine that there is an object at point A, co-ordinates (x1, y1). There is also an object at point B, co-ordinates (x2, y2). By the Pythagorean theorem, the distance between A and B is Ö ( (x2-x1)2 + (y2-y1)2 ). If you know how to calculate square roots, you can use this method to accurately find the distance between two points.</p>
+            <p><span class='glyphicon-remove'></span>It is messy to calculate the angle between two points because there are four cases to consider, depending on which quadrant the right angle is in. This is discussed later.</p>
+            <p><span class='glyphicon-remove'></span>If you know the angle q (you may have calculated it for use by your intelligence routines), you can calculate the distance between the two points by dividing the length of the adjacent side by cos q (if q &lt; 45¡ ) or dividing the length of the opposite side by sin q (if q > 45¡ ).</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Co-ordinate Systems</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The concept of space in computer games requires numerical measures with which to set positions and orientations. There are many ways to specify co-ordinates, but only a few of them are in common use.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Cartesian co-ordinates: Grid lines across the world</h3>
+            <p><span class='glyphicon-remove'></span>This is the most often used system. Cartesian co-ordinates consist of a horizontal value (called x) a vertical value (called y) and for 3D games a depth value (called z). These three axes are orthogonal, which means they are at right angles to each other. They can be represented as a vector [x, y, z], which is displayed vertically when it is used in matrix multiplication.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Polar co-ordinates: Angles and distance</h3>
+            <p><span class='glyphicon-remove'></span>Polar co-ordinates consist of an angle and a scalar. They can be very useful for storing velocities of objects in two dimensional games (such as sports games). A person can be running in a particular direction and then change angle by a certain amount each game frame, while maintaining the same speed.</p>
+            <p><span class='glyphicon-remove'></span>You can convert them into Cartesian co-ordinates by multiplying the scalar by the sine and negative cosine of the angle to get the horizontal and vertical co-ordinates respectively (this treats angle zero as being North and angle ¹ circle as being East. You can use other conventions in your code. The mathematical convention is for angle zero to be East and angle ¹ circle to be North).</p>
+            <p><span class='glyphicon-remove'></span>Angles can be stored in several ways. Mathematicians say a circle is made up by 2p radians. Sailors use 360 degrees. French dictators rule that it is 400 gradients. But game coders generally use 256 units, as this is stored nicely in one byte.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Quaternions: 3D rotations that work</h3>
+            <p><span class='glyphicon-remove'></span>This is a great big topic of its own, so I must be brief. Quaternions are four dimensional numbers (in the same way that the complex numbers you learned about at school are two dimensional). They have a set of mathematical operations defined on them, such as multiplication and addition.</p>
+            <p><span class='glyphicon-remove'></span>They are very useful for processing rotations in three dimensions. If you are controlling a spaceship like the one in Descent, you want a roll to be a roll whichever way you are facing. Quaternions allow you to do this. They are also useful for interpolating motion capture animations.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Frames of Reference: Screen (local) and World (global) co-ordinates</h3>
+            <p><span class='glyphicon-remove'></span>This is a fundamental idea that many programmers in the early 1980s had not heard of. Fortunately these days it is taught quite extensively because of its use in 3D graphics.</p>
+            <p><span class='glyphicon-remove'></span>The basic idea is that the objects in the game have an existence in a game world which exists even when you can't see it. Their co-ordinates are all given relative to the game world, not the screen. In the old days some people would store all enemy creatures as screen offsets and change them directly when scrolling the screen. This was not a good way to code!</p>
+            <p><span class='glyphicon-remove'></span>You should treat the view of the screen as a window into the game world. In 2D games this is a rectangle which covers part of the world. When a view is set to a particular area, those objects which lie within that region of the world will be displayed on screen. Those outside the area are invisible, as they are off-screen.</p>
+            <p><span class='glyphicon-remove'></span>You can translate positions between world and screen co-ordinates by applying a transformation matrix to them. In the case of simple platform games with no scaling or rotation, this simplifies to adding a scroll offset to both co-ordinates.</p>
+            <p><span class='glyphicon-remove'></span>Note that the "panel" objects can be treated differently, and referred to in screen co-ordinates, as they relate to your view rather than the game world itself.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Orthogonal systems: Treating co-ordinates independently</h3>
+            <p><span class='glyphicon-remove'></span>Cartesian co-ordinates are "orthogonal". The beauty of this is that they can be treated completely independently of each other. This means that often something we do (such as apply friction) in one dimension (such as x) we can do the same way to the others (y and z) without worrying how they interact.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Transformation matrices: Converting between frames of reference</h3>
+            <p><span class='glyphicon-remove'></span>In two dimensions, you can translate between frames of references by multiplying by a 2 by 2 matrix and adding a 2 element vector. This is not so hard as it looks, as this is just a mathematical way of showing two simple formulae.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>screenx = a*x + b*y + e
+            screeny = c*x + d*y + f
+            </pre>
+            <p><span class='glyphicon-remove'></span>What is interesting is the value of the constants a, b, c, d, e and f. For translation (just scrolling) a and c are one and b and d are zero (this is called an identity matrix) and e and f are the scroll offsets. For scaling, b and c are zero and a and d are the scale factors. For rotation the following formulae can be used, where angle is the angle of rotation of the screen relative to the world and scale is the relative scale of screen co-ordinates to world co-ordinates. E and f still represent scroll offsets, but you have to adjust them to take account of the rotation if you do not Îpre-adjust' the x and y co-ordinates before plugging them into the equation.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>a = scale*sin(angle)
+            b = scale * cos(angle)
+            c = scale * cos(angle)
+            d = scale * -sin(angle)
+            </pre>
+            <p><span class='glyphicon-remove'></span>The nice thing about using matrices to transform co-ordinates is that various transformations can be concatenated (made to occur one after the other) by multiplying the two matrices. With three dimensional graphics, a four by four matrix can hold everything you want to know about the transformation, including the angle of the viewing frustum (i.e. whether or not the camera is fish-eyed) and the way the perspective is calculated, as well as the translation, scaling and rotation required to render the scene.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Iteration</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            What computers do best is repetitive instructions. This has led to such useful instructions as <b>for</b> and <b>while</b> loops in C. In games, the temporal discreteness I mentioned earlier forces us to write games in a different way from a command-line utility. The interactivity of a game requires there to be no long pauses in gameplay while the computer figures out what to do. The most common way to ensure this is to split up calculations into bite sized pieces, and execute them one at a time. When we do this, we must figure out how to make sure these pieces are all executed in the correct order, since this can wreak havoc with traditional control structures such as <b>for</b> loops. The main way of managing this are with states or threads.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>States: Controlling the motion</h3>
+            <p><span class='glyphicon-remove'></span>The concept of a finite state machine is fundamental tot he theory of computability, developed significantly by Alan Turing, the gay mathematician who also helped crack the Nazi's enigma code during the Second World War.</p>
+            <p><span class='glyphicon-remove'></span>The idea is that a computer consists of a state, a program and access to a certain number of variables. In the case of a Turing machine this is serial access to one read/write location on a large tape, but we will use random access to a fixed number of variables for speed. A program is simply a list of rules which say which state to go to if you are in a certain state and certain input values are found. To increase speed and reduce program storage requirements from those of a Turing machine, we can use expressions to work out which state we want to go to. The state is the output of the routine.</p>
+            <p><span class='glyphicon-remove'></span>Unstable or "virtual" states can be useful in some circumstances, but they require great care to avoid infinite loops. In this system, when a state change is made the program immediately jumps to the start-up code for this state. This code may decide that it needs to change state again, before the routine exits. So it is important to make sure that it is impossible for the processor to be caught up in a loop, constantly cycling between states without returning control. With care though, this can reduce the amount of code required to implement intelligent behaviour quite significantly.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            This table has a list of states a simplistic enemy might use:
+            <table class="table table-hover">
+                <tr>
+                    <td><b>Marching</b></td>
+                    <td><i>Init</i></td>
+                    <td>Start moving in a random direction.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Control</i></td>
+                    <td>If player is close then <b>aim</b>, else remain <b>marching</b>.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Action</i></td>
+                    <td>If we hit an obstacle, reverse direction.</td>
+                </tr>
+                <tr>
+                    <td><b>Aim</b></td>
+                    <td><i>Init</i></td>
+                    <td>Face the player.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Control</i></td>
+                    <td>If player is above me, start <b>jumping</b>, else <b>charge</b>.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Action</i></td>
+                    <td>None</td>
+                </tr>
+                <tr>
+                    <td><b>Jumping</b></td>
+                    <td><i>Init</i></td>
+                    <td>Set an upwards initial velocity.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Control</i></td>
+                    <td>If landed, <b>charge</b>, else remain jumping.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Action</i></td>
+                    <td>Fall under gravity.</td>
+                </tr>
+                <tr>
+                    <td><b>Charge</b></td>
+                    <td><i>Init</i></td>
+                    <td>Start moving fast towards the player.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Control</i></td>
+                    <td>If player is far then start <b>marching</b>, else remain <b>charging</b>.</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><i>Action</i></td>
+                    <td>If we hit an obstacle, reverse direction.</td>
+                </tr>
+            </table>
+            <p><span class='glyphicon-remove'></span>In this case, Aim is an unstable state, which leads directly to another state. It may be the target of several different state changes.</p>
+            <p><span class='glyphicon-remove'></span>The important thing to keep track of in a state driven system is which variables are preserved across state routine calls. If the AI routine simply returns when the state processing is finished, any variables on the stack will be lost, so a pointer to object specific variables is essential.</p>
+            <p><span class='glyphicon-remove'></span>Note that using pointers to functions is much faster than parsing an enumerated state through a massive switch statement! It also makes the code more readable.</p>
+            <p><span class='glyphicon-remove'></span>States can be implemented in code or as tokens. In a token driven game, each object's AI is controlled by a list of tokens which represent commands. This is similar to the way byte codes work in Java, but the tokens are at a higher level and much more game specific.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Threads: Letting the operating system do the hard work</h3>
+            <p><span class='glyphicon-remove'></span>Keeping track of object states doesn't always have to be a pain. There is a way of generating "anonymous states" which puts the onus of the housekeeping work on the game's operating system (usually low level scheduling routines rather than the actual host operating system) instead of in the code for each object state.</p>
+            <p><span class='glyphicon-remove'></span>This method is the <b>sleep</b> command - a form of non-preemptive multitasking. You just write a function called <b>sleep</b> which takes as a parameter the number of game frames you want the process to sleep for, or alternatively a handle to some condition which will wake up the routine, such as the player getting within a certain distance of the object.</p>
+            <p><span class='glyphicon-remove'></span>You must decide which variables are to be preserved by the sleep command. You may prefer not to preserve registers for example, but often need to preserve the stack (and hence all local variables as well as the state of any calling routine). To do this you can assign a local stack to each object, and then switch the stack pointer (this may require assembly language J ).</p>
+            <p><span class='glyphicon-remove'></span>This technique can require quite a bit more memory than the state method since it is hard to predict how much stack space will be required by any routine. The programmer must also be careful to switch to a system stack if any hardware interrupts occur, to avoid doing nasty things to the object's local stack.</p>
+            <p><span class='glyphicon-remove'></span>Other techniques can be used to make more efficient use of memory - some processors can automatically detect when a stack overflow occurs, and you may wish to use this to allocate variable sized local stacks to your objects. I consider this method too risky in terms of guaranteed response time to be used in a game.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Routines: The revenge of complex calculations</h3>
+            <p><span class='glyphicon-remove'></span>The use of threading can also allow us to use time-consuming calculations as well - if the threads are pre-emptive. This is usually implemented by using hardware interrupts (Java interpreters can emulate this in software).</p>
+            <p><span class='glyphicon-remove'></span>You can split the game into three parts for example - the display thread, the main AI thread, and the strategy thread. The main AI thread is called at fixed intervals to ensure the game runs at a constant speed. The display thread is called less often (unless you have a very nice machine!) to keep the screen up to date with what is happening in the game. The strategy routines can run at a low priority in the background, and occasionally talk to the main AI thread. This allows them to perform complex calculations without worrying about slowing the game down.</p>
+            <p><span class='glyphicon-remove'></span>The important thing with pre-emptive multi-threaded games is to handle synchronisation issues well. This is a topic that is well covered in computer science courses. To summarise: double buffer all systems of shared variables until a "transaction" (i.e. a game frame) is made. The transaction must be "atomic" (i.e. not interruptible). This can be done using either hardware methods (disabling interrupts for a short period of time) or software methods (the bankers algorithm).</p>
+            <p><span class='glyphicon-remove'></span>Synchronisation bugs can be hard to remove, so build multi-threaded systems carefully from the start.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Feedback: Giant oaks from acorns grow</h3>
+            <p><span class='glyphicon-remove'></span>One of the greatest ways to make behaviour unpredictable (and therefore interesting) is by the use of positive feedback to accentuate small differences in a chaotic way. This can produce results as interesting as a Mandelbrot set (generated from the function A' = A2+C where C is a constant complex number and A is a complex variable initially set to C. The number of iterations it takes the magnitude of A to exceed 2.0 forms the Mandelbrot set). This positive feedback produces very interesting patterns.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Physics</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The science of physics is a huge and ever expanding area. The parts of it most relevant to computer games however are classical Newtonian mechanics. These are used in sports games, pinball games and even (though they are butchered a bit in the process) in platform games. Here are a few examples of their use in games.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Inertia: Stuff keeps moving</h3>
+            <p><span class='glyphicon-remove'></span>Sir Isaac Newton's first law of motion states that an unless some force acts upon it, an object in motion will keep on moving in a straight line. This is called inertia. The most common forces to act upon an object are gravity and friction, which will be covered later.</p>
+            <p><span class='glyphicon-remove'></span>The important thing we learn from this is that we need to keep track of an object's velocity, and this should be added to the object's position each game frame. We should change the velocity to handle various forces that act upon the object, not simply change the object's position.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Gravity</h3>
+            <p><span class='glyphicon-remove'></span>Gravity is a force which pulls two objects together, and is equal to Gm1m2/r2, where G is the universal gravitational constant, m1 and m2 are the masses of the two objects and r is the distance between the two objects. But except in large scale space games (such as Elite 2) we don't need to worry about this! The effect of gravity near a world's surface is that of a constant acceleration. (F=mg, where F is the force, m is the mass of an object and g is 9.8 Newtons/metre2 near the Earth's surface).</p>
+            <p><span class='glyphicon-remove'></span>So to make objects fall, add an acceleration constant to their y velocity every game frame. Then add the y velocity to the y position. You can change the acceleration constant to change the feel of the game world. When the constant is low, the game has a lunar landscape feel, and the jumps seem to go in slow motion.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Bouncing: Stuff changes direction on impact</h3>
+            <p><span class='glyphicon-remove'></span>When an object in a game hits the background or another object, it usually changes direction by bouncing off it. The topic of collision detection is too large to cover in depth here, but we will deal with how collisions with the background affect a bouncy object.</p>
+            <p><span class='glyphicon-remove'></span>When an object hits a horizontal background, it bounces up. You do this by multiplying the y velocity by a negative number between -1.0 and 0.0. This number is related to the co-efficient of restitution of the object, which controls how bouncy it is. The closer the number is to zero, the less bouncy it is. With vertical surfaces, you do the same thing to the x velocity.</p>
+            <p><span class='glyphicon-remove'></span>For oblique surfaces the result is different. When a particle (an object with no size or spin) bounces off a surface, the angle of the object is changed and the speed reduced in the same way as with the previous examples.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Friction: Slowing things down</h3>
+            <p><span class='glyphicon-remove'></span>In a perfectly smooth world, once something started moving, it would keep on going until it hit something. In our real world though, this is not the case - once you stop pushing things they generally slow down and stop. This is due to friction. Friction turns kinetic energy (the energy possessed by a moving object) into heat, slowing it down.</p>
+            <p><span class='glyphicon-remove'></span>You can simulate friction by multiplying an object's velocity by a constant value between 0.0 and 1.0 each frame. This value should be only slightly less than 1.0, since the lower it is the faster the object will slow down.</p>
+            <p><span class='glyphicon-remove'></span>Things slow down faster in water than they do in the air, and objects which roll on the ground fall in-between these values. The friction co-efficient depends on many different factors, and it is worth experimenting with different values to see which numbers look right in your game.</p>
+            <p><span class='glyphicon-remove'></span>When the velocity gets below a certain threshold value you should set it to zero. An example value is 1/8th pixel per frame.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Jumping: Fudging gravity to allow control</h3>
+            <p><span class='glyphicon-remove'></span>This technique (unlike most of the others in this article) goes against the laws of physics big time! But it is both accepted (having appeared in many platform games including the Mario ones) and in my opinion essential for user control.</p>
+            <p><span class='glyphicon-remove'></span>The problem is this: The game designer wants the user to be able to control how high their game character jumps by holding down a button. However, the jump must start as soon as the button is pressed. This is to avoid an infuriating pause in the gameplay while the program waits for the user to release the button - a pause that could be fatal to the game character if an enemy character is closing in on it.</p>
+            <p><span class='glyphicon-remove'></span>The solution is this: Gravity for the game character is temporarily reduced while the button is pressed. For example, it may be halved. This allows the user to control the height of the jump by holding down the button. When either the user releases the jump button or the character reaches the apex of the jump (the velocity changes sign) the gravity reduction should be turned off for the remainder of the jump, otherwise the jump looks too unrealistic. You can experiment with the values of both versions of gravity during the first part of the jump (and the initial jump velocity) to get the desired range of jump heights.</p>
+            <p><span class='glyphicon-remove'></span>The problem and solution are also applicable to sports games where a ball is kicked, and the user needs control over how high the ball is kicked. However, this situation is complicated by the user wanting to control two aspects of the kick - the speed and the height - so a compromise still has to be reached.</p>
+            <p><span class='glyphicon-remove'></span>Note that the Super Mario 64 does not use this technique, instead relying on different types of jump (normal jump, running jump, back-flip) to get different heights. This shows that there are ways of designing an environment so that this exact height control is not needed in the first place.</p>
+        </p></li>        
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Cheating</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There are many tricks we can use to make life easier for the computer when calculating things in a game. Some of the ways of doing this are by simplifying hard operations using mathematical identities and lookup tables, transforming numbers into a system (such as logarithmic numbers) in which certain operations are easier, or retaining information about the previous results of the operation and using these to generate the next one.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Simplification: Don't do the math!</h3>
+            <p><span class='glyphicon-remove'></span>The easiest way to make a calculation faster is to do less of it. If you can get away with calling a calculation less often, do so. Otherwise, simplify the operation itself. There are many ways to make operations less expensive in terms of CPU power - some of them are accurate (lossless) and others are less accurate (lossy) approximations.</p>
+            <p><span class='glyphicon-remove'></span>For example, with distance comparisons, why not just compare (D x2+D y2) with r2 instead? This is a lossless simplification, but the inequality still holds and less calculation has to be done. This is especially true if r is a constant and therefore r2 is also a constant and can be precalculated.</p>
+            <p><span class='glyphicon-remove'></span>I gave an example of a lossy approximation in my previous article on collision detection: distance = max(D x, D y) + min(D x, D y) / 2. The circular distance from an object is simulated with an octagon. This is not accurate, but is good enough for many purposes which require the rough distance between two objects.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Identities: Simplifying hard operations</h3>
+            <p><span class='glyphicon-remove'></span>A way of making multiplication faster is to use lookup tables for a function, and use mathematical identities to use that function. For example, multiplication can be done by using a table of squares.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>(a+b)2 = a2 + 2ab + b2
+            \ ab = ((a+b)2 - a2 - b2) ü 2
+            </pre>
+            <p><span class='glyphicon-remove'></span>In C code this can be implemented like so, where table[] is a table of square roots divided by two:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>#define multiply(a, b) (table[(a)+(b)]-table[(a)]-table[(b)])
+            </pre>
+            <p><span class='glyphicon-remove'></span>With fast hardware multiplication and the large numbers used in today's games (which would require a huge look-up table), this technique is not as useful as it once was, but it shows how there are optimisations available even for simple operations if you look for them.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Logs: An example of co-ordinate transformation</h3>
+            <p><span class='glyphicon-remove'></span>Before the invention of calculators, it was common for school children to multiply numbers by using logarithms and anti-logarithms. Slide rules were based on this procedure. You can still use the same method now to do the same thing. However, logs are not an entirely accurate way of multiplication, since the stored values are not completely accurate. So this method should not be used when complete accuracy is necessary, for instance in looking up tables in arrays, or giving a score to the player. In most other cases the accuracy of the result is good enough.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>log(a) + log (b) = log (ab)
+            \ ab = exp(log(a) + log(b))
+            </pre>
+            <p><span class='glyphicon-remove'></span>Logarithms are an example of transforming co-ordinates from one number space (in this case real numbers) into another space (logarithmic space) where certain operations (multiplication and division) are easier, then transforming them back.</p>
+            <p><span class='glyphicon-remove'></span>The same principle is used in the Fast Fourier Transform and Discrete Cosine Transform. These techniques convert numbers from one number system (displacement space) into another (frequency space). It is then much easier to filter out unwanted information (for example high frequency noise). This is how the JPEG file format works, and allows it the high compression ratios which make it much beloved on the Internet.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Newton's Differences: Simplifying the physics maths</h3>
+            <p><span class='glyphicon-remove'></span>How can we simplify the maths behind motion? Do we need to perform lots of multiplication to calculate the trajectory of a piece of space debris for example? The answer is no - we can use our knowledge about the previous state of the object to save calculation.</p>
+            <p><span class='glyphicon-remove'></span>An object fired into the air under gravity will basically follow the path of a parabola (ignoring wind resistance for a moment). This is a function of the form ax2 + bx + c. However, if we take differences of the results of this function, we will notice that they form a more simple pattern. This is shown in figure five. Repeating that step yields a constant number. This is the acceleration of the object! The first differences are the velocity of the object. By keeping track of the position and velocity of the object, we can find out where it will be at the next point in time.</p>
+            <p><span class='glyphicon-remove'></span>This property of the differences of square numbers was first noticed by the ancient Chinese, who used it as a method of calculating square roots.</p>
+            <table class="table table-bordered table-hover">
+                <tr>
+                    <th>x</th>
+                    <th>x<sup>2</sup></th>
+                    <th>D x<sup>2</sup></th>
+                    <th>D D x<sup>2</sup></th>
+                    <th>D D D x<sup>2</sup></th>
+                </tr>
+                <tr>
+                    <td>0</td><td>0</td><td>1</td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>1</td><td>1</td><td>3</td><td>2</td><td>0</td>
+                </tr>
+                <tr>
+                    <td>2</td><td>4</td><td>5</td><td>2</td><td>0</td>
+                </tr>
+                <tr>
+                    <td>3</td><td>9</td><td>7</td><td>2</td><td>0</td>
+                </tr>
+                <tr>
+                    <td>4</td><td>16</td><td>9</td><td>2</td><td>0</td>
+                </tr>
+                <tr>
+                    <td>5</td><td>25</td><td>11</td><td>2</td><td></td>
+                </tr>
+                <tr>
+                    <td>6</td><td>36</td><td></td><td></td><td></td>
+                </tr>
+            </table>
+            <p><span class='glyphicon-remove'></span>The same principle applies to cubic functions (those of the form <b>ax3 + bx2 + cx + d</b>) and indeed any polynomial function, as is shown in figure six.</p>
+            <table class="table-bordered table-hover">
+                <tr>
+                    <th>x</th>
+                    <th>x<sup>3</sup></th>
+                    <th>D x<sup>3</sup></th>
+                    <th>D D x<sup>3</sup></th>
+                    <th>D D D x<sup>3</sup></th>
+                </tr>
+                                <tr>
+                    <td>0</td><td>0</td><td>1</td><td></td><td></td>
+                </tr>
+                <tr>
+                    <td>1</td><td>1</td><td>7</td><td>6</td><td>6</td>
+                </tr>
+                <tr>
+                    <td>2</td><td>8</td><td>19</td><td>12</td><td>6</td>
+                </tr>
+                <tr>
+                    <td>3</td><td>27</td><td>37</td><td>18</td><td>6</td>
+                </tr>
+                <tr>
+                    <td>4</td><td>64</td><td>61</td><td>24</td><td>6</td>
+                </tr>
+                <tr>
+                    <td>5</td><td>125</td><td>91</td><td>30</td><td></td>
+                </tr>
+                <tr>
+                    <td>6</td><td>216</td><td></td><td></td><td></td>
+                </tr>
+            </table>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Calculus: The proff behind your simplifications</h3>
+            <p><span class='glyphicon-remove'></span>These differences are in fact the special case (where the numbers are all integers) of differentiation, the method of calculus invented by Sir Isaac Newton to explain these tables. We can use the well-known results of calculus to explain how these simplifications work.</p>
+            <p><span class='glyphicon-remove'></span>If we call distance <b>x</b> and time <b>t</b>, we can calculate velocity <b>v</b> as <b>dx/dt</b> and acceleration a as <b>dv/dt</b>. In other words we differentiate a function which generates position twice to get a function which generates acceleration. These results can be seen in the next section, which concentrates on the "chase algorithm".</p>
+            <p><span class='glyphicon-remove'></span>The techniques of Calculus should be found in any good high-school maths textbook, and may help you understand how we can use velocities and accelerations to achieve the movement patterns we want.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Intelligent Motion</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The classic algorithms for enemy movement used in most games are as follows:
+            <br> &nbsp; &bull; Chase
+            <br> &nbsp; &bull; Evade
+            <br> &nbsp; &bull; Pattern
+            <br> &nbsp; &bull; Response
+            <br> &nbsp; &bull; Random choice
+            <p><span class='glyphicon-remove'></span>They can be combined with each other or moderated with these techniques:
+            <br> &nbsp; &bull; Co-ordination
+            <br> &nbsp; &bull; Imitation
+            <br> &nbsp; &bull; Response learning
+            <br> &nbsp; &bull; Anticipation</p>
+            <p><span class='glyphicon-remove'></span>These techniques could each easily fill an article. The classic game which shows them off best is Namco's Pac-man. Here we will focus on the first of these, the ubiquitous chase algorithm. For this purpose a space game such as Eugene Jarvis' Defender is an easier example as it does not have the movement restrictions of a maze based game like Pac-man. We will not cover obstacle avoidance.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Perceived Smoothness: Removing jerkiness</h3>
+            <p><span class='glyphicon-remove'></span>For motion to be smooth, it should be continuous to the greatest extent. Degrees of smoothness can be ordered by the number of the first of these qualities (which are derivatives of the position function) which is not continuous. These qualities are:
+            <br> &nbsp; &bull; Position - if this changes suddenly, the object appears to jump
+            <br> &nbsp; &bull; Velocity - sudden changes of velocity seem very line based.
+            <br> &nbsp; &bull; Acceleration - changes of acceleration are noticeable when you are travelling in a vehicle, but are not so noticeable in games.</p>
+            <p><span class='glyphicon-remove'></span>I will give examples of methods which make these increasingly smooth to show you how they differ.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Naïve approach: Chasing the target</h3>
+            <p><span class='glyphicon-remove'></span>The simplest way of chasing a target was mentioned in André LaMothe's article on AI some months ago. If the target is to the left of the object, move left. If it is to the right, move right. What could be more intuitive?</p>
+            <p><span class='glyphicon-remove'></span>Let's see some code for a one dimension example of the path followed by the chaser:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>const int xstart = 12;
+            const int xcenter = 0;
+            const int xvel = 2;
+
+            int frame;
+            int xpos;
+
+            for(frame = 0; xpos == xstart; plot(frame++, xpos)) {
+                if(xpos &lt; xcenter) {
+                    xpos += xvel;
+                } else {
+                    xpos -= xvel;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This technique can be easily extended to two or three dimensions by copying the code and replacing x by y and z. However, you will notice that when you do this in two dimensions only 8 directions are ever taken. This makes the object movement look very basic. Also note that the object will move 1.41 times further along diagonal lines than straight ones.</p>
+            <p><span class='glyphicon-remove'></span>A more sophisticated way of doing this is to calculate the angle between the two objects (using an inverse tangent operation, which requires one division and a table lookup as well as a few comparisons), and then set the velocity to be a unit vector in that direction. This allows for many angles of motion to be used, and gets rid of the speed differences that bother the naïve version of the routine.</p>
+            <p><span class='glyphicon-remove'></span>You can use anticipation (estimating where the target will be in a few moments time) to make the chaser seem more intelligent. A simple trick is to add a constant times the velocity (e.g. 20 frames) to estimate where the target will be in a third of a second. A more sophisticated way is to take into account the distance between the two objects. Finally, you could accurately calculate the point of intersection of the player's line of motion and the chaser's range of movement and head directly towards it. In this case a collision is inevitable unless the player changes direction. If the chaser can outrun the player, the player will either have to make good use of obstacles to get free or shoot at the chaser to disable or destroy it.</p>
+            <p><span class='glyphicon-remove'></span>This modified version of the technique can be useful in sports games, where objects (sports players) have specific speed limits to which they should keep to look realistic.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Parabolas: Using velocity</h3>
+            <p><span class='glyphicon-remove'></span>That technique can get good results, but it ignores one basic principle of physics - inertia (conservation of momentum)! In general, objects cannot change their velocity instantly under their own power. This gives us a clue as to how we can make object movement smoother.</p>
+            <p><span class='glyphicon-remove'></span>By keeping track of the velocity of an object we can make sure it only changes in an acceptable way. We can see how this works in snippet below, which makes the chaser accelerate to the left if the target is to the left, and accelerate to the right if the target is to the right.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>const int xstart = 12;
+            const int xcenter = 0;
+            const int xacc = 1;
+
+            int frame;
+            int xpos;
+            int xvel;
+
+            for(frame = 0; xpos == xstart &amp;&amp; xvel = 0; plot (frame++, xpos)) {
+                if(xpos &lt; xcenter) {
+                    xvel += xacc;
+                } else {
+                    xvel -= xacc;
+                    xpos += xvel;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This function sets acceleration to +1 if the position is negative and -1 if the position is positive. The initial position is 12 and velocity is zero. The resulting positions form a set of parabolas both above and below the centre line. The movement cycles after 20 frames (units of time).</p>
+            <p><span class='glyphicon-remove'></span>The velocity now changes continuously, which makes it look much smoother than the previous example. You can put a "speed limit" on the velocity in each dimension to make sure the chaser does not go too fast, but this can make the motion look linear at high speeds.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Simple Harmonic Motion: Smooth movement</h3>
+            <p><span class='glyphicon-remove'></span>You can extend the previous technique by using more variables. For example, by adding a "super-acceleration" to the acceleration variable, you would make the movement smoother. This is because you will be approximating a sine wave (the smoothest of movements) by a cubic function instead of a parabolic function.</p>
+            <p><span class='glyphicon-remove'></span>But you can do better than this without using more variables! The way you do this is by using a feedback loop. Since (using calculus) the second derivative of a sine wave (the position) is a negative sine wave (the acceleration), you can input the old value of the position into the new value of the acceleration. A simple scaling factor will set the period of the movement. This feedback method is a powerful technique to use in computer games, as I mentioned in the section on iteration.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>const float xstart = 12;
+            const float xcenter = 0;
+            const float xmult = -0.25;
+
+            int frame;
+
+            float xpos;
+            float xvel;
+            float xacc;
+
+            for(frame = 0; xpos == xstart &amp;&amp; xvel == 0 &amp;&amp; xacc == 0; plot(frame++, xpos)) {
+                xacc = xpos * xmult;
+                xvel += xacc;
+                xpos += xvel;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This function sets the acceleration for the current frame to be equal to the position for the previous frame multiplied by -0.25. The initial position is 12 and velocity is zero. The resulting positions form a sine wave. The movement cycles after about 12 frames (units of time).</p>
+            <p><span class='glyphicon-remove'></span>In an actual game, you would use a multiplication factor which was much smaller and this would give a longer period to the cycle. Because the acceleration does not change suddenly (since it is in a feedback loop with the position) it will appear to be slightly smoother than the parabolic movement. The main disadvantage to this method is that a multiplication is required every frame. The method works best when the cycle period is longer, as the feedback lag is less noticeable.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Damping: Controlling overshoot</h3>
+            <p><span class='glyphicon-remove'></span>You will notice that with the exception of the most simple method shown above the object tends to overshoot the target. This is sometimes desirable (in the case of an orbiting drone that pesters the main character and perhaps shoots at him/her) but often you want a more kamikaze type of enemy - one who will smash into the player and do them some damage.</p>
+            <p><span class='glyphicon-remove'></span>This is done quite simply by damping the forces - use some friction as described in the earlier section. This works by reducing the amount of kinetic energy the object has, so it does not endlessly continue in orbit around the target. The more friction you use, the more damped (and linear) the path will look, and the less the chaser will overshoot the target.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Pitfalls</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            In writing games (or indeed any computer software) bugs tend to creep up on you. Some bugs are language specific (such as typos - getting punctuation wrong in a FORTRAN program nearly caused global nuclear war once! See archives of the Usenet newsgroup comp.risks for examples of this sort of thing). Others are generic to all procedural languages (such as assembler, C or Pascal) - such as out-by-one bugs and infinite loops.
+            <p><span class='glyphicon-remove'></span>The following problems are general, and inherent in the application of maths to computer programming. The basic rule to fix them is "never assume anything that might not always be true".</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>False Assumptions: Check them before you rely on them</h3>
+            <p><span class='glyphicon-remove'></span>Often when you simplify some maths you make certain assumptions. These should be noted! For example, you may assume that a number is non-zero (where a division has been removed), or positive (in simplifications involving square roots). If you later put in a zero or negative number into the simplified routine, the correct action might not be taken.</p>
+            <p><span class='glyphicon-remove'></span>In ANSI C there is a wonderful library function called assert, which you should use at every available opportunity, in particular at the beginning of a function to check that the parameters passed to the function are valid. This function can also be implemented using a macro, as MFC does with ASSERT.</p>
+            <p><span class='glyphicon-remove'></span>The assert command is usually set up to only execute when you are running the debug version of the program. So it does not slow down the final (production) version of the game. Alpha testing (by the programmer) should be done on the debug version, while Beta testing (by the test department) should be done on the production version, to ensure that any differences between debug and production versions are found.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Bouncing: Getting stuck</h3>
+            <p><span class='glyphicon-remove'></span>If you implement a "bounce" routine by simply changing the velocity to be -0.5 times the value it was before a collision, the object may get stuck in the object it is bouncing against. This is because there is an assumption that before the bounce the object was not in collision with anything. This can be fixed by making sure the object is not in collision after the bounce.</p>
+            <p><span class='glyphicon-remove'></span>When bouncing off the ground, you can simply set the y position of the object to be sitting on the ground (instead of in it).</p>
+            <p><span class='glyphicon-remove'></span>When bouncing off another object, you can reset the positions of both objects to the state they were in before the collision. Alternatively, you can correctly calculate where the object should be after the collision (using greater time accuracy than one game frame).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Overflow: The numbers get too big</h3>
+            <p><span class='glyphicon-remove'></span>The variables we use to store numbers in our games are often of quite limited size. 8 bit bytes and 16 bit words are not just used on old games consoles - they can be used for many types of data (especially large maps, where storage space is important), and this restricts the size of numbers that can be used. The next generation video consoles also have strict limits on number size in their graphics hardware, which must be respected. So overflow is still a problem in today's games.</p>
+            <p><span class='glyphicon-remove'></span>An 8 bit value can have 256 unique values, while a 16 bit value can have 65536. These are both quite small compared to the size of the level maps of today. It is important to "promote" such values to 32 bit integers sometimes, when they are used in intermediate calculations, such as during a MultDiv operation. Otherwise, be careful that no intermediate (or final) result will overflow the range of the maths being used.</p>
+            <p><span class='glyphicon-remove'></span>A special case of overflow is division by zero. This can indicate that the function you are using gets very inaccurate when the input value is close to zero. For instance the inverse tangent function can produce scary answers if you divide the circle into quadrants rather than octants. Check the function to see if this is so before just inserting a special case (if (x == 0) return y) in the routine.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Loss of precision: The numbers get too similar</h3>
+            <p><span class='glyphicon-remove'></span>At the other end of the scale is "loss of precision". This happens when two numbers which should be distinct are mapped onto the same bit-pattern. For example with integers the values 2.1 and 2.2 would both be mapped to 2. When the difference is important, this can cause problems.</p>
+            <p><span class='glyphicon-remove'></span>The problem can be hidden inside a complex expression, especially if a number is divided by one value before being multiplied by another. You can change this problem to that of overflow (still a hassle) by doing the multiplication before the division.</p>
+            <p><span class='glyphicon-remove'></span>The usual way to solve the problem is to change the scale of the numbers involved. Fixed point math is particularly useful for this.</p>
+            <p><span class='glyphicon-remove'></span>Floating point number provide another case in point: they are seldom identical when you want them to be! So comparing two floating point numbers for equality is a risky business. So when checking them you should allow some leeway (abs(a-b) &lt; c) instead of (a == b). This leeway can be a fixed constant (such as 0.001) when you know the values will never be very small, or a proportion (such as 0.01%) of one of the numbers.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>Summary</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            So now you see that many techniques used in games programming - perhaps some you have already been using - have a basis in the maths you learned at school. You can use this to extrapolate other ways of doing the same thing, or to justify the validity of doing things in a particular way.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            But never forget, in games it is the end result that counts, not the accuracy of the underlying model. Math is just another tool to help you get the effect you want, and should never override the important considerations of artistic design and enjoyable gameplay.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            With this in mind, feel free to experiment with new and different ways of making objects move - after all, why should you be restricted by the mundane constraints of reality? Your imagination can be so much more fun!
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
