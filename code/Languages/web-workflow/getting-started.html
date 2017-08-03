@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Web Workflows - Getting Started</title>
+    <title>Web Workflow</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -97,7 +97,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Web Workflows - Getting Started</h1>
+                    <h1 id="title">Web Workflow</h1>
 
                     <aside>
                         <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
@@ -108,14 +108,34 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">Why Workflow Management?</a>
+                                <a href="#0">Workflow Management</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Installations</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Package.json</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Assets</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Versioning</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Gulp</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2>Why Workflow Management?</h2>
+    <h2>Workflow Management</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             <b>Workflows</b> can help you speed up development, because they automate your process, and help you work faster and more efficiently. They can help automate many different processes and help with the overall deployment of your project.
@@ -127,7 +147,7 @@
             <br> &nbsp; &bull; Version Tools - Tools that will help you with project management and versioning.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            This <i>getting started</i> project will use several workflow tools. 
+            This <i>"getting started"</i> project will use several workflow tools. 
             <br> &nbsp; &bull; <b>Preprocessor languages</b> - CoffeeScript, Sass and Compass
             <br> &nbsp; &bull; <b>Template language</b> - mustache.js
             <br> &nbsp; &bull; <b>Versioning tools</b> - Git, Github
@@ -137,6 +157,206 @@
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Installations: Software you'll need</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://git-scm.com/" target="_blank">Git</a>
+            <br> &nbsp; &bull; Git Bash
+            <br> &nbsp; &bull;  Checkout Windows style commit UNIX style endings
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://nodejs.org/en/download/" target="_blank">Node.js/NPM</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://rubyinstaller.org/" target="_blank">Ruby - (Sass &amp; Compass)</a> 
+            <br> &nbsp; &bull; Add Ruby executables to your path option
+            <br> &nbsp; &bull; MSYS2?
+            <br> &nbsp; &bull; Maybe just say fuck it and use npm/node!
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://www.npmjs.com/package/gulp">Gulp</a>
+            <pre><span class='glyphicon-remove'></span>npm install -g gulp</pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Package.json</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>package.json</b> should be your initial file.
+            <br> &nbsp; &bull; It will store <i>basic</i> information about the application. (Name, description, version number, etc.)
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            1. Open terminal at the root of your project.
+            <br>2. Run the npm init command
+            <br>3. Fill out with default values
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>package.json Defaults (in progress)</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>{
+                "name": "workflow-starter",
+                "version": "0.0.1",
+                "description": "Simple Workflow Starter Kit",
+                "author": "Gabe Deyo",
+                "license": "ISC",
+                "repository": {
+                    "type": "git",
+                    "url": "?.git"
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Assets</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Folder Structure Setup</h3>
+            <p><span class='glyphicon-remove'></span>1. Create a <b>"Builds"</b> folder at root level
+            <br>2. Create a subfolder under Builds named <b>"Development"</b>
+            <br>3. Create a subfolder under Builds named <b>"Production"</b>
+            <br>4. Create a <b>"Components"</b> folder at root level
+            <br>5. Create a subfolder under Components named <b>"Coffee"</b>
+            <br>6. Create a subfolder under Components named <b>"SASS"</b>
+            <br>7. Create a subfolder under Components named <b>"Scripts"</b></p>
+            <p><span class='glyphicon-remove'></span>Development - 
+                <br> &nbsp; &bull; Holds the files when we're <i>programming</i> the website. 
+                <br> &nbsp; &bull; Holds all assets (json, css, img, etc.).
+                <br> &nbsp; &bull; Where the <b>index.html</b> file lives.
+            <br>Production - 
+                <br> &nbsp; &bull; holds the files when we're <i>ready to upload</i> them to a server.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JavaScript/Coffee</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Put any .coffee files in the <b>coffee</b> folder.
+                <br> &nbsp; &bull; For this example we'll create a headline.coffee file here.
+            <br>&bull; Put any .js files in the <b>scripts</b> folder.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS/SASS/Compass</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Put any .scss files in the <b>SASS</b> folder. 
+                <br>&bull; Try to separate variables, mixins, the base, and modules into specific sass files. (_variables.scss, _mixins.scss, etc.)
+                <br>&bull; The style.scss file should simply contain <b>imports</b> to the Compass styles, core partials, and js partials.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Versioning</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Use <b>Git</b> to <i>keep track</i> of your project and <i>manage</i> any changes.
+            <br>&bull; You'll want to setup a git project before even really starting your project in case you want to track or manage the project early on.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Git Ignore</h3>
+            <p><span class='glyphicon-remove'></span>First you'll need a <b>.gitignore</b> file (at same level as .git) This file will filter out anything you do not want to keep track of.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>node_modules
+            .tmp
+            .sass-cache
+            builds/**/images/*
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Initialize Git Project</h3>
+            <p><span class='glyphicon-remove'></span>1. Open your <b>terminal</b> in your root folder or the project.
+            <br>2. git init
+            <br>3. git add .
+            <br>4. git commit -m "Initial Commit"
+            <br>5. git remote add origin &lt;url>
+            <br>6. Open project with versioning software, GitHub Desktop, SourceTree, etc.
+            <br>7. Push initial changes to <i>master</i> || git push -u origin master
+            <br>8. Add README.md if necessary</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Rolling back to commit</h3>
+            <p><span class='glyphicon-remove'></span>In order to roll back to a specific commit, type in the terminal <i>"checkout commit_id"</i>.
+            <br> &nbsp; &bull; This will put you in a <i>"Detached HEAD"</i> state
+            <br> &nbsp; &bull; If you ask <i>"git branch"</i>, the branch will say (detached from 12345)
+        <br>&bull; In order to get back to master, simply say <i>"git checkout master"</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Gulp</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Gulp is a <b>build tool</b> that uses the concept of <i>pipes</i>. You take one file, process it through a plug-in, and then send the output of that file to another plug-in.
+            <br> &nbsp; &bull; If you haven't already, install Gulp globally - npm install -g gulp
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Gulp Depencencies</h3>
+            <p><span class='glyphicon-remove'></span>You should have gulp installed as a developer depencency and install from an npm install or yarn install.
+            <br> &nbsp; &bull; Or you could install as a devDependency through CI - npm install --save-dev gulp
+            <br> &nbsp; &bull; Or manually add this to your package.json</p>
+            <pre>"devDependencies" : {
+                "gulp" : "latest",
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>You'll also need to <i>npm install --save-dev gulp-util</i> for more functionality using gulp.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Gulp File</h3>
+            <p><span class='glyphicon-remove'></span>Create a <i>gulpfile.js</i> at the root of your project.
+            <br> &nbsp; &bull; Here you'll setup gulp tasks to call when building, serving, or doing random things with your project.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Gulpfile.js
+            
+            var gulp = require('gulp'),
+                gutil = require('gulp-util');
+
+            gulp.task('log', function() {
+                gutil.log('Workflows are awesome');
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>&bull; In the terminal, calling <i>"gulp log"</i> would then log "Workflows are awesome" in the terminal and give some information about the task.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Gulp-Coffee Task</h3>
+            <p><span class='glyphicon-remove'></span>First you'll need to run: <i>"npm install --save-dev gulp-coffee"</i> in order to run the task on your coffee files.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                guutil = require('gulp-util');
+                coffee = require('gulp-coffee');
+
+            //Sources with coffee files
+            var coffeeSources = ['components/coffee/*.coffee'];
+
+            // Coffee Task
+            gulp.task('coffee', function() {
+                // Grab file(s) from this source
+                gulp.src(coffeeSources)
+
+                    // Send source files through pipe
+                    // Compile the JS without the top-level function safety wrapper
+                    .pipe(coffee({bare: true})
+
+                        // On Error, log error in console
+                        .on('error', gutil.log))
+                    
+                    // Send compiled files to destination
+                    .pipe(gulp.dest('components/scripts'))
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Combining the JavaScript</h3>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->
