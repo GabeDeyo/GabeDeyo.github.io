@@ -131,6 +131,14 @@
                                 <a href='#5'>Gulp</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Building/Automation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Production Build</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -401,11 +409,11 @@
             gulp.task('js', function() {
                 gulp.src(jsSources)
                     .pipe(concat('script.js'))
-                    .pipe(broserify())
+                    .pipe(browserify())
                     .pipe(gulp.dest('builds/development/js'))
             });
             </pre>
-            <p><span class='glyphicon-remove'></span>Now in order to use <b>Broserify</b>, you can simply go into the scripts pulling in dependencies, and <i>requiring</i> what you need. This next example looks at a <b>coffee</b> script pulling in <b>jquery</b>.</p>
+            <p><span class='glyphicon-remove'></span>Now in order to use <b>Browserify</b>, you can simply go into the scripts pulling in dependencies, and <i>requiring</i> what you need. This next example looks at a <b>coffee</b> script pulling in <b>jquery</b>.</p>
             <pre>
             <span class='glyphicon-remove'></span>$ = require 'jquery'
 
@@ -413,6 +421,314 @@
                 $('.tagline').append "#{item}"
             fill
             </pre>
+            <p><span class='glyphicon-remove'></span>This would be the same process if you were requiring Mustache in one of your JS files, also we won't need to require jQuery since it's already done in the CoffeeScript component. Template.js:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>$(function() {
+                var Mustache = require('mustache');
+
+                $.getJSON('js/data.json', function(data) {
+                    var template = $('#speakerstpl').html();
+                    var html = Mustache.to_html(template, data);
+                    $('#speakers').html(html);
+                }); //getJSON
+            }); //function
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can do other things with Browserify, including loading your own modules with the require statement. So any of these JS files can also be added to other JavaScript files using <i>require</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>SASS / Compass</h3>
+            <p><span class='glyphicon-remove'></span>The installation for these components is going to be a bit more intense and we're not using fucking Ruby so don't even ask for it. My personal plan is to build using a nodejs sass/compass component somehow. I'll fill this in later with that process.</p>
+            <p><span class='glyphicon-remove'></span>We will need a single plug-in called gulp-compass, <i>"npm install --save-dev gulp-compass"</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                guutil = require('gulp-util'),
+                coffee = require('gulp-coffee'),
+                concat = require('gulp-concat'),
+                browserify = require('gulp-browserify'),
+                compass = require('gulp-compass');
+
+            var coffeeSources = [...];
+            var jsSources = [...];
+
+            //SASS Sources - remember everything is filtered through one style.scss file
+            var sassSources = ['components/sass/style.scss'];
+
+            //SASS Task
+            gulp.task('compass', function() {
+                gulp.src(sassSources)
+                    .pipe(compass({
+                        sass: 'components/sass',
+                        image: 'builds/development/images',
+                        style: 'expanded'
+                    }))
+                        .on('error', gutil.log
+                    .pipe(gulp.dest('builds/development/css'))
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Building/Automation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Sequential Tasks</h3>
+            One important aspect of gulps build process is that tasks can be run with <i>dependency tasks</i> that are required to run before the current task. So we can essentially have a chain of dependent tasks that run sequentially. To do this, simply add a <i>task array parameter</i> to the task you are working on. Any task in the task array will be run before the current task.
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('js', ['coffee'], function() {
+                /*Regular JS task*/
+                /*!DONT IMPLEMENT!*/
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>For right now, we're going to implement a task that will run through <b>all</b> of our currently implemented tasks <i>without a callback of it's own</i>!</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('all', ['coffee', 'js', 'compass']);
+            </pre>
+            <p><span class='glyphicon-remove'></span>Running this task will simply run all the task sequentially in it's task array parameter.
+            <br> &nbsp; &bull; <i>Note:</i> when this runs the compass task, it's going to find that the css/style.css file hadn't changed so it won't even need to touch it, saving us time.</p>
+            <p><span class='glyphicon-remove'></span>For simplicity sake, we'll want to repurpose the "all" task as the "default" task. This allows us to simply call <i>"gulp"</i> in the terminal, and have it call the "default" task.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Watch File Changes</h3>
+            <p><span class='glyphicon-remove'></span>Gulp has a special method called <b>watch</b> which can run continuously in the background, and monitor changes to files. Just like other tasks, watch will allow you to do a couple things when files change.</p>
+            <p><span class='glyphicon-remove'></span>What we want is another task, "watch", that will monitor and update things when they change.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('watch', function() {
+                gulp.watch(coffeeSources, ['coffee']);
+                gulp.watch(jsSources, ['js']);
+
+                //Notice it won't see changes in the main sass style file, so we needs the wildcard
+                gulp.watch('components/sass/*.sc', ['compass']);
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>You'll also want to add this "watch" task to your default task.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('default', ['coffee', 'js', 'compass', 'watch']);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Reload Browser Automatically</h3>
+            <p><span class='glyphicon-remove'></span>The next piece of the beautiful automation puzzle is a single plug-in called gulp-connect. <i>"npm install --save-dev gulp-connect"</i>, which will be responsible for reloading all of your pages.</p>
+            <p><span class='glyphicon-remove'></span>This plug-in will actually fix a problem you probably haven't experienced yet. When loading in the data with mustache, your going to encounter an error called a same-domain policy. This means servers don't allow you to load data files unless the files are coming from the same server. The problem is that we're not serving the data file from the server at all, just the local hard drive. However, gulp-connect will automatically fire up a server for you as well.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                guutil = require('gulp-util'),
+                coffee = require('gulp-coffee'),
+                concat = require('gulp-concat'),
+                browserify = require('gulp-browserify'),
+                compass = require('gulp-compass'),
+                connect = require('gulp-connect');
+
+            gulp.task('connect', function() {
+                connect.server({
+                    root: 'builds/development/',
+                    livereload: true
+                });
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>We'll also want to throw this task into our default task.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('default', ['coffee', 'js', 'compass', 'connect', 'watch']);
+            </pre>
+            <p><span class='glyphicon-remove'></span>We'll need to actually <i>reload</i> the page which is called through connect.reload(). Since our js task is the final and most essential core task we have, we'll pipe this call onto that task.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//JavaScript Task
+            gulp.task('js', function() {
+                gulp.src(jsSources)
+                    .pipe(concat('script.js'))
+                    .pipe(browserify())
+                    .pipe(gulp.dest('builds/development/js'))
+                    .pipe(connect.reload())
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Unless it becomes a problem, reloading after css/sass changes can be helpful to, and only requires another pipe to do so.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//SASS Task
+            gulp.task('compass', function() {
+                gulp.src(sassSources)
+                    .pipe(compass({
+                        sass: 'components/sass',
+                        image: 'builds/development/images',
+                        style: 'expanded'
+                    }))
+                        .on('error', gutil.log
+                    .pipe(gulp.dest('builds/development/css'))
+                    .pipe(connect.reload())
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Static Reloads</h3>
+            <p><span class='glyphicon-remove'></span>Time to finally add our static HTML watches/reloads.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//HTML Sources
+            var htmlSources = ['builds/development/*.html'];
+            
+            //HTML Task
+            gulp.task('html', function() {
+                gulp.src(htmlSources)
+                    .pipe(connect.reload())
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then add to default task:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('default', ['html', 'coffee', 'js', 'compass', 'connect', 'watch']);
+            </pre>
+            <p><span class='glyphicon-remove'></span>Also add to watched sources:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('watch', function() {
+                gulp.watch(coffeeSources, ['coffee']);
+                gulp.watch(jsSources, ['js']);
+                gulp.watch('components/sass/*.scss', ['compass']);
+                gulp.watch(htmlSources, ['html']);
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>So the HTML task was very easy, but because we're using a template language to pull in data from a json file, changes in that json file will not trigger a reload on the html side. So we need to add in another task for the json.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//JSON Sources
+            var jsonSources = ['builds/development/js/*.json'];
+
+            //JSON Task
+            gulp.task('json', function() {
+                gulp.src('builds/development/js/*.json')
+                    .pipe(connect.reload())
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Again we need to add to default and watch tasks:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('watch', function() {
+                gulp.watch(coffeeSources, ['coffee']);
+                gulp.watch(jsSources, ['js']);
+                gulp.watch('components/sass/*.scss', ['compass']);
+                gulp.watch(htmlSources, ['html']);
+                gulp.watch(jsonSources, ['json']);
+            });
+
+            gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Production Build</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Environment Variables</h3>
+            <p><span class='glyphicon-remove'></span>An <b>environment variable</b> is something you can set as part of your computer's processes that can affect the way an application works. Node.js provides a special way of accessing these variables through your application, by a process called process.env. At the top of your gulpfile, just under your gulp plugins, add this variable.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var env = process.env.NODE.ENV || 'development';
+            </pre>
+            <p><span class='glyphicon-remove'></span>This variable will let us actually run tasks and assign variable conditionally. First we'll need to rearrange our variables a little:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Gulp Plug-Ins
+            
+            //Declare Variables
+            var env,
+                coffeeSources,
+                jsSources,
+                sassSources,
+                htmlSources,
+                jsonSources,
+                outputDir;
+
+            env = process.env.NODE.ENV || 'development';
+
+            //Assign Variables
+            if(env==='development') {
+                outputDir = 'builds/development/';
+            } else {
+                outputDir = 'builds/production/';
+            }
+
+            //Replace 'builds/development/' with outputDir + '...'
+            </pre>
+            <p><span class='glyphicon-remove'></span>!Important! - Now go through your gulpfile and <b>replace</b> any line in the script that says 'builds/development/' with outputDir and concatonation. This will correctly assign the build source through the conditional env variable. MAKE SURE TO TEST.</p>
+            <p><span class='glyphicon-remove'></span>Now in order to run the default command in the production state, your terminal command will look like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>NODE_ENV=production gulp
+            </pre>
+            <p><span class='glyphicon-remove'></span>We also want to change our sass style through the environmental variables as well since gulp-compass comes with a compression command built in.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var env,
+                /*...*/,
+                sassStyle;
+
+            if(env==='development') {
+                outputDir = 'builds/development/';
+                sassStyle = 'expanded';
+            } else {
+                outputDir = 'builds/production/';
+                sassStyle = 'compressed';
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now simply change the <i>compass</i> task to grab that sass variable to conditionally compress or expand.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('compass', function() {
+                gulp.src(sassSources)
+                    .pipe(compass({
+                        sass: 'components/sass',
+                        image: outputDir + 'images',
+                        style: sassStyle
+                    })
+                    .on('error', gutil.log))
+                    .pipe(gulp.dest(outputDir + 'css'))
+                    .pipe(connect.reload())
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Conditional Uglify</h3>
+            <p><span class='glyphicon-remove'></span>This section will simply show how to create specific content with another plugin called gulp if. <i>"npm install --save-dev gulp-if"</i>. Also for this section, we'll be running a minifier called Uglify.js. <i>"npm install --save-dev gulp-uglify"</i>. Add these plug-ins</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulpif = require('gulp-if');
+            uglify = require('gulp-uglify');
+            </pre>
+            <p><span class='glyphicon-remove'></span>With these plugins, we'll want to conditionally minify our javascript. So let's head to the js task.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('js', function() {
+                gulp.src(jsSources)
+                    .pipe(concat('script.js'))
+                    .pipe(browserify())
+                    .pipe(gulpif(env === 'production', uglify())) //Uglifies JS if in production env
+                    .pipe(gulp.dest(outputDir + 'js'))
+                    .pipe(connect.reload())
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Minifying HTML</h3>
+            <p><span class='glyphicon-remove'></span>The next plug-in we'll need is the gulp-minify-html tool. <i>"npm install --save-dev gulp-minify-html"</i>. Add the plug-in.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var minifyHTML = require('gulp-minify-html');
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then we'll work on minifying our html before sending it to production.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('html', function() {
+                gulp.src('builds/development/*.html') //Makes sure it's only grabbing from development
+                    .pipe(gulpif(env === 'production', minifyHTML()))
+                    .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
+                    .pipe(connect.reload())
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>We also need to go back to our watch task and hard-code the html gulp watch path to the development side.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('watch', function() {
+                /*coffee, js, scss*/
+                gulp.watch('builds/development/*.html', ['html']);
+                /*json*/
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Crushing JSON</h3>
+            <p><span class='glyphicon-remove'></span></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Compressing Images</h3>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
