@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Concurrent Computing</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Concurrent Computing</h1>
+
+                    <aside>
+                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
+                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
+                    </aside>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Concurrent Computing</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Models</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Implementation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>History</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Prevalence</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Lanuages Supporting Concurrent Programming</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>See Also</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Concurrent Computing</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Concurrent computing</b> is a form of computing in which several computations are executed during overlapping time periods - <i>concurrently</i> - instead of <i>sequentially</i> (one completing before the next starts). This is a property of a system - this may be an individual program, a computer, or a network - and there is a separate execution point or "thread of control" for each computation ("process"). A <i>concurrent system</i> is one where a computation can advance without waiting for all other computations to complete.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            As a programing paradigm, concurrent computing is a form of <i>modular programming</i>, namely factoring an overall computation into subcomputations that may be executed concurrently. Pioneers in the field of concurrent computing include Edsger Dijkstra, Per Brinch Hansen, and C.A.R. Hoare.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The concept of concurrent computing is frequently confused with the related but distinct concept of parallel computing, although both can be described as "multiple processes executing <i>during the same period</i>". In parallel computing, execution occurs at the same physical instant: for example, on separate processors of a multi-processor machine, with the goal of speeding up computations - parallel computing is impossible on a (one-core) single processor, as only one computation can occur at any instant (during any single clock cycle). By contrast, concurrent computing consists of process <i>lifetimes</i> overlapping, but execution need not happen at the same instant. The goal here to to model processes in the outside world that happen concurrently, such as multiple clients accessing a server at the same time. Structuring software systems as composed of multiple concurrent, communicating parts can be useful for tackling complexity, regardless of whether the parts can be executed in parallel.
+            <p><span class='glyphicon-remove'></span>For example, concurrent processes can be executed on one core by <i>interleaving</i> the execution steps of each process via <b>time-sharing</b> slices: only one process runs at a time, and if it does not complete during its time slice, it is <i>paused</i>, another process begins or resumes, and then later the original process is resumed. In this way, multiple processes are part-way through execution at a single instant, but only one process is being executed at that instant.</p>
+            <p><span class='glyphicon-remove'></span>Concurrent computations <i>may</i> be executed in parallel, for example, by assigning each process to a separate processor or processor core, or distributing a computation across a network. In general, however, the languages, tools, and techniques for parallel programming might not be suitable for concurrent programming, and vice versa.</p>
+            <p><span class='glyphicon-remove'></span>The exact timing of when tasks in a concurrent system are executed depending on the scheduling, and tasks need not always be executed concurrently. For example, given two tasks, T1 and T2:
+            <br> &nbsp; &bull; T1 may be executed and finished before T2 or <i>vice versa</i> (serial and sequential)
+            <br> &nbsp; &bull; T1 and T2 may be executed alternately (serial and concurrent)
+            <br> &nbsp; &bull; T1 and T2 may be executed simultaneously at the same instant of time (parallel and concurrent)</p>
+            <p><span class='glyphicon-remove'></span>The word "sequential" is used as an antonym (oppposite in meaning) for both "current" and "parallel"; when these are explicitly distinguished, <i>concurrent/sequential</i> and <i>parallel/serial</i> are used as opposing pairs. A schedule in which tasks execute one at a time (serially, no parallelism), without interleaving (sequentially, no concurrency: no task begins until the prior task ends) is called a <i>serial schedule</i>. A set of tasks that can be scheduled serialy is <i>serializable</i>, which simplifies concurrency control.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Coordinating access to shared resources</h3>
+            <p><span class='glyphicon-remove'></span>The main challenge in designing concurrent programs is <b>concurrency control</b>: ensuring the correct sequencing of the interactions or communications between different computational executions, and coordinating access to resources that are shared among executions. Potential problems include <i>race-conditions</i>, <i>deadlocks</i>, and <i>resource starvation</i>. For example, consider the following algorithm to make withdrawls from a checking account represented by the shared resource <i>balance</i>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>bool withdraw(int withdrawl) {
+                if(balance >= withdrawl) {
+                    balance -= withdrawl;
+                    return true;
+                }
+                return false;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Suppose <i>balance = 500</i>, and two concurrent <b>threads</b> make the calls <i>withdraw(300)</i> and <i>withdraw(350)</i>. If the if condition is tested before the withdrawl negates from the balance, both operations will find that the balance is greater than the withdrawl and will evaluate to <i>true</i>, and execution will proceed to subtracting the withdrawl amount. However, since both processes perform their withdrawls, the total amount withdrawn will end up being more than the original balance. These sorts of problems with shared resources need the use of concurrency control, or non-blocking algorithms.</p>
+            <p><span class='glyphicon-remove'></span>Because concurrent systems rely on the use of shared resources (including communication media), concurrent computing in general needs the use of some form of <b>arbiter</b> somewhere in the implementation to mediate access to these resources.</p>
+            <p><span class='glyphicon-remove'></span>Unfortunately, while many solutions exist to the problem of a conflict over one resource, many of those "solutions" have their own concurrency problems such as <i>deadlock</i> when more than one resource is involved.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Advantages</h3>
+            <p><span class='glyphicon-remove'></span>Concurrent computing has the following advantages:
+            <br> &nbsp; &bull; Increased program throughput - parallel execution of a concurrent program allows the number of tasks completed in a given time to increase.
+            <br> &nbsp; &bull; High responsiveness for input/output - input/output-intensive programs mostly wait for input or output operations to complete. Concurrent programming allows the time that would be spent waiting to be used for another task.
+            <br> &nbsp; &bull; More appropriate program structure - some problems and problem domains are well-suited to representation as concurrent tasks or processes.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Models</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There are several models of concurrent computing, which can be used to understand and analyze concurrent systems.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/Actor_model">Actor Model</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Object-capability_model">Object-capability model</a> - for security
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/Petri_net">Petri nets</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/Process_calculus">Process calculi</a> such as:
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Ambient_calculus">Ambient calculus</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Calculus_of_communicating_systems">Calculus of communicating systems</a> - (CCS)
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Communicating_sequential_processes">Communicating sequential processes</a> - (CSP)
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/%CE%A0-calculus">π-calculus</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Join-calculus">Join-calculus</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/Input/output_automaton">Input/output autmaton</a>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Implementation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A number of different methods can be used to implement concurrent programs, such as implementing each computational execution as an <i>operating system process</i>, or implementing the computational process as a set of <b>threads</b> within a single operating system process.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Interaction and Communication</h3>
+            <p><span class='glyphicon-remove'></span>In some concurrent computing systems, communication between the concurrent components is hidden from the programmer (e.g., by using futures), whil in others it must be handled explicitly. Explicit communication can be divided into subclasses:</p>
+            <p><span class='glyphicon-remove'></span><b>Shared Memory Communication</b>
+            <br> &nbsp; &bull; Concurrent components communicate by altering the contents of shared memory locations (exemplified by Java and C#). This style of concurrent programming usually needs the use of some form of locking (e.g., mutexes, semaphores, or monitors) to coordinate between threads. A program that properly implements any of these is said to be <i>thread-safe</i>.</p>
+            <p><span class='glyphicon-remove'></span><b>Message Passing Communication</b>
+            <br> &nbsp; &bull; Concurrent components communicate by exchanging messages (exemplified by Scala, Erlang and occam). The exchange of messages may be carried out asynchronously, or may use a synchronous "rendevous" style in which the sender blocks until the message is received. Asynchronous message passing may be reliable or unreliable (sometimes referred to as "send and pray"). Message-passing concurrency tends to be far easier to reason about than shared-memory concurrency, and is typically considered a more robust form of concurrent programming. A wide variety of mathematical theories to understand and analyze message-passing systems are available, including the actor model, and various process calculi. Message passing can be efficiently implemented via symmetric multiprocessing, or without shared memory cache coherence.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Shared memory and message passing concurrency have different performance characteristics. Typically (although not always), the per-process memory overhead and task switching overhead is lower in a message passing system, but the overhead of message passing is greate than for a procedure call. These differences are often overwhelmed by other performance factors.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>History</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Concurrent computing developed out of earlier work on railroads and telegraphy, from the 19th and early 20th century, and some terms date to this perios, such as semaphores. These arose to address the question of how to handle multiple trains on the same railroad system (avoiding collision and maximizing efficiency) and how to handle multiple transmissions over a given set of wires (imporving efficiency), such as via time-division multiplexing (1870s).
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The academic study of concurrent algorithms started in the 1960s, with Dijstra(1965) credited with being the first paper in this field, identifying and solving mutual exclusion.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Prevalence</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Concurrency is pervasive in computing, occuring from low-level hardware on a single chip to worldwide networks.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Programming Language Level</h3>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Channel_(programming)">Channel</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Coroutine">Coroutine</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Futures_and_promises">Futures and Promises</a></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Operating System Level</h3>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Computer_multitasking">Computer multitasking</a>, including both <a href="https://en.wikipedia.org/wiki/Cooperative_multitasking">cooperative multitasking</a> and <a href="https://en.wikipedia.org/wiki/Preemption_(computing)#PREEMPTIVE">preemptive multitasking</a>
+            <br> &nbsp; &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Time-sharing">Time-sharing</a>, which replaced sequential batch processing of jobs with concurrent use of a system
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Process_(computing)">Process</a>
+            <br> &nbsp; &bull; <a href="https://en.wikipedia.org/wiki/Thread_(computing)">Thread</a></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            At the network leve, networked systems are generally concurrent by their nature, as they consist of separate devices.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Lanuages Supporting Concurrent Programming</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Concurrent programming languages are programming languages that use language constructs for currency. These constructs may involve <i>multi-threading</i>, support for <i>distributed computing</i>, <i>message passing</i>, <i>shared resources (including shared memory)</i> or <i>futures and promises</i>. Such languages are sometimes described as Concurrency Oriented Languages or Concurrency Oriented Programming Languages (COPL).
+            <p><span class='glyphicon-remove'></span>Today, the most commonly used programming languages that have specific consturcts for concurrency are Java and C#. Both of these languages fundamentally use a shared-memory concurrency model, with locking provided by <i>monitors</i> (although message-passing models can and have been implemented on top of the underlying shared-memory model). Of the languages that use a message-passing concurrency model, Erlang is probably the most widely used in industry at present.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Many concurrent programming languages have been developed more as research languages (e.g. Pict) rather than as languages for production use. However, languages such as Erlang, Limbo, and occam have seen industrial use at various times in the last 20 years. Languages in which concurrency plays an important role include:
+            <p><span class='glyphicon-remove'></span>Ada - general purpose, with native support for message passing and monitor based concurrency</p>
+            <p><span class='glyphicon-remove'></span>Alef - concurrent, with threads and message passing, for system programming in early version of Plan 9 from Bell Labs</p>
+            <p><span class='glyphicon-remove'></span>Alice - extension to Standard ML, adds support for concurrency via futures</p>
+            <p><span class='glyphicon-remove'></span>Ateji PX - extension to Java with parallel prmitives inspired from π-calculus</p>
+            <p><span class='glyphicon-remove'></span>Axum - domain specific, concurrent, based on actor model and .NET Common Language Runtime using a C-like syntax</p>
+            <p><span class='glyphicon-remove'></span>C++ - std::thread</p>
+            <p><span class='glyphicon-remove'></span>Cω (C omega) - for research, extends C#, uses asynchronous communication</p>
+            <p><span class='glyphicon-remove'></span>C# - supports concurrent computing since version 5.0 using lock, yield, and await keywords</p>
+            <p><span class='glyphicon-remove'></span>Clojure - modern Lisp for the JVM</p>
+            <p><span class='glyphicon-remove'></span>Concurrent Clean - functional programming, similar to Haskell</p>
+            <p><span class='glyphicon-remove'></span>Concurrent Collections (CnC) - Achieves implicit parallelism independent of memory model by explicitly defining flow of data and control</p>
+            <p><span class='glyphicon-remove'></span>Concurrent Haskell - lazy, pure functional language operating concurrent processes on shared memory</p>
+            <p><span class='glyphicon-remove'></span>Concurrent ML - concurrent extension of Standard ML</p>
+            <p><span class='glyphicon-remove'></span>Concurrent Pascal - by Per Brinch Hansen</p>
+            <p><span class='glyphicon-remove'></span>Curry</p>
+            <p><span class='glyphicon-remove'></span>D - multi-paradigm system programming language with explicit support for concurrent programming (actor model)</p>
+            <p><span class='glyphicon-remove'></span>E - uses promises to preclude deadlocks</p>
+            <p><span class='glyphicon-remove'></span>ECMAScript - promises available in various libraries, proposed for inclusion in standard in ECMAScript 6</p>
+            <p><span class='glyphicon-remove'></span>Eiffel - through its SCOOP mechanism based on the concepts of Design by Contract</p>
+            <p><span class='glyphicon-remove'></span>Elixir - dynamic and functional meta-programming aware language running on the Erlang VM.</p>
+            <p><span class='glyphicon-remove'></span>Erlang - uses asynchronous message passing with nothing shared</p>
+            <p><span class='glyphicon-remove'></span>FAUST - real-time functional, for signal processing, compiler provides automatic parallelization via OpenMP or a specific work-stealing scheduler</p>
+            <p><span class='glyphicon-remove'></span>Fortran - coarrays and do concurrent are part of Fortran 2008 standard</p>
+            <p><span class='glyphicon-remove'></span>Go - for system programming, with a concurrent programming model based on CSP</p>
+            <p><span class='glyphicon-remove'></span>Hume - functional, concurrent, for bounded space and time environments where automata processes are described by synchronous channels patterns and message passing</p>
+            <p><span class='glyphicon-remove'></span>Io - actor-based concurrency</p>
+            <p><span class='glyphicon-remove'></span>Janus - features distinct askers and tellers to logical variables, bag channels; is purely declarative</p>
+            <p><span class='glyphicon-remove'></span>Java - Thread class or Runnable interface.</p>
+            <p><span class='glyphicon-remove'></span>Julia - "concurrent programming primitives: Tasks, async-wait, Channels."</p>
+            <p><span class='glyphicon-remove'></span>JavaScript - via web workers, in a browser environment, promises, and callbacks.</p>
+            <p><span class='glyphicon-remove'></span>JoCaml - concurrent and distributed channel based, extension of OCaml, implements the Join-calculus of processes</p>
+            <p><span class='glyphicon-remove'></span>Join Java - concurrent, based on Java language</p>
+            <p><span class='glyphicon-remove'></span>Joule - dataflow-based, communicates by message passing</p>
+            <p><span class='glyphicon-remove'></span>Joyce - concurrent, teaching, built on Concurrent Pascal with features from CSP by Per Brinch Hansen</p>
+            <p><span class='glyphicon-remove'></span>Node.js - a server-side runtime environment for JavaScript</p>
+            <p><span class='glyphicon-remove'></span>occam - influenced heavily by communicating sequential processes (CSP)</p>
+            <p><span class='glyphicon-remove'></span>Rust - for system programming, using message-passing with move semantics, shared immutable memory, and shared mutable memory.[10]</p>
+            <p><span class='glyphicon-remove'></span>Scala - general purpose, designed to express common programming patterns in a concise, elegant, and type-safe way</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>See Also</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_concurrent,_parallel,_and_distributed_computing">List of important publication in concurrent, parallel, and distributed computing</a>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Chu_space">Chu Space</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Critical_section">Critical Selection</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Flow-based_programming">Flow-Based Programming</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Computer_multitasking">Multitasking</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Parallel_computing">Parallel Computing</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Ptolemy_Project">Ptolemy Project</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Race_condition#Computing">Race Condition</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Sheaf_(mathematics)">Sheaf (mathematics)</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Software_transactional_memory">Software Transactional Memory</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Transaction_processing">Transaction Processing</a></p>
+            <p><span class='glyphicon-remove'></span><a href="https://en.wikipedia.org/wiki/Java_ConcurrentMap">Java ConcurrentMap</a></p>
+        </p></li>
+
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

@@ -354,6 +354,65 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Combining the JavaScript</h3>
+            <p><span class='glyphicon-remove'></span>We're going to want to push all this compiled js code and bring it to the Development folder and combine it all into one central file as well.
+            <br>&bull; In order to do that we'll need <b>Gulp-Concat</b>, <i>"npm install --save-dev gulp-concat"</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                guutil = require('gulp-util'),
+                coffee = require('gulp-coffee'),
+                concat = require('gulp-concat');
+
+            var coffeeSources = ['components/coffee/*.coffee'];
+            //JS Sources
+            var jsSources = [
+                'components/scripts/script1.js',
+                'components/scripts/script2.js',
+                'components/scripts/script3.js'
+            ];
+
+            gulp.task('coffee', function() {gulp.src(coffeeSources).pipe(coffee({bare: true}).on('error', gutil.log)).pipe(gulp.dest('components/scripts'))});
+
+            //JavaScript Task
+            gulp.task('js', function() {
+                gulp.src(jsSources)                             // Grabs scripts from jsSources array
+                    .pipe(concat('script.js'))                  // Concats all js sources into one js file
+                    .pipe(gulp.dest('builds/development/js'))   // Sends concatenated file
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Browserify</h3>
+            <p><span class='glyphicon-remove'></span>Say you're using two libraries, jQuery for JSON importing, and Mustache.js for templating. Typically these would get added to the project through libary downloads or CDN. However, we'll use an easier, node.js application, called <b>Browserify</b>, which lets us add libraries as <i>dependencies</i>.
+            <br> &nbsp; &bull; Again, we'll need to install Browserify through npm as a dev dependency. <i>"npm install --save-dev gulp-browserify"</i>
+            <br> &nbsp; &bull; In this example, we would also need dev dependency installations of jQuery and Mustache. <i>"npm install --save-dev jquery"</i> <i>"npm install --save-dev mustache"</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                guutil = require('gulp-util'),
+                coffee = require('gulp-coffee'),
+                concat = require('gulp-concat'),
+                browserify = require('gulp-browserify');
+
+            var coffeeSources = ['components/coffee/*.coffee'];
+            var jsSources = ['components/scripts/script1.js','components/scripts/script2.js','components/scripts/script3.js'];
+
+            gulp.task('coffee', function() {gulp.src(coffeeSources).pipe(coffee({bare: true}).on('error', gutil.log)).pipe(gulp.dest('components/scripts'))});
+
+            //JavaScript Task
+            gulp.task('js', function() {
+                gulp.src(jsSources)
+                    .pipe(concat('script.js'))
+                    .pipe(broserify())
+                    .pipe(gulp.dest('builds/development/js'))
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now in order to use <b>Broserify</b>, you can simply go into the scripts pulling in dependencies, and <i>requiring</i> what you need. This next example looks at a <b>coffee</b> script pulling in <b>jquery</b>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>$ = require 'jquery'
+
+            do fill = (item = 'The most creative minds in CS') ->
+                $('.tagline').append "#{item}"
+            fill
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
