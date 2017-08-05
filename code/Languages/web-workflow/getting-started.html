@@ -725,10 +725,32 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Crushing JSON</h3>
-            <p><span class='glyphicon-remove'></span></p>
+            <p><span class='glyphicon-remove'></span>In order to take care of our JSON, we'll need a plug-in called gulp-jsonminify. <i>"npm install --save-dev gulp-jsonminify"</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>var jsonminify = require('gulp-jsonminify');
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now head down to the json task, we're going to implement more conditional building.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('json', function() {
+                gulp.src('builds/development/js/*.json')
+                    .pipe(gulpif(env === 'production', jsonminify()))
+                    .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
+                    .pipe(connect.reload())
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Also go back to the watch task to hard code in the path to the develoment json.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gulp.task('watch', function() {
+                /*coffee, js, scss*/
+                gulp.watch('builds/development/*.html', ['html']);
+                gulp.watch('builds/development/js/*.json', ['json']);
+            })
+            </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Compressing Images</h3>
+            <p><span class='glyphicon-remove'></span>The last thing you can try and compress a bit is your images, but it can be tricky and some people may want more control. In order to do this you'll need the plug-in gulp-imagemin. <i>"npm install --save-dev gulp-imagemin"</i>. You'll also need the imagemin-pngcrush plug-in to make it work. <i>"npm install --save-dev imagemin-pngcrush"</i></p>
+            <p><span class='glyphicon-remove'></span>NOTE: It is not recommended for PC users at this time.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
