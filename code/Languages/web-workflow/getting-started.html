@@ -139,6 +139,14 @@
                                 <a href='#7'>Production Build</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>App <i>- in progress</i></a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>Server <i>- in progress</i></a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -751,6 +759,186 @@
             <h3>Compressing Images</h3>
             <p><span class='glyphicon-remove'></span>The last thing you can try and compress a bit is your images, but it can be tricky and some people may want more control. In order to do this you'll need the plug-in gulp-imagemin. <i>"npm install --save-dev gulp-imagemin"</i>. You'll also need the imagemin-pngcrush plug-in to make it work. <i>"npm install --save-dev imagemin-pngcrush"</i></p>
             <p><span class='glyphicon-remove'></span>NOTE: It is not recommended for PC users at this time.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Final Gulp.js</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>var gulp = require('gulp'),
+                gutil = require('gulp-util'),
+                coffee = require('gulp-coffee'),
+                browserify = require('gulp-browserify'),
+                compass = require('gulp-compass'),
+                connect = require('gulp-connect'),
+                gulpif = require('gulp-if'),
+                uglify = require('gulp-uglify'),
+                minifyHTML = require('gulp-minify-html'),
+                jsonminify = require('gulp-jsonminify'),
+                concat = require('gulp-concat');
+
+            var env,
+                coffeeSources,
+                jsSources,
+                sassSources,
+                htmlSources,
+                jsonSources,
+                outputDir,
+                sassStyle;
+
+            env = process.env.NODE_ENV || 'development';
+
+            if (env==='development') {
+            outputDir = 'builds/development/';
+            sassStyle = 'expanded';
+            } else {
+            outputDir = 'builds/production/';
+            sassStyle = 'compressed';
+            }
+
+
+            coffeeSources = ['components/coffee/headline.coffee'];
+            jsSources = [
+            'components/scripts/headline.js',
+            'components/scripts/template.js'
+            ];
+            sassSources = ['components/sass/style.scss'];
+            htmlSources = [outputDir + '*.html'];
+            jsonSources = [outputDir + 'js/*.json'];
+
+            gulp.task('coffee', function() {
+            gulp.src(coffeeSources)
+                .pipe(coffee({ bare: true })
+                .on('error', gutil.log))
+                .pipe(gulp.dest('components/scripts'))
+            });
+
+            gulp.task('js', function() {
+            gulp.src(jsSources)
+                .pipe(concat('script.js'))
+                .pipe(browserify())
+                .pipe(gulpif(env === 'production', uglify()))
+                .pipe(gulp.dest(outputDir + 'js'))
+                .pipe(connect.reload())
+            });
+
+            gulp.task('compass', function() {
+            gulp.src(sassSources)
+                .pipe(compass({
+                sass: 'components/sass',
+                css: '../' + outputDir + 'css',
+                image: outputDir + 'images',
+                style: sassStyle
+                })
+                .on('error', gutil.log))
+                .pipe(gulp.dest(outputDir + 'css'))
+                .pipe(connect.reload())
+            });
+
+            gulp.task('watch', function() {
+            gulp.watch(coffeeSources, ['coffee']);
+            gulp.watch(jsSources, ['js']);
+            gulp.watch('components/sass/*.scss', ['compass']);
+            gulp.watch('builds/development/*.html', ['html']);
+            gulp.watch('builds/development/js/*.json', ['json']);
+            });
+
+            gulp.task('connect', function() {
+            connect.server({
+                root: outputDir,
+                livereload: true
+            });
+            });
+
+            gulp.task('html', function() {
+            gulp.src('builds/development/*.html')
+                .pipe(gulpif(env === 'production', minifyHTML()))
+                .pipe(gulpif(env === 'production', gulp.dest(outputDir)))
+                .pipe(connect.reload())
+            });
+
+            gulp.task('json', function() {
+            gulp.src('builds/development/js/*.json')
+                .pipe(gulpif(env === 'production', jsonminify()))
+                .pipe(gulpif(env === 'production', gulp.dest('builds/production/js')))
+                .pipe(connect.reload())
+            });
+
+            gulp.task('default', ['html', 'json', 'coffee', 'js', 'compass', 'connect', 'watch']);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>App</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            In order to get this running on our server, we'll need our project to be a node app. 
+            <br>&bull; For this project, we'll simply be serving static files with <i>npm install finalhandler</i> and <i>npm install serve-static</i>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//app.js
+
+            var finalhandler = require('finalhandler');
+            var http = require('http');
+            var serveStatic = require('serve-static');
+
+            var serve = serveStatic('./builds/production/, {'index' : ['index.html', 'index.htm']});
+
+            var server = http.createServer(function onRequest(req, res) {
+                serve(req, res, finalhandler(req, res));
+            });
+
+            server.listen(8080, function() {
+                console.log('Server listening on localhost:8080');
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>Server</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            My current server setup is through Digital Ocean.
+            <br>&bull; It's using 512 MB Memmory / 20 GB Disk / NYC3
+            <br>&bull; Current Tech - Ubuntu / Git / Npm/Node / NGINX / PM2
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; First, clone the project into <i>/var/www/html/</i>
+            <br>&bull; Head to <i>/etc/nginx/sites-enables/</i> and <i>sudo nano default</i>
+            <br> &nbsp; &bull; make sure the <b>root</b> is /var/www/html
+            <br> &nbsp; &bull; location should read this...
+            <pre>
+            <span class='glyphicon-remove'></span>location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+                proxy_pass http://localhost:8080;
+                proxy_http_version 1.1;
+                proxy_set_header Upgrade $http_upgrade;
+                proxy_set_header Connection 'upgrade';
+                proxy_set_header Host $host;
+                proxy_cache_bypass $http_upgrade;
+            }
+            </pre>
+            <br> &nbsp; &bull; Then just below <i>location</i>, make sure this exists...
+            <pre>
+            <span class='glyphicon-remove'></span>## Serve static files
+            location ~ ^/(assets/|images/|img/|downloads/|js/|css/|robots.txt|humans.txt|favicon.ico) {
+                root /var/www/html/builds/production;
+                access_log off;
+                expires max;
+            }
+            </pre>
+            <br>&bull; Stop any apps running through pm2, and run <i>pm2 start app.js</i>
+            <br> &nbsp; &bull; Run <i>sudo pm2 startup</i> and finally <i>sudo pm2 save</i> to save pm2 app list
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
