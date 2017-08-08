@@ -146,7 +146,7 @@
     <h2>Workflow Management</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            <b>Workflows</b> can help you speed up development, because they automate your process, and help you work faster and more efficiently. They can help automate many different processes and help with the overall deployment of your project.
+            <b>Workflows</b> can help you speed up development, because they automate your processes and help you work faster and more efficiently. They can help automate many different processes and help with the overall deployment of your project.
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             What are some of the different workflow <b>tools</b> that we'll take advantage of?
@@ -620,7 +620,7 @@
             <h3>Environment Variables</h3>
             <p><span class='glyphicon-remove'></span>An <b>environment variable</b> is something you can set as part of your computer's processes that can affect the way an application works. Node.js provides a special way of accessing these variables through your application, by a process called process.env. At the top of your gulpfile, just under your gulp plugins, add this variable.</p>
             <pre>
-            <span class='glyphicon-remove'></span>var env = process.env.NODE.ENV || 'development';
+            <span class='glyphicon-remove'></span>var env = process.env.NODE_ENV || 'development';
             </pre>
             <p><span class='glyphicon-remove'></span>This variable will let us actually run tasks and assign variable conditionally. First we'll need to rearrange our variables a little:</p>
             <pre>
@@ -635,7 +635,7 @@
                 jsonSources,
                 outputDir;
 
-            env = process.env.NODE.ENV || 'development';
+            env = process.env.NODE_ENV || 'development';
 
             //Assign Variables
             if(env==='development') {

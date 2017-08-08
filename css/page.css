@@ -82,13 +82,13 @@ footer ul li a:active, a:focus, a:visited{
 }
 .heliList li p:hover {
     padding-left: 5px;
-    background: #666;
+    background: #999;
     cursor: default;
     color: #000;
 }
 .heliList li pre:hover {
     padding-left: 5px;
-    background: #666;
+    background: #999;
     cursor: default;;
     color: #000;
 }
@@ -100,8 +100,8 @@ footer ul li a:active, a:focus, a:visited{
 }
 .heliList .selected{
     padding-left: 5px;
-    font-size: 110%;
-    background: #666;
+    /*font-size: 110%;*/
+    background: #999;
     cursor: default;
     color: #000;
 }
