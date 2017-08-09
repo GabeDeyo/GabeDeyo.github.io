@@ -110,6 +110,18 @@
                                 <a href="#0">Goals</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Launcher</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Launcher Script</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Draw Decals</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -127,13 +139,126 @@
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
             <h3>Assets</h3>
-            <p><span class='glyphicon-remove'></span><a href="http://bit.ly/unityparticlescripting">Unity Particle Scripting</a></p>
+            <p><span class='glyphicon-remove'></span>Download the starting assets here: <a href="http://bit.ly/unityparticlescripting">Unity Particle Scripting</a></p>
         </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
+        <li><p><span class='glyphicon-remove'></span>
+            Open to the <b>Main</b> scene in the Particle Scripting folder.
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Launcher</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Initial Launcher Settings</h3>
+            <p><span class='glyphicon-remove'></span>Dig into the FPSController object until the <b>ShooterFPSWeapon</b> object is selected.
+            <br> &nbsp; &bull; Create a new <i>Particle System</i> as a child of the ShooterFPSWeapon object.</p>
+            <p><span class='glyphicon-remove'></span><b>Name</b> the Particle System <i>Particle Launcher</i></p>
+            <p><span class='glyphicon-remove'></span>Turn <i>off</i> the <b>Shape</b> module for a stream effect.</p>
+            <p><span class='glyphicon-remove'></span>Change the <b>Material</b> to the <i>GunSprayParticle</i>.</p>
+            <p><span class='glyphicon-remove'></span>Set <b>Start Size</b> to 0.5.</p>
+            <p><span class='glyphicon-remove'></span>Change the color to a darker more purple color.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Launcher Settings</h3>
+            <p><span class='glyphicon-remove'></span>Change the <b>Simulation Space</b> to <i>World</i>.</p>
+            <p><span class='glyphicon-remove'></span>Set <b>Start Speed</b> to <i>0</i>.</p>
+            <p><span class='glyphicon-remove'></span>Turn on <b>Velocity over Lifetime</b> modules and set <i>Z</i> to 20.</p>
+            <p><span class='glyphicon-remove'></span>Turn on <b>Inherit Velocity</b> and set <i>multiplier</i> to 0.5 so that the particles move okay when the player does.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Collision</h3>
+            <p><span class='glyphicon-remove'></span>Turn on the <b>Collision</b> module.</p>
+            <p><span class='glyphicon-remove'></span>Change to a <i>World</i> setting.</p>
+            <p><span class='glyphicon-remove'></span>Set <b>Max Kill Speed</b> to <i>0</i> so whenever the object collides, it will be destroyed.</p>
+            <p><span class='glyphicon-remove'></span>For performance sake, set <b>Collides with</b> to whichever layer mask the particles should be colliding with.</p>
+            <p><span class='glyphicon-remove'></span>Turn off <b>Interior Collisions</b>, since we don't need them to collide with the insides of objects.</p>
+            <p><span class='glyphicon-remove'></span>Turn off <b>Enable Dynamic Colliders</b>, since we don't need to collide with any dynamic objects in the world, just static ones.</p>
+            <p><span class='glyphicon-remove'></span>Turn on <b>Send Collision Message</b> to true as it is the most important bool for this entire training.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Launcher Script</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Initial Setup</h3>
+            <p><span class='glyphicon-remove'></span>Since we'll be doing some things via scripts, first turn <i>off</i> <b>Play On Awake</b> and the <b>Emission</b> module.</p>
+            <p><span class='glyphicon-remove'></span>Add a new script to this Particle System called <i>ParticleLauncher</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ParticleLauncher</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>public class ParticleLauncher : MonoBehaviour {
+                
+                public ParticleSystem particleLauncher;
+                public ParticleSystem splatterParticles;
+
+                public Gradient particleColorGradient;
+
+                List&lt;ParticleCollisionEvent> collisionEvents;
+
+                void Start() {
+                    collisionEvents = new List&lt;ParticleCollisionEvent>();
+                }
+
+                void OnParticleCollision(GameObject other) {
+                    ParticlePhysicsExtensions.GetCollisionEvents(particleLauncher, other, collisionEvents);
+
+                    for(int i = 0; i &lt; collisionEvents.count; i++) {
+                        EmitAtLocation(collisionEvents[i]);
+                    }
+                }
+
+                void EmitAtLocation(ParticleCollisionEvent particleCollisionEvent) {
+                    splatterParticles.transform.position = particleCollisionEvent.intersection;
+                    splatterParticles.transform.rotation = Quaternion.LookRotation(particleCollisionEvent.normal);
+
+                    ParticleSystem.MainModule psMain = splatterParticles.main;
+                    psMain.startColor = particleColorGradient.Evaluate(Random.Range(0f, 1f));
+
+                    splatterParticles.Emit(1);
+                }
+
+                void Update() {
+                    if(Input.GetButton("Fire1")) {
+                        ParticleSystem.MainModule psMain = particleLauncher.main;
+                        psMain.startColor = particleColorGradient.Evaluate(Random.Range(0f, 1f));
+
+                        particleLauncher.Emit(1);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Particle Variable Setting</h3>
+            <p><span class='glyphicon-remove'></span>Set the Particle System public variables to their respective Particle Systems.</p>
+            <p><span class='glyphicon-remove'></span>Set both Particle Systems <b>Tint Color</b> to <i>White</i>.</p>
+            <p><span class='glyphicon-remove'></span>Set the Particle Launchers <b>Particle Color Gradient</b> to a gradient that you like. (The Splatter Gradient should be set)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Draw Decals</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->
