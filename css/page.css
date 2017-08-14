@@ -168,8 +168,8 @@ footer ul li a:active, a:focus, a:visited{
   }
   
   #side-nav a:hover {
-    background-color: mintcream;
-    padding-left: 20px;
+    background-color: #CCC;
+    padding-left: 0px;
   }
 
   #side-nav .separator {
