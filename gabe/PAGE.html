@@ -15,7 +15,7 @@
 <body>
 
     <!-- Top Navigation -->
-    <header>
+    <header id="header">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -36,13 +36,13 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="../game/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="../game/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="../game/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -50,14 +50,17 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <!-- Languages -->
+                                <li><a href="../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
                                 <!-- ALGORITHMS -->
-                                <li><a href="../code/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PROBLEMS -->
-                                <li><a href="../code/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- RANDOM -->
-                                <li><a href="../code/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -66,16 +69,16 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- FITNESS PAGE -->
-                                <li><a href="fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- STYLE & GROOMING PAGE -->
-                                <li><a href="style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- FINANCE PAGE -->
-                                <li><a href="finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- PHILOSOPHY PAGE -->
-                                <li><a href="philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -88,6 +91,15 @@
 
     <!-------------------------------------------------------------------------->
 
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">XXX</a></li>
+        </ul>
+    </aside>
+
     <!-- MAIN -->
     <main>
         <div class="container">
@@ -96,22 +108,17 @@
                     <h1 id="title">Page Template</h1>
                     <!-------------------------------------------------->
 
-                    <aside>
-                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
-                    </aside>
-
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#sectionID">Section Link</a>
+                                <a href="#0">XXX</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class="jumbotron col-md-12 heliList" id="sectionID">
+<div class="jumbotron col-md-12 heliList" id="0">
     <h2>XXX</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
@@ -157,23 +164,3 @@
 </body>
 
 </html>
-
-<!-- Section Template
-
-<div class="jumbotron col-md-12 heliList" id=''>
-    <h2>XXX</h2>
-    <ul>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
-        </p></li>
-    </ul>
-    <a href="#title"><span class="glyphicon-menu-up"></span></a>
-</div>
-
--->
