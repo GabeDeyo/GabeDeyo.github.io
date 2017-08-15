@@ -179,3 +179,9 @@ footer ul li a:active, a:focus, a:visited{
       height: 0.5em;
       width: 100%;
   }
+
+  @media(max-width: 1024px) {
+      #side-nav {
+          display: none;
+      }
+  }

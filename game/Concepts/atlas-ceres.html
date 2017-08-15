@@ -101,6 +101,7 @@
           <li><a href="#2">Influences</a></li>
           <li><a href="#3">Elevator Pitch</a></li>
           <li><a href="#4">Game Description</a></li>
+          <li><a href="#5">Core Gameplay Mechanics</a></li>
         </ul>
     </aside>
 
@@ -132,6 +133,10 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#4'>Project Description</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Core Gameplay Mechanics</a>
                                 </p>
                             </li>
                         </ul>
@@ -218,6 +223,12 @@
             <p><span class='glyphicon-remove'></span>Modern Mobile Shooter (2016)</p>
             <p><span class='glyphicon-remove'></span>Solid control/input schemes and gameplay re-imagined for mobile influenced several design choices for this game.</p>
         </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What sets this Game apart?</h3>
+            <p><span class='glyphicon-remove'></span>&bull; A blend of action and strategy test both the player's reflexes and intelligence.
+            <br>&bull; Being able to build your player throughout an endless run is a unique idea.
+            <br>&bull; Scaling enemies based on an expansion algorithm lends to never-ending gameplay.</p>
+        </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
@@ -248,8 +259,173 @@
             <p><span class='glyphicon-remove'></span>In the universe of Atlas Ceres, ships are constructed with connected parts. A pilot will have a collection of parts in their garage which they can use to build their initial ship. They can also buy/sell and upgrade parts for their ship by earning money through each run. Each ship is powered by a main engine which must be protected at all costs. Destruction of the main engine will result in total ship destruction. It should be noted war vessels will potentially have multiple main engines.</p>
             <p><span class='glyphicon-remove'></span>There are several standard parts available for the pilots that can be collected during a run or purchased through the store. Each part class serves a different purpose. The parts can range from common to rare and will appear according to their rareness. The base parts are classified as jets, armor, and weapons. Jets allow the ship to traverse the area faster. Armor can take more damage than other parts before being destroyed. Weapons come in several forms, each behaving differently. Parts can be purchased and sold from the store in the pilots garage, or attached during a run. Each part can potentially be upgraded to it's rarest form. During a run, the pilot must act quickly and strategically in order to collect these floating parts in the best possible location; not only to protect the main engine, but also to plan for the long-term destruction and expansion of the ship. The parts collected during a run will be lost at the end of the run, however the final ship configuration can be saved as a favorite and will be linked with the final run stats which can be shared through the leaderboard.</p>
         </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Core Gameplay Mechanics</h2>
+    <ul>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Garage</h3>
+            <p><span class='glyphicon-remove'></span><b>Overview</b>
+            <br> &nbsp; &bull; Each player will have a store available to them layed out as a grid of parts where they can purchase or sell their parts.
+            <br> &nbsp; &bull; Through the store section, you can analyze parts available to the pilot to buy, sell parts by dragging currently owned parts to the sell option, and checkout stats of parts availbable to buy. Parts unavailable to buy will be greyed out as an icon and stats cannot be seen.
+            <br> &nbsp; &bull; The pilot can upgrade parts by dragging one part onto another <b>like</b> part. The part will only upgrade by a certain amount, and the lesser leveled part will be destroyed. The pilot can also pay a certain amount to upgrade a part to the next level. Once at max part level, (lookall stats are maxed out) or (look doesn't change but stats accumulate). Potentially, a player can split a block into two blocks at half level (careful of glitches here though, and check for inventory space).
+            <br> &nbsp; &bull; Parts owned by the pilot can be used to assemble a ship design before a new game starts.
+            <br> &nbsp; &bull; In order to do this, the player will need to drag-and-drop owned parts onto a grid which will automatically contain the main engine in the center.
+            <br> &nbsp; &bull; The pilot can then save the configuration which will become available to be quick selected when starting a new run.
+            <br> &nbsp; &bull; Each pilot will be given a set of basic starter blocks which they can use to get going.</p>
+            <p><span class='glyphicon-remove'></span><b>How it will Work</b>
+            <br> &nbsp; &bull; In the Main Menu, there will be an option to go to the <b>"Garage"</b>.
+            <br> &nbsp; &bull; In the garage, there will be three main sections. A store displayed as a list of blocks, an inventory displayed as a list of blocks, and a grid used for designing ship layouts. These will hopefully be all within the same screen view so the player doesn't have to scroll around to find anything.
+            <br> &nbsp; &bull; Another option if the initial layout doesn't work is to combine the inventory with the store so that when a part is selected, it will display UI to indicate inventory options and store options together.
+            <br> &nbsp; &bull; Clicking on any available part in either menu will show its stats in a UI pop-up. Unavailable parts will be greyed out as icons and just the part type will be displayed.
+            <br> &nbsp; &bull; Locked parts can only be purchased or upgraded to after the player finds them on a run AND attaches the part, AND can only use the part if the part is the same level or below the current level of the main engine.
+            <br> &nbsp; &bull; Click on any available part will also give the option to upgrade that part for in-game currency only if the next level is supported by the main engine, i.e. has the same level as the engine. The part must be already owned before this option is given.
+            <br> &nbsp; &bull; Selecting and dragging an available part will give several options. You can drag onto the grid, sell by dropping onto a sell box, or upgrade by dropping on a like typed part.
+            <br> &nbsp; &bull; Each pilot will have a maximum amount of slots available in their inventory and on the grid. There should be enough slots in the inventory so that only the main engine is on the grid. Slot space will probably be available to buy through micro-transaction.
+            <br> &nbsp; &bull; Total grid slots will accumulate with engine level, as well as base stats.
+            <br> &nbsp; &bull; Once a pilot assembles a layout of their ship, they can choose to save the layout in one of three <i>favorites</i>. When starting a new run, these favorites will be displayed as quick-select options. However, the layout displayed on the grid will be the last layout taken on the run.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Levels</h3>
+            <p><span class='glyphicon-remove'></span><b>Main Engine</b>
+            <br> &nbsp; &bull; The overall level of the user will essentially be assigned to the level of the Main Engine. Inspiration from Clash of Clans and their Base Level.
+            <br> &nbsp; &bull; The Main Engine will be the core of the ship and will power all parts attached. The level of this part will dictate <i>how many</i> blocks it can support and <i>what level</i> blocks it can support.
+            <br> &nbsp; &bull; New layout and block options will open up as the Main Engine is leveled up because it can support more blocks and higher level blocks. However, it will be a very hefty cost to upgrade this part for any of it's levels.
+            <br> &nbsp; &bull; Upgrading the main block will change it's graphical apprearance and the sounds it makes.
+            <br> &nbsp; &bull; <i>New Idea:</i> Main Engine level allows a max power usage. So a level 1 part on a level 1 engine, would take up 1 out of 10 power units. Therefore, all 10 spots on the grid layout could be filled entirely by level 1 parts. Power usage accumulates with the level of the Main Engine, however at level 10, grid layout stops accumulating and look stops changing, but power usage keeps going after 10. Essentially then the whole grid can be filled with max level parts.</p>
+            <p><span class='glyphicon-remove'></span><b>Parts</b>
+            <br> &nbsp; &bull; All parts will have some base attributes. Every part will have a cost (for buying/selling), XP (for leveling up, combining, and splitting), a weight (for ship speed), and health (for destruction/appearance).
+            <br> &nbsp; &bull; Each parts base stats will be dependant on it's level.
+            <br> &nbsp; &bull; A part will not be able to purchased or upgraded to if it's level is higher than the main engines level, or if it hasn't been discovered and attached on a run.
+            <br> &nbsp; &bull; Parts will be encountered on a run when the player defeats some enemies. Defeated enemies will release parts based on their class and with levels equal or below their own. Therefore, enemies with more weapons will have a greater chance of releasing a weapon, while armored enemies will most likely release a weapon. And a level 5 enemy will release lower level parts, but have a chance to release a level 5 part.
+            <br> &nbsp; &bull; Multiple parts have a chance of spawning from war vessels.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Part Types</h3>
+            <p><span class='glyphicon-remove'></span><b>Classes</b>
+            <br> &nbsp; &bull; There essentially three main classes: weapon, armor, booster.
+            <br> &nbsp; &bull; There is a sub-class of other which has random abilities. This class is cut-worthy.</p>
+            <p><span class='glyphicon-remove'></span><b>Boosters</b>
+            <br> &nbsp; &bull; Boosters main function is to speed up the ship. This dictates how fast the ship follows your finger to allow for more evasive manuevers.
+            <br> &nbsp; &bull; A ships collective parts will accumulate a total weight. The total weight will reduce the speed of the ship if too heavy.
+            <br> &nbsp; &bull; Boosters will have an additional base variable that decides it's <i>boost</i> level. This level is used to offset the total weight of the ship.
+            <br> &nbsp; &bull; A booster blocks stats will follow this pattern each level: Health-Low / Weight-Low / Boost-++</p>
+            <p><span class='glyphicon-remove'></span><b>Armor</b>
+            <br> &nbsp; &bull; Armors main function is to protect the ship. It will typically take more damage than any other part, with the cost of being much heavier.
+            <br> &nbsp; &bull; Armor will have no additional base variable, only health and weight.
+            <br> &nbsp; &bull; An armor blocks stats will follow this pattern each level: Health-High / Weight-High</p>
+            <p><span class='glyphicon-remove'></span><b>Weapons</b>
+            <br> &nbsp; &bull; Weapon blocks are unique because there will be several sub-classes of weapons. All with different looks and behaviors.
+            <br> &nbsp; &bull; My <i>initial</i> thought for weapons classes are a laser type, a rocket type, and a shotgun type.
+            <br> &nbsp; &bull; Weapon blocks will have two additional base stats: damage and fire-rate.
+            <br> &nbsp; &bull; Damage and fire-rate increase with each level.
+            <br> &nbsp; &bull; A weapons stats will follow this pattern each level: Health-Mid / Weight-Mid / Damage-++ / Fire-Rate-++</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Ship Architecture</h3>
+            <p><span class='glyphicon-remove'></span><b>Structure</b>
+            <br> &nbsp; &bull; A ships structure will be based inside a MxN grid. The Main Engine will lie in the center when the grid is shown (i.e. Garage, Pause, Safe-Zone).
+            <br> &nbsp; &bull; The initial MxN will be set to 5X5 and accumulate in width or height each Main Engine Level.
+            <br> &nbsp; &bull; If at any point during the run the path in-between the Main Engine to any block is destroyed, all block past the break-point go dark and fall away. This makes it important not to create any weak points on the ship.</p>
+            <p><span class='glyphicon-remove'></span><b>Adding Parts</b>
+            <br> &nbsp; &bull; When adding a new part to the ship, the part must be linked to an already attached part. So all parts will be attached through some path to the Main Engine.
+            <br> &nbsp; &bull; Parts encountered floating on the run after an enemy is defeated, will need to be physically collected. So when the player pushes the ship towards the part, the piece will attach wherever it touches on the ship.
+            <br> &nbsp; &bull; When a part attaches, it will perform it's default behavior (i.e. start shooting, block, boost)
+            <br> &nbsp; &bull; If the area that a part is using, such as the front of a gun, is blocked, it will perform a smart-swap. The area that is currently active will retract and pop-out in another area, based on it's location relative to the Main Engine. So if a gun is block at it's front, and it's to the left of the Main Block, it's gun will retract and pop out on the left side to perform the same behavior.
+            <br> &nbsp; &bull; If a blocks available sides are all blocked (gun - front, left, right / booster - back, left, right) then the block will go dormant and will not become active again until a side is revealed again.
+            <br> &nbsp; &bull; <i>Potentially</i> - blocks will have to check that there is available space to perform their action. So booster will need 3 spots open behind their boost in order to boost, and guns will need a clear path ahead in order to shoot. Sounds expensive, but might only need to check the space if the block is currently active, and only on a block attachment. Also might only need to have a block look in it's own column for an active block to decide.</p>
+            <p><span class='glyphicon-remove'></span><b>Managing Parts</b>
+            <br> &nbsp; &bull; During the game, there will be two areas where the pilot can manage the parts on their ship. The Garage and the Safe-Zone.
+            <br> &nbsp; &bull; In terms of managing <i>already existing</i> block on the ship, there are several options given to the player.
+            <br> &nbsp; &bull; The pilot can select a part on their ship by tapping on it and not moving it. This will bring up a UI modal that give stats on that part. In this modal, there will be an option to delete the block forever. There is no selling of blocks during a run.
+            <br> &nbsp; &bull; The pilot can tap and hold the block to begin moving the block. This gives several options as well.
+            <br> &nbsp; &bull; If the pilot is controlling a block, they can place it in any open spot on the grid.
+            <br> &nbsp; &bull; If the pilot is controlling a block, they can hover it over any un-like block and those two blocks will switch places if released.
+            <br> &nbsp; &bull; If the pilot is controlling a block, finally they can hover it over any like block. When they do this, an overlay will fade in showing the xp of whichever blocks level is higher. It will show the increase in xp if the blocks were combined, which releasing would do.
+            <br> &nbsp; &bull; Be careful, if a block does not have a path to the Main Engine, it will fall away dead when the game resumes.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Ship Movement</h3>
+            <p><span class='glyphicon-remove'></span><b>Game State</b>
+            <br> &nbsp; &bull; Whenever the pilot is on a run, the game will be in one of three states; Playing, Slowed or Paused.
+            <br> &nbsp; &bull; A level will open to an introductory period of the ship booting up where the user does not have to give input. After a few seconds the run will start and the player needs to have their finger down.
+            <br> &nbsp; &bull; While the finger is down, the game will play at regular speed. Therefore, everything will move and behave at it's regular rate.
+            <br> &nbsp; &bull; If the players finger is lifted, the game will slow down to a crawl and a menu icon will fade in. Holding a finger back down will speed up gameplay again.
+            <br> &nbsp; &bull; If the menu icon is pressed during the slow portion, the game will pause and a menu with three options (Resume, Options, Quit) will appear, along with a grid showing the layout of the ship. The ships parts can only be tapped to see part stats, no interaction past that.</p>
+            <p><span class='glyphicon-remove'></span><b>Movement</b>
+            <br> &nbsp; &bull; The ship will follow the users finger around the screen. More specifically, the Main Engine will. This is why I don't want the user to move the Main Engine from anywhere but the center. The Main Engine will probably need to be offset upwards from the finger position a tiny bit.
+            <br> &nbsp; &bull; There shouldn't need to be boundaries at the side of the screen, since the player can't touch outside of the viewable area.
+            <br> &nbsp; &bull; The ship will move at a speed according to it's weight. If it's total parts make it very heavy, it won't follow the finger very fast, but it it's very light, there won't be any drag at all.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Enemies</h3>
+            <p><span class='glyphicon-remove'></span><b>Structure</b>
+            <br> &nbsp; &bull; Enemies will have the same architecture concept as the player's ship(i.e. a Main Engine with attached blocks), where the destruction of an enemies Main Engine will destory the ship.
+            <br> &nbsp; &bull; There are 5 different classes of enemies that will appear, each with their own layout and behavior. Ram, Gunner, Booster, Hybrid 1, and Hybrid 2.
+            <br> &nbsp; &bull; Enemy layouts will be designed through an algorithm that will lay out their structure based on the current level. As the level increases, the algorithm will place more parts on enemy ships or higher level parts.</p>
+            <p><span class='glyphicon-remove'></span><b>Ram</b>
+            <br> &nbsp; &bull; Enemy with front and sides covered with armor. Has low boosters to keep it slow and lumbering. No guns.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initial Structure
+            [ ][B][ ]
+            [A][E][A]
+            [A][A][A]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Gunner</b>
+            <br> &nbsp; &bull; Growing wings and nose filled with guns. Has low boosters to keep it moving slow. No armor.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initial Structure
+            [ ][ ][B][ ][ ]
+            [G][G][E][G][G]
+            [ ][ ][G][ ][ ]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Booster</b>
+            <br> &nbsp; &bull; Back row filled with boosters make it very fast. Low guns and armor on front and sides.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initial Structure
+            [B][B][B]
+            [A][E][A]
+            [ ][G][ ]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Hybrid 1</b>
+            <br> &nbsp; &bull; A hybrid design of the first 3 types.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initial Structure
+            [B][ ][B]
+            [G][E][G]
+            [ ][A][ ]
+            [ ][G][ ]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Hybrid 2</b>
+            <br> &nbsp; &bull; A hybrid design of the first 3 types.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Initial Structure
+            [B][ ][B]
+            [A][E][A]
+            [ ][G][ ]
+            [ ][A][ ]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Advanced</b>
+            <br> &nbsp; &bull; Used as a mid-level boss. About double the size (level) of regular enemies of the level.
+            <br> &nbsp; &bull; Offers rare parts on destruction.
+            <br> &nbsp; &bull; Heavily guarded engine and very powerful weapons.
+            <br> &nbsp; &bull; <i>TODO</i> - Create designs</p>
+            <p><span class='glyphicon-remove'></span><b>War Vessels</b>
+            <br> &nbsp; &bull; Massive end of level boss. Fills the entire top of screen.
+            <br> &nbsp; &bull; Multiple Main Engines for difficult fight.
+            <br> &nbsp; &bull; Offers the rarest parts a player can encounter during a run.
+            <br> &nbsp; &bull; <i>TODO</i> - Will need several building algorithms for different vessel designs.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Safe Zone</h3>
+            <p><span class='glyphicon-remove'></span><b>Game Progression</b>
+            <br> &nbsp; &bull; This is the logical progression of a single run: Start -> Level 1 -> Safe Zone -> Level 2 -> Safe Zone ... Death -> End
+            <br> &nbsp; &bull; You'll notice between every level, there is a <i>Safe Zone</i>. This is a portion of the game where you can checkout and manage your ship, and then continue or save/quit the run.
+            <br> &nbsp; &bull; If a game is saved and quit in the middle of a level and it's not the first level, they will have the option to continue at the last safe zone they were at.
+            <br> &nbsp; &bull; Remember, the Garage is the only location where you can buy and sell parts. So out in a safe zone, you will only be able to move, combine, and split ship parts. But if done strategically, can help prepare for the next section.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
