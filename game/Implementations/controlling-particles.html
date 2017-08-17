@@ -122,6 +122,10 @@
                                 <a href='#3'>Draw Decals</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Splatter Decals</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -249,10 +253,175 @@
     <h2>Draw Decals</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            <h3>System Setup</h3>
+            <p><span class='glyphicon-remove'></span>Create a new Particle System and name it <i>"SplatterDecalParticles"</i></p>
+            <p><span class='glyphicon-remove'></span>Turn <i>off</i> <b>looping</b>, <b>play on awake</b>, <b>emmission</b>, and <b>shape</b>.</p>
+            <p><span class='glyphicon-remove'></span>Set <b>Simulation Space</b> to <i>World</i>.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Unique Setup</h3>
+            <p><span class='glyphicon-remove'></span>Change <b>Render Mode</b> to <i>Mesh</i>.</p>
+            <p><span class='glyphicon-remove'></span>Change <b>Render Material</b> to the <i>SplatDecalParticle</i>.</p>
+            <p><span class='glyphicon-remove'></span>Change <b>Render Mesh Type</b> to a <i>Quad</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Particle Data Class</h3>
+            <p><span class='glyphicon-remove'></span>Create a script called <i>ParticleDecalData</i>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public class ParticleDecalData {
+                public Vector3 position;
+                public float size;
+                public Vector3 rotation;
+                public Color color;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Particle Decal Pool</h3>
+            <p><span class='glyphicon-remove'></span>Create a script called <i>ParticleDecalPool</i>. Add to SplatterDecalParticle object.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public class ParticleDecalPool : MonoBehaviour {
+
+                public int maxDecals = 100;
+                public float decalSizeMin = 0.5f;
+                public float decalSizeMax = 1.5f;
+
+                private ParticleSystem decalParticleSystem;
+                private int particleDecalDataIndex;
+                private ParticleDecalData[] particleData;
+                private ParticleSystem.Particle[] particles;
+
+                private void Start() {
+                    decalParticleSystem = GetComponent&lt;ParticleSystem>();
+                    particles = new ParticleSystem.Particle[maxDecals];
+                    particleData = new ParticleDecalData[maxDecals];
+                    for(int i = 0; i &lt; maxDecals; i++) {
+                        particleData[i] = new ParticleDecalData();
+                    }
+                }
+
+                public void ParticleHit(ParticleCollisionEvent particleCollisionEvent, Gradient colorGradient) {
+                    SetParticleData(particleCollisionEvent, colorGradient);
+                    DisplayParticles();
+                }
+
+                void SetParticleData(ParticleCollisionEvent particleCollisionEvent, Gradient colorGradient) {
+                    if (particleDecalDataIndex >= maxDecals)
+                        particleDecalDataIndex = 0;
+
+                    particleData[particleDecalDataIndex].position = particleCollisionEvent.intersection;
+
+                    Vector3 particleRotationEuler = Quaternion.LookRotation(particleCollisionEvent.normal).eulerAngles;
+                    particleRotationEuler.z = Random.Range(0, 360);
+                    particleData[particleDecalDataIndex].rotation = particleRotationEuler;
+
+                    particleData[particleDecalDataIndex].size = Random.Range(decalSizeMin, decalSizeMax);
+
+                    particleData[particleDecalDataIndex].color = colorGradient.Evaluate(Random.Range(0f, 1f));
+
+                    particleDecalDataIndex++;
+                }
+
+                void DisplayParticles() {
+                    for(int i = 0; i &lt; particleData.Length; i++) {
+                        particles[i].position = particleData[i].position;
+                        particles[i].rotation3D = particleData[i].rotation;
+                        particles[i].startSize = particleData[i].size;
+                        particles[i].startColor = particleData[i].color;
+                    }
+
+                    decalParticleSystem.SetParticles(particles, particles.Length);
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Going Back1</h3>
+            <p><span class='glyphicon-remove'></span>Now going back to the Particle Launcher script, fill in this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public class ParticleLauncher : MonoBehaviour {
+                
+                public ParticleSystem particleLauncher;
+                public ParticleSystem splatterParticles;
+                public Gradient particleColorGradient;
+                public ParticleDecalPool splatDecalPool;
+
+                List&lt;ParticleCollisionEvent> collisionEvents;
+
+                void Start() {
+                    collisionEvents = new List&lt;ParticleCollisionEvent>();
+                }
+
+                void OnParticleCollision(GameObject other) {
+                    ParticlePhysicsExtensions.GetCollisionEvents(particleLauncher, other, collisionEvents);
+
+                    for(int i = 0; i &lt; collisionEvents.count; i++) {
+                        splatDecalPool.ParticleHit(collisionEvents[i], particleColorGradient);
+                        EmitAtLocation(collisionEvents[i]);
+                    }
+                }
+
+                void EmitAtLocation(ParticleCollisionEvent particleCollisionEvent) {
+                    splatterParticles.transform.position = particleCollisionEvent.intersection;
+                    splatterParticles.transform.rotation = Quaternion.LookRotation(particleCollisionEvent.normal);
+
+                    ParticleSystem.MainModule psMain = splatterParticles.main;
+                    psMain.startColor = particleColorGradient.Evaluate(Random.Range(0f, 1f));
+
+                    splatterParticles.Emit(1);
+                }
+
+                void Update() {
+                    if(Input.GetButton("Fire1")) {
+                        ParticleSystem.MainModule psMain = particleLauncher.main;
+                        psMain.startColor = particleColorGradient.Evaluate(Random.Range(0f, 1f));
+
+                        particleLauncher.Emit(1);
+                    }
+                }
+            }
+            </pre>
+        <p><span class='glyphicon-remove'></span>Now go to the scripts public variables and fill in appropriatly.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Droplet Decals</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Particle Setup</h3>
+            <p><span class='glyphicon-remove'></span>Duplicate the <i>SplatterDecalParticles</i> and name <i>DropletParticles</i></p>
+            <p><span class='glyphicon-remove'></span>Lower it's <b>Decal Size Min/Max</b> to <i>0.1</i> and <i>0.25</i> respectively.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Splat On Collision</h3>
+            <p><span class='glyphicon-remove'></span>Create a script called <i>SplatOnCollision</i> and attach to <i>SplatterParticles</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>public class SplatOnCollision : MonoBehaviour {
+                public ParticleSystem particleLauncher;
+                public Gradient particleColorGradient;
+                public ParticleDecalPool dropletDecalPool;
+
+                List&lt;ParticleCollisionEvent> collisionEvents;
+
+                void Start() {
+                    collisionEvents = new List&lt;ParticleCollisionEvent>();
+                }
+
+                void OnParticleCollision(GameObject other) {
+                    int numCollisionEvents = ParticlePhysicsExtension.GetCollisionEvents(particleLauncher, other, collisionEvents);
+
+                    int i = 0;
+                    while(i &lt; numCollisionEvents) {
+                        dropletDecalPool.ParticleHit(collisionEvent[i], particleColorGradient);
+                        i++;
+                    }
+                }
+            }
+            </pre>
+        <p><span class='glyphicon-remove'></span>Assign appropriate values.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             XXX
