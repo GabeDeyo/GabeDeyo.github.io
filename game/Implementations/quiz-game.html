@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Implementations</title>
+    <title>Page Template</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/section.css">
+    <link rel="stylesheet" href="../../css/page.css">
 </head>
 
 <body>
 
     <!-- Top Navigation -->
-    <header>
+    <header id="header">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -30,18 +30,19 @@
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
                     <ul class="nav navbar-nav">
+
                         <!-- GAME DEVELOMENT -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -90,66 +91,128 @@
 
     <!-------------------------------------------------------------------------->
 
-    <!-- MAIN -->
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Setup</a></li>
+          <li><a href="#1">Data Classes</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Page Template</h1>
 
-                <div class="jumbotron">
-                    <h1>Implementations</h1>
-                    <ul class="list-group">
-                        <!-- Roller Ball (Unity) -->
-                        <a href="../Implementations/roller-ball.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Roller Ball (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Roller Ball style game.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Setup</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Data Classes</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- FLAPPY BIRD -->
-                        <a href="../Implementations/flappy-bird.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Flappy Bird (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of 2D Flappy Bird style game.</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Setup</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Game</b> This game is a simple quiz game. 
+            <br> &nbsp; &bull; It is graphically simple.
+            <br> &nbsp; &bull; Goal is to separate <i>game logic</i> from your <i>data</i>.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Create a <b>Scenes</b>, <b>Scripts</b>, and <b>Prefabs</b> folder.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Delete the Camera from the initial scene and save the scene as <b>Persistent</b>.
+            <p><span class='glyphicon-remove'></span>Create a new scene as <b>MenuScreen</b>.</p>
+            <p><span class='glyphicon-remove'></span>Create a enw scene as <b>Game</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In the <i>Persistent</i> scene, create an <i>empty</i> object called <b>"Data Controller"</b>.
+            <p><span class='glyphicon-remove'></span>Create <i>two</i> new scripts called <b>DataController</b> and <b>AnswerData</b>.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- SPACE SHOOTER (Unity) -->
-                        <a href="../Implementations/space-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Space Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Space Shooter style game.</p>
-                        </a>
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Data Classes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Answer Data</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>[System.Serializable]
+            public class AnswerData {
+                public string answerText;
+                public bool isCorrect;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Question Data</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>[System.Serializable]
+            public class QuestionData {
+                public string questionText;
+                public AnswerData[] answers;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Round Data</h3>
+            <p><span class='glyphicon-remove'></span>Create a new script <b>RoundData</b>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[System.Serializable]
+            public class RoundData {
+                public string name;
+                public int timeLimitInSeconds;
+                public int pointsAddedForCorrectAnswer;
+                public QuestionData[] questions;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Data Controller</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.SceneManagement;
 
-                        <!-- SURVIVAL SHOOTER (Unity) -->
-                        <a href="../Implementations/survival-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Survival Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Survival Shooting style game.</p>
-                        </a>
+            public class DataController : MonoBehaviour {
+                public RoundData[] allRoundData;
 
-                        <!-- TANKS! (Unity) -->
-                        <a href="../Implementations/tanks.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Tanks! (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of two player Tank fighting game.</p>
-                        </a>
+                void Start() {
+                    DontDestroyOnLoad(gameObject);
 
-                        <!-- ADVENTURE GAME (Unity) -->
-                        <a href="../Implementations/adventure.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Adventure Game (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of a Point &amp; Click adventure game.</p>
-                        </a>
+                    SceneManager.LoadScene("MenuScreen");
+                }
 
-                        <!-- ADVENTURE GAME (Unity) -->
-                        <a href="../Implementations/controlling-particles.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Controlling Particles (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of how to control the shuriken particle system in Unity.</p>
-                        </a>
+                public RoundData GetCurrentRoundData() {
+                    return allRoundData[0];
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Scenes</h3>
+            <p><span class='glyphicon-remove'></span>Add the Persistent scene, MenuScreen scene, and Game scene to the build settings; in that order.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
 
-                        <!-- Quiz Game (JSON) (Unity) -->
-                        <a href="../Implementations/quiz-game.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Quiz Game (JSON) (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of a Quiz Game, ft. JSON data!</p>
-                        </a>
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
