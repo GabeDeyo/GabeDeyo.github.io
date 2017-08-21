@@ -98,6 +98,8 @@
           <li class="separator"></li>
           <li><a href="#0">Setup</a></li>
           <li><a href="#1">Data Classes</a></li>
+          <li><a href="#2">Menu Screen</a></li>
+          <li><a href="#3">Game UI</a></li>
         </ul>
     </aside>
 
@@ -117,6 +119,14 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#1'>Data Classes</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Menu Screen</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Game UI</a>
                                 </p>
                             </li>
                         </ul>
@@ -201,10 +211,70 @@
                 }
             }
             </pre>
+            <p><span class='glyphicon-remove'></span>Make the size of the <i>allRoundData</i> array 1.</p>
+            <p><span class='glyphicon-remove'></span>Set the round name to Round Zero, the Time limit to 30 sec, and the points added for correct to 10.</p>
+            <p><span class='glyphicon-remove'></span>Set the size of the questions array to 3.</p>
+            <p><span class='glyphicon-remove'></span>The first question is: "Are lions carnivores?", The answer size is 2, with Yes and No. Yes being correct.</p>
+            <p><span class='glyphicon-remove'></span>The second questions is: "Where do mice live?", The answer size is 3, with On the moon, On land, and On sea. On land being correct.</p>
+            <p><span class='glyphicon-remove'></span>The third question is: "What do frogs eat?", The answer size being 2, with Flies and Pizzas. Flies being correct.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Scenes</h3>
             <p><span class='glyphicon-remove'></span>Add the Persistent scene, MenuScreen scene, and Game scene to the build settings; in that order.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Menu Screen</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Head to the Menu Scene.
+            <p><span class='glyphicon-remove'></span>Create a UI Button item. Set the text to <i>Start Game</i>. Anchor and position Button to center.</p>
+            <p><span class='glyphicon-remove'></span>Add a Text item to the Canvas. Set size to 40 and position and enlarge to right above the button.</p>
+            <p><span class='glyphicon-remove'></span>Create an empty GO called <i>"MenuScreenController"</i>. Add a script with the same name.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.SceneManagement;
+
+            public class MenuScreenController : MonoBehaviour {
+                public void StartGame() {
+                    SceneManager.LoadScene("Game");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            On the <i>Star Game</i> button, add an On Click event by clicking the add button.
+            <p><span class='glyphicon-remove'></span>Drag the <i>MenuScreenController</i> object onto the event and add the StartGame() function.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Game UI</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Head to the Game Scene.
+            <p><span class='glyphicon-remove'></span>Add a UI Panel. Set the Color to turquoise and set alpha to full opaque (255). Name it <b>Question Panel</b></p>
+            <p><span class='glyphicon-remove'></span>Add a Text Component named "QuestionDisplay" as a child of the Question Panel. Set size to 32. Set to full stretch from left to right. Set Left an Right to 32 to bring the transform in a bit. Set anchors to minX: 0, minY: 0.5, maxX: 1, maxY: 0.75, pivotX: 0.5, pivotY: 0.5</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Add another UI Panel named "AnswerPanel" as a sibling to Question Panel. Completely remove the Image component. Resize to a comfortable size below the Question Display
+            <p><span class='glyphicon-remove'></span>Add a Vertical Layout Group to the Answer Panel. Add a Button as a child of the Answer Panel called AnswerButton. Add more buttons to test the Vertical Layout Group. Make it's text size 20</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Add another panel called "UI" as a child of the canvas. Remove the Image component. Position at the top of the Canvas with default 160 width, and 30 height.
+            <p><span class='glyphicon-remove'></span>Add a Text UI called "TimeDisplay" with 20pt font and align to the upper right. Set text to "Time: 0". Repeat this step with a "ScoreDisplay" text with text saying "Score: 0".</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Duplicate the QuestionPanel and rename as "RoundOverPanel". Delete the Answer Panel. Center the Question Display text and make text say "ROUND OVER". Change color of this panel to darker purple. Add a Button called "Menu" and place in the middle with "Menu" as text. Make sure this panel is placed over the UI system. Set the panel to deactivated.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Add two empty object to the this Game scene called "GameController" and "AnswerButtonObjectPool".
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
