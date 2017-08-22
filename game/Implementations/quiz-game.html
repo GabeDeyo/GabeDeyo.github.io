@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Quiz Implementation (JSON)</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -100,6 +100,8 @@
           <li><a href="#1">Data Classes</a></li>
           <li><a href="#2">Menu Screen</a></li>
           <li><a href="#3">Game UI</a></li>
+          <li><a href="#4">Answer Button</a></li>
+          <li><a href="#5">Displaying Questions</a></li>
         </ul>
     </aside>
 
@@ -108,7 +110,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Quiz Implementation (JSON)</h1>
 
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
@@ -127,6 +129,14 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#3'>Game UI</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Answer Button</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Displaying Questions</a>
                                 </p>
                             </li>
                         </ul>
@@ -275,6 +285,175 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             Add two empty object to the this Game scene called "GameController" and "AnswerButtonObjectPool".
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Answer Button</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new script called "SimpleObjectPool". Add this to the AnswerButtonObjectPool object.
+            <pre>
+            <span class='glyphicon-remove'></span>// A very simple object pooling class
+            public class SimpleObjectPool : MonoBehaviour
+            {
+                // the prefab that this object pool returns instances of
+                public GameObject prefab;
+                // collection of currently inactive instances of the prefab
+                private Stack&lt;GameObject> inactiveInstances = new Stack&lt;GameObject>();
+            
+                // Returns an instance of the prefab
+                public GameObject GetObject() 
+                {
+                    GameObject spawnedGameObject;
+            
+                    // if there is an inactive instance of the prefab ready to return, return that
+                    if (inactiveInstances.Count > 0) 
+                    {
+                        // remove the instance from teh collection of inactive instances
+                        spawnedGameObject = inactiveInstances.Pop();
+                    }
+                    // otherwise, create a new instance
+                    else 
+                    {
+                        spawnedGameObject = (GameObject)GameObject.Instantiate(prefab);
+            
+                        // add the PooledObject component to the prefab so we know it came from this pool
+                        PooledObject pooledObject = spawnedGameObject.AddComponent&lt;PooledObject>();
+                        pooledObject.pool = this;
+                    }
+            
+                    // enable the instance
+                    spawnedGameObject.SetActive(true);
+            
+                    // return a reference to the instance
+                    return spawnedGameObject;
+                }
+            
+                // Return an instance of the prefab to the pool
+                public void ReturnObject(GameObject toReturn) 
+                {
+                    PooledObject pooledObject = toReturn.GetComponent&lt;PooledObject>();
+            
+                    // if the instance came from this pool, return it to the pool
+                    if(pooledObject != null &amp;&amp; pooledObject.pool == this)
+                    {
+                        // disable the instance
+                        toReturn.SetActive(false);
+            
+                        // add the instance to the collection of inactive instances
+                        inactiveInstances.Push(toReturn);
+                    }
+                    // otherwise, just destroy it
+                    else
+                    {
+                        Debug.LogWarning(toReturn.name + " was returned to a pool it wasn't spawned from! Destroying.");
+                        Destroy(toReturn);
+                    }
+                }
+            }
+            
+            // a component that simply identifies the pool that a GameObject came from
+            public class PooledObject : MonoBehaviour
+            {
+                public SimpleObjectPool pool;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Now make a prefab with the AnswerButton in the Canvas. Add a script to it called "AnswerButton".
+            <pre>
+            <span class='glyphicon-remove'></span>public class AnswerButton : MonoBehaviour {
+
+                public Text answerText;
+
+                private AnswerData answerData;
+
+                void Start() {
+
+                }
+
+                public void Setup(AnswerData data) {
+                    answerData = data;
+                    answerData.text = answerData.answerText;
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Drag the Text under the AnswerButton into the public text field.</p>
+            <p><span class='glyphicon-remove'></span>Delete the AnswerButton from the scene as it's now a prefab.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Displaying Questions</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Add a script called "GameController" to the Game Controller object.
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.UI, UnityEngine.SceneManagement, System.Collections.Generic;
+
+            public class GameController : MonoBehaviour {
+
+                public Text questionText;
+                public SimplejObjectPool answerButtonObjectPool;
+                public Transform answerButtonParent);
+
+                private DataController dataController;
+                private RoundData currentRoundData;
+                private QuestionData[] questionPool;
+
+                private bool isRoundActive;
+                private float timeRemaining;
+                private int questionIndex;
+                private int playerScore;
+                private List&lt;GameObject> answerButtonGameObjects = new List&lt;GameObject>();
+
+                void Start() {
+                    dataController = FindObjectOfType&lt;DataController>();
+                    currentRoundData = dataController.GetRoundData();
+                    questionPool = currentRoundData.questions;
+                    timeRemaining = currentRoundData.timeLimitInSeconds;
+
+                    playerScore = 0;
+                    questionIndex = 0;
+
+                    ShowQuestion();
+                    isRoundActive = true;
+                }
+
+                private void ShowQuestion() {
+                    RemoveAnswerButtons();
+                    QuestionData questionData = questionPool[questionIndex];
+                    questionText.text = questionData.questionText;
+
+                    for(int i = 0; i &lt; questionData.answers.Length; i++) {
+                        GameObject answerButtonGameObject = answerButtonObjectPool.GetObject();
+                        answerButtonGameObject.transform.SetParent(answerButtonParent);
+                        answerButtonGameObjects.Add(answerButtonGameObject);
+
+                        AnswerButton answerButton = answerButtonGameObject.GetComponent&lt;AnswerButton>();
+                        answerButton.Setup(questionData.answers[i]);
+                    }
+                }
+
+                private void RemoveAnswerButtons() {
+                    while(answerButtonGameObjects.Count > 0) {
+                        answerButtonObjectPool.ReturnObject(answerButtonGameObjects[0]);
+                        answerButtonGameObjects.RemoveAt(0);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
