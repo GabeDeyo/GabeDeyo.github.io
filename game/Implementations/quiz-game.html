@@ -102,6 +102,7 @@
           <li><a href="#3">Game UI</a></li>
           <li><a href="#4">Answer Button</a></li>
           <li><a href="#5">Displaying Questions</a></li>
+          <li><a href="#6">Ending the Game</a></li>
         </ul>
     </aside>
 
@@ -137,6 +138,10 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#5'>Displaying Questions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Ending the Game</a>
                                 </p>
                             </li>
                         </ul>
@@ -370,15 +375,23 @@
                 public Text answerText;
 
                 private AnswerData answerData;
+                //private GameController gameController;
 
                 void Start() {
-
+                    //gameController = FindObjectOfType&lt;GameController>();
                 }
 
                 public void Setup(AnswerData data) {
                     answerData = data;
                     answerData.text = answerData.answerText;
                 }
+
+                /* 
+                public void HandleClick() {
+                    gameController.AnswerButtonClicked(answerData.isCorrect);
+                }
+
+                */
             }
             </pre>
             <p><span class='glyphicon-remove'></span>Drag the Text under the AnswerButton into the public text field.</p>
@@ -398,9 +411,13 @@
 
             public class GameController : MonoBehaviour {
 
-                public Text questionText;
+                public Text questionDisplayText;
+                public Text scoreDisplayText;
+                public Text timeRemainingDisplayText;
                 public SimplejObjectPool answerButtonObjectPool;
-                public Transform answerButtonParent);
+                public Transform answerButtonParent;
+                public GameObject questionDisplay;
+                public GameObject roundEndDisplay;
 
                 private DataController dataController;
                 private RoundData currentRoundData;
@@ -417,6 +434,7 @@
                     currentRoundData = dataController.GetRoundData();
                     questionPool = currentRoundData.questions;
                     timeRemaining = currentRoundData.timeLimitInSeconds;
+                    UpdateTimeRemainingDisplay();
 
                     playerScore = 0;
                     questionIndex = 0;
@@ -425,15 +443,30 @@
                     isRoundActive = true;
                 }
 
+                void Update() {
+                    if(isRoundActive) {
+                        timeRemaining -= Time.deltaTime;
+                        UpdateTimeRemainingDisplay();
+                    }
+
+                    if(timeRemaining &lt;= 0f) {
+                        EndRound();
+                    }
+                }
+
+                private void UpdateTimeRemainingDisplay() {
+                    timeRemainingDisplayText.text = "Time: " + Mathf.Round(timeRemaining).ToString();
+                }
+
                 private void ShowQuestion() {
                     RemoveAnswerButtons();
                     QuestionData questionData = questionPool[questionIndex];
-                    questionText.text = questionData.questionText;
+                    questionDisplayText.text = questionData.questionDisplayText;
 
                     for(int i = 0; i &lt; questionData.answers.Length; i++) {
                         GameObject answerButtonGameObject = answerButtonObjectPool.GetObject();
-                        answerButtonGameObject.transform.SetParent(answerButtonParent);
                         answerButtonGameObjects.Add(answerButtonGameObject);
+                        answerButtonGameObject.transform.SetParent(answerButtonParent);
 
                         AnswerButton answerButton = answerButtonGameObject.GetComponent&lt;AnswerButton>();
                         answerButton.Setup(questionData.answers[i]);
@@ -446,14 +479,46 @@
                         answerButtonGameObjects.RemoveAt(0);
                     }
                 }
+
+                public void AnswerButtonClicked(bool isCorrect) {
+                    if(isCorrect) {
+                        playerScore += currentRoundData.pointsAddedForCorrectAnswer;
+                        scoreDisplayText.text = "Score: " + player.Score.ToString();
+                    }
+
+                    if(questionPool.Length > questionIndex + 1) {
+                        questionIndex++;
+                        ShowQuestion();
+                    } else {
+                        EndRound()
+                    }
+                }
+
+                public void EndRound() {
+                    isRoundActive = false;
+
+                    questionDisplay.SetActive(false);
+                    roundEndDisplay.SetActive(true);
+                }
+
+                public void ReturnToMenu() {
+                    SceneManager.LoadScene("MenuScreen");
+                }
             }
             </pre>
+            <p><span class='glyphicon-remove'></span>QuestionDisplay (Text) -> Question Display Text / ScoreDisplay (Text) -> Score Display Text / TimeDisplay (Text) -> Time Remaining Display / AnswerButtonObjectPool (SimpleObjectPool) -> Answer Button Object Pool / AnswerPanel (Rect Transform) -> Answer Button Parent / QuestionPanel -> Question Display / RoundOverPanel -> Round End Display</p>
+            <p><span class='glyphicon-remove'></span>Go back to the AnswerButton prefab so you can call the AnswerButton.HandleClick event in the inspector.</p>
+            <p><span class='glyphicon-remove'></span>Go to the MenuButton under the RoundOverPanel and add an OnClick event. Drag in the Game Controller and select the ReturnToMenu() function.</p>
         </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Ending the Game</h2>
+    <ul>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            XXX
+            Should be ready to test?
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
