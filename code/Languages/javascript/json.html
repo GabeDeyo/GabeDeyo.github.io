@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>JavaScript - Basic Elements</title>
+    <title>JSON</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -15,7 +15,7 @@
 <body>
 
     <!-- Top Navigation -->
-    <header>
+    <header id="header">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -92,23 +92,37 @@
 
     <!-------------------------------------------------------------------------->
 
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="#1">JS Objects vs. JSON</a></li>
+          <li><a href="#2">Creating Data</a></li>
+        </ul>
+    </aside>
+
     <!-- MAIN -->
     <main>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">JavaScript - Basic Elements</h1>
-
-                    <aside>
-                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
-                    </aside>
+                    <h1 id="title">JSON</h1>
 
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
                                 <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>JS Objects vs. JSON</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Creating Data</a>
                                 </p>
                             </li>
                         </ul>
@@ -118,17 +132,129 @@
     <h2>Introduction</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            &bull; <b>JavaScript</b> is a scripting language that runs in the browser and interacts with the HTML Markup and CSS Rules to change what you see and do.
-            <br> &bull; When you point your browser at an address with an html document, it first pulls down the HTML and indexes its content. Then downloads any CSS and JavaScript document referenced, runs the JavaScript to see if any of the HTML Markup has changed, applies the CSS to make everything look the way it's supposed to, and finally leaves the Javascript running in the background, in case an interaction or event triggers further scripts.
+            <h3>JSON - JavaScript Object Notation</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Format for sharing data
+            <br> &bull; Derived from JavaScript
+            <br> &bull; Language independent
+            <br> &bull; An alternative to XML</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            &bull; JavaScript conforms to the <b>ECMAScript standard</b>, a specification for interpreting code and languages like JavaScript.
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            XXX
+            <h3>Advantages</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Easy to Read
+            <br> &bull; Easy to Parse
+            <br> &bull; Leaner than XML
+            <br> &bull; Growing support in APIs
+            <br> &bull; Natural format for JavaScript
+            <br> &bull; Implementation in many languages</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>JS Objects vs. JSON</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON Strings</h3>
+            <p><span class='glyphicon-remove'></span>&bull; JSON keys wrapped in "quotes"
+            <br>&bull; JSON keys can be any valid string
+            <br>&bull; JSON values have to be one of <b>six</b> data types:
+                <br> &nbsp; &bull; <i>strings, numbers, objects, arrays, booleans or null</i></p>
+            <pre>
+            <span class='glyphicon-remove'></span>{ "full_name" : "Gabe Deyo" }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JavaScript Object</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Quotes on keys not necessary
+            <br>&bull; JavaScript Object can be any data type (including function)</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var info = {
+                full_name : "Gabe Deyo"
+                getName : function (){ 
+                    alert(this.full_name);
+                }
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Parsing JSON</h3>
+            <p><span class='glyphicon-remove'></span>&bull; JSON has to be parsed into JavaScript
+            <br>&bull; Can be done using <i>eval</i> or <i>JSON.parse()</i>. JSON.parse is recommended as it is more secure.
+            <br>&bull; JSON.stringify does the opposite of parse
+            <br>&bull; A library like jQuery can be helpful when facing compatability issues</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var data = '{ 
+                "name" : "Gabe Deyo",
+                "position" : "Web Developer",
+                "skills" : ["cooking", "cleaning", "others"]
+            }';
+            var info = JSON.parse(data);
+            var infostring = JSON.stringify(info);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Creating Data</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Keys &amp; Values</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Multiple values separated with commas
+            <br>&bull; Whitespace for clarity
+            <br>&bull; No quotes on numbers, true, false, null</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var info = {
+                "full_name"  : "Gabe Deyo",
+                "title"      : "Web Dev",
+                "company"    : "IBI Data",
+                "years"      : 1.3
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Retrieving Values</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Normally accessed through dot notation
+            <br>&bull; Can also be accessed through [] notation</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var info = { "full_name" : "Gabe Deyo" };
+
+            console.log(info.full_name); //Gabe Deyo
+            console.log(info["full_name"]) //Gabe Deyo
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Arrays</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Lists created with brackets
+            <br>&bull; Accessed via an index number</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var info = {
+                myArray = [
+                "0",
+                "1",
+                "2",
+                "3" ]
+            };
+
+            console.log(info.myArray[1]); //1
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Objects</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>var info = {
+                "links" :  {
+                    "blog"     : "http://1.com",
+                    "facebook" : "http://2.com",
+                    "youtube"  : "http://3.com",
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

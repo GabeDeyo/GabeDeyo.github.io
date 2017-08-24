@@ -102,6 +102,8 @@
           <li><a href="#3">Elevator Pitch</a></li>
           <li><a href="#4">Game Description</a></li>
           <li><a href="#5">Core Gameplay Mechanics</a></li>
+          <li><a href="#6">Story</a></li>
+          <li><a href="#7">Gameplay</a></li>
         </ul>
     </aside>
 
@@ -137,6 +139,14 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#5'>Core Gameplay Mechanics</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Story</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Gameplay</a>
                                 </p>
                             </li>
                         </ul>
@@ -300,8 +310,9 @@
             <br> &nbsp; &bull; All parts will have some base attributes. Every part will have a cost (for buying/selling), XP (for leveling up, combining, and splitting), a weight (for ship speed), and health (for destruction/appearance).
             <br> &nbsp; &bull; Each parts base stats will be dependant on it's level.
             <br> &nbsp; &bull; A part will not be able to purchased or upgraded to if it's level is higher than the main engines level, or if it hasn't been discovered and attached on a run.
-            <br> &nbsp; &bull; Parts will be encountered on a run when the player defeats some enemies. Defeated enemies will release parts based on their class and with levels equal or below their own. Therefore, enemies with more weapons will have a greater chance of releasing a weapon, while armored enemies will most likely release a weapon. And a level 5 enemy will release lower level parts, but have a chance to release a level 5 part.
-            <br> &nbsp; &bull; Multiple parts have a chance of spawning from war vessels.</p>
+            <br> &nbsp; &bull; Parts will be encountered on a run when the player defeats some enemies. Defeated enemies will release parts based on their class and with levels equal or below their own. Therefore, enemies with more weapons will have a greater chance of releasing a weapon, while armored enemies will most likely release a weapon. And a level 5 enemy will release lower level parts, but have a chance to release up to level 5 parts.
+            <br> &nbsp; &bull; Multiple parts will spawn from war vessels.
+            <br> &nbsp; &bull; <i>Initial Idea:</i> I would like there to be some form of behavior change at levels 5 and 10 for each part. Other than that, they simply accumulate in stats and look slightly different.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Part Types</h3>
@@ -426,6 +437,49 @@
             <br> &nbsp; &bull; You'll notice between every level, there is a <i>Safe Zone</i>. This is a portion of the game where you can checkout and manage your ship, and then continue or save/quit the run.
             <br> &nbsp; &bull; If a game is saved and quit in the middle of a level and it's not the first level, they will have the option to continue at the last safe zone they were at.
             <br> &nbsp; &bull; Remember, the Garage is the only location where you can buy and sell parts. So out in a safe zone, you will only be able to move, combine, and split ship parts. But if done strategically, can help prepare for the next section.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Story</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            At this point, there is no narrative support planned.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Gameplay</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            On entering the game, the player is able to set preferences, check his/her garage, start a new run, continue a saved run, see leaderboards, and quit.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In the garage, the player can buy or sell parts, upgrade current parts, and design ships with their currently owned parts.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The first action a pilot would perform in order to start a run is design the ship. This is done before the run, but can be done in the garage and have a run started there. If the pilot has a ship design saved as a favorite and they don't want to spend the effort desiging a new one, that option is available in the design portion as well. Once a ship is designed or loaded, the run can start.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            When starting a run, the pilot will hold a finger down on the screen to move his/her ship. The ship will move towards that spot at a certain speed dictated by the weight of the total parts attached. If the ship is armed with weapons, the weapons will fire continuously at their specified rate as long as the pilots finger is down.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            After several initial setup seconds, enemies will start their waves. Each enemy class has different spawn algirhtms and behaviors to keep the gameplay interesting. Midway through the level, the player will encounter an advanced mid-boss. The mid-boss will also have a specific class but will have some special advanced parts. Defeating a mid-boss will allow the player to move on and collect some potentially rare parts. At the end of the level, the pilot will encounter a War Vessel. The War Vessel will be a special class that is stationary but heavily weaponized and armored. War Vessels have several protected engines that must all be destroyed before the entire vessel is defeated. Finishing off a War Vessel will spawn multiple parts ranging from common to rare for the player to collect before moving into a "Safe Zone".
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            The Safe Zone is a menu in between levels where the player can manage his/her current ship. They will not be able to buy/sell parts, but they can manage parts locations or upgrade/downgrade through combining or splitting. The can also spend money to heal all damaged blocks before the next run, which the player can initialize at any point from the Safe Zone.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>All ships, players and enemies, have a core engine and a total weight. The Main Engine has high health and provides power to your parts. This power output decides how many and what level parts a player can put on their ship, and how enemy ships are structured. The other parts are armor - which have high health and high weight. Boosters - which have low health, no weight, and offset the ships total weight by some factor. Weapons which have mid health and mid weight, and come in different flavors. Upgrading parts will usually find them increasing in health, decreasing in weight, or advancing their abilities in some form.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Ship parts are connected through their neighbors, and must have a path to the Main Engine. If a part is destroyed, it blows up and falls to the ground in flames. Anything that was connected to the block and lost it's connection with the Main Engine goes dead and falls to the ground as well. However the ship is then lighter, so it can be somewhat of a trade off. When a ships Main Engine is destroyed, all of it's pieces disconnect and fall to the ground.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            When a pilot's Main Engine is destroyed, the game is over and they will see the review screen. The menu will show the player how well they did on the run, and calculate important stats and accumulate earnings. The pilot can use these earnings in their garage and spend those earning buying and upgrading their parts. After the review screen, the pilot is brought back to the main menu where they can repeat the entire process..
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

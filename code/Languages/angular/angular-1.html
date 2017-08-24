@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>AngularJS 1</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="#1">Installation</a></li>
+          <li><a href="#2">Modules &amp; Scope</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">AngularJS 1</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Installation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Modules &amp; Scope</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>What is AngularJS?</h3>
+            <p><span class='glyphicon-remove'></span><i>JavaScript Framework</i> - takes advantage of built-in features, in this case; templating, filters, two-way data-binding and more.</p>
+            <p><span class='glyphicon-remove'></span>Designed to allow you to create <b>single page applications</b> - so regardless of the size of your application, your browser is going to load a single page. <i>Additional content</i> will be loaded into the application as needed. The site only loads content it needs, instead of an entire page.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Why use AngularJS?</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS features an excellent <b>templating engine</b>. Templating let's you write HTML templates with special tags, and Angular will replace those tags with data.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS <b>handles DOM</b> masterfully - data is directly bound to your template. Therefore, pulling in data or interacting with your elements lets you populate your html.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS includes commands for <i>loading external data</i> by including <b>AJAX functionality</b>. Therefore, we can use a Model-View-Controller architecture to focus more on an object-oriented approach.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>MVC Architecture</h3>
+            <p><span class='glyphicon-remove'></span><b>Model</b> - Your <i>data</i> is known as a model. This can come from an internal data structure, an external JSON document or even a database.</p>
+            <p><span class='glyphicon-remove'></span><b>View</b> - The way your models/data are displayed are your view. Typically done through a <i>template</i>.</p>
+            <p><span class='glyphicon-remove'></span><b>Controller</b> - The glue that ties your data (models) to your templates (views).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Directives</h3>
+            <p><span class='glyphicon-remove'></span>Another <b>core feature</b> behind AngularJS is something sprinkled in your HTML called <b>Directives</b>.</p>
+            <p><span class='glyphicon-remove'></span>Directives are <i>commands</i> that tell Angular to do its job.</p>
+            <p><span class='glyphicon-remove'></span>They all will start with <b>"ng"</b> followed by their specific command. (i.e. ng-app, ng-view, ng-model)</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Data-Binding</h3>
+            <p><span class='glyphicon-remove'></span>Templating is possible because of a feature known as <b>data-binding</b>.</p>
+            <p><span class='glyphicon-remove'></span>The goal is to create <i>placeholders for content</i> that get linked to data information.</p>
+            <p><span class='glyphicon-remove'></span>This also enables us to use form elements that can be tied to the data.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Filtering</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS has a <b>filtering language</b> so that data can be organized in a specific way <i>automatically</i> or easily change by <i>form elements</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Modules</h3>
+            <p><span class='glyphicon-remove'></span>Instead of creating a single, large JS doc, you can break up functionality into <b>modules</b>.</p>
+            <p><span class='glyphicon-remove'></span>Modules make code easier to maintain and distribute.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Routes</h3>
+            <p><span class='glyphicon-remove'></span><b>Routes</b> lie at the heart of <i>single page applications</i>.</p>
+            <p><span class='glyphicon-remove'></span>Routes divide your templates so that functionality behind your app can exist <i>in different places</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Controllers</h3>
+            <p><span class='glyphicon-remove'></span>All of these details are tied together through <b>controllers</b>.</p>
+            <p><span class='glyphicon-remove'></span>Controllers will help us maintain the functionality of our views and models.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Installation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Download a build here: https://angularjs.org/
+            <br> &nbsp; &bull; Save in <b>lib/angular/angular.min.js</b>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            CDN: https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js - <i>check up updated</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre><span class='glyphicon-remove'></span>npm install angular@1.6.5</pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Extra modules: <a href="https://code.angularjs.org/1.6.5/">Extras</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Typical AngularJS Test</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!doctype html>
+            &lt;html leng="en" ng-app>
+            &lt;head>
+                &lt;meta charset="UTF-8">
+                &lt;title>Angular Demo&lt;/title>
+                &lt;script src="lib/angular/angular.min.js">&lt;/script>
+            &lt;/head>
+            &lt;body>
+                &lt;input type="text" ng-model="name">
+                &lt;h2>Welcome {{name}}&lt;/h2>
+            &lt;/body>
+            &lt;/html>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Modules &amp; Scope</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            One key concept of the MVC Architecture is that you can organize large applications into modules, separating functionality into smaller pieces of JavaScript.
+            <p><span class='glyphicon-remove'></span>We do this in Angular using different controllers for our app.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Let's create a <b>Module</b> in a new js file called <i>js/controller.js</i>. Make sure to <b>include this script</b>.
+            <p><span class='glyphicon-remove'></span>The variable <i>myApp</i> is going to have all the code for our application. This is called <b>name-spacing</b>. It's away to protect our application code and make sure that no other script on your website is going to interfere with our application.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myApp = angular.module('myApp', []);
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then in the initial html file, we're going to add this to the <i>ng-app</i> directive:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt; lang="en" ng-app="myApp">
+            </pre>
+            <p><span class='glyphicon-remove'></span>That directive tells Angular the code for whatever is inside the HTML tag, which in this case is the entire page, is going to be controlled by this new <i>myApp</i> module.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Now let's get started with a <b>Controller</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>var myApp = angular.module('myApp', []);
+
+            myApp.controller('MyController', function MyController($scope) {
+                $scope.author = {
+                    'name'    : 'Gabe Deyo',
+                    'title'   : 'Web Developer',
+                    'company' : 'IBI Data'
+                }
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>$scope will be covered more later, but know now, it's like a <b>super variable</b> that you can use to pass things from your JS to your application and template, and vice-versa.</p>
+            <p><span class='glyphicon-remove'></span>Now we need to go back and add this controller to our template.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;body>
+                &lt;div ng-controller="MyController">
+                    <h1>{{ author.name }}</h1>
+                    <p>{{ author.title + ', ' + author.company }}</p>
+                &lt;/div>
+            &lt;/body>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
