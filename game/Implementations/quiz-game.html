@@ -161,11 +161,11 @@
         <li><p><span class="glyphicon-remove"></span>
             Delete the Camera from the initial scene and save the scene as <b>Persistent</b>.
             <p><span class='glyphicon-remove'></span>Create a new scene as <b>MenuScreen</b>.</p>
-            <p><span class='glyphicon-remove'></span>Create a enw scene as <b>Game</b>.</p>
+            <p><span class='glyphicon-remove'></span>Create a new scene as <b>Game</b>.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             In the <i>Persistent</i> scene, create an <i>empty</i> object called <b>"Data Controller"</b>.
-            <p><span class='glyphicon-remove'></span>Create <i>two</i> new scripts called <b>DataController</b> and <b>AnswerData</b>.</p>
+            <p><span class='glyphicon-remove'></span>Create <i>four</i> new scripts called <b>AnswerData</b>, <b>QuestionData</b>, <b>RoundData</b>, and <b>DataController</b>.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
@@ -196,14 +196,13 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Round Data</h3>
-            <p><span class='glyphicon-remove'></span>Create a new script <b>RoundData</b>.</p>
             <pre>
             <span class='glyphicon-remove'></span>[System.Serializable]
             public class RoundData {
                 public string name;
                 public int timeLimitInSeconds;
                 public int pointsAddedForCorrectAnswer;
-                public QuestionData[] questions;
+                //public QuestionData[] questions;
             }
             </pre>
         </p></li>
@@ -247,7 +246,7 @@
         <li><p><span class='glyphicon-remove'></span>
             Head to the Menu Scene.
             <p><span class='glyphicon-remove'></span>Create a UI Button item. Set the text to <i>Start Game</i>. Anchor and position Button to center.</p>
-            <p><span class='glyphicon-remove'></span>Add a Text item to the Canvas. Set size to 40 and position and enlarge to right above the button.</p>
+            <p><span class='glyphicon-remove'></span>Add a Text item to the Canvas. Set text to "Quiz Game". Color to <i>white</i>. Set size to <i>40</i> and position and enlarge to slightly above the button.</p>
             <p><span class='glyphicon-remove'></span>Create an empty GO called <i>"MenuScreenController"</i>. Add a script with the same name.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
@@ -262,7 +261,7 @@
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            On the <i>Star Game</i> button, add an On Click event by clicking the add button.
+            On the <i>Start Game</i> button, add an <i>OnClick</i> event by clicking the <b>add</b> button.
             <p><span class='glyphicon-remove'></span>Drag the <i>MenuScreenController</i> object onto the event and add the StartGame() function.</p>
         </p></li>
     </ul>
@@ -278,7 +277,7 @@
             <p><span class='glyphicon-remove'></span>Add a Text Component named "QuestionDisplay" as a child of the Question Panel. Set size to 32. Set to full stretch from left to right. Set Left an Right to 32 to bring the transform in a bit. Set anchors to minX: 0, minY: 0.5, maxX: 1, maxY: 0.75, pivotX: 0.5, pivotY: 0.5</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            Add another UI Panel named "AnswerPanel" as a sibling to Question Panel. Completely remove the Image component. Resize to a comfortable size below the Question Display
+            Add another UI Panel named "AnswerPanel" as a sibling to Question <b>Display</b>. Completely remove the Image component. Resize to a comfortable size below the Question Display
             <p><span class='glyphicon-remove'></span>Add a Vertical Layout Group to the Answer Panel. Add a Button as a child of the Answer Panel called AnswerButton. Add more buttons to test the Vertical Layout Group. Make it's text size 20</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
