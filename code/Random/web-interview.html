@@ -102,6 +102,9 @@
           <li><a href="#2">Bringing Closures</a></li>
           <li><a href="#3">Notes from Interviews - 1</a></li>
           <li><a href="#4">IIFE</a></li>
+          <li><a href="#5">Absolute vs. Relative Positioning</a></li>
+          <li><a href="#6">Callbacks</a></li>
+          <li><a href="#7">Flexbox - Control Horizontal Alignment</a></li>
         </ul>
     </aside>
 
@@ -133,6 +136,18 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#4'>IIFE</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Absolute vs. Relative Positioning</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Callbacks</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Flexbox - Control Horizontal Alignment</a>
                                 </p>
                             </li>
                         </ul>
@@ -436,16 +451,150 @@
                 //Isolate Code Here
             })();
             </pre>
-            <p><span class='glyphicon-remove'></span>An IIFE is what's known as an anonymous function.
-                <br> &nbsp; &bull; This is a function that we want to invoke <i>immediately</i>.</p>
+            <p><span class='glyphicon-remove'></span>An IIFE is what's known as an anonymous function, which is simply a function with no name. Sometimes IIFEs are called <i>anonymous closures</i>.
+                <br> &nbsp; &bull; This is a function that we want to invoke <i>immediately</i>.
+                <br> &nbsp; &bull; By making this function an expression, it can then be executed immediately. Which is done with the extra set of parentheses at the end to execute it.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Protection</h3>
             <p><span class='glyphicon-remove'></span>Typically you'll want to wrap an entire script in an IIFE which will provide some special features.
                 <br> &nbsp; &bull; This will protect any variables or functions inside this <i>master function</i> from being accessed.
                 <br> &nbsp; &bull; Functions inside this IFFE are going to create <i>closures</i>.
-                <br> &nbsp; &bull; Therefore, any variables declared in the IFFE will be accessible to any function that is also written in the IFFE, and protected from anything outside the IFFE.
-                <br> &nbsp; &bull; So if we h</p>
+                <br> &nbsp; &bull; Therefore, any variables declared in the IFFE will be accessible to any function that is also written in the IFFE, and protected from anything outside the IFFE.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//IIFE
+            (function() {
+                var one = 1;
+                console.log(one); // 1
+            })();
+
+            console.log(one); // ReferenceError: one is not defined
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Absolute vs. Relative Positioning</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            One of the most important properties a page element can have is the <b>position</b> property.
+                <br> &nbsp; &bull; It's used controlling how elements appear <i>in relation</i> to other elements.
+                <br> &nbsp; &bull; There are 4 main position properties available; static (default), relative, absolute and fixed (sticky-experimental).
+                <br> &nbsp; &bull; <i>Absolute</i> and <i>Fixed</i> positions are tricky.
+                <br> &nbsp; &bull; Main thing to remember here is that <i>position property</i> control how elements affect the <b>flow of content</b>.
+            <p><span class='glyphicon-remove'></span>A key difference is whether the position is <i>adjustable</i>.
+                <br> &nbsp; &bull; This is done using additional properties: top, right, bottom, or left (TRDL)</p>
+            <p><span class='glyphicon-remove'></span>Another key difference is whether the property removes the current element from the <i>flow of the document</i>.
+                <br> &nbsp; &bull; If removed, then the block containing the element will behave as if it's not there.</p>
+            <p><span class='glyphicon-remove'></span>A final key difference is how the change in position appears <i>in relation</i> to different elements on the page.
+                <br> &nbsp; &bull; It can either be aligned to another element, or be relative to the entire document.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Options</h3>
+            <table class="table table-hover table-condensed">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>static</th>
+                        <th>relative</th>
+                        <th>absolute</th>
+                        <th>fixed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Adjustable</b></td>
+                        <td>no</td>
+                        <td>yes</td>
+                        <td>yes</td>
+                        <td>yes</td>
+                    </tr>
+                    <tr>
+                        <td><b>Flow</b></td>
+                        <td>normal</td>
+                        <td>normal</td>
+                        <td>removed</td>
+                        <td>removed</td>
+                    </tr>
+                    <tr>
+                        <td><b>Relative to</b></td>
+                        <td>n/a</td>
+                        <td>current</td>
+                        <td>parent/document</td>
+                        <td>document</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            A good example of using this property is implementing a tool tip. Say we have a block, and a tooltip.
+                <br> &nbsp; &bull; The goal is to have the tooltip show up relative to the block.
+                <br> &nbsp; &bull; The block would need to have a position of <i>relative</i>.
+                <br> &nbsp; &bull; Then if the tooltip is set to absolute, it wil be displayed where it's parent (block) is.
+                <br> &nbsp; &bull; You can then use to TLDR to adjust it's position relative to it's parent element.
+                <br> &nbsp; &bull; Then you can use tricks like hover and display none to only get the tooltip to display when the button is hovered.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Additional Resources</h3>
+            <p><span class='glyphicon-remove'></span>MDN: Position</p>
+            <p><span class='glyphicon-remove'></span>CSS Tricks: Position</p>
+            <p><span class='glyphicon-remove'></span>CSS: Page Layouts (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>CSS: Essential Training 1 (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>CSS: Essential Training 2 (Lynda)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Callbacks</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A callback is a convention in JavaScript that is often used with <i>asynchronous</i> programming.
+                <br> &nbsp; &bull; A callback is typically used to do things asynchronously, or whenever you want to execut code at a certain point in time or when an event takes place.
+                <br> &nbsp; &bull; They are often tied to events to take care of tasks whenever the events are triggered.
+                <br> &nbsp; &bull; Callbacks use the anonymous function (function with no name), because they are invoked immediately once the event takes place.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>var tips = document.querySelectorAll('.hastip');
+
+            for(var i = 0; i &lt; tips.length; i++) {
+
+                //Toggles the active class on a clicked tooltip. 
+                tips[i].addEventListener('click', function(e) {
+                    e.target.querySelector('.tooltip').classList.toggle('active');
+                }, false)
+
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Additional Resources</h3>
+            <p><span class='glyphicon-remove'></span>Callback Heck</p>
+            <p><span class='glyphicon-remove'></span>classList - browser support - pollyfill</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Functions (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Events (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>Using classList (Lynda)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Flexbox - Control Horizontal Alignment</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             XXX

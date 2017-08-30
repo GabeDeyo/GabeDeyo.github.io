@@ -218,21 +218,34 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Game Mechanics</h3>
-            <p><span class='glyphicon-remove'></span></p>
+            <p><span class='glyphicon-remove'></span><b>Starting AI</b> - This mechanic will try to enforce a fair chance of being the first person "it" in the different game modes. 
+                <br> &nbsp; &bull; All players (human &amp; ai) will start in different locations at the edge of the maps. 
+                <br> &nbsp; &bull; In the center, a pillar rises and spawns the beginning AI player. This characters job is to chase and tag one of the 1-4 players in the map. 
+                <br> &nbsp; &bull; When it tags another player it will destroy the tagged player and itself. 
+                <br> &nbsp; &bull; After tagging a player, the beginning AI does not come back, and the tagged player respawns at the center as "it". 
+                <br> &nbsp; &bull; This mechanic may change depending on mode.</p>
+            <p><span class='glyphicon-remove'></span><b>Death</b> - Maps are laid out with traps, pits, and other deadly challenges.
+                <br> &nbsp; &bull; If the character is killed in someway, they receive a deduction or penalty of some sort depending on the mode.
+                <br> &nbsp; &bull; <i>Note</i> - These deaths result in a random respawn around the map and does not result in being "it". Being tagged by someone "it" does result in a center pillar respawn and does result in the character then being "it".
+                <br> &nbsp; &bull; Some traps may be triggered through a connected trigger that somehow gets activated (player interaction, timer, etc.).
+                <br> &nbsp; &bull; My initial thoughts for traps are these: spikes, punching bag/wrecking ball, flamethrower, shotgun.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Items and Power-ups</h3>
-            <p><span class='glyphicon-remove'></span><i>We use this section to elaborate on the Game Mechanics. In order to avoid having a single section with everything in our brains poured into it, we use the section above to describe the core mechanics, and this section to talk about things that can be added to the game in order to improve the fun and empower the player.
-            <br>So, if your game is a match-3 game, then in the previous section you’d go and describe exactly how a match-3 game would work (and adding your variations to the formulae).
-            <br>In this section you’d add every power up and item the player can use/encounter/buy and how they would affect the core gameplay.</i></p>
+            <p><span class='glyphicon-remove'></span><i>Note</i> - All powerups are half-baked and will need design considerations and playtesting before finalization.</p>
+            <p><span class='glyphicon-remove'></span><i>Power-ups</i> - During the games, random power-ups will spawn throughout the level that are available to be picked up by players.</p>
+            <p><span class='glyphicon-remove'></span><i>Activated</i> - When a player picks up a power-up, the power-up is not activated until the player presses the activate button (Y or Triangle), at which point the ability will be granted for a period and the power-up slot for that character is emptied.</p>
+            <p><span class='glyphicon-remove'></span><i>Removing Power-ups</i> - A power-up can be removed from a characters slot if they die, or if they use the ability.</p>
+            <p><span class='glyphicon-remove'></span><i>Usability</i> - Power-ups will potentially react differently based on whether the person is "it" or not.</p>
+            <p><span class='glyphicon-remove'></span><b>Current Power-up Ideas:</b>
+                <br> &nbsp; &bull; <b>Duplicate</b> - Activating this ability will spawn from the same location as the player, another "like" character ai. The ai will be the same color as the player, and is used to confuse the "it" character. The ai will be taggable (will die on tag), but not be respawnable. If the actual character is tagged while ai is active, ai dies.
+                <br> &nbsp; &bull; <b>Teleport</b> - Activating this ability will randomly teleport the character to a different location on the map. May be useful if getting chased or in a tight spot.
+                <br> &nbsp; &bull; <b>Bullet</b> - Activating this ability will allow the character to dive like a bullet. Their dive will be much faster and much farther. Use caution when near cliff-side though!</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Progression and challenge</h3>
-            <p><span class='glyphicon-remove'></span><i>This is also a very subjective section that may or may not work in your design. Our idea behind this section is to elaborate on how the difficulty will increase throughout the game, and making sure we give the player the tools to catch up with it.</i></p>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Losing</h3>
-            <p><span class='glyphicon-remove'></span><i>What are the losing conditions? Time, health, all of them? This is the section where you describe how the player gets to see your Game Over screen.</i></p>
+            <p><span class='glyphicon-remove'></span>Player level doesn't exist, so there is no player progression.</p>
+            <p><span class='glyphicon-remove'></span>AI level will likely have to remain the same throughout the game, unless discovered it's easy to make easy/medium/hard AI levels.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
@@ -242,13 +255,25 @@
     <h2>Art Style</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            <i>This section is where you describe your ideas about what the game should look like. Since a picture is worth a thousand words, this is a great place to add some concept art.</i>
+            Initial Art Direction Ideas:
+                <br> &nbsp; &bull; Isometric Camera View - Looking down diagonally on the map with a 45-ish degree angle. 
+                <br> &nbsp; &bull; Low-Poly
+                <br> &nbsp; &bull; Full Model Colors - All models will have a single bright color. Example: a character will be a full bright blue; a bridge will be all red.
+                <br> &nbsp; &bull; Simple themes with a cartoony vibe.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            Maps will be square maps, oriented either square-on or at a 45 degree angle, with low-poly furnishings (platforms, obstacles, rooms, etc).
+                <br> &nbsp; &bull; Unless enclosed, the maps will leave a cliff at their edges on them for players to fall to their death at. 
+                <br> &nbsp; &bull; Some maps may implement some sort of bar so players don't immediately fall off.
+                <br> &nbsp; &bull; Maps will have a location theme (Industrial, Forest, House, etc.), and the color scheme and map furnitings will follow the theme.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            Characters will be built out of simple limb attachments. 
+                <br> &nbsp; &bull; On death, these limbs all separate and fall to the ground. The limbs then sink into the ground after a few seconds, and the character respawns.
+                <br> &nbsp; &bull; Characters will have quick and tight animations, but can be stopped mid-animation to enter their death state.
+                <br> &nbsp; &bull; When players are spawned or teleported, the appear in a smoke effect, which is the same color as the character.
+                <br> &nbsp; &bull; Any particle effect that comes from the character will appear as the same color as the character.
+                <br> &nbsp; &bull; If a character is "it", there will be some visual factor that highlights this. Either through particle effect, lighting, or someother way.
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

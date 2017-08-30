@@ -123,6 +123,10 @@
                                 <a href='#4'>Number of People in the Bus</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Exes and Ohs</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -272,6 +276,50 @@
                 foreach(int[] onOff in peopleListInOut) result += onOff[0] - onOff[1];
                 
                 return result;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Exes and Ohs</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Check to see if a string has the same amount of 'x's and 'o's. The method must return a boolean and be case insensitive. The string can contains any char.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function XO(str) {
+                var xCount = 0;
+                var oCount = 0;
+                
+                for(var i in str){
+                  if(str.charAt(i).toLowerCase()==="x")
+                    xCount++;
+                  if(str.charAt(i).toLowerCase()==='o')
+                    oCount++;
+                }
+                
+                if(xCount === 0 &amp;&amp; oCount === 0) {
+                  return true;
+                } else if(xCount === oCount) {
+                  return true;
+                } else {
+                  return false;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function XO(str) {
+                let x = str.match(/x/gi);
+                let o = str.match(/o/gi);
+                return (x &amp;&amp; x.length) === (o &amp;&amp; o.length);
             }
             </pre>
         </p></li>
