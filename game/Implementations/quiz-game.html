@@ -102,7 +102,7 @@
           <li><a href="#3">Game UI</a></li>
           <li><a href="#4">Answer Button</a></li>
           <li><a href="#5">Displaying Questions</a></li>
-          <li><a href="#6">Ending the Game</a></li>
+          <li><a href="#6"></a></li>
         </ul>
     </aside>
 
@@ -141,7 +141,7 @@
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#6'>Ending the Game</a>
+                                <a href='#6'>Advanced Additions</a>
                                 </p>
                             </li>
                         </ul>
@@ -382,7 +382,7 @@
 
                 public void Setup(AnswerData data) {
                     answerData = data;
-                    answerData.text = answerData.answerText;
+                    answerText.text = answerData.answerText;
                 }
 
                 /* 
@@ -430,7 +430,7 @@
 
                 void Start() {
                     dataController = FindObjectOfType&lt;DataController>();
-                    currentRoundData = dataController.GetRoundData();
+                    currentRoundData = dataController.GetCurrentRoundData();
                     questionPool = currentRoundData.questions;
                     timeRemaining = currentRoundData.timeLimitInSeconds;
                     UpdateTimeRemainingDisplay();
@@ -460,7 +460,7 @@
                 private void ShowQuestion() {
                     RemoveAnswerButtons();
                     QuestionData questionData = questionPool[questionIndex];
-                    questionDisplayText.text = questionData.questionDisplayText;
+                    questionDisplayText.text = questionData.questionText;
 
                     for(int i = 0; i &lt; questionData.answers.Length; i++) {
                         GameObject answerButtonGameObject = answerButtonObjectPool.GetObject();
@@ -505,19 +505,23 @@
                 }
             }
             </pre>
-            <p><span class='glyphicon-remove'></span>QuestionDisplay (Text) -> Question Display Text / ScoreDisplay (Text) -> Score Display Text / TimeDisplay (Text) -> Time Remaining Display / AnswerButtonObjectPool (SimpleObjectPool) -> Answer Button Object Pool / AnswerPanel (Rect Transform) -> Answer Button Parent / QuestionPanel -> Question Display / RoundOverPanel -> Round End Display</p>
+            <p><span class='glyphicon-remove'></span>Fill in public field for the GameController</p>
             <p><span class='glyphicon-remove'></span>Go back to the AnswerButton prefab so you can call the AnswerButton.HandleClick event in the inspector.</p>
             <p><span class='glyphicon-remove'></span>Go to the MenuButton under the RoundOverPanel and add an OnClick event. Drag in the Game Controller and select the ReturnToMenu() function.</p>
+            <p><span class='glyphicon-remove'></span>A full round can now be played from start to finish.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='6'>
-    <h2>Ending the Game</h2>
+    <h2></h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            Should be ready to test?
+            <h3>Advanced Session Topics</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Loading game data from an external JSON file
+            <br> &bull; Creating a window for editing game data
+            <br> &bull; Saving player progress with PlayerPrefs</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
