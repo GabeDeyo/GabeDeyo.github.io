@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Mastering the Web Developer Interview</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="#1">DOM Manipulation</a></li>
+          <li><a href="#2">Bringing Closures</a></li>
+          <li><a href="#3">Notes from Interviews - 1</a></li>
+          <li><a href="#4">IIFE</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Mastering the Web Developer Interview</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>DOM Manipulation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Bringing Closures</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Notes from Interviews - 1</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>IIFE</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Whether you're actively looking for a new job, or you just want to keep your coding skills sharp, it's important to refresh your understanding of the kinds of front-end and full-stack developer code that potential employers value. In this weekly series, we'll explore essential coding skills that every developer should have in their toolkit. In addition to taking you through a series of brief, practical exercises, this course includes interviews with hiring managers and industry professionals that can help demystify the interview process for web developers, and provide you with examples of how others in the field have navigated their careers. Tune in on <b>Tuesdays</b>.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>DOM Manipulation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The DOM (Document Object Model) is one of the most fundamental components of any web application.
+            <br> &nbsp; &bull; Important concepts to know about the DOM include: <b>reading</b>, <b>writing</b>, and <b>modifying</b> the DOM. As well as <b>accessing</b> and <b>removing</b> elements within the DOM.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Understanding the DOM</h3>
+            <p><span class='glyphicon-remove'></span>DOM structure
+                <br> &nbsp; &bull; The DOM is the <i>structure</i> that gives you access to all the content within a website. These can be targeted through JavaScript, CSS rules, and more.</p>
+            <p><span class='glyphicon-remove'></span>DOM nodes
+                <br> &nbsp; &bull; The key to <i>accessing</i> the elements within the DOM are <b>nodes</b>. Think of nodes as a branch of a tree that has different sub-branches. You can access the content of your page by targeting the <i>proper node</i>.</p>
+            <p><span class='glyphicon-remove'></span>Targeting nodes
+                <br> &nbsp; &bull; To start targeting nodes, you need to start by targeting <i>the window element in the current document</i>, which is the root of the entire DOM, and then asking for a node that matches your criteria.
+                <br> &nbsp; &bull; JavaScript will return a specific node, or an array-like object with the nodes that you need.
+                <br> &nbsp; &bull; The most popular way to access DOM nodes is <i>getElementById()</i>. This returns an element if that element has an ID attribute that you specify, but only if you specify an ID for that element. This is the oldest and most compatible of old DOM selection methods.
+                <br> &nbsp; &bull; There are now methods that allow you to grab elements by either class name or tag name. These are <i>getElementsByClassName()</i> and <i>getElementsByTagName()</i>. The difference is that these will return a <i>list-like</i> array of nodes, and you'll need to loop through them to get individual elements.</p>
+            <p><span class='glyphicon-remove'></span><b>Modern</b> Targeting Methods
+                <br> &nbsp; &bull; All developers should be aware of the <i>querySelector</i> and <i>querySelectorAll</i>methods.
+                <br> &nbsp; &bull; <i>querySelector</i> returns the first matching element
+                <br> &nbsp; &bull; <i>querySelectorAll</i> returns a list-like object of all the elements that match the criteria.
+                <br> &nbsp; &bull; Remember that these are accessed natively in JS through the DOM document object (document.querySelector()).</p>
+            <p><span class='glyphicon-remove'></span>Manage nodes
+                <br> &nbsp; &bull; Now that you can select nodes, it's up to you on how you want to <b>add</b>, <b>modify</b>, or <b>delete</b> content within the nodes.
+                <br> &nbsp; &bull; You can <b>append</b> regular HTML text to a node using the <i>innerHTML</i> property.
+                <br> &nbsp; &bull; You can <b>create</b> nodes manually using <i>createElement()</i>.
+                <br> &nbsp; &bull; You can <b>insert</b> a node inside another node using <i>appendChild()</i>.
+                <br> &nbsp; &bull; You can add <b>events</b> to nodes using the <i>addEventListener()</i> method.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>DOM Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- index.html -->
+
+            &lt;body>
+                &lt;div class="boxes">
+                &lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// style.css
+
+            .box {
+                display: block;
+                background: #DDD;
+                width: 100px;
+                height: 100px;
+                border-radius: 10px;
+                float: left;
+                margin: 5px;
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// script.js
+
+            var colors = [
+                '#C94C24', //orange
+                '#268BD2', //blue
+                '#C4226F', //pink
+                '#859835', //lime
+                '#6D73C2', //purple
+                '#37A198', //green
+                '#DA3637', //red
+                '#F0AD4E', //yellow
+            ];
+
+            function makeBoxes(howMany) {
+                var colorAmt = colors.length;
+                var currColor = 0;
+
+                var myElement;
+                var myNode = document.querySelector('.boxes');
+
+                for(var i = 0; i &lt; howMany; i++) {
+
+                    myElement = document.createElement('div');
+                    myElement.className = 'box';
+                    myElement.style = 'background-color:' + colors[currColor];
+
+                    myNode.appendChild(myElement);
+
+                    if(currColor == colorAmt-1) {
+                        currColor = 0;
+                    } else {
+                        currColor++;
+                    }
+                }
+
+                myNode.addEventListener('click', function(e) {
+                    e.target.parentNode.removeChild(e.target);
+                }, false);
+            }
+
+            makeBoxes(20);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Additional Lynda Resources</h3>
+            <p><span class='glyphicon-remove'></span>JavaScript Essential Training</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Enhancing the DOM</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Events</p>
+            <p><span class='glyphicon-remove'></span>JavaScript for Web Designers</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Bringing Closures</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What to know before: Scope</h3>
+            <p><span class='glyphicon-remove'></span><b>Scope</b> refers to the area within a computer program where a variable is available.
+                <br> &nbsp; &bull; Variables are created and exist within different regions.
+                <br> &nbsp; &bull; Variables are bound to certain regions within your application.</p>
+            <p><span class='glyphicon-remove'></span>Javascript uses a concept called <b>lexical scoping</b>.
+                <br> &nbsp; &bull; Lexical scope describes how variable scopes are determined when there is a function inside another function.
+                <br> &nbsp; &bull; Using lexical scope, the inner function will have access to variables in the parent function. (This is essentially what a closure is.)</p>
+            <p><span class='glyphicon-remove'></span>A <b>closure</b> is created when you use the function keyword inside another function.
+                <br> &nbsp; &bull; This means that variables can remember the environment that they were created in.</p>
+            <p><span class='glyphicon-remove'></span>Scopes &amp; Closures - 
+                <br> &nbsp; &bull; Scope region binding
+                <br> &nbsp; &bull; Lexical scoping
+                <br> &nbsp; &bull; Creating a closure
+                <br> &nbsp; &bull; Remembers environment</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Simple example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function setupItem() {
+
+                var myNumber = 1;
+
+                function increment() {
+                    return console.log(myNumber++);
+                }
+
+                increment(); // 1
+                increment(); // 2
+            }
+
+            setupItem();
+            </pre>
+            <p><span class='glyphicon-remove'></span>The interesting thing happening here is that the inner function is going to keep remembering the value of the number, even though it's changing as the function runs different copies.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Closures in Objects</h3>
+            <p><span class='glyphicon-remove'></span>Closures are important for objects because they can remember the state.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>function myObject() {
+                var myValue = 1;
+                return  {
+                    display: function() {
+                        return console.log(myValue);
+                    },
+                    increment: function() {
+                        return myValue++;
+                    }
+                };
+            }
+
+            var mything = myObject();
+                mything.display();  // 1
+                mything.increment();
+                mything.display(); // 2
+
+            var otherthing = myObject();
+                otherthing.display(); // 1
+                otherthing.increment();
+                otherthing.display(); // 2
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Closures and Loops</h3>
+            <p><span class='glyphicon-remove'></span>It's important to be careful when using closures inside <b>loops</b>, because closures remember the value of the environment and those variables are constantly changing.
+                <br> &nbsp; &bull; A technique for getting around loops in closures is called a <b>function factory</b>.
+                <br> &nbsp; &bull; A function factory is a technique where you create a loop to create a series of functions.
+                <br> &nbsp; &bull; This works very well for creating a <i>series of events</i>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span> &lt;!-- index.html -->
+            
+            &lt;body>
+                &lt;div class="container">
+                    &lt;form>
+                        &lt;legend>Pet Questionnaire&lt;/legend>
+
+                        &lt;div class="form-group">
+                            &lt;label class="control-label" for="symptoms">Symptoms&lt;/label>
+                            &lt;textarea class="form-control" type="text" id="symptoms" rows="6">&lt;/textarea>
+                        &lt;/div>
+
+                        &lt;div class="form-group">
+                            &lt;label class="control-label" for="medications">Medications&lt;/label>
+                            &lt;textarea class="form-control" type="text" id="medications" rows="6">&lt;/textarea>
+                        &lt;/div>
+
+                    &lt;/form>
+                &lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// script.js
+
+            var itemText = [
+                {
+                    'id': '#symptoms',
+                    'text': 'Symptoms Text Error Placeholder'
+                },
+                {
+                    'id': '#medications',
+                    'text': 'Medications Text Error Placeholder'
+                }
+            ];
+
+            function handleItem(id, text) {
+                var newElement, targetelement, currentAlert;
+
+                // need bootstrap for this
+                currentAlert = document.querySelector('#currentAlert');
+
+                if(currentAlert !== null) {
+                    currentAlert.parentNode.removeChild(currentAlert);
+                }
+
+                newElement = document.createElement('div');
+                newElement.id = 'currentAlert';
+                newElement.className = 'alert alert-danger';
+                newElement.innerHtML = text;
+
+                targetElement = document.querySelector(id).parentNode;
+                targetElement.insertBefore(newElement, targetElement.childNodes[2]);
+            }
+
+            function initItem(id, text) {
+                return function() {
+                    handleItem(id, text);
+                }
+            }
+
+            function setupItem() {
+                var DOMElement;
+
+                for(var i = 0; i &lt; itemText.length; i++) {
+                    DOMElement = document.querySelector(itemText[i].id);
+
+                    DOMElement.addEventListener('focus', initItem(itemText[i].id, itemText[i].text));
+                }
+            }
+
+            setupItem();
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Additional Lynda Resources</h3>
+            <p><span class='glyphicon-remove'></span>JavaScript Essential Training</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Functions</p>
+            <p><span class='glyphicon-remove'></span>JavaScript: Enhancing the DOM</p>
+            <p><span class='glyphicon-remove'></span>JavaScript &amp; JSON</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Notes from Interview - 1</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            What do you need to work in the modern web development workforce?
+                <br> &nbsp; &bull; Basic understanding of HTML, JavaScript, and CSS.
+                <br> &nbsp; &bull; Be able to create for responsive and cross-browser applications.
+                <br> &nbsp; &bull; JS - Basic programming concepts, interaction with DOM, work with data (APIs), debugging skills
+                <br> &nbsp; &bull; Be able to express an idea and design with code.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>IIFE</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>IIFE - Immediately-invoked Function Expression</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>(function() {
+                //Isolate Code Here
+            })();
+            </pre>
+            <p><span class='glyphicon-remove'></span>An IIFE is what's known as an anonymous function.
+                <br> &nbsp; &bull; This is a function that we want to invoke <i>immediately</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Protection</h3>
+            <p><span class='glyphicon-remove'></span>Typically you'll want to wrap an entire script in an IIFE which will provide some special features.
+                <br> &nbsp; &bull; This will protect any variables or functions inside this <i>master function</i> from being accessed.
+                <br> &nbsp; &bull; Functions inside this IFFE are going to create <i>closures</i>.
+                <br> &nbsp; &bull; Therefore, any variables declared in the IFFE will be accessible to any function that is also written in the IFFE, and protected from anything outside the IFFE.
+                <br> &nbsp; &bull; So if we h</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

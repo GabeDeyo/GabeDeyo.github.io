@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>AJAX</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="1">Using a Synchronous XHR request</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">AJAX</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>AJAX</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Using a Synchronous XHR request</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Making Requests Asynchronous</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            The ability to read data and communicate information asynchronously is fundamental to modern web applications. In this section, we'll tak a look at integrating AJAX (Asynchronous JavaScript and XML) with JavaScript and jQuery - a combination that makes it easy to work with dynamic data and reduces the number of requests to the server. The section first explains what AJAX is, and shows how to load and reload pages with pure JavaScript, update the DOM, and read and parse data in the XML and JSON formats. Next, learn how to read and write information between the server and the client with AJAX methods in jQuery, and build a dynamic search application that updates search results as you type.
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Topics Include</h3>
+            <p><span class='glyphicon-remove'></span> &nbsp; &bull; What is AJAX?
+            <br> &nbsp; &bull; Making requests asynchronous
+            <br> &nbsp; &bull; Updating the DOM with getElementByID
+            <br> &nbsp; &bull; Reading JSON files
+            <br> &nbsp; &bull; Working with jQuery and AJAX
+            <br> &nbsp; &bull; Sending and searching JSON data
+            <br> &nbsp; &bull; Incorporating CSS transitions</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>AJAX</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How do browsers work?</h3>
+            <p><span class='glyphicon-remove'></span>&bull; A browser requests a page
+                <br>&bull; Client requests info from the server
+                <br>&bull; Users sometimes request additional info
+                <br> &nbsp; &bull; <b>Without AJAX</b>: Receive entire page again, with additional info
+                <br> &nbsp; &bull; <b>With AJAX</b>: Server only sends additional info, only needs to update new info</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How AJAX works</h3>
+            <p><span class='glyphicon-remove'></span>AJAX is based on several technologies working together: Asynchronous <b>JavaScript</b> and <b>XML</b>
+                <br> &nbsp; &bull; Requests without reload
+                <br> &nbsp; &bull; JavaScript for heavy lifting
+                <br> &nbsp; &bull; Talks to server through XHR</p>
+            <p><span class='glyphicon-remove'></span><b>What XHR isn't</b>
+                <br> &nbsp; &bull; Not XML
+                <br> &nbsp; &bull; AJAX requests can be in any format (Text file, HTML, JSON object,  etc.)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Using a Synchronous XHR request</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The first step to working with AJAX is learning the API browsers provide for sending/receiving information.
+            <br> &nbsp; &bull; This is done using an XML HTTP request or XHR object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example</h3>
+            <p><span class='glyphicon-remove'></span>Lets say we have and index.html, a data.txt, and a script.js all on the same directory.
+                <br> &nbsp; &bull; We want to create the simplest XHR request.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//script.js
+
+            var request = new XMLHttpRequest();
+            request.open('GET', 'data.txt', false);
+            request.send();
+            if(request.status === 200) {
+                console.log('Request OK');
+                document.writeln(request.dataInFile); // Writes data from file in document
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that this XHR request is <b>synchronous</b>, therefore, the document can't update until all the XHR requests have been made.
+            <br>&bull; Our code will work fine in this case, but only because we're only making <b>one</b> request. Let's try something ugly.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//script.js
+            for(var i = 0; i &lt; 100; i++) {
+                var request = new XMLHttpRequest();
+                request.open('GET', 'data.txt', false);
+                request.send();
+                if(request.status === 200) {
+                    console.log('Request OK');
+                    document.writeln(request.dataInFile); // Writes data from file in document
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This call is now getting made 100 times before allowing the document to update. This results in serious wait-time.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Making Requests Asynchronous</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Since AJAX requests are supposed to be asynchronous, they should be running in the background independently of other events.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

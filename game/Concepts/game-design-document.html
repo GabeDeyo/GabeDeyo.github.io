@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Game Design Document Template</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Project Description</a></li>
+          <li><a href="#1">Characters</a></li>
+          <li><a href="#2">Story</a></li>
+          <li><a href="#3">Gameplay</a></li>
+          <li><a href="#4">Art Style</a></li>
+          <li><a href="#5">Music &amp; Sounds</a></li>
+          <li><a href="#6">Technical Description</a></li>
+          <li><a href="#7">Marketing &amp; Funding</a></li>
+          <li><a href="#8">Other Ideas</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Game Design Document Template</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Project Description</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Characters</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Story</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Gameplay</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Art Style</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#5">Music &amp; Sounds</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#6">Technical Description</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#7">Marketing &amp; Funding</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#8">Other Ideas</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Project Description</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <i>A summary of what this about, without going into too much detail about game mechanics or anything else.</i>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Characters</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>The reason we start with characters is because you need to introduce them before the Story. If your game doesn't have Character and/or Story, you can just jump to the Gameplay section and remove Sections 1 and 2</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Story</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>Having introduced the characters, it’s a good time to talk about the events that will happen throughout the game.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Theme</h3>
+            <p><span class='glyphicon-remove'></span><i>This is important for when other people read your design. Overall, the theme speaks about what kind of story you want to tell.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Story Progression</h3>
+            <p><span class='glyphicon-remove'></span><i>So, you have a Story, but how will the game take your players through that story. It’s very important to develop the world like a place were not only this story, but multiple stories could be happening at the same time. This opens the door for sequels and merchandise.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Gameplay</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>This is the most important section of the GDD. It’s where you describe what your Gameplay, will be like.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Goals</h3>
+            <p><span class='glyphicon-remove'></span><i>In short, why is the player playing your game? It’s good to add this to a separate section so you don’t have to guess while reading through the whole GDD.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>User Skills</h3>
+            <p><span class='glyphicon-remove'></span><i>This is not the most intuitive section, but it really helps to narrow down your scope if you think about what are the skills your player needs to master in order to play your game. Believe us, writing this list will help you find problems in your Game Design, for example, you may be trying to develop a game for kids but realize you require them to do something that is too advanced for their age, or some inputs may be good for Mobile but not for a Console with a Joystick. Also, if your game is going to have Custom HW built around it, then this list will allow you to figure out what components you’ll need to make it work.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Game Mechanics</h3>
+            <p><span class='glyphicon-remove'></span><i>This is where you describe your proper game mechanics. Spare no words, when you circulate this GDD around your team, there has to be the least reasonable amount of doubt about what the gameplay should be like. This is a very good section to add some Artwork or Screenshots of your prototype (we prefer to prototype the mechanics and figure out if they are fun before committing resources to a game).</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Items and Power-ups</h3>
+            <p><span class='glyphicon-remove'></span><i>We use this section to elaborate on the Game Mechanics. In order to avoid having a single section with everything in our brains poured into it, we use the section above to describe the core mechanics, and this section to talk about things that can be added to the game in order to improve the fun and empower the player.
+            <br>So, if your game is a match-3 game, then in the previous section you’d go and describe exactly how a match-3 game would work (and adding your variations to the formulae).
+            <br>In this section you’d add every power up and item the player can use/encounter/buy and how they would affect the core gameplay.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Progression and challenge</h3>
+            <p><span class='glyphicon-remove'></span><i>This is also a very subjective section that may or may not work in your design. Our idea behind this section is to elaborate on how the difficulty will increase throughout the game, and making sure we give the player the tools to catch up with it.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Losing</h3>
+            <p><span class='glyphicon-remove'></span><i>What are the losing conditions? Time, health, all of them? This is the section where you describe how the player gets to see your Game Over screen.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Art Style</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>This section is where you describe your ideas about what the game should look like. Since a picture is worth a thousand words, this is a great place to add some concept art.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Music &amp; Sounds</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>Here is where you describe your Music and Sound FX. Depending on how important this is in your game, then you can split the section in different sub-sections.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Technical Description</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>Here’s where you describe the platforms you’d be launching for and tools you’ll be using or are considering to use throughout your development. This should not be a detailed technical description, for that you have the Technical Design Document (TDD). Here we are just scratching the Surface.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Marketing &amp; Funding</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>A completely optional section, but write your ideas now so you don’t forget them later. It’s important to think about how you are going to market your game even before starting your development. It’s also important to know where the money to make the game is coming from.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Demographics</h3>
+            <p><span class='glyphicon-remove'></span><i>It’s important to know who you’ll be targeting, this should spill into the game design. If you are targeting 15 to 25 year old males, then your main character probably shouldn’t be a pink pony (no that there’s anything wrong with it).</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Platgorms &amp; Monetization</h3>
+            <p><span class='glyphicon-remove'></span><i>You can detail a little bit more how you are going to approach release on each platform.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Localization</h3>
+            <p><span class='glyphicon-remove'></span><i>Your supported languages. Just add whatever you have in mind, this is something that probably won’t be a priority.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Other Ideas</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>If you have ideas that you are not sure if they should go in the game or not, just add them here so you don’t forget them.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

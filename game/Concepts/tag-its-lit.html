@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Tag - It's Lit - Game Design Document</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Project Description</a></li>
+          <li><a href="#1">Characters</a></li>
+          <li><a href="#2">Story</a></li>
+          <li><a href="#3">Gameplay</a></li>
+          <li><a href="#4">Art Style</a></li>
+          <li><a href="#5">Music &amp; Sounds</a></li>
+          <li><a href="#6">Technical Description</a></li>
+          <li><a href="#7">Marketing &amp; Funding</a></li>
+          <li><a href="#8">Other Ideas</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Tag - It's Lit - Game Design Document</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Project Description</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#1">Characters</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#2">Story</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#3">Gameplay</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#4">Art Style</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#5">Music &amp; Sounds</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#6">Technical Description</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#7">Marketing &amp; Funding</a>
+                                </p>
+                            </li>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#8">Other Ideas</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Project Description</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Tag - It's Lit</b> is a 1-4 player couch co-op action game based on the classic kids game Tag.
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Characters</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            &bull; Players will control a generic character only distinguishable by it's color. 
+            <br>&bull; Characters are selected at the beginning of each game.
+            <br>&bull; If not all four slots are taken at the beginning of the game, players can either select that the slot should be empty or be played by the computer.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Story</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            No story here, just different game modes.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Theme</h3>
+            <p><span class='glyphicon-remove'></span>&bull; Each map will have it's own theme and distinct color scheme.
+            <br>&bull; No overarching narrative or story theme.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Gameplay</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Tag - It's Lit is a game based on the classic childs game Tag, which is a very simple concept. One person is "it" and all other are not. The person "it" physically runs after the others with the goal of chasing them until he/she can tag (touch) another player, at which point the tagged person is then "it" and the other person becomes tag-able. The game continues like this forever or some defined goal is reached.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Modes</h3>
+            <p><span class='glyphicon-remove'></span>Tag, It's Lit will feature multiple modes, each containing it's own goals, gameplay, setup, etc. TODO - These modes are half-baked and need design considerations.</p>
+            <p><span class='glyphicon-remove'></span><b>Classic</b> - The main goal of Tag is to <i>not</i> be "it", therefore, being not "it" will result in the accumulation of points, while being "it" will result in no points. When a player "tags" another player, the tagged player falls apart at that spot and respawns at the center of the map, accumulating zero points. The player who did the tagging is now tag-able and accumulates points. If a player is destroyed in any other way in this mode, they will receive a deduction in points, and be respawned to a random location on the map. The end of this mode is dictated by either a timer or a character reaching a point limit. Before the game starts, two items are chosen: (1) How many rounds will the game have? (2) How much time should each round last? OR How many points should a character need to win each round? Players will accumulate an Total Rounds Won throughout this round, and the player with the most points in this category at the end of the game win.</p>
+            <p><span class='glyphicon-remove'></span><b>Team Classic</b> - This mode is essentially the same as the Classic game mode, with Teams. At the beginning of the game, players can choose a "like" color, and there will be some UI that connects the character selector, and then those players will share points (shown as a bigger point UI). If a player on one team is it, they cannot tag the other person(s) on their own team, and both players won't accumulate points, however the other team will. All other aspects of the Classic mode are derived here.</p>
+            <p><span class='glyphicon-remove'></span><b>Zombie</b> - The main goal of this mode is to be the last one surviving at the end of the round. There will only be one person "it" at the beginning of this game, but any subsequent tags will result in the tagged player becoming "it" as well as the already tagged player. If a player is killed at any point in these rounds, they will be respawned at the center of the map as a zombie. The round is finished when either the timer for the round is up, or one single player is left. Again, the winner accumulates a Total Rounds Won point, and the player with the most of these points wins this game.</p>
+            <p><span class='glyphicon-remove'></span>TODO: More modes</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Player Abilities</h3>
+            <p><span class='glyphicon-remove'></span>Each player will control their own character. Here are the characters abilities:
+                <br> &nbsp; &bull; Run - Use the controller to move the character horizontally around the level.
+                <br> &nbsp; &bull; Jump - Press A or X on the controller to jump.
+                <br> &nbsp; &bull; Reach - Hold the left trigger to lean forward, arms outstreched resulting in faster movement an extended reach. Jumping and diving while reaching will result in smaller jumps and dives. The character will also have slower rotation while reaching.
+                <br> &nbsp; &bull; Dive - Press the right trigger to dive forward with additional momentum. The character will leap forward in the direction that the player dictates, fall to the ground, and slide until stopped, then get up. While diving, the character cannot jump, reach, dive, or much of anything until they are upright.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Game Mechanics</h3>
+            <p><span class='glyphicon-remove'></span></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Items and Power-ups</h3>
+            <p><span class='glyphicon-remove'></span><i>We use this section to elaborate on the Game Mechanics. In order to avoid having a single section with everything in our brains poured into it, we use the section above to describe the core mechanics, and this section to talk about things that can be added to the game in order to improve the fun and empower the player.
+            <br>So, if your game is a match-3 game, then in the previous section you’d go and describe exactly how a match-3 game would work (and adding your variations to the formulae).
+            <br>In this section you’d add every power up and item the player can use/encounter/buy and how they would affect the core gameplay.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Progression and challenge</h3>
+            <p><span class='glyphicon-remove'></span><i>This is also a very subjective section that may or may not work in your design. Our idea behind this section is to elaborate on how the difficulty will increase throughout the game, and making sure we give the player the tools to catch up with it.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Losing</h3>
+            <p><span class='glyphicon-remove'></span><i>What are the losing conditions? Time, health, all of them? This is the section where you describe how the player gets to see your Game Over screen.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Art Style</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>This section is where you describe your ideas about what the game should look like. Since a picture is worth a thousand words, this is a great place to add some concept art.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Music &amp; Sounds</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>Here is where you describe your Music and Sound FX. Depending on how important this is in your game, then you can split the section in different sub-sections.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Technical Description</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>Here’s where you describe the platforms you’d be launching for and tools you’ll be using or are considering to use throughout your development. This should not be a detailed technical description, for that you have the Technical Design Document (TDD). Here we are just scratching the Surface.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Marketing &amp; Funding</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>A completely optional section, but write your ideas now so you don’t forget them later. It’s important to think about how you are going to market your game even before starting your development. It’s also important to know where the money to make the game is coming from.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Demographics</h3>
+            <p><span class='glyphicon-remove'></span><i>It’s important to know who you’ll be targeting, this should spill into the game design. If you are targeting 15 to 25 year old males, then your main character probably shouldn’t be a pink pony (no that there’s anything wrong with it).</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Platgorms &amp; Monetization</h3>
+            <p><span class='glyphicon-remove'></span><i>You can detail a little bit more how you are going to approach release on each platform.</i></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Localization</h3>
+            <p><span class='glyphicon-remove'></span><i>Your supported languages. Just add whatever you have in mind, this is something that probably won’t be a priority.</i></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Other Ideas</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <i>If you have ideas that you are not sure if they should go in the game or not, just add them here so you don’t forget them.</i>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
