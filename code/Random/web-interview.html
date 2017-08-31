@@ -591,13 +591,65 @@
     <h2>Flexbox - Control Horizontal Alignment</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            <b>Flexbox</b> is one of the available CSS <i>display properties</i> and it makes single-dimension layouts super easy.
+                <br> &nbsp; &bull; It's an important tool in a <i>front-end developers</i> toolkit.
+                <br> &nbsp; &bull; CSS Grid is a good alternative for complex layouts, but does <i>not</i> have great browser support.
+                <br> &nbsp; &bull; It's recommended to use some post-processing technology to manage conversion to different versions of syntax for different browsers.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>How To</h3>
+            <p><span class='glyphicon-remove'></span>You specify the <i>display property</i> on a <b>parent element</b>, and then control how a child element will display within that parent.
+                <br> &nbsp; &bull; Generally, this means you'll be adding <i>additional properties</i> in the parent to control how the children are displayed.
+                <br> &nbsp; &bull; There are also properties that you can implement on individual children within the parent, but most of the time, the changes are made on the whole parent.</p>
+            <p><span class='glyphicon-remove'></span>The main task you need to do is set the parent to flex.
+                <br> &nbsp; &bull; This force the children to start behaving as a flex component.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>.parent {
+                display: flex;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Once parents are acting as Flexbox components, you can specify how elements inside will <b>flow</b>.
+                <br> &nbsp; &bull; The default is <i>row</i>: elements will display <b>side-by-side.</b>
+                <br> &nbsp; &bull; Another option is <i>column</i>: elements will stack on top of one another.
+                <br> &nbsp; &bull; The other two options are <i>row-reverse</i> and <i>column-revers</i>: elements will be in the reverse order of their rows or columns.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>.parent {
+                display: flex;
+                flex-direction: DIR; //row column row-reverse column-reverse
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Flex children will try to stay in a <i>single line</i>, but you can change that.
+                <br> &nbsp; &bull; Items can be set to wrap or not wrap.
+                <br> &nbsp; &bull; Items can be reversed with <i>wrap-reverse</i>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>.parent {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: WRP; //nowrap wrap wrap-reverse
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Finally, you can <i>justify content</i> to control how elements are aligned within the main axis.
+                <br> &nbsp; &bull; The default is for them to be <i>left aligned</i> which is called <b>flex start</b>.
+                <br> &nbsp; &bull; Elements can be easily <i>right aligned</i> with <b>flex end</b>.
+                <br> &nbsp; &bull; A self-explanatory way of <i>centering</i> elements is using <b>center</b>.
+                <br> &nbsp; &bull; In order to place the content that's at the beginning or the end of the parent <i>at the edges of the container</i>, use <b>space-between</b>.
+                <br> &nbsp; &bull; In order to place <i>equal space</i> between all the elements as well as in the edges, use <b>space-around</b>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>.parent {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: JUS; //flex-start flex-end center space-between space-around
+            }
+            </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Additional Resources</h3>
+            <p><span class='glyphicon-remove'></span>CSS Tricks Flexbox Guide</p>
+            <p><span class='glyphicon-remove'></span>MDN Flexbox Guide</p>
+            <p><span class='glyphicon-remove'></span>CSS Flexbox: First Look (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>Advanced Flexbox Layouts (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>Next Generation CSS Design (Lynda)</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
