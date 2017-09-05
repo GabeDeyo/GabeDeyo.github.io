@@ -127,6 +127,10 @@
                                 <a href='#5'>Exes and Ohs</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Shortest Word</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -320,6 +324,55 @@
                 let x = str.match(/x/gi);
                 let o = str.match(/o/gi);
                 return (x &amp;&amp; x.length) === (o &amp;&amp; o.length);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Shortest Word</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Given a string of words, return the length of the shortest word(s).</p>
+            <p><span class='glyphicon-remove'></span>String will never be empty and you do not need to account for different data types.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function findShort(s) {
+                // Split string into an array at <i>spaces</i>
+                var words = s.split(' ');
+
+                // Initialize <b>result</b> as the length of the first word.
+                var result = words[0].length;
+
+                // Grab shortest word through iteration
+                for(var i in words) {
+                    if(words[i].length &lt;= result) {
+                        result = words[i].length;
+                    }
+                }
+
+                return result;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function findShort(s) {
+                return Math.min.apply(null, s.split(' ').map(w => w.length));
+
+                // <b>Math.min.apply(null, array)</b> - retrieve the min value of an array
+
+                // <b>s.split(' ')</b> - returns an array of the string, split at the spaces
+
+                // <b>array.map(expression)</b> - returns a new array with the results of the expression on every element in the calling array.
+
+                // <b>array.map(w => w.length)</b> - returns a new array with the results being <i>the length</i> of every word in the array.
             }
             </pre>
         </p></li>
