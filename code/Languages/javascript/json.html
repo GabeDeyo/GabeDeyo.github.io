@@ -97,11 +97,15 @@
         <ul>
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
-          <li><a href="#pre-0">Introduction</a></li>
-          <li><a href="#0">JSON</a></li>
-          <li><a href="#1">JS Objects vs. JSON</a></li>
-          <li><a href="#2">Creating Data</a></li>
-          <li><a href="#3"></a></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="#1">Syntax</a></li>
+          <li><a href="#2">JSON vs. XML</a></li>
+          <li><a href="#3">JSON Objects</a></li>
+          <li><a href="#4">JSON Arrays</a></li>
+          <li><a href="#5">JSON.parse()</a></li>
+          <li><a href="#6">JSON.stringify()</a></li>
+          <li><a href="#7">JSON HTML</a></li>
+          <li><a href="#8">JSONP</a></li>
         </ul>
     </aside>
 
@@ -116,179 +120,818 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#pre-0">Introduction</a>
+                                <a href="#0">Introduction</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">JSON</a>
+                                <a href="#1">Syntax</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#1'>JS Objects vs. JSON</a>
+                                <a href='#2'>JSON vs. XML</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#2'>Creating Data</a>
+                                <a href='#3'>JSON Objects</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#3'></a>
+                                <a href='#4'>JSON Arrays</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>JSON.parse()</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>JSON.stringify()</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>JSON HTML</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>JSONP</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
-<div class='jumbotron col-md-12 heliList' id='pre-0'>
+<div class='jumbotron col-md-12 heliList' id='0'>
     <h2>Introduction</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            JavaScript Object Notation (JSON) has replaced XML as the core way of sharing data, especially when it comes to JavaScript, since it's so much faster, sleeker, and easier to parse. In this course, dive into working with JSON tools, designing JSON objects, and using different ways to handling JSON data. Here we'll show how to use AJAX and jQuery to parse your data and feeds, and show JavaScript and JSON in action in a real-world practical application.
+            &bull; JSON: JavaScript Object Notation
+            <br>&bull; JSON is a syntax for <i>storing</i> and <i>exchanging</i> data.
+            <br>&bull; JSON is <b>text</b>, written with JavaScript object notation.
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Topics Include</h3>
-            <p><span class='glyphicon-remove'></span> &nbsp; &bull; What is JSON?
-            <br> &nbsp; &bull; Creating simple data
-            <br> &nbsp; &bull; Debugging JavaScript objects in the browser
-            <br> &nbsp; &bull; Communicating across sites with JSONP
-            <br> &nbsp; &bull; Rotating with jQuery Cycle</p>
+            <h3>Exchanging Data</h3>
+            <p><span class='glyphicon-remove'></span>When exchanging data between a browser and a server, the data can <i>only be text</i>.</p>
+            <p><span class='glyphicon-remove'></span>JSON is text, and we can convert any JavaScript object into JSON, and send JSON to the server.</p>
+            <p><span class='glyphicon-remove'></span>We can also convert any JSON received from the server into JavaScript objects.</p>
+            <p><span class='glyphicon-remove'></span>This way we can work with the data as JavaScript objects, with no complicated parsing and translations.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Sending Data</h3>
+            <p><span class='glyphicon-remove'></span>If you have data stored in a JavaScript object, you can <i>convert</i> the object into JSON, and send it to a server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myObj = {
+                "name": "Gabe",
+                "age": 24,
+                "city": "Austin"
+            };
+
+            var myJSON = JSON.stringify(myObj);
+            window.location = "demo_json.php?x=" + myJSON;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Receiving Data</h3>
+            <p><span class='glyphicon-remove'></span>If you receive data in JSON format, you can convert it into a JavaScript object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myJSON = '{
+                "name": "Gabe",
+                "age": 24,
+                "city": "Austin"
+            }';
+
+            var myObj = JSON.parse(myJSON);
+            document.getElementById("demo").innerHTML = myObj.name;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Storing Data</h3>
+            <p><span class='glyphicon-remove'></span>When storing data, the data has to be a certain format, and regardless of where you choose to store it, <i>text</i> is always one of the legal formats.
+                <br> &nbsp; &bull; JSON makes it possible to store JavaScript objects as text.</p>
+            <p><span class='glyphicon-remove'></span>Let's store data into local storage:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Store data:
+            var myObj = { "name": "Gabe", "age": 24, "city": "Austin" };
+            var myJSON = JSON.stringify(myObj);
+            localStorage.setItem("textJSON", myJSON);
+
+            //Retrieve data:
+            var text = localStorage.getItem("testJSON");
+            var obj = JSON.parse(text);
+            document.getElementByID("demo").innerHTML = obj.name;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is JSON?</h3>
+            <p><span class='glyphicon-remove'></span>JSON stands for JavaSctip Object Notation</p>
+            <p><span class='glyphicon-remove'></span>JSON is a lightweight data-interchange format</p>
+            <p><span class='glyphicon-remove'></span>JSON is "self-describing" and easy to understand</p>
+            <p><span class='glyphicon-remove'></span>JSON is language independent.
+                 <br> &nbsp; &bull; JSON uses JavaScript syntax, but the JSON format is text only.
+                <br> &nbsp; &bull; Text can be read and used as data format by any programming language.</p>
+            <p><span class='glyphicon-remove'></span>JSON format was originally specified by Douglas Crockford.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Why use JSON?</h3>
+            <p><span class='glyphicon-remove'></span>Since the JSON format is text only, it can easily be sent to and from a server, and used as a data format by any programming language.</p>
+            <p><span class='glyphicon-remove'></span>JavaScript has a built-in function to convert a string, written in JSON format, into native JavaScript objects: <i>JSON.parse()</i>.
+                <br> &nbsp; &bull; So, if you receive data from a server, in JSON format, you can use it like any other JavaScript object.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
-<div class="jumbotron col-md-12 heliList" id="0">
-    <h2>JSON</h2>
-    <ul>
-        <li><p><span class="glyphicon-remove"></span>
-            <h3>JSON - JavaScript Object Notation</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Format for sharing data
-            <br> &bull; Derived from JavaScript
-            <br> &bull; Language independent
-            <br> &bull; An alternative to XML</p>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            <h3>Advantages</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Easy to Read
-            <br> &bull; Easy to Parse
-            <br> &bull; Leaner than XML
-            <br> &bull; Growing support in APIs
-            <br> &bull; Natural format for JavaScript
-            <br> &bull; Implementation in many languages</p>
-        </p></li>
-    </ul>
-    <a href="#title"><span class="glyphicon-menu-up"></span></a>
-</div>
-
 <div class='jumbotron col-md-12 heliList' id='1'>
-    <h2>JS Objects vs. JSON</h2>
+    <h2>Syntax</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>JSON Strings</h3>
-            <p><span class='glyphicon-remove'></span>&bull; JSON keys wrapped in "quotes"
-            <br>&bull; JSON keys can be any valid string
-            <br>&bull; JSON values have to be one of <b>six</b> data types:
-                <br> &nbsp; &bull; <i>strings, numbers, objects, arrays, booleans or null</i></p>
+            <h3>JSON Syntax Rules</h3>
+            <p><span class='glyphicon-remove'></span>JSON syntax is a subset of the JavaScript syntax.
+                <br> &nbsp; &bull; Data is in <b>name/value</b> pairs
+                <br> &nbsp; &bull; Data is separated by <i>commas</i>
+                <br> &nbsp; &bull; Curly braces hold objects
+                <br> &nbsp; &bull; Square brackets hold arrays</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON Data - Name/Value</h3>
+            <p><span class='glyphicon-remove'></span>JSON data is written as name/value pairs.
+                <br> &nbsp; &bull; A name/value pari consists of a field name (in double quotes), followed by a colon, followed by a value:</p>
             <pre>
-            <span class='glyphicon-remove'></span>{ "full_name" : "Gabe Deyo" }
+            <span class='glyphicon-remove'></span>"name": "John"
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>!Important</b> - JSON name <b>require</b> double quotes, JavaScript names dont'.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON - Evaluated to JavaScript Objects</h3>
+            <p><span class='glyphicon-remove'></span>The JSON format is almost identical to JavaScript objects.
+                <br> &nbsp; &bull; In JSON, <i>keys</i> must be strings, written in <b>double quotes</b>.
+                <br> &nbsp; &bull; In JavaScript, keys can be string, numbers, or identifier names.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//JSON
+            { "name": "Gabe" }
+
+            //JavaScript
+            { name: "Gabe" }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>JavaScript Object</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Quotes on keys not necessary
-            <br>&bull; JavaScript Object can be any data type (including function)</p>
+            <h3>JSON Values</h3>
+            <p><span class='glyphicon-remove'></span>In JSON, <i>values</i> must be one of the following data types:
+                <br> &nbsp; &bull; a string
+                <br> &nbsp; &bull; a number
+                <br> &nbsp; &bull; an object (JSON object)
+                <br> &nbsp; &bull; an array
+                <br> &nbsp; &bull; a boolean
+                <br> &nbsp; &bull; null</p>
+            <p><span class='glyphicon-remove'></span>In JavaScript, <i>values</i> can be all of the above, plus any other valid JavaScript expression, including:
+                <br> &nbsp; &bull; a function
+                <br> &nbsp; &bull; a date
+                <br> &nbsp; &bull; undefined</p>
+            <p><span class='glyphicon-remove'></span>In JSON, <i>string values</i> must be written in double quotes.
+                <br> &nbsp; &bull; In JavaScript, you can write string values with double <i>or</i> single quotes</p>
             <pre>
-            <span class='glyphicon-remove'></span>var info = {
-                full_name : "Gabe Deyo"
-                getName : function (){ 
-                    alert(this.full_name);
-                }
-            };
+            <span class='glyphicon-remove'></span>//JSON
+            { "name": "Gabe" }
+
+            //JavaScript
+            { name: 'Gabe' }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Parsing JSON</h3>
-            <p><span class='glyphicon-remove'></span>&bull; JSON has to be parsed into JavaScript
-            <br>&bull; Can be done using <i>eval</i> or <i>JSON.parse()</i>. JSON.parse is recommended as it is more secure.
-            <br>&bull; JSON.stringify does the opposite of parse
-            <br>&bull; A library like jQuery can be helpful when facing compatability issues</p>
+            <h3>JSON Uses JavaScript Syntax</h3>
+            <p><span class='glyphicon-remove'></span>Because JSON syntax is derived from JavaScript object notation, very little extra software is needed to work with JSON within JavaScript.</p>
             <pre>
-            <span class='glyphicon-remove'></span>var data = '{ 
-                "name" : "Gabe Deyo",
-                "position" : "Web Developer",
-                "skills" : ["cooking", "cleaning", "others"]
-            }';
-            var info = JSON.parse(data);
-            var infostring = JSON.stringify(info);
+            <span class='glyphicon-remove'></span>//JS Object
+            var person = { "name": "Gabe", "age": 24, "city", "Austin" };
+
+            //Access data
+            person.name; //Gabe
+            person["age"]; //24
+
+            //Modify data
+            person.name = "Gilbert";
+            person["age"] = 85;
             </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JavaScript Arrays as JSON</h3>
+            <p><span class='glyphicon-remove'></span>The same way JavaScript objects can be used as JSON, JavaScript arrays can also be used as JSON.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON Files</h3>
+            <p><span class='glyphicon-remove'></span>The file type for JSON files is ".json"</p>
+            <p><span class='glyphicon-remove'></span>The MIME type for JSON text is "application/json"</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='2'>
-    <h2>Creating Data</h2>
+    <h2>JSON vs. XML</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Keys &amp; Values</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Multiple values separated with commas
-            <br>&bull; Whitespace for clarity
-            <br>&bull; No quotes on numbers, true, false, null</p>
+            Both JSON an XML can be used to receive data from a web server.
+            <p><span class='glyphicon-remove'></span>The following JSON and XML examples both defines an employees object, with an array of 3 employees:</p>
             <pre>
-            <span class='glyphicon-remove'></span>var info = {
-                "full_name"  : "Gabe Deyo",
-                "title"      : "Web Dev",
-                "company"    : "IBI Data",
-                "years"      : 1.3
+            <span class='glyphicon-remove'></span>//JSON
+            { "employees" : [
+                { "firstName": "Gabe", "lastName": "Deyo" },
+                { "firstName": "Sam", "lastName": "Beyo" },
+                { "firstName": "Max", "lastName": "Feyo" },
+            ]}
+
+            //XML
+            &lt;employees>
+                &lt;employee>
+                    &lt;firstName>Gabe&lt;/firstName> &lt;lastName>Deyo&lt;/lastName>
+                &lt;/employee>
+                &lt;employee>
+                    &lt;firstName>Sam&lt;/firstName> &lt;lastName>Beyo&lt;/lastName>
+                &lt;/employee>
+                &lt;employee>
+                    &lt;firstName>Max&lt;/firstName> &lt;lastName>Feyo&lt;/lastName>
+                &lt;/employee>
+            &lt;/employees>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON is Like XML Because</h3>
+            <p><span class='glyphicon-remove'></span>Both JSON and XML are "self-describing" (human-readable)</p>
+            <p><span class='glyphicon-remove'></span>Both JSON and XML are hierarchical (values within values)</p>
+            <p><span class='glyphicon-remove'></span>Both JSON and XML can be parsed and used by lots of programming languages</p>
+            <p><span class='glyphicon-remove'></span>Both JSON and XML can be fetched with an XMLHttpRequest</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON is Unlike XML Because</h3>
+            <p><span class='glyphicon-remove'></span>JSON doesn't use end tag</p>
+            <p><span class='glyphicon-remove'></span>JSON is shorter</p>
+            <p><span class='glyphicon-remove'></span>JSON is quicker to read and write</p>
+            <p><span class='glyphicon-remove'></span>JSON can use arrays</p>
+            <p><span class='glyphicon-remove'></span>The biggest difference:
+                <br> &nbsp; &bull; XML has to be parsed with an XML parser. JSON can be parsed by a standard JavaScript function.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Why JSON is Better than XML</h3>
+            <p><span class='glyphicon-remove'></span>XML is much more difficult to parse than JSON.</p>
+            <p><span class='glyphicon-remove'></span>JSON is parsed into a ready-to-use JavaScript object.</p>
+            <p><span class='glyphicon-remove'></span>For AJAX applications, JSON is faster and easier than XML.
+            <br>&bull; Using XML:
+                <br> &nbsp; &bull; Fetch an XML document
+                <br> &nbsp; &bull; Use the XML DOM to loop through the document
+                <br> &nbsp; &bull; Extract values and store in variables
+            <br>&bull; Using JSON:
+                <br> &nbsp; &bull; Fetch a JSON string
+                 new-in
+                JSON.parse the JSON string</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>JSON Objects</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Object Syntax</h3>
+            <p><span class='glyphicon-remove'></span>JSON objects are surrounded by curly braces {}.</p>
+            <p><span class='glyphicon-remove'></span>JSON objects are written in key/value pairs.</p>
+            <p><span class='glyphicon-remove'></span>Keys must be strings, and values must be a valid JSON data type (string, number, object, array, boolean, or null).</p>
+            <p><span class='glyphicon-remove'></span>Keys and values are separated by a colon.</p>
+            <p><span class='glyphicon-remove'></span>Each key/value pair is separated by a comma.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Looping an Object</h3>
+            <p><span class='glyphicon-remove'></span>You can loop through object properties (keys) by using the for-in loop:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>myObj = { "name": "Gabe", "age": 24, "city": "Austin" };
+            for(x in myObj) {
+                document.getElementById("demo").innerHTML += x;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>In a for-in loop, use the bracket notation to access the property values:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>myObj = { "name": "Gabe", "age": 24, "city": "Austin" };
+            for(x in myObj) {
+                document.getElementById("demo").innerHTML += myObj[x];
             }
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Retrieving Values</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Normally accessed through dot notation
-            <br>&bull; Can also be accessed through [] notation</p>
+            <h3>Nested JSON Objects</h3>
+            <p><span class='glyphicon-remove'></span>Values in a JSON object can be <i>another</i> JSON object.</p>
             <pre>
-            <span class='glyphicon-remove'></span>var info = { "full_name" : "Gabe Deyo" };
-
-            console.log(info.full_name); //Gabe Deyo
-            console.log(info["full_name"]) //Gabe Deyo
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Arrays</h3>
-            <p><span class='glyphicon-remove'></span>&bull; Lists created with brackets
-            <br>&bull; Accessed via an index number</p>
-            <pre>
-            <span class='glyphicon-remove'></span>var info = {
-                myArray = [
-                "0",
-                "1",
-                "2",
-                "3" ]
-            };
-
-            console.log(info.myArray[1]); //1
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Objects</h3>
-            <pre>
-            <span class='glyphicon-remove'></span>var info = {
-                "links" :  {
-                    "blog"     : "http://1.com",
-                    "facebook" : "http://2.com",
-                    "youtube"  : "http://3.com",
+            <span class='glyphicon-remove'></span>myObj = {
+                "name": "Gabe",
+                "age": 24,
+                "cars": {
+                    "car1": "Avenger",
+                    "car2": "Mercury",
+                    "car3": "Durango"
                 }
             }
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can access nested JSON objects by using the dot notation or bracket notation:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>x = myObj.cars.car2; //Mercury
+            x = myObj.cars.cars["car3"]; //Durango
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Modify Values</h3>
+            <p><span class='glyphicon-remove'></span>You can use the dot notation or bracket notation to modify any value in a JSON object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>myObj.cars.car2 = "Buick";
+            myObj.cars["car3"] = "Mercury";
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Delete Object Properties (Keys)</h3>
+            <p><span class='glyphicon-remove'></span>Use the <i>delete</i> keyword to delete properties from a JSON object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>delete myObj.cars.car2;
             </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>JSON Arrays</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Arrays as JSON Objects</h3>
+            <p><span class='glyphicon-remove'></span>Arrays in JSON are almost the same as arrays in JavaScript.
+                <br> &nbsp; &bull; In JSON, array values must be of type string, number, object, array, boolean, or null.
+                <br> &nbsp; &bull; IN JavaScript, array values can be all of the above, plus functions, dates, and undefined.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Arrays in JSON Objects</h3>
+            <p><span class='glyphicon-remove'></span>Arrays can be values of an object property:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>{
+                "name": "Gabe",
+                "age": 24
+                "cars": ["Durango", "Mercury", "Avenger"]
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Accessing Array Values</h3>
+            <p><span class='glyphicon-remove'></span>you access the array values by using the index number:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>x = myObj.cars[0]; //Durango
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Looping through an Array</h3>
+            <p><span class='glyphicon-remove'></span>You can access array values using a for-in loop or a for loop:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//for-in
+            for(i  in myObj.cars) {
+                x += myObj.cars[i];
+            }
 
+            //for
+            for(var i = 0; i &lt; myObj.cars.length; i++) {
+                x += myObj.cars[i];
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Nexted Arrays in JSON Objects</h3>
+            <p><span class='glyphicon-remove'></span>Values in an array can also be another array, or even another JSON object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>myObj = {
+                "name": "Gabe",
+                "age": 24,
+                "cars": [
+                    { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
+                    { "name":"BMW", "models":[ "320", "X3", "X5" ] },
+                    { "name":"Fiat", "models":[ "500", "Panda" ] }
+                ]
+             }
+            </pre>
+            <p><span class='glyphicon-remove'></span>To access arrays inside arrays, use a for-in loop for each array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>for (i in myObj.cars) {
+                x += "&lt;h1>" + myObj.cars[i].name + "&lt;/h1>";
+                for (j in myObj.cars[i].models) {
+                    x += myObj.cars[i].models[j];
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Modify Array Values</h3>
+            <p><span class='glyphicon-remove'></span>Use the index number to modify an array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>myObj.cars[1] = "Mercedes";
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Delete Array Items</h3>
+            <p><span class='glyphicon-remove'></span>Use the delete keyword to delete items from an array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>delete myObj.cars[1];
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>JSON.parse()</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A common use of JSON is to exchange data to/from a web server.
+                <br> &nbsp; &bull; When receiving data from a web server, the data is always a string.
+                <br> &nbsp; &bull; Parse the data with <b>JSON.parse()</b>, and the data becomes a JavaScript object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON.parse() Example</h3>
+            <p><span class='glyphicon-remove'></span>Imagine we received this text from a web server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myText = '{ "name": "Gabe", "age": 24, "city": "Austin" }'
+            </pre>
+            <p><span class='glyphicon-remove'></span>Use the JavaScript function <b>JSON.parse()</b> to convert text into a JavaScript object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = JSON.parse(myText);
+            </pre>
+            <p><span class='glyphicon-remove'></span>Let's then use the JS object in a page:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p id="demo">&lt;/p>
+
+            &lt;script>
+                document.getElementById('demo').innerHTML = obj.name + ", " + obj.age;
+            &lt;/script>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>!Important</b> - Make sure the text is written in JSON format, or else you will get a syntax error.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON From the Server</h3>
+            <p><span class='glyphicon-remove'></span>You can request JSON from the server by using an AJAX request.
+                <br> &nbsp; &bull; As long as the response from the server is written in JSON format, you can parse the string into a JavaScript object.</p>
+            <p><span class='glyphicon-remove'></span>Let's use the XMLHttpRequest to get data from the server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if(this.readyState == 4 &amp;&amp; this.status == 200) {
+                    var myObj = JSON.parse(this.responseText);
+                    document.getElementById("demo").innerHTML = myObj.name;
+                }
+            };
+
+            xmlhttp.open("GET", "json_demo.txt", true);
+            xmlhttp.send();
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Array as JSON</h3>
+            <p><span class='glyphicon-remove'></span>When using the JSON.parse() on a JSON derived from an array, the method will return a JavaScript array, instead of a JavaScript object.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// json_demo_array.txt
+            [ "Ford", "BMW", "Audi", "Fiat" ]
+
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 &amp;&amp; this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    document.getElementById("demo").innerHTML = myArr[0]; //Ford
+                }
+            };
+            xmlhttp.open("GET", "json_demo_array.txt", true);
+            xmlhttp.send();
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Exceptions</h3>
+            <p><span class='glyphicon-remove'></span><b>Parsing Dates</b> - 
+                <br> &nbsp; &bull; Date objects are not allowed in JSON
+                <br> &nbsp; &bull; If you need to include a date, write it as a string
+                <br> &nbsp; &bull; You can convert it back into a date object later:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var text = '{ "name":"John", "birth":"1986-12-14", "city":"New York"}';
+            var obj = JSON.parse(text);
+            obj.birth = new Date(obj.birth);
+            
+            document.getElementById("demo").innerHTML = obj.name + ", " + obj.birth;
+            </pre>
+            <p><span class='glyphicon-remove'></span>Or, you can use the second parameter of the JSON.parse() function, called <b>reviver</b>.
+                <br> &nbsp; &bull; The <i>reviver</i> parameter is a function that checks each property, before returning the value.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var text = '{ "name":"John", "birth":"1986-12-14", "city":"New York"}';
+            var obj = JSON.parse(text, function (key, value) {
+                if (key == "birth") {
+                    return new Date(value);
+                } else {
+                    return value;
+                }});
+            
+            document.getElementById("demo").innerHTML = obj.name + ", " + obj.birth;
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Parsing Functions</b> - 
+                <br> &nbsp; &bull; Functions are not allowed in JSON
+                <br> &nbsp; &bull; If you need to include a function, write it as a string.
+                <br> &nbsp; &bull; You can convert it back to a function later:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var text = '{ "name":"John", "age":"function () { return 30; }", "city":"New York"}';
+            var obj = JSON.parse(text);
+            obj.age = eval("(" + obj.age + ")");
+            
+            document.getElementById("demo").innerHTML = obj.name + ", " + obj.age();
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>!Important</b> - You should avoid using functions in JSON, the functions will lose their scope, and you would have to use <i>eval()</i> to convert them back into functions.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Browser Support</h3>
+            <p><span class='glyphicon-remove'></span>The JSON.parse() function is included in all major browsers and in the latest ECMAScript (JavaScript) standard.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>JSON.stringify()</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A common use of JSON is to exchange data to/from a web server.
+                <br> &nbsp; &bull; When sending data to a wev server, the data has to be a string.
+            <p><span class='glyphicon-remove'></span>Convert a JavaScript object into a string with JSON.stringify().</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Stringify a JavaScript Object</h3>
+            <p><span class='glyphicon-remove'></span>Image we have an object in JavaScript, and we want it to be sent to a server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = { "name":"Gabe", "age":24, "city":"Austin"};
+            </pre>
+            <p><span class='glyphicon-remove'></span>Use the JavaScript function JSON.stringify() to convert it into a string.
+                <br> &nbsp; &bull; The result will be a string following the JSON notation.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myJSON = JSON.stringify(obj);
+            </pre>
+            <p><span class='glyphicon-remove'></span>myJSON is now a string, and ready to be sent to the server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = { "name":"John", "age":30, "city":"New York"};
+            var myJSON = JSON.stringify(obj);
+            document.getElementById("demo").innerHTML = myJSON;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Stringify a JavaScript Array</h3>
+            <p><span class='glyphicon-remove'></span>It is also possible to stringify JavaScript arrays:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var arr = [ "John", "Peter", "Sally", "Jane" ];
+            </pre>
+            <p><span class='glyphicon-remove'></span>Use the JavaScript function JSON.stringify() to convert it into a string.
+                <br> &nbsp; &bull; The result will be a string following the JSON notation.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var myJSON = JSON.stringify(arr);
+            </pre>
+            <p><span class='glyphicon-remove'></span>myJSON is now a string, and ready to be sent to the server.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var arr = [ "John", "Peter", "Sally", "Jane" ];
+            var myJSON = JSON.stringify(arr);
+            document.getElementById("demo").innerHTML = myJSON;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Exceptions - Dates</h3>
+            <p><span class='glyphicon-remove'></span>In JSON, date objects are not allowed. The JSON.stringify() function will convert any dates into strings.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = { "name":"John", "today":new Date(), "city":"New York"};
+            var myJSON = JSON.stringify(obj);
+            
+            document.getElementById("demo").innerHTML = myJSON;
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can convert the string back into a date object at the receiver.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Exceptions - Functions</h3>
+            <p><span class='glyphicon-remove'></span>In JSON, functions are not allowed as object values.
+                <br> &nbsp; &bull; The JSON.stringify() function will remove any functions from a JavaScript object, both the key and the value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = { "name":"John", "age":function () {return 30;}, "city":"New York"};
+            var myJSON = JSON.stringify(obj);
+            
+            document.getElementById("demo").innerHTML = myJSON;
+            </pre>
+            <p><span class='glyphicon-remove'></span>This can be omitted if you convert your functions into strings before running the JSON.stringify() function.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var obj = { "name":"John", "age":function () {return 30;}, "city":"New York"};
+            obj.age = obj.age.toString();
+            var myJSON = JSON.stringify(obj);
+            
+            document.getElementById("demo").innerHTML = myJSON;
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>!Important</b> - You should avoid using functions in JSON, the functions will lose their scope, and you would have to use eval() to convert them back into functions.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Browser Support</h3>
+            <p><span class='glyphicon-remove'></span>The JSON.stringify() function is included in all major browser and in the latest ECMAScript (JavaScript) standard.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>JSON HTML</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            JSON can very easily be translated into JavaScript.
+                <br> &nbsp; &bull; JavaScript can be used to make HTML in your web pages.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>HTML Table</h3>
+            <p><span class='glyphicon-remove'></span>Make an HTML table with data received as JSON:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>obj = { "table":"customers", "limit":20 };
+            dbParam = JSON.stringify(obj);
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 &amp;&amp; this.status == 200) {
+                    myObj = JSON.parse(this.responseText);
+                    txt += "&lt;table border='1'>"
+                    for (x in myObj) {
+                        txt += "&lt;tr>&lt;td>" + myObj[x].name + "&lt;/td>&lt;/tr>";
+                    }
+                    txt += "&lt;/table>"
+                    document.getElementById("demo").innerHTML = txt;
+                }
+            }
+            xmlhttp.open("POST", "json_demo_db_post.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send("x=" + dbParam);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Dynamic HTML Table</h3>
+            <p><span class='glyphicon-remove'></span>Make the HTML table based on the value of a drop down menu:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select id="myselect" onchange="change_myselect(this.value)">
+                &lt;option value="">Choose an option:&tl;/option>
+                &lt;option value="customers">Customers&tl;/option>
+                &lt;option value="products">Products&tl;/option>
+                &lt;option value="suppliers">Suppliers&tl;/option>
+            &lt;/select>
+            
+            &lt;script>
+            function change_myselect(sel) {
+                var obj, dbParam, xmlhttp, myObj, x, txt = "";
+                obj = { "table":sel, "limit":20 };
+                dbParam = JSON.stringify(obj);
+                xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 &amp;&amp; this.status == 200) {
+                        myObj = JSON.parse(this.responseText);
+                        txt += "&lt;table border='1'>"
+                        for (x in myObj) {
+                            txt += "&lt;tr>&lt;td>" + myObj[x].name + "&lt;/td>&lt;/tr>";
+                        }
+                        txt += "&lt;/table>" 
+                        document.getElementById("demo").innerHTML = txt;
+                    }
+                };
+                xmlhttp.open("POST", "json_demo_db_post.php", true);
+                xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlhttp.send("x=" + dbParam);
+            }
+            &lt;/script>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>HTML Drop Down List</h3>
+            <p><span class='glyphicon-remove'></span>Make an HTML Drop Down List with data received as JSON:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>obj = { "table":"customers", "limit":20 };
+            dbParam = JSON.stringify(obj);
+            xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 &amp;&amp; this.status == 200) {
+                    myObj = JSON.parse(this.responseText);
+                    txt += "&lt;select>"
+                    for (x in myObj) {
+                        txt += "&lt;option>" + myObj[x].name;
+                    }
+                    txt += "&lt;/select>" 
+                    document.getElementById("demo").innerHTML = txt;
+                }
+            }
+            xmlhttp.open("POST", "json_demo_db_post.php", true);
+            xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xmlhttp.send("x=" + dbParam);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>JSONP</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>JSONP</b> - stands for JSON with <i>Padding</i>
+                <br> &nbsp; &bull; JSONP is a method for sending JSON data without worrying about cross-domain issues.
+                <br> &nbsp; &bull; JSONP does <i>not</i> use the XMLHttpRequest object. It uses the &lt;script> tag instead.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSONP Goals</h3>
+            <p><span class='glyphicon-remove'></span>Requesting a file from another domain can cause problems, due to <b>cross-domain policy</b>.</p>
+            <p><span class='glyphicon-remove'></span>Requesting an external <i>script</i> from another domain does not have this problem however.</p>
+            <p><span class='glyphicon-remove'></span>We can use this to our advantage with JSONP, and request files using the script tag instead of the XMLHttpRequest object.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;script src="demo_jsonp.php">
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The Server File</h3>
+            <p>The file on the server wraps the results inside a function call.
+                <br> &nbsp; &bull; The result returns a call to a function named "myFunc" with the JSON data as a parameter.
+                <br> &nbsp; &bull; Make sure that the function exists on the client.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;?php
+            $myJSON = '{ "name": "Gabe", "age": 24, "city": "Austin" }';
+
+            echo "myFunc(".$myJSON.");";
+            ?>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The JavaScript Function</h3>
+            <p><span class='glyphicon-remove'></span>The function named "myFunc" is located on the client, and ready to handle JSON data.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>function myFunc(obj) {
+                document.getElementbyId("demo").innerHTML = obj.name;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Dynamic Script Tag</h3>
+            <p><span class='glyphicon-remove'></span>So far, the myFunc function will execute when the page is loading, based on where you put the script tag, which is not very satisfying.
+                <br> &nbsp; &bull; The script tag should only be created when needed.
+                <br> &nbsp; &bull; Let's create and insert the &lt;script> tag when a button is clicked:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>function clickButton() {
+                var s = document.createElement("script");
+                s.src = "demo_jsonp.php";
+                document.body.appendChild(s);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Dynamic JSONP Result</h3>
+            <p><span class='glyphicon-remove'></span>So far, our example is very <i>static</i>.</p>
+            <p><span class='glyphicon-remove'></span>We can make the example dynamic by sending JSON to the php file, and let the php file return a JSON object based on the information it gets.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;?php
+            header("Content-Type: application/json; charset=UTF-8");
+            $obj = json_decode($_GET["x"], false);
+
+            $conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+            $result = $conn->query("SELECT name FROM ".$obj->$table." LIMIT ".$obj->$limit);
+            $outp = array();
+            $outp = $result->fetch_all(MYSQLI_ASSOC);
+
+            echo "myFunc(".json_encode($outp).")";
+            ?>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>PHP Explained - </b>
+                <br> &nbsp; &bull; Convert the request into an object, using the PHP function <i>json_decode()</i>.
+                <br> &nbsp; &bull; Access the database, and fill an array with the requested data.
+                <br> &nbsp; &bull; Add the array to an object.
+                <br> &nbsp; &bull; Conver the array into JSON using the json_encode() function.
+                <br> &nbsp; &bull; Wrap "myFunc()" around the return object.</p>
+            <p><span class='glyphicon-remove'></span>Now let's finish with the JS that will be called from the php file:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>function clickButton() {
+                var obj, s;
+                obj = { "table": "products", "limit": 10 };
+                s = document.createElement("script");
+                s.src = "jsonp_demo.php?x=" + JSON.stringify(obj);
+                document.body.appendChild(s);
+            }
+
+            function myFunc(myObj) {
+                var x, txt = "";
+                for(x in myObj) {
+                    txt += myObj[x].name + "&lt;br>";
+                }
+                document.getElementById("demo").innerHTML = txt;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Callback Function</h3>
+            <p><span class='glyphicon-remove'></span>When you have no control over the server file, how do you get the server file to call the correct function?
+                <br> &nbsp; &bull; Sometimes the server file offers a callback function as a parameter.</p>
+            <p><span class='glyphicon-remove'></span>The php file will call the function you pass as a callback parameter:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>function clickButton() {
+                var s = document.createElement("script");
+                s.src = "jsonp_demo_db.php?callback=myDisplayFunction";
+                document.body.appendChild(s);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
 
                     <!-------------------------------------->
                 </div>
