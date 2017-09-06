@@ -102,7 +102,10 @@
           <li><a href="#3">Game UI</a></li>
           <li><a href="#4">Answer Button</a></li>
           <li><a href="#5">Displaying Questions</a></li>
-          <li><a href="#6"></a></li>
+          <li><a href="#6">Advanced Additions</a></li>
+          <li><a href="#7">High Score with PlayerPrefs</a></li>
+          <li><a href="#8">Serialization and Game Data</a></li>
+          <li><a href="#9">Loading and Saving via Editor Script</a></li>
         </ul>
     </aside>
 
@@ -142,6 +145,18 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#6'>Advanced Additions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>High Score with PlayerPrefs</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Serialization and Game Data</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>Loading and Saving via Editor Script</a>
                                 </p>
                             </li>
                         </ul>
@@ -515,13 +530,345 @@
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='6'>
-    <h2></h2>
+    <h2>Advanced Additions</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Advanced Session Topics</h3>
             <p><span class='glyphicon-remove'></span>&bull; Loading game data from an external JSON file
             <br> &bull; Creating a window for editing game data
             <br> &bull; Saving player progress with PlayerPrefs</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>High Score with PlayerPrefs</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a script called "PlayerProgress".
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>PlayerProgress</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>public class PlayerProgress {
+
+                public int highestScore;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>DataController</h3>
+            <p><span class='glyphicon-remove'></span>Bring back the Data Controller script so we can add some stuff to it.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.SceneManagement, System.IO;
+            
+            public class DataController : MonoBehaviour {
+                
+                private RoundData[] allRoundData;
+                private PlayerProgress playerProgress;
+                private string gameDataFileName = "data.json";
+
+                void Start() {
+                    DontDestroyOnLoad(gameObject);
+                    LoadGameData();
+                    LoadPlayerProgress();
+
+                    SceneManager.LoadScene("MenuScreen");
+                }
+
+                public RoundData GetCurrentRoundData() {
+                    return allRoundData[0];
+                }
+
+                public void SubmitNewPlayerScore(int newScore) {
+                    if(newScore > playerProgress.highestScore) {
+                        playerProgress.highestScore = newScore;
+                        SavePlayerProgress();
+                    }
+                }
+
+                public int GetHighestPlayerScore() {
+                    return playerProgress.highestScore;
+                }
+
+                private void LoadPlayerProgress() {
+                    playerProgress = new PlayerProgress();
+
+                    if(PlayerPrefs.HasKey("highestScore")) {
+                        playerProgress.highestScore = PlayerPrefs.GetInt("highestScore");
+                    }
+                }
+
+                private void SavePlayerProgress() {
+                    PlayerPrefs.SetInt("highestScore", playerProgress.highestScore);
+                }
+
+                private void LoadGameData() {
+                    string filePath = Path.Combine(Application.streamingAssetsPath, gameDataFileName);
+
+                    if(File.Exists(filePath)) {
+                        string dataAsJson = File.ReadAllText(filePath);
+                        GameData loadedData = JsonUtility.FromJson&lt;GameData>(dataAsJson)
+                        
+                        allRoundData = loadedData.allRoundData;
+                    } else {
+                        Debug.Log("Cannot load game data!"");
+                    }
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Game Controller</h3>
+            <p><span class='glyphicon-remove'></span>Add the new saving method to the game controller.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.UI, UnityEngine.SceneManagement, System.Collections.Generic;
+
+            public class GameController : MonoBehaviour {
+
+                public Text questionDisplayText;
+                public Text scoreDisplayText;
+                public Text timeRemainingDisplayText;
+                public SimplejObjectPool answerButtonObjectPool;
+                public Transform answerButtonParent;
+                public GameObject questionDisplay;
+                public GameObject roundEndDisplay;
+
+                private DataController dataController;
+                private RoundData currentRoundData;
+                private QuestionData[] questionPool;
+
+                private bool isRoundActive;
+                private float timeRemaining;
+                private int questionIndex;
+                private int playerScore;
+                private List&lt;GameObject> answerButtonGameObjects = new List&lt;GameObject>();
+
+                void Start() {
+                    dataController = FindObjectOfType&lt;DataController>();
+                    currentRoundData = dataController.GetCurrentRoundData();
+                    questionPool = currentRoundData.questions;
+                    timeRemaining = currentRoundData.timeLimitInSeconds;
+                    UpdateTimeRemainingDisplay();
+
+                    playerScore = 0;
+                    questionIndex = 0;
+
+                    ShowQuestion();
+                    isRoundActive = true;
+                }
+
+                void Update() {
+                    if(isRoundActive) {
+                        timeRemaining -= Time.deltaTime;
+                        UpdateTimeRemainingDisplay();
+                    }
+
+                    if(timeRemaining &lt;= 0f) {
+                        EndRound();
+                    }
+                }
+
+                private void UpdateTimeRemainingDisplay() {
+                    timeRemainingDisplayText.text = "Time: " + Mathf.Round(timeRemaining).ToString();
+                }
+
+                private void ShowQuestion() {
+                    RemoveAnswerButtons();
+                    QuestionData questionData = questionPool[questionIndex];
+                    questionDisplayText.text = questionData.questionText;
+
+                    for(int i = 0; i &lt; questionData.answers.Length; i++) {
+                        GameObject answerButtonGameObject = answerButtonObjectPool.GetObject();
+                        answerButtonGameObjects.Add(answerButtonGameObject);
+                        answerButtonGameObject.transform.SetParent(answerButtonParent);
+
+                        AnswerButton answerButton = answerButtonGameObject.GetComponent&lt;AnswerButton>();
+                        answerButton.Setup(questionData.answers[i]);
+                    }
+                }
+
+                private void RemoveAnswerButtons() {
+                    while(answerButtonGameObjects.Count > 0) {
+                        answerButtonObjectPool.ReturnObject(answerButtonGameObjects[0]);
+                        answerButtonGameObjects.RemoveAt(0);
+                    }
+                }
+
+                public void AnswerButtonClicked(bool isCorrect) {
+                    if(isCorrect) {
+                        playerScore += currentRoundData.pointsAddedForCorrectAnswer;
+                        scoreDisplayText.text = "Score: " + player.Score.ToString();
+                    }
+
+                    if(questionPool.Length > questionIndex + 1) {
+                        questionIndex++;
+                        ShowQuestion();
+                    } else {
+                        EndRound()
+                    }
+                }
+
+                public void EndRound() {
+                    isRoundActive = false;
+                    dataController.SubmitNewPlayerScore(playerScore);
+                    highScoreDisplay.text = dataController.GetHighestPlayerScore().ToString();
+
+                    questionDisplay.SetActive(false);
+                    roundEndDisplay.SetActive(true);
+                }
+
+                public void ReturnToMenu() {
+                    SceneManager.LoadScene("MenuScreen");
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Serialization and Game Data</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            We're going to be <i>serializing</i> and <i>deserializing</i> some JSON data. Here is the initial data file we're working with.
+            <p><span class='glyphicon-remove'></span>Make sure this is in a folder called StreamingAssets.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>{"allRoundData":
+            [{
+                "name":"Animals",
+                "timeLimitInSeconds":20,
+                "pointsAddedForCorrectAnswer":10,
+                "questions":
+                [{
+                    "questionText":"Lions are carnivores: true or false?",
+                    "answers":
+                    [{
+                        "answerText":"True",
+                        "isCorrect":true
+                    },
+                    {
+                        "answerText":"False",
+                        "isCorrect":false
+                    }]
+                },
+                {
+                    "questionText":"What do frogs eat?",
+                    "answers":
+                    [{
+                        "answerText":"Pizza",
+                        "isCorrect":false
+                    },
+                    {
+                        "answerText":"Flies",
+                        "isCorrect":true
+                    }]
+                },
+                {
+                    "questionText":"Where do mice live?",
+                    "answers":
+                    [{
+                        "answerText":"In the sea",
+                        "isCorrect":false
+                    },
+                    {
+                        "answerText":"On the moon",
+                        "isCorrect":false
+                    },
+                    {
+                        "answerText":"On land",
+                        "isCorrect":true
+                    },
+                    {
+                        "answerText":"In a tree",
+                        "isCorrect":false
+                    }]
+                }]
+            }]}
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Game Data</h3>
+            <p><span class='glyphicon-remove'></span>Create a new script called GameData, which will be used for serializing and deserializing.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[System.Serializable]
+            public class GameData {
+
+                public RoundData[] allRoundData;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>Loading and Saving via Editor Script</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a folder called "Editor" inside the Scripts folder.
+            <p><span class='glyphicon-remove'></span>Create a script here called "GameDataEditor".</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>GameDataEditor</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// using UnityEditor, System.IO;
+
+            publi class GameDataEditor : EditorWindow {
+
+                public GameData gameData;
+
+                private string gameDataProjectFilePath = "/StreamingAssets/data.json";
+
+                [MenuItem ("Window/Game Data Editor")]
+                static void Init() {
+                    GameDataEditor window = (GameDataEditor)EditorWindow.GetWindow(typeof(GameDataEditor));
+                    window.Show();
+                }
+
+                void OnGUI() {
+                    if(gameData != null) {
+                        SerializedObject serializedObject = new SerializedObject(this);
+                        SerializedProperty serializedProperty = serializedObject.FindProperty("gameData");
+
+                        EditorGUILayout.PropertyField(serializedProperty, true);
+
+                        serializedObject.ApplyModifiedProperties();
+
+                        if(GUILayout.Button("Save data")) {
+                            SaveGameData();
+                        }
+                    }
+
+                    if(GUILayout.Button("Load data")) {
+                        LoadGameData();
+                    }
+                }
+
+                private void LoadGameData() {
+                    string filePath = Application.dataPath + gameDataProjectFilePath;
+
+                    if(File.Exists(filePath)) {
+                        string dataAsJson = File.ReadAllText(filePath);
+                        gameData = JsonUtility.FromJson&lt;GameData>(dataAsJson);
+                    } else {
+                        gameData = new GameData();
+                    }
+                }
+
+                private void SaveGameData() {
+                    string dataAsJson = JsonUtility.ToJson(gameData);
+                    string filePath = Application.dataPath + gameDataProjectFilePath;
+                    File.WriteAllText(filePath, dataAsJson);
+                }
+            }
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
