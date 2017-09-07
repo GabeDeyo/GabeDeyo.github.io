@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>REST API</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href="#1">Uniform Interface</a></li>
+          <li><a href="#2">Stateless</a></li>
+          <li><a href="#3">Cacheable</a></li>
+          <li><a href="#4">Client-Server</a></li>
+          <li><a href="#5">Layered System</a></li>
+          <li><a href="#6">Code on Demand (Optional)</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">REST API</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Uniform Interface</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Stateless</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Cacheable</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Client-Server</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Layered System</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Code on Demand (Optional)</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            &bull; REST = "<b>RE</b>presentational <b>S</b>tate <b>Transfer</b>"
+            <br>&bull; Resource-based
+            <br>&bull; Representations
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Six Constraints - 
+            <br> &nbsp; &bull; Uniform interface
+            <br> &nbsp; &bull; Stateless
+            <br> &nbsp; &bull; Client-Server
+            <br> &nbsp; &bull; Cacheable
+            <br> &nbsp; &bull; Layered system
+            <br> &nbsp; &bull; Code on demand
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Resource Based</h3>
+            <p><span class='glyphicon-remove'></span><b>Things</b> (resources) rather than <b>actions</b>.
+                <br> &nbsp; &bull; Nouns (person, place, things) rather than verbs (actions).</p>
+            <p><span class='glyphicon-remove'></span>Identified by URIs (Uniform Resource Identifier)
+                <br> &nbsp; &bull; Multiple URIs may refer to the same resource
+                <br> &nbsp; &bull; Representation(s) are seperate from the resources themselves.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Representations</h3>
+            <p><span class='glyphicon-remove'></span>Representations are how resources get manipulated in a RESTful API.</p>
+            <p><span class='glyphicon-remove'></span>They represent part or all of the resource state.
+                 <br> &nbsp; &bull; Transferred between client and server.</p>
+            <p><span class='glyphicon-remove'></span>Typically JSON or XML.</p>
+            <p><span class='glyphicon-remove'></span><b>Example</b> - 
+                <br> &nbsp; &bull; Resource: person (Gabe)
+                <br> &nbsp; &bull; Service: contact information (GET)
+                <br> &nbsp; &bull; Representation:
+                    <br> &nbsp; &nbsp; &bull; name, address, phone number
+                    <br> &nbsp; &nbsp; &bull; JSON or XML format</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Uniform Interface</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Uniform Interface is the first <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>The uniform interface constraint defines the <i>interface</i> between client and servers. It simplifies and decouples the architecture, which enables each part to evolve independently. The four guiding principles of the uniform interface are: <b>Resource-Based</b>, <b>Manipulation of Resources through Representations</b>, <b>Self-descriptive Messages</b>, <b>Hypermedia as the Engine of Application State (HATEOAS)</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Resource-Based</h3>
+            <p><span class='glyphicon-remove'></span>Individual resources are identified in requests using URIs as <i>resource identifiers</i>.</p>
+            <p><span class='glyphicon-remove'></span>The resources themselves are conceptually separate from the representations that are return to the client.</p>
+            <p><span class='glyphicon-remove'></span>For example, the server does not send its database, but rather, some HTML, XML or JSON that <i>represents</i> some database records expressed, for instance, in Finnish and encoded in UTF-8, depending on the details of the request and the server implementation.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Manipulation of Resources through Representations</h3>
+            <p><span class='glyphicon-remove'></span>When a client holds a representation of a resource, including any metadata attached, it has enough information to modify or delete the resource on the server, provided it has permission to do so.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Self-descriptive Messages</h3>
+            <p><span class='glyphicon-remove'></span>Each message includes enough information to describe how to process the message. For example, which parser to invoke may be specified by an Internet media type (previously known as a MIME type).</p>
+            <p><span class='glyphicon-remove'></span>Responses explicitly indicate their cache-ability.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Hypermedia as the Engine of Application State (HATEOAS)</h3>
+            <p><span class='glyphicon-remove'></span>Clients deliver state via body contents, query-string parameters, request headers and the requested URI (resource name).</p>
+            <p><span class='glyphicon-remove'></span>Services deliver state to clients via body content, response codes, and response headers. This is technically referred to as hypermedia (or hyperlinks within hypertext).</p>
+            <p><span class='glyphicon-remove'></span>HATEOS also means that, where necessary, links are contained in the returned body (or headers) to suppply the URI for retrieval of the object itself or related objects.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Stateless</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Stateless design is the second <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>As REST is an acronym for REpresentation State Transfer, statelessness is key.</p>
+            <p><span class='glyphicon-remove'></span>Essentially, the necesary state to handle the request is contained within the request itself, whether as part of the URI, query-string parameters, body, or headers.</p>
+            <p><span class='glyphicon-remove'></span>The URI uniquely identifies the resource and the body cotains the state (or state change) of that resource.</p>
+            <p><span class='glyphicon-remove'></span>Then after the server does it's processing, the appropriate state, or the piece(s) of state that matter, are communicated back to the client via headers, status and response body.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Most of us who have been in the industry for a while are accustomed to programming within a container which provides us with the concept of "session" which maintains state across multiple HTTP requests. 
+            <p><span class='glyphicon-remove'></span>In REST, the client must include all information for the server to fulfill the request, resending state as necessary if that state must span multiple requests.</p>
+            <p><span class='glyphicon-remove'></span>Statelessness enables greater scalability since the server does not have to maintain, update or communicate that session state.</p>
+            <p><span class='glyphicon-remove'></span>Additionally, load balancers don't have to worry about session affinity for stateless systems.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            So what's the difference between state and resource?
+            <br> &nbsp; &bull; <b>State</b>, or application state, is that which the server cares about to fulfill a request - data necessary for the current session or request.
+            <br> &nbsp; &bull; <b>Resource</b>, or resource state, is the data that defines the resource representation - the data stored in the database, for instance.
+            <p><span class='glyphicon-remove'></span>Consider application state to be data that could vary by client, and per request.</p>
+            <p><span class='glyphicon-remove'></span>Resource state, on the other hand, is constant across every client who requests it.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Ever had back-button issues with a web application where it went AWOL at a certain point because it expected you to do things in a certain order?
+                <br> &nbsp; &bull; This is because it violated the statelessness principle.
+            <p><span class='glyphicon-remove'></span>There are cases that don't honor the statelessness principle, such as three-legged OAuth, API call rate limiting, etc.</p>
+            <p><span class='glyphicon-remove'></span>However, make every effort to ensure that application state doesn't span multiple requests of your service(s).</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Cacheable</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Cacheability is the third <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>As on the World Wide Web, clients can <b>cache responses</b>.</p>
+            <p><span class='glyphicon-remove'></span>Responses must therefore, implicitly or explicitly, define themselves as cacheable, or not, to prevent clients reusing stale or inappropriate data in response to further requests.</p>
+            <p><span class='glyphicon-remove'></span>Well-managed caching partially or completely eliminates some client-server interactions, further improving scalability and performance.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Client-Server</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Client-Server is the fourth <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>The uniform interface separates clients from servers.
+                <br> &nbsp; &bull; This separation of concerns means that, for example, clients are not concerned with data storage, which remains internal to each server, so that the portability of client code is improved.
+                <br> &nbsp; &bull; Servers are not concerned with the user interface or user state, so that servers can be simpler and more scalable. Servers and clients may also be replaced and developed independently, as long as the interface is not altered.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Layered System</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The idea of a Layered System is the fifth <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>A client cannot ordinarily tell whether it is connected directly to the end server, or to an intermediary along the way.</p>
+            <p><span class='glyphicon-remove'></span>Intermediary servers may improve system scalability by enabling load-balancing and by providing shared caches.</p>
+            <p><span class='glyphicon-remove'></span>Layers may also enforce security policies.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Code on Demand (Optional)</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Code on Demain is the sixth optional <b>constraint</b> that describes the REST architecture.
+            <p><span class='glyphicon-remove'></span>Servers are able to temporarily extend or customize the functionality of a client by transferring logic to it that it can execute.
+                <br> &nbsp; &bull; Examples of this may include compiled components such as Java applets and client-side scripts such as JavaScript.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Complying with these constraints, and thus conforming to the REST architectural style, will enable any kind of distributed hypermedia system to have desirable emergent properties, such as performance, scalability, simplicity, modifiability, visibility, portability and reliability.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>NOTE:</b> The only optional constraint of REST architecture is code on demand. If a service violates any other constraint, it cannot strictly be referred to as RESTful.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
