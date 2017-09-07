@@ -98,8 +98,13 @@
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
           <li><a href="#0">Introduction</a></li>
-          <li><a href="#1">Installation</a></li>
-          <li><a href="#2">Modules &amp; Scope</a></li>
+          <li><a href="#1">Expressions</a></li>
+          <li><a href="#2">Modules</a></li>
+          <li><a href="#3">Directives</a></li>
+          <li><a href="#4">Model</a></li>
+          <li><a href="#5">Data Binding</a></li>
+          <li><a href="#6">Controllers</a></li>
+          <li><a href="#7">Scope</a></li>
         </ul>
     </aside>
 
@@ -118,11 +123,31 @@
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#1'>Installation</a>
+                                <a href='#1'>Expressions</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#2'>Modules &amp; Scope</a>
+                                <a href='#2'>Modules</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Directives</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Model</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Data Binding</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Controllers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Scope</a>
                                 </p>
                             </li>
                         </ul>
@@ -132,86 +157,333 @@
     <h2>Introduction</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            <h3>What is AngularJS?</h3>
-            <p><span class='glyphicon-remove'></span><i>JavaScript Framework</i> - takes advantage of built-in features, in this case; templating, filters, two-way data-binding and more.</p>
-            <p><span class='glyphicon-remove'></span>Designed to allow you to create <b>single page applications</b> - so regardless of the size of your application, your browser is going to load a single page. <i>Additional content</i> will be loaded into the application as needed. The site only loads content it needs, instead of an entire page.</p>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            <h3>Why use AngularJS?</h3>
-            <p><span class='glyphicon-remove'></span>AngularJS features an excellent <b>templating engine</b>. Templating let's you write HTML templates with special tags, and Angular will replace those tags with data.</p>
-            <p><span class='glyphicon-remove'></span>AngularJS <b>handles DOM</b> masterfully - data is directly bound to your template. Therefore, pulling in data or interacting with your elements lets you populate your html.</p>
-            <p><span class='glyphicon-remove'></span>AngularJS includes commands for <i>loading external data</i> by including <b>AJAX functionality</b>. Therefore, we can use a Model-View-Controller architecture to focus more on an object-oriented approach.</p>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            <h3>MVC Architecture</h3>
-            <p><span class='glyphicon-remove'></span><b>Model</b> - Your <i>data</i> is known as a model. This can come from an internal data structure, an external JSON document or even a database.</p>
-            <p><span class='glyphicon-remove'></span><b>View</b> - The way your models/data are displayed are your view. Typically done through a <i>template</i>.</p>
-            <p><span class='glyphicon-remove'></span><b>Controller</b> - The glue that ties your data (models) to your templates (views).</p>
+            AngularJS is a <b>JavaScript framework</b>. It can be added to an HTML page with a &lt;script> tage.
+            <p><span class='glyphicon-remove'></span>AngularJS extends HTML attributes with <b>Directives</b>, and binds data to HTML with <b>Expressions</b>.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Directives</h3>
-            <p><span class='glyphicon-remove'></span>Another <b>core feature</b> behind AngularJS is something sprinkled in your HTML called <b>Directives</b>.</p>
-            <p><span class='glyphicon-remove'></span>Directives are <i>commands</i> that tell Angular to do its job.</p>
-            <p><span class='glyphicon-remove'></span>They all will start with <b>"ng"</b> followed by their specific command. (i.e. ng-app, ng-view, ng-model)</p>
+            <h3>AngularJS is a JavaScript Framework</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS is a JavaScript framework. It is a <b>library</b> written in JavaScript.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS is distributed as a JavaScript file, and can bee added to a web page with a script tage:
+            <br>&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">&lt;/script></p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Data-Binding</h3>
-            <p><span class='glyphicon-remove'></span>Templating is possible because of a feature known as <b>data-binding</b>.</p>
-            <p><span class='glyphicon-remove'></span>The goal is to create <i>placeholders for content</i> that get linked to data information.</p>
-            <p><span class='glyphicon-remove'></span>This also enables us to use form elements that can be tied to the data.</p>
+            <h3>AngularJS Extends HTML</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS extends HTML with <b>ng-directives</b>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive defines an AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds the value of HTML controls (input, select, textarea) to application data.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-bind</b> directive binds application data to the HTML view.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Filtering</h3>
-            <p><span class='glyphicon-remove'></span>AngularJS has a <b>filtering language</b> so that data can be organized in a specific way <i>automatically</i> or easily change by <i>form elements</i>.</p>
+            <h3>AngularJS Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!DOCTYPE html>
+            &lt;html>
+            &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">&lt;/script>
+            &lt;body>
+            
+            &lt;div ng-app="">
+              &lt;p>Name: &lt;input type="text" ng-model="name">&lt;/p>
+              &lt;p ng-bind="name">&lt;/p>
+            &lt;/div>
+            
+            &lt;/body>
+            &lt;/html>
+            </pre>
+            <p><span class='glyphicon-remove'></span>AngularJs starts automatically when the web page has loaded.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive tells AngularJS that the &lt;div> element is the "owner" of the AngularJS <b>application</b>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds the value of the input field to the application variable <b>name</b>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-bind</b> directive binds the <b>innerHtml</b> of the &lt;p> element to the application variable <b>name</b>.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Modules</h3>
-            <p><span class='glyphicon-remove'></span>Instead of creating a single, large JS doc, you can break up functionality into <b>modules</b>.</p>
-            <p><span class='glyphicon-remove'></span>Modules make code easier to maintain and distribute.</p>
+            <h3>AngularJS Directives</h3>
+            <p><span class='glyphicon-remove'></span>As we have already seen, AngularJS directives are <i>HTML attributes</i> with an <b>ng</b> prefix.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-init</b> directive initializes AngularJS application variables.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="firstName='Gabe'">
+                &lt;p>The name is &lt;span ng-bind="firstName">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Alternatively with valid HTML:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div data-ng-app="" data-ng-init="firstName='Gabe'">
+                &lt;p>The name is &lt;span data-ng-bind="firstName">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - You can use <b>data-ng</b>, instead of <b>ng-</b>, if you want to make your page HTML valid.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Routes</h3>
-            <p><span class='glyphicon-remove'></span><b>Routes</b> lie at the heart of <i>single page applications</i>.</p>
-            <p><span class='glyphicon-remove'></span>Routes divide your templates so that functionality behind your app can exist <i>in different places</i>.</p>
+            <h3>AngularJS Expressions</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS expressions are written inside double braces: <b>{{ expression }}</b>.
+                <br> &nbsp; &bull; AngularJS will "output" data exactly where the expression is written.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="">
+                &lt;p>My first expression: {{ 5 + 5 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>AngularJS expressions bind AngularJS data to HTML the same way as the <b>ng-bind</b> directive.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="">
+                &lt;p>Name: &lt;input type="text" ng-model="name">&lt;/p>
+                &lt;p>{{name}}&lt;/p>
+            &lt;/div>
+            </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Controllers</h3>
-            <p><span class='glyphicon-remove'></span>All of these details are tied together through <b>controllers</b>.</p>
-            <p><span class='glyphicon-remove'></span>Controllers will help us maintain the functionality of our views and models.</p>
+            <h3>AngularJS Applications</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS <b>modules</b> define AngularJS applications.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS <b>controllers</b> control AngularJS applications.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive defines the application, the <b>ng-controller</b> directive defines the controller.</p>
+            <p><span class='glyphicon-remove'></span></p>
+            <pre>
+            <span class='glyphicon-remove'></span>//HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                
+                First Name: &lt;input type="text" ng-model="firstName">&lt;br>
+                Last Name: &lt;input type="text" ng-model="lastName">&lt;br>
+                &lt;br>
+                Full Name: {{firstName + " " + lastName}}
+                
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>//Script
+            
+            //Module
+            var app = angular.module('myApp', []);
+
+            //Controller
+            app.controller('myCtrl', function($scope) {
+                $scope.firstName= "John";
+                $scope.lastName= "Doe";
+            });
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='1'>
-    <h2>Installation</h2>
+    <h2>Expressions</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            Download a build here: https://angularjs.org/
-            <br> &nbsp; &bull; Save in <b>lib/angular/angular.min.js</b>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            CDN: https://ajax.googleapis.com/ajax/libs/angularjs/1.6.5/angular.min.js - <i>check up updated</i>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <pre><span class='glyphicon-remove'></span>npm install angular@1.6.5</pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            Extra modules: <a href="https://code.angularjs.org/1.6.5/">Extras</a>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Typical AngularJS Test</h3>
+            AngularJS expressions can be written inside double braces: <b>{{ expression }}</b>.
+            <p><span class='glyphicon-remove'></span>AngularJS expressions can also be written inside a directive: <b>ng-bind="expression"</b>.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS will resolve the expression, and return the result exactly where the expression is written.</p>
+            <p><span class='glyphicon-remove'></span><b>AngularJS expressions</b> are much like <b>JavaScript expressions:</b>
+                <br> &nbsp; &bull; They can contain literals, operators, and variables.</p>
             <pre>
-            <span class='glyphicon-remove'></span>&lt;!doctype html>
-            &lt;html leng="en" ng-app>
-            &lt;head>
-                &lt;meta charset="UTF-8">
-                &lt;title>Angular Demo&lt;/title>
-                &lt;script src="lib/angular/angular.min.js">&lt;/script>
-            &lt;/head>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="">
+                &lt;p>My first expression: {{ 5 + 5 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - without the <b>ng-app</b> directive, the HTML would display as written.</p>
+            <p><span class='glyphicon-remove'></span>You can write expressions wherever you like, AngularJS will simply resolve the expression and return the result.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="myCol='lightblue'">
+                &lt;input style="background-color:{{myCol}}" ng-model="myCol" value="{{myCol}}">
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Numbers</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS numbers are like JavaScript numbers:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="quantity=1;cost=5">
+                &lt;p>Total in dollar: {{ quantity * cost }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same can be done using <b>ng-bind</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="quantity=1;cost=5">
+                &lt;p>Total in dollar: &lt;span ng-bind="quantity * cost">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Using <b>ng-init</b> is not very common. We will learn a better way to initialize data with controllers.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Strings</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS strings are like JavaScript strings:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="firstName='John';lastName='Doe'">
+                &lt;p>The name is {{ firstName + " " + lastName }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same can be done using <b>ng-bind</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="firstName='John';lastName='Doe'">
+                &lt;p>The name is &lt;span ng-bind="firstName + ' ' + lastName">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Objects</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS objects are like JavaScript objects:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="person={firstName:'John',lastName:'Doe'}">
+                &lt;p>The name is {{ person.lastName }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same can be done using <b>ng-bind</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="person={firstName:'John',lastName:'Doe'}">
+                &lt;p>The name is &lt;span ng-bind="person.lastName">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Arrays</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS arrays are like JavaScript arrays:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="points=[1,15,19,2,40]">
+                &lt;p>The third result is {{ points[2] }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same can be done using <b>ng-bind</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="points=[1,15,19,2,40]">
+                &lt;p>The third result is &lt;span ng-bind="points[2]">&lt;/span>&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Expressions vs. JavaScript Expressions</h3>
+            <p><span class='glyphicon-remove'></span>Like JavaScript expressions, AngularJS expressions can contain literals, operators, and variables.</p>
+            <p><span class='glyphicon-remove'></span>Unlike JavaScript expressions, AngularJS expressions can be written inside HTML.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS expressions do not support conditionals, loops, and exceptions, while JavaScript expressions do.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS expressions support filters, while JavaScript exressions do not.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Modules</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            An AngularJS modele defines an application.
+            <p><span class='glyphicon-remove'></span>The module is a container for the different parts of an application.</p>
+            <p><span class='glyphicon-remove'></span>The module is a container for the application controllers.</p>
+            <p><span class='glyphicon-remove'></span>Controllers always belong to a module.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Creating a Module</h3>
+            <p><span class='glyphicon-remove'></span>A module is created by using the AngularJS function <b>angular.module()</b>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//HTML
+
+            &lt;div ng-app="myApp">...&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>//Script
+
+            var app = angular.module("myApp", []); 
+            </pre>
+            <p><span class='glyphicon-remove'></span>The "myApp" parameter refers to an HTML element in which the application will run.</p>
+            <p><span class='glyphicon-remove'></span>Now you can add controllers, directives, filters, and more, to your AngularJS application.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Adding a Controller</h3>
+            <p><span class='glyphicon-remove'></span>Add a controller to the application, and refer to the controller with the <b>ng-controller</b> directive:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                {{ firstName + " " + lastName }}
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>//Script
+
+            var app = angular.module("myApp", []);
+            
+            app.controller("myCtrl", function($scope) {
+                $scope.firstName = "John";
+                $scope.lastName = "Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Adding a Directive</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS has a set of built-in directives which you can use to add functionality to your application.</p>
+            <p><span class='glyphicon-remove'></span>In addition, you can use the module to add your own directives to your applications:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//HTML
+
+            &lt;div ng-app="myApp" test-directive>&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>//Script
+
+            var app = angular.module("myApp", []);
+            
+            app.directive("w3TestDirective", function() {
+                return {
+                    template : "I was made in a directive constructor!"
+                };
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Modules and Controllers in Files</h3>
+            <p><span class='glyphicon-remove'></span>It is common in AngularJS applications to put the module and the controllers in JavaScript files.</p>
+            <p><span class='glyphicon-remove'></span>In this example, "myApp.js" contains an application module definition, while "myCtrl.js" contains the controller:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                {{ firstName + " " + lastName }}
+            &lt;/div>
+                
+            &lt;script src="myApp.js">&lt;/script>
+            &lt;script src="myCtrl.js">&lt;/script>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// myApp.js
+
+            var app = angular.module("myApp", []);
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - The [] parameter in the module definition can be used to define dependent modules.
+                <br> &nbsp; &bull; Without the [] parameter, you are not <i>creating</i> a new module, but <i>retrieving</i> an existing one.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// myCtrl.js
+
+            app.controller("myCtrl", function($scope) {
+                $scope.firstName = "John";
+                $scope.lastName= "Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Functions can Pollute the Global Namespace</h3>
+            <p><span class='glyphicon-remove'></span>Global functions should be avoidd in JavaScript.
+                <br> &nbsp; &bull; They can easily be overwritten or destroyed by other scripts.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS modules reduces this problem, by keeping all functions local to the module.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>When to Load the Library</h3>
+            <p><span class='glyphicon-remove'></span>While it is common in HTML applications to place scripts at the end of the <b>&lt;body></b> element, it is recommended that you load the AngularJS library either in the <b>&lt;head></b> or at the start of the <b>&lt;body></b>.
+                <br> &nbsp; &bull; This is because calls to <b>angular.module()</b> can only be compiled after the library has been loaded.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// Full Example
+
+            &lt;!DOCTYPE html>
+            &lt;html>
             &lt;body>
-                &lt;input type="text" ng-model="name">
-                &lt;h2>Welcome {{name}}&lt;/h2>
+            &lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js">&lt;/script>
+            
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+            {{ firstName + " " + lastName }}
+            &lt;/div>
+            
+            &lt;script>
+            var app = angular.module("myApp", []);
+            app.controller("myCtrl", function($scope) {
+                $scope.firstName = "John";
+                $scope.lastName = "Doe";
+            });
+            &lt;/script>
+            
             &lt;/body>
             &lt;/html>
             </pre>
@@ -220,48 +492,507 @@
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
-<div class='jumbotron col-md-12 heliList' id='2'>
-    <h2>Modules &amp; Scope</h2>
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Directives</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            One key concept of the MVC Architecture is that you can organize large applications into modules, separating functionality into smaller pieces of JavaScript.
-            <p><span class='glyphicon-remove'></span>We do this in Angular using different controllers for our app.</p>
+            AngularJS lets you extend HTML with new attributes called <b>Directives</b>.
+            <p><span class='glyphicon-remove'></span>AngularJS has a set of built-in directives which offer functionality to your applications.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS also lets you define your own directives.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            Let's create a <b>Module</b> in a new js file called <i>js/controller.js</i>. Make sure to <b>include this script</b>.
-            <p><span class='glyphicon-remove'></span>The variable <i>myApp</i> is going to have all the code for our application. This is called <b>name-spacing</b>. It's away to protect our application code and make sure that no other script on your website is going to interfere with our application.</p>
+            <h3>AngularJS Directives</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS directives are extended HTML attributes with the prefix <b>ng-</b>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive initializes an AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-init</b> directive initializes application data.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds the value of HTML controls (input, select, textarea) to application data.</p>
             <pre>
-            <span class='glyphicon-remove'></span>var myApp = angular.module('myApp', []);
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="firstName='John'">
+                &lt;p>Name: &lt;input type="text" ng-model="firstName">&lt;/p>
+                &lt;p>You wrote: {{ firstName }}&lt;/p>
+            &lt;/div>
             </pre>
-            <p><span class='glyphicon-remove'></span>Then in the initial html file, we're going to add this to the <i>ng-app</i> directive:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>&lt; lang="en" ng-app="myApp">
-            </pre>
-            <p><span class='glyphicon-remove'></span>That directive tells Angular the code for whatever is inside the HTML tag, which in this case is the entire page, is going to be controlled by this new <i>myApp</i> module.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive also tells AngularJS that the &lt;div> element is the "owner" of the AngularJS application.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            Now let's get started with a <b>Controller</b>.
+            <h3>Data Binding</h3>
+            <p><span class='glyphicon-remove'></span>The <b>{{ firstName }}</b> expression, in the example above, is an AngularJS data binding expression.</p>
+            <p><span class='glyphicon-remove'></span>Data binding in AngularJS binds AngularJS expressions with AngularJS data.
+                 <br> &nbsp; &bull; <b>{{ firstName }}</b> is bound with <b>ng-model="firstName"</b>.</p>
+            <p><span class='glyphicon-remove'></span>In the next example, two text fields are bound together with two ng-model directives:</p>
             <pre>
-            <span class='glyphicon-remove'></span>var myApp = angular.module('myApp', []);
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="quantity=1;price=5">    
+                Quantity: &lt;input type="number" ng-model="quantity">
+                Costs:    &lt;input type="number" ng-model="price">
+                
+                Total in dollar: {{ quantity * price }}
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Using <b>ng-init</b> is not very common. We will learn how to initialize data better with controllers.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Repeating HTML Elements</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive can repeat an HTML element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="names=['Jani','Hege','Kai']">
+                &lt;ul>
+                    &lt;li ng-repeat="x in names">
+                        {{ x }}
+                    &lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive actually <b>clones HTML elements</b> once for each item in the collection.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive used on an array of objects:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>
+            &lt;div ng-app="" ng-init="names=[
+            {name:'Jani',country:'Norway'},
+            {name:'Hege',country:'Sweden'},
+            {name:'Kai',country:'Denmark'}]">
+            
+                &lt;ul>
+                    &lt;li ng-repeat="x in names">
+                        {{ x.name + ', ' + x.country }}
+                    &lt;/li>
+                &lt;/ul>
+            
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - AngularJS is perfect for database CRUD (Create Read Update Delete) applications.
+                <br> &nbsp; &bull; Just imagine if these objects were records from a database.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-app Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive defines the <b>root element</b> of an AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive will <b>auto-bootstrap</b> (automatically initialize) the application when a web page is loaded.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-init Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-init</b> directive defines <b>initial values</b> for an AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>Normally, you would not use ng-init. You will use a controller or module instead.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-model Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds the value of HTML controls (input, select, textarea) to application data.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive can also:
+                <br> &nbsp; &bull; Provide type validation fro application data (number, email required)
+                <br> &nbsp; &bull; Provide status for application data (invalid, dirty, touched, error)
+                <br> &nbsp; &bull; Provide CSS classes for HTML elements
+                <br> &nbsp; &bull; Bind HTML elements to HTML forms</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Create New Directives</h3>
+            <p><span class='glyphicon-remove'></span>In addition to all the built-in AngularJS directives, you can create your own directives.</p>
+            <p><span class='glyphicon-remove'></span>New directives are created by using the <b>.directive</b> function.</p>
+            <p><span class='glyphicon-remove'></span>To invoke a new directive, make an HTML element with the same tag name as the new directive.</p>
+            <p><span class='glyphicon-remove'></span>When naming a directive, you must use a camel case name, <i>testDirective</i>, but when invoking it, you must use <i>-</i> separated name, <i>test-directive</i>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
 
-            myApp.controller('MyController', function MyController($scope) {
-                $scope.author = {
-                    'name'    : 'Gabe Deyo',
-                    'title'   : 'Web Developer',
-                    'company' : 'IBI Data'
+            &lt;body ng-app="myApp">
+                    &lt;test-directive>&lt;/test-directive>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myApp", []);
+            app.directive("testDirective", function() {
+                return {
+                    template : "&lt;h1>Made by a directive!&lt;/h1>"
+                };
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can invoke a directive by using:
+                <br> &nbsp; &bull; Element name
+                <br> &nbsp; &bull; Attribute
+                <br> &nbsp; &bull; Class
+                <br> &nbsp; &bull; Comment</p>
+            <p><span class='glyphicon-remove'></span>Examples below will provide the same result:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// Element name
+
+            &lt;test-directive>&lt;/test-directive>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Attribute
+
+            &lt;div test-directive>&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Class
+
+            &lt;div class="test-directive">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Comment
+
+            &lt;!-- directive: test-directive -->
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Restrictions</h3>
+            <p><span class='glyphicon-remove'></span>You can restrict your directives to only be invoked by some of the methods.
+                <br> &nbsp; &bull; Example: By adding a <i>restrict</i> property with the value <i>"A"</i>, the directive can only be invoked by attributes.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", []);
+            app.directive("w3TestDirective", function() {
+                return {
+                    restrict : "A",
+                    template : "&lt;h1>Made by a directive!&lt;/h1>"
+                };
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>The legal restrict values are:
+                <br> &nbsp; &bull; <b>E</b>: Element name
+                <br> &nbsp; &bull; <b>A</b>: Attribute
+                <br> &nbsp; &bull; <b>C</b>: Class
+                <br> &nbsp; &bull; <b>M</b>: Comment</p>
+            <p><span class='glyphicon-remove'></span>By default the value is <b>EA</b>, meaning that both Element names and Attribute names can invoke the directive.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Model</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The <b>ng-model</b> directive binds the value of HTML controls (input, select, textarea) to application data.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-model Directive</h3>
+            <p><span class='glyphicon-remove'></span>With the <b>ng-model</b> directive you can bind the value of an input field to a variable created in AngularJS.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                    Name: &lt;input ng-model="name">
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.name = "John Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Two-Way Binding</h3>
+            <p><span class='glyphicon-remove'></span>The binding goes both ways. If the user changes the value inside the input field, the AngularJS property will also change its value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="myCtrl">
+                Name: &lt;input ng-model="name">
+                &lt;h1>You entered: {{name}}&lt;/h1>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Validate User Input</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive can provide type validation for application data (number, e-mail, required):</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form ng-app="" name="myForm">
+                Email:
+                &lt;input type="email" name="myAddress" ng-model="text">
+                &lt;span ng-show="myForm.myAddress.$error.email">Not a valid e-mail address&lt;/span>
+            &lt;/form>
+            </pre>
+            <p><span class='glyphicon-remove'></span>In this example, the span will be displayed only if the expression in the <b>ng-show</b> attribute returns <i>true</i>.</p>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - If the property in the <b>ng-model</b> attribute does not exist, AngularJS will create one for you.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Application Status</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive can provide status for application data (invalid, dirty, touched, error):</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form ng-app="" name="myForm" ng-init="myText = 'post@myweb.com'">
+                Email:
+                &lt;input type="email" name="myAddress" ng-model="myText" required>
+                &lt;h1>Status&lt;/h1>
+                {{myForm.myAddress.$valid}}
+                {{myForm.myAddress.$dirty}}
+                {{myForm.myAddress.$touched}}
+            &lt;/form>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Classes</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive provides CSS classes for HTML elements, depending on their status:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// CSS
+
+            input.ng-invalid {
+                background-color: lightblue;
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;form ng-app="" name="myForm">
+                Enter your name:
+                &lt;input name="myName" ng-model="myText" required>
+            &lt;/form>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive adds/removes the following classes, according to the status of the form field:
+                <br> &nbsp; &bull; ng-empty
+                <br> &nbsp; &bull; ng-not-empty
+                <br> &nbsp; &bull; ng-touched
+                <br> &nbsp; &bull; ng-untouched
+                <br> &nbsp; &bull; ng-valid
+                <br> &nbsp; &bull; ng-invalid
+                <br> &nbsp; &bull; ng-dirty
+                <br> &nbsp; &bull; ng-pending
+                <br> &nbsp; &bull; ng-pristine</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Data Binding</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Data binding in AngularJS is the synchronization between the model and the view.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Data Model</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS applications usually have a data model. The data model is a collection of data available for the application.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.firstname = "John";
+                $scope.lastname = "Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>HTML View</h3>
+            <p><span class='glyphicon-remove'></span>The HTML container where the AngularJS application is displayed, is calle the view.</p>
+            <p><span class='glyphicon-remove'></span>The view has access to the model, and there are several ways of displaying model data in the view.</p>
+            <p><span class='glyphicon-remove'></span>You can use the <b>ng-bind</b> directive, which will bind the innerHTML of the element to the specific model property:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p ng-bind="firstname">&lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can also use double braces {{ }} to display content from the model:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p>First name: {{firstname}}&lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Or you can use the <b>ng-model</b> directive on HTML controls to bind the model to the view.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-model Directive</h3>
+            <p><span class='glyphicon-remove'></span>Use the <b>ng-model</b> directive to bind data from the model to the view on HTML controls (input, select, textarea)</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input ng-model="firstname">
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive provides a two-way binding between the model and the view.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Two-way Binding</h3>
+            <p><span class='glyphicon-remove'></span>Data binding in AngularJS is the synchronization between the model and the view.</p>
+            <p><span class='glyphicon-remove'></span>When data in the <b>model</b> changes, the <b>view</b> reflects the change, and when data in the <i>view</i> changes, the <i>model</i> is updated as well. This happens immediately and automatically, which makes sure that the model and the view is updated at all times.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                Name: &lt;input ng-model="firstname">
+                &lt;h1>{{firstname}}&lt;/h1>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.firstname = "John";
+                $scope.lastname = "Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Controller</h3>
+            <p><span class='glyphicon-remove'></span>Applications in AngularJS are controlled by controllers.</p>
+            <p><span class='glyphicon-remove'></span>Because of immediate synchronization of the model and view, the controller can be completely separated from the view, and simply concentrate on the model data.
+                <br> &nbsp; &bull; Thanks to the data binding in AngularJS, the view will reflect any changes made in the controller.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;h1 ng-click="changeName()">{{firstname}}&lt;/h1>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.firstname = "John";
+                $scope.changeName = function() {
+                    $scope.firstname = "Nelly";
                 }
             });
             </pre>
-            <p><span class='glyphicon-remove'></span>$scope will be covered more later, but know now, it's like a <b>super variable</b> that you can use to pass things from your JS to your application and template, and vice-versa.</p>
-            <p><span class='glyphicon-remove'></span>Now we need to go back and add this controller to our template.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Controllers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS controllers <b>control the data</b> of AngularJS applications.
+            <p><span class='glyphicon-remove'></span>AngularJS controllers are regular <b>JavaScript Objects</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Controllers</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS applications are controlled by controllers.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-controller</b> directive defines the application controller.</p>
+            <p><span class='glyphicon-remove'></span>A controller is a <b>JavaScript Object</b>, created by a standard JavaScript <b>object constructor</b>.</p>
             <pre>
-            <span class='glyphicon-remove'></span>&lt;body>
-                &lt;div ng-controller="MyController">
-                    <h1>{{ author.name }}</h1>
-                    <p>{{ author.title + ', ' + author.company }}</p>
-                &lt;/div>
-            &lt;/body>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                    
+                First Name: &lt;input type="text" ng-model="firstName">&lt;br>
+                Last Name: &lt;input type="text" ng-model="lastName">&lt;br>
+                &lt;br>
+                Full Name: {{firstName + " " + lastName}}
+            
+            &lt;/div>
             </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.firstName = "John";
+                $scope.lastName = "Doe";
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Application Explained:
+                <br> &nbsp; &bull; The AngularJS application is defined by <b>ng-app="myApp"</b>. The application runs inside the &lt;div>.
+                <br> &nbsp; &bull; The <b>ng-controller="myCtrl"</b> attribute is an AngularJS directive. It defines a controller.
+                <br> &nbsp; &bull; The <b>myCtrl</b> function is a JavaScript function.
+                <br> &nbsp; &bull; AngularJS will invoke the controller with a <b>$scope</b> object.
+                <br> &nbsp; &bull; In AngularJS, $scope is the application object (the owner of application variables and functions).
+                <br> &nbsp; &bull; The controller creates two properties (variables) in the scope (<b>firstname</b> and <b>lastname</b>).
+                <br> &nbsp; &bull; The <b>ng-model</b> directive bind the input fields to the controller properties (firstName and lastName).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Controller Methods</h3>
+            <p><span class='glyphicon-remove'></span>The previous example demonstrated a controller object with two properties: lastName and firstName.</p>
+            <p><span class='glyphicon-remove'></span>A controller can also have methods (variables as functions):</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="personCtrl">
+                    
+                First Name: &lt;input type="text" ng-model="firstName">&lt;br>
+                Last Name: &lt;input type="text" ng-model="lastName">&lt;br>
+                &lt;br>
+                Full Name: {{fullName()}}
+            
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('personCtrl', function($scope) {
+                $scope.firstName = "John";
+                $scope.lastName = "Doe";
+                $scope.fullName = function() {
+                    return $scope.firstName + " " + $scope.lastName;
+                };
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Controllers in External Files</h3>
+            <p><span class='glyphicon-remove'></span>In larger applications, it is common to store controllers in external files.</p>
+            <p><span class='glyphicon-remove'></span>Just copy the code between the &lt;script> tags into an external file named <i>personController.js</i>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;div ng-app="myApp" ng-controller="personCtrl">
+                    
+                First Name: &lt;input type="text" ng-model="firstName">&lt;br>
+                Last Name: &lt;input type="text" ng-model="lastName">&lt;br>
+                &lt;br>
+                Full Name: {{fullName()}}
+            
+            &lt;/div>
+
+            &lt;script src="personController.js">&lt;/script>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Scope</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The scope is the binding part between the HTML (view) and the JavaScript (controller).
+            <p><span class='glyphicon-remove'></span>The scope is an object with the available properties and methods.</p>
+            <p><span class='glyphicon-remove'></span>The scope is available for both the view and the controller.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>How to Use the Scope?</h3>
+            <p><span class='glyphicon-remove'></span>When you make a controller in AngularJS, you pass the <b>$scope</b> object as an argument.</p>
+            <p><span class='glyphicon-remove'></span>Properties made in the controller, can be referred to in the view:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">        
+                &lt;h1>{{carname}}&lt;/h1>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            
+            app.controller('myCtrl', function($scope) {
+                $scope.carname = "Volvo";
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>When adding properties to the <b>$scope</b> object in the controller, the view (HTML) gets access to these properties.</p>
+            <p><span class='glyphicon-remove'></span>In the view, you do not use the prefix <b>$scope</b>, you just refer to a property name, like <b>{{ carname }}</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Understanding the Scope</h3>
+            <p><span class='glyphicon-remove'></span>If we consider an AngularJS application to consist of:
+                <br> &nbsp; &bull; View, the HTML
+                <br> &nbsp; &bull; Model, the Data available for the current view
+                <br> &nbsp; &bull; Controller, the JavaScript function that makes/changes/removes/controls the data.</p>
+            <p><span class='glyphicon-remove'></span>In this case, the <b>scope</b> is the Model.</p>
+            <p><span class='glyphicon-remove'></span>The scope is a JavaScript object with properties and methods, which are available for both the view and controller.</p>
+            <p><span class='glyphicon-remove'></span>If you make changes in the view, the model and the controller will be updated:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;input ng-model="name">
+                &lt;h1>My name is {{name}}&lt;/h1>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            
+            app.controller('myCtrl', function($scope) {
+                $scope.name = "John Doe";
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Know Your Scope</h3>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
