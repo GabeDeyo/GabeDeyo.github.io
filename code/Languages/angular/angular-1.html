@@ -105,6 +105,12 @@
           <li><a href="#5">Data Binding</a></li>
           <li><a href="#6">Controllers</a></li>
           <li><a href="#7">Scope</a></li>
+          <li><a href="#8">Filters</a></li>
+          <li><a href="#9">Services</a></li>
+          <li><a href="#10">Http</a></li>
+          <li><a href="#11">Tables</a></li>
+          <li><a href="#12">Select Input</a></li>
+          <li><a href="#13">SQL</a></li>
         </ul>
     </aside>
 
@@ -148,6 +154,30 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#7'>Scope</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Filters</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>Services</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#10'>Http</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#11'>Tables</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#12'>Select Input</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#13'>SQL</a>
                                 </p>
                             </li>
                         </ul>
@@ -993,6 +1023,844 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Know Your Scope</h3>
+            <p><span class='glyphicon-remove'></span>It's important to know which scope you are dealing with, at any time.</p>
+            <p><span class='glyphicon-remove'></span>So far, we've only seen one scope, so knowing your scope would not be an issue there, but for larger applications there can be selections in the HTML DOM which can only access certain scopes.</p>
+            <p><span class='glyphicon-remove'></span>When dealing with the <b>ng-repeat</b> directive, each repetition has acceses to the current repetition object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;ul>
+                    &lt;li ng-repeat="x in names">{{x}}&lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            
+            app.controller('myCtrl', function($scope) {
+                $scope.names = ["Emil", "Tobias", "Linus"];
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Each &lt;li> element has access to the current repetition object, in this case a string, which is referred to by using <b>x</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Root Scope</h3>
+            <p><span class='glyphicon-remove'></span>All application have a <b>$rootScope</b> which is the scope created on the HTML element that contains the ng-app directive.</p>
+            <p><span class='glyphicon-remove'></span>The rootScope is available in the entire application.</p>
+            <p><span class='glyphicon-remove'></span>If a variable has the same name in both the current scope and in the rootScope, the application uses the one in the current scope.</p>
+            <p><span class='glyphicon-remove'></span>In the next example, a variable named <i>"color"</i> exists in both the controller's scope and in the rootScope:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;body ng-app="myApp">
+                
+                &lt;p>The rootScope's favorite color:&lt;/p>
+                &lt;h1>{{color}}&lt;/h1>
+                
+                &lt;div ng-controller="myCtrl">
+                    &lt;p>The scope of the controller's favorite color:&lt;/p>
+                    &lt;h1>{{color}}&lt;/h1>
+                &lt;/div>
+                
+                &lt;p>The rootScope's favorite color is still:&lt;/p>
+                &lt;h1>{{color}}&lt;/h1>
+
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.run(function($rootScope) {
+                $rootScope.color = 'blue';
+            });
+            app.controller('myCtrl', function($scope) {
+                $scope.color = "red";
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Filters</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Filters can be added in AngularJS to <i>format data</i>.
+            <p><span class='glyphicon-remove'></span>AngularJS provides these filters to tranform data:
+                <br> &nbsp; &bull; <b>currency</b> - Format a number to a currency format.
+                <br> &nbsp; &bull; <b>date</b> - Format a date to a specified format.
+                <br> &nbsp; &bull; <b>filter</b> - Select a subset of items from an array.
+                <br> &nbsp; &bull; <b>json</b> - Format an object to a JSON string.
+                <br> &nbsp; &bull; <b>limitTo</b> - Limits an array/string, into a specified number of elements/characters.
+                <br> &nbsp; &bull; <b>lowercase</b> - Format a string to lower case.
+                <br> &nbsp; &bull; <b>number</b> - Format a number to a string.
+                <br> &nbsp; &bull; <b>orderBy</b> - Orders an array by an expression.
+                <br> &nbsp; &bull; <b>uppercase</b> - Format a string to upper case.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Adding Filters to Expressions</h3>
+            <p><span class='glyphicon-remove'></span>Filters can be added to expressions by using the pipe character <b>|</b>, followed by a filter.</p>
+            <p><span class='glyphicon-remove'></span>The <i>uppercase</i> filter formats strings to upper case:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="personCtrl">
+                &lt;p>The name is {{ lastName | uppercase }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <i>lowercase</i> filter formats strings to lower case:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="personCtrl">
+                &lt;p>The name is {{ lastName | lowercase }}&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Adding Filters to Directives</h3>
+            <p><span class='glyphicon-remove'></span>Filters are added to directives, like <b>ng-repeat</b>, by using the pipe character <b>|</b>, followed by a filter:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="namesCtrl">
+                &lt;ul>
+                  &lt;li ng-repeat="x in names | orderBy:'country'">
+                    {{ x.name + ', ' + x.country }}
+                  &lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The currency Filter</h3>
+            <p><span class='glyphicon-remove'></span>The <b>currency</b> filter formats a number as a currency:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="costCtrl">
+                &lt;h1>Price: {{ price | currency }}&lt;/h1>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The filter Filter</h3>
+            <p><span class='glyphicon-remove'></span>The <b>filter</b> filter selects a subset of an array.</p>
+            <p><span class='glyphicon-remove'></span>The <b>filter</b> filter can only be used on arrays, and it returns an array containing only the matching items.</p>
+            <p><span class='glyphicon-remove'></span>This example returns only the names that contain the letter "i":</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="namesCtrl">
+                &lt;ul>
+                  &lt;li ng-repeat="x in names | filter : 'i'">
+                    {{ x }}
+                  &lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Filter an ARray Based on User Input</h3>
+            <p><span class='glyphicon-remove'></span>By setting the <b>ng-model</b> directive on an input field, we can use the value of the input field as an expression in a filter.</p>
+            <p><span class='glyphicon-remove'></span>With this example, you can type letters in the input field, and the list will shrink/grow depending on the match:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="myApp" ng-controller="namesCtrl">
+                &lt;p>&lt;input type="text" ng-model="test">&lt;/p>
+                
+                &lt;ul>
+                  &lt;li ng-repeat="x in names | filter : test">
+                    {{ x }}
+                  &lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Sort an Array Based on User Input</h3>
+            <p><span class='glyphicon-remove'></span>By adding the <b>ng-click</b> directive on table headers, we can run a function that changes the sorting order of the array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="namesCtrl">
+                
+                &lt;table border="1" width="100%">
+                  &lt;tr>
+                    &lt;th ng-click="orderByMe('name')">Name&lt;/th>
+                    &lt;th ng-click="orderByMe('country')">Country&lt;/th>
+                  &lt;/tr>
+                  &lt;tr ng-repeat="x in names | orderBy:myOrderBy">
+                    &lt;td>{{x.name}}&lt;/td>
+                    &lt;td>{{x.country}}&lt;/td>
+                  &lt;/tr>
+                &lt;/table>
+                
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            angular.module('myApp', []).controller('namesCtrl', function($scope) {
+                $scope.names = [
+                  {name:'Jani',country:'Norway'},
+                  {name:'Carl',country:'Sweden'},
+                  {name:'Margareth',country:'England'},
+                  {name:'Hege',country:'Norway'},
+                  {name:'Joe',country:'Denmark'},
+                  {name:'Gustav',country:'Sweden'},
+                  {name:'Birgit',country:'Denmark'},
+                  {name:'Mary',country:'England'},
+                  {name:'Kai',country:'Norway'}
+                ];
+                $scope.orderByMe = function(x) {
+                  $scope.myOrderBy = x;
+                }
+              });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Custom Filters</h3>
+            <p><span class='glyphicon-remove'></span>You can make your own filters by registering a new filter factory function with your module.
+                <br> &nbsp; &bull; This next example filter will format every other character to uppercase.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;ul ng-app="myApp" ng-controller="namesCtrl">
+                &lt;li ng-repeat="x in names">
+                    {{x | myFormat}}
+                &lt;/li>
+            &lt;/ul>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.filter('myFormat', function() {
+                return function(x) {
+                    var i, c, txt = "";
+                    for (i = 0; i &lt; x.length; i++) {
+                        c = x[i];
+                        if (i % 2 == 0) {
+                            c = c.toUpperCase();
+                        }
+                        txt += c;
+                    }
+                    return txt;
+                };
+            });
+            app.controller('namesCtrl', function($scope) {
+                $scope.names = ['Jani', 'Carl', 'Margareth', 'Hege', 'Joe', 'Gustav', 'Birgit', 'Mary', 'Kai'];
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>Services</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            In AngularJS you can make your own service, or use one of the many built-in services.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is a Service?</h3>
+            <p><span class='glyphicon-remove'></span>In AngularJS, a service is a function, or object, that is available for, and limited to, your AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS has about 30 built-in services. One of them is the <b>$location</b> service.</p>
+            <p><span class='glyphicon-remove'></span>The <b>$location</b> service has methods which return information about the location of the current web page:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $location) {
+                $scope.myUrl = $location.absUrl();
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that the <b>$location</b> service is passed in to the controller as an argument. In order to use the service in the controller, it must be defined as a dependency.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Why use Services?</h3>
+            <p><span class='glyphicon-remove'></span>For many services, like the <b>$location</b> service, it seems like you could use objects that are already in the DOM, like the <i>window.location</i> object, and you could, but it would have some limitiations, at least for your AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS constantly supervises your application, and for it to handle changes and events properly, AngularJS prefers that you use the $location service instead of the window.location object.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The $http Service</h3>
+            <p><span class='glyphicon-remove'></span>The <b>$http</b> service is one of the most common used services in AngularJS applications. The service makes a request to the server, and lets your application handle the response.</p>
+            <p><span class='glyphicon-remove'></span>Use the $http service to request data from the server:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+                $http.get("welcome.htm").then(function (response) {
+                    $scope.myWelcome = response.data;
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The $timeout Service</h3>
+            <p><span class='glyphicon-remove'></span>The <b>$timeout</b> service in AngularJS' version of the <i>window.setTimeout</i> function.</p>
+            <p><span class='glyphicon-remove'></span>Display a new message after two seconds:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $timeout) {
+                $scope.myHeader = "Hello World!";
+                $timeout(function () {
+                    $scope.myHeader = "How are you today?";
+                }, 2000);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The $internal Service</h3>
+            <p><span class='glyphicon-remove'></span>The <b>$internal</b> service is AngularJS' version of the <i>window.setInterval</i> function.</p>
+            <p><span class='glyphicon-remove'></span>Display the time every second:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $interval) {
+                $scope.theTime = new Date().toLocaleTimeString();
+                $interval(function () {
+                    $scope.theTime = new Date().toLocaleTimeString();
+                }, 1000);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Create Your Own Service</h3>
+            <p><span class='glyphicon-remove'></span>To create your own service, connect your service to the module.</p>
+            <p><span class='glyphicon-remove'></span>Create a service name <i>hexafy</i>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>app.service('hexafy', function() {
+                this.myFunc = function (x) {
+                    return x.toString(16);
+                }
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>To use your custom made service, add it as a dependency when defining the controller:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>app.controller('myCtrl', function($scope, hexafy) {
+                $scope.hex = hexafy.myFunc(255);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Use a Custom Service Inside a Filter</h3>
+            <p><span class='glyphicon-remove'></span>Once you have created a service, and connected it to your application, you can use the service in any controller, directive, filter, or even inside other services.</p>
+            <p><span class='glyphicon-remove'></span>To use a service inside a filter, add it as a dependency when defining the filter.</p>
+            <p><span class='glyphicon-remove'></span>Use the <i>hexafy</i> service in the filter <i>myFormat</i>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>app.filter('myFormat',['hexafy', function(hexafy) {
+                return function(x) {
+                    return hexafy.myFunc(x);
+                };
+            }]);
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can use the filter when displaying values from an object, or an array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ul>
+                &lt;li ng-repeat="x in counts">{{x | myFormat}}&lt;/li>
+            &lt;/ul>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='10'>
+    <h2>Http</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>$http</b> is an AngularJS service for reading data from remote servers.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS $http</h3>
+            <p><span class='glyphicon-remove'></span>The AngularJS <b>$http</b> service makes a request to the server, and returns a response.</p>
+            <p><span class='glyphicon-remove'></span>Make a simple request to the server, and display the result in a header:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;p>Today's welcome message is:&lt;/p>
+                &lt;h1>{{myWelcome}}&lt;/h1>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+                $http.get("welcome.htm")
+                .then(function(response) {
+                    $scope.myWelcome = response.data;
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Methods</h3>
+            <p><span class='glyphicon-remove'></span>The example above uses the <b>.get</b> method of the <b>$http</b> service.</p>
+            <p><span class='glyphicon-remove'></span>The .get method is a shortcut method of the $http service. There are several shortcut methods:
+                <br> &nbsp; &bull; .delete()
+                <br> &nbsp; &bull; .get()
+                <br> &nbsp; &bull; .head()
+                <br> &nbsp; &bull; .jsonp()
+                <br> &nbsp; &bull; .patch()
+                <br> &nbsp; &bull; .post()
+                <br> &nbsp; &bull; .put()</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+                $http({
+                    method : "GET",
+                    url : "welcome.htm"
+                }).then(function mySuccess(response) {
+                    $scope.myWelcome = response.data;
+                }, function myError(response) {
+                    $scope.myWelcome = response.statusText;
+                });
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>This example executes the $http service with an object as an argument. The object is specifyin the HTTP method, the url, what to do on success, and what to do on failure.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Properties</h3>
+            <p><span class='glyphicon-remove'></span>The repsonse from the server is an object with these properties:
+                <br> &nbsp; &bull; <b>.config</b> - the object used to generate the request
+                <br> &nbsp; &bull; <b>.data</b> - a string, or an object, carrying the response from the server
+                <br> &nbsp; &bull; <b>.headers</b> - a function to use to get header information
+                <br> &nbsp; &bull; <b>.status</b> - a number defining the HTTP status
+                <br> &nbsp; &bull; <b>.statusText</b> - a string defining the HTTP status</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+                $http.get("welcome.htm")
+                .then(function(response) {
+                    $scope.content = response.data;
+                    $scope.statuscode = response.status;
+                    $scope.statustext = response.statustext; 
+                });
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>To handle errors, add one more function to the <b>.then</b> method:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope, $http) {
+                $http.get("wrongfilename.htm")
+                .then(function(response) {
+                    //First function handles success
+                    $scope.content = response.data;
+                }, function(response) {
+                    //Second function handles error
+                    $scope.content = "Something went wrong";
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>JSON</h3>
+            <p><span class='glyphicon-remove'></span>The data you get from the response is expected to be in JSON format.</p>
+            <p><span class='glyphicon-remove'></span>JSON is a great way of transporting data, and it is easy to use within AngularJS or any other JavaScript.</p>
+            <p><span class='glyphicon-remove'></span>Example: On the server we have a file that returns a JSON object containing 15 customers, all wrapped in array called <i>records</i>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive is perfect for looping through an array like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="customersCtrl"> 
+                &lt;ul>
+                  &lt;li ng-repeat="x in myData">
+                    {{ x.Name + ', ' + x.Country }}
+                  &lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $http) {
+                $http.get("customers.php").then(function(response) {
+                    $scope.myData = response.data.records;
+                });
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Application Explained</b>
+                <br> &nbsp; &bull; The application defines the <i>customersCtrl</i> controller, with a <i>$scope</i> and <i>$http</i> object.
+                <br> &nbsp; &bull; <b>$http</b> is an XMLHttpRequest object for requesting external data.
+                <br> &nbsp; &bull; <b>$http.get()</b> reads JSON data from the url.
+                <br> &nbsp; &bull; On success, the controller creates a property, <b>myData</b>, in the scope, with JSON data from the server.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='11'>
+    <h2>Tables</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The <b>ng-repeat</b> directive is perfect for displaying tables.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Displaying Data in a Table</h3>
+            <p><span class='glyphicon-remove'></span>Displaying tables with AngularJS is very simple:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="customersCtrl">
+                &lt;table>
+                  &lt;tr ng-repeat="x in names">
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country }}&lt;/td>
+                  &lt;/tr>
+                &lt;/table>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $http) {
+                $http.get("customers.php")
+                .then(function (response) {$scope.names = response.data.records;});
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Displaying with CSS Style</h3>
+            <p><span class='glyphicon-remove'></span>To make it nice, add some CSS to the page:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>table, th , td {
+                border: 1px solid grey;
+                border-collapse: collapse;
+                padding: 5px;
+              }
+              table tr:nth-child(odd) {
+                background-color: #f1f1f1;
+              }
+              table tr:nth-child(even) {
+                background-color: #ffffff;
+              }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Display with orderBy Filter</h3>
+            <p><span class='glyphicon-remove'></span>To sort the table: add an <b>orderBy</b> filter:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;tr ng-repeat="x in names | orderBy : 'Country'">
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country }}&lt;/td>
+                &lt;/tr>
+            &lt;/table>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Display with uppercase Filter</h3>
+            <p><span class='glyphicon-remove'></span>To display uppercase, add an <b>uppercase</b> filter:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;tr ng-repeat="x in names">
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country | uppercase }}&lt;/td>
+                &lt;/tr>
+            &lt;/table>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Display the Table Index ($index)</h3>
+            <p><span class='glyphicon-remove'></span>To display the table index, add a &lt;td> with <b>$index</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;tr ng-repeat="x in names">
+                    &lt;td>{{ $index + 1 }}&lt;/td>
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country }}&lt;/td>
+                &lt;/tr>
+            &lt;/table>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Using $even and $odd</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;tr ng-repeat="x in names">
+                    &lt;td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ x.Name }}&lt;/td>
+                    &lt;td ng-if="$even">
+                    {{ x.Name }}&lt;/td>
+                    &lt;td ng-if="$odd" style="background-color:#f1f1f1">
+                    {{ x.Country }}&lt;/td>
+                    &lt;td ng-if="$even">
+                    {{ x.Country }}&lt;/td>
+                &lt;/tr>
+            &lt;/table>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='12'>
+    <h2>Select Input</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS lets your create dropdown lists based on items in an array, or an object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Creating a Select Box Using ng-options</h3>
+            <p><span class='glyphicon-remove'></span>If you want to create a dropdown list, based on an object or an array in AngularJS, you should use the <b>ng-options</b> directive:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;select ng-model="selectedName" ng-options="x for x in names">&lt;/select>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.names = ["Emil", "Tobias", "Linus"];
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ng-options vs. ng-repeat</h3>
+            <p><span class='glyphicon-remove'></span>You can also use the <b>ng-repeat</b> directive to make the same dropdown list:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select>
+                &lt;option ng-repeat="x in names">{{x}}&lt;/option>
+            &lt;/select>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Because the <b>ng-repeat</b> directive repeats a block of HTML code for each item in an array, it can be used to create options in a dropdownlist, but the <b>ng-options</b> directive is made specifically for filling a dropdown list with options, and has at least one important advantage:
+                <br> &nbsp; &bull; Dropdowns made with <b>ng-options</b> allow the selected value to be an <i>object</i>, while dropdowns made from <b>ng-repeat</b> has to be a string.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What Do I Use?</h3>
+            <p><span class='glyphicon-remove'></span>Assume you have an array of objects:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>$scope.cars = [
+                {model : "Ford Mustang", color : "red"},
+                {model : "Fiat 500", color : "white"},
+                {model : "Volvo XC90", color : "black"}
+            ];
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive has its limitations, the selected value must be a string:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select ng-model="selectedCar">
+                &lt;option ng-repeat="x in cars" value="{{x.model}}">{{x.model}}&lt;/option>
+            &lt;/select>
+            &lt;h1>You selected: {{selectedCar}}&lt;/h1>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When using the <b>ng-options</b> directive, the selected value can be an object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select ng-model="selectedCar" ng-options="x.model for x in cars">&lt;/select>
+            &lt;h1>You selected: {{selectedCar.model}}&lt;/h1>
+            &lt;p>Its color is: {{selectedCar.color}}&lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When the selected value can be an object, it can hold more information, and your application can be more flexible.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The Data Source as an Object</h3>
+            <p><span class='glyphicon-remove'></span>In the previous examples, the data source has been an array, but we can also use an object.</p>
+            <p><span class='glyphicon-remove'></span>Assume we have an object with key/value pairs:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>$scope.cars = {
+                car01 : "Ford",
+                car02 : "Fiat",
+                car03 : "Volvo"
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>The expression in the <b>ng-options</b> attribute is a bit different for objects.</p>
+            <p><span class='glyphicon-remove'></span>Using an object as the data source, <i>x</i> represents the key, and <i>y</i> represents the value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select ng-model="selectedCar" ng-options="x for (x, y) in cars">&lt;/select>
+            &lt;h1>You selected: {{selectedCar}}&lt;/h1>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The selected value will always be the <b>value</b> in the key-<b>value</b> pair.</p>
+            <p><span class='glyphicon-remove'></span>The <b>value</b> in a key-<b>value</b> pair can also be an object:</p>
+            <p><span class='glyphicon-remove'></span>The selected value will still be the <b>value</b> in a key-<b>value</b> pair, only this time it is an object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>$scope.cars = {
+                car01 : {brand : "Ford", model : "Mustang", color : "red"},
+                car02 : {brand : "Fiat", model : "500", color : "white"},
+                car03 : {brand : "Volvo", model : "XC90", color : "black"}
+            };
+            </pre>
+            <p><span class='glyphicon-remove'></span>The options in the dropdown list does not have to be the <b>key</b> in a <b>key</b>-value pair, it can also be the value, or a property of the value object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select ng-model="selectedCar" ng-options="y.brand for (x, y) in cars">&lt;/select>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='13'>
+    <h2>SQL</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS is perfect for displaying data from a Database. Just make sure the data is in JSON format.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Fetching Data from a PHP Server Running MySQL</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;div ng-app="myApp" ng-controller="customersCtrl">
+                &lt;table>
+                  &lt;tr ng-repeat="x in names">
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country }}&lt;/td>
+                  &lt;/tr>
+                &lt;/table>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $http) {
+                $http.get("customers_mysql.php")
+                .then(function (response) {$scope.names = response.data.records;});
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Fetching Data From an ASP.NET Server Running SQL</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="customersCtrl">
+                &lt;table>
+                  &lt;tr ng-repeat="x in names">
+                    &lt;td>{{ x.Name }}&lt;/td>
+                    &lt;td>{{ x.Country }}&lt;/td>
+                  &lt;/tr>
+                &lt;/table>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Server Code Examples</h3>
+            <p><span class='glyphicon-remove'></span>The following section is a listing of the server code used to fetch SQL data.
+                <br> &nbsp; 1. Using PHP and MySQL. Returning JSON
+                <br> &nbsp; 2. Using PHP and MS Access. Returning JSON
+                <br> &nbsp; 3. Using ASP.NET, VB, and MS Access. Returning JSON
+                <br> &nbsp; 4. Using ASP.NET, Razor, and SQL Lite. Returning JSON</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Cross-Site HTTP Requests</h3>
+            <p><span class='glyphicon-remove'></span>Requests for data from a different server (than the requesting page), are called <b>cross-site</b> HTTP requests.</p>
+            <p><span class='glyphicon-remove'></span>Cross-site requests are common on the web. Many pages load CSS, images, and scripts from different servers.</p>
+            <p><span class='glyphicon-remove'></span>In modern browsers, cross-site HTTP requests <b>from scripts</b> are restricted to <b>same site</b> for security reasons.</p>
+            <p><span class='glyphicon-remove'></span>the following line, in a PHP example, has been added to allow cross-site access.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>header("Access-Control-Allow-Origin: *");
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>1. Server Code PHP and MySQL</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;?php
+            header("Access-Control-Allow-Origin: *");
+            header("Content-Type: application/json; charset=UTF-8");
+            
+            $conn = new mysqli("myServer", "myUser", "myPassword", "Northwind");
+            
+            $result = $conn->query("SELECT CompanyName, City, Country FROM Customers");
+            
+            $outp = "";
+            while($rs = $result->fetch_array(MYSQLI_ASSOC)) {
+                if ($outp != "") {$outp .= ",";}
+                $outp .= '{"Name":"'  . $rs["CompanyName"] . '",';
+                $outp .= '"City":"'   . $rs["City"]        . '",';
+                $outp .= '"Country":"'. $rs["Country"]     . '"}';
+            }
+            $outp ='{"records":['.$outp.']}';
+            $conn->close();
+            
+            echo($outp);
+            ?>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>2. Server Code PHP and MS Access</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;?php
+            header("Access-Control-Allow-Origin: *");
+            header("Content-Type: application/json; charset=ISO-8859-1");
+            
+            $conn = new COM("ADODB.Connection");
+            $conn->open("PROVIDER=Microsoft.Jet.OLEDB.4.0;Data Source=Northwind.mdb");
+            
+            $rs = $conn->execute("SELECT CompanyName, City, Country FROM Customers");
+            
+            $outp = "";
+            while (!$rs->EOF) {
+                if ($outp != "") {$outp .= ",";}
+                $outp .= '{"Name":"'  . $rs["CompanyName"] . '",';
+                $outp .= '"City":"'   . $rs["City"]        . '",';
+                $outp .= '"Country":"'. $rs["Country"]     . '"}';
+                $rs->MoveNext();
+            }
+            $outp ='{"records":['.$outp.']}';
+            
+            $conn->close();
+            
+            echo ($outp);
+            ?>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>3. Server Code ASP.NET, VB and MS Access</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>
+            &lt;%@ Import Namespace="System.IO"%>
+            &lt;%@ Import Namespace="System.Data"%>
+            &lt;%@ Import Namespace="System.Data.OleDb"%>
+            &lt;%
+            Response.AppendHeader("Access-Control-Allow-Origin", "*")
+            Response.AppendHeader("Content-type", "application/json")
+            Dim conn As OleDbConnection
+            Dim objAdapter As OleDbDataAdapter
+            Dim objTable As DataTable
+            Dim objRow As DataRow
+            Dim objDataSet As New DataSet()
+            Dim outp
+            Dim c
+            conn = New OledbConnection("Provider=Microsoft.Jet.OLEDB.4.0;data source=Northwind.mdb")
+            objAdapter = New OledbDataAdapter("SELECT CompanyName, City, Country FROM Customers", conn)
+            objAdapter.Fill(objDataSet, "myTable")
+            objTable=objDataSet.Tables("myTable")
+            
+            outp = ""
+            c = chr(34)
+            for each x in objTable.Rows
+            if outp &lt;> "" then outp = outp &amp; ","
+            outp = outp &amp; "{" &amp; c &amp; "Name"    &amp; c &amp; ":" &amp; c &amp; x("CompanyName") &amp; c &amp; ","
+            outp = outp &amp;       c &amp; "City"    &amp; c &amp; ":" &amp; c &amp; x("City")        &amp; c &amp; ","
+            outp = outp &amp;       c &amp; "Country" &amp; c &amp; ":" &amp; c &amp; x("Country")     &amp; c &amp; "}"
+            next
+            
+            outp ="{" &amp; c &amp; "records" &amp; c &amp; ":[" &amp; outp &amp; "]}"
+            response.write(outp)
+            conn.close
+            %>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Server Code ASP.NET, Razor C# and SQL Lite</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>@{
+            Response.AppendHeader("Access-Control-Allow-Origin", "*")
+            Response.AppendHeader("Content-type", "application/json")
+            var db = Database.Open("Northwind");
+            var query = db.Query("SELECT CompanyName, City, Country FROM Customers");
+            var outp =""
+            var c = chr(34)
+            }
+            @foreach(var row in query){
+            if (outp != "") {outp = outp + ","}
+            outp = outp + "{" + c + "Name"    + c + ":" + c + @row.CompanyName + c + ","
+            outp = outp +       c + "City"    + c + ":" + c + @row.City        + c + ","
+            outp = outp +       c + "Country" + c + ":" + c + @row.Country     + c + "}"
+            }
+            outp ="{" + c + "records" + c + ":[" + outp + "]}"
+            @outp
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

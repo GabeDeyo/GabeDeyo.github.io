@@ -131,6 +131,10 @@
                                 <a href='#6'>Shortest Word</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Remove the Minimum</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -374,6 +378,50 @@
 
                 // <b>array.map(w => w.length)</b> - returns a new array with the results being <i>the length</i> of every word in the array.
             }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Remove the Minimum</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Given an array of integers, remove the smallest value. Do not mutate the original array/list. If there are multiple elements with the same value, remove the one with a lower index. If you get an empty array/list, return an empty array/list.
+            <br>Don't change the order of the elements that are left.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Examples
+            removeSmallest([1,2,3,4,5]) = [2,3,4,5]
+            removeSmallest([5,3,2,1,4]) = [5,3,2,4]
+            removeSmallest([2,2,1,2,1]) = [2,2,2,1]
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function removeSmallest(numbers) {
+                numbers.splice(numbers.indexOf(Math.min.apply(null,numbers)),1);
+                return numbers;
+
+                // <b>Math.min.apply(null, numbers)</b> - retrieve the min value of the given array
+
+                // <b>numbers.indexOf(min)</b> - returns the <i>first</i> index at the given element, else return -1.
+
+                // <b>numbers.splice(start, end)</b> - removes a subsection from the array at the start index, until the end index.
+              }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function removeSmallest(numbers) {
+                if(!numbers)return [];
+                var min=Math.min.apply(null,numbers);
+                numbers.splice(numbers.indexOf(min),1);
+                return numbers;
+              }
             </pre>
         </p></li>
     </ul>
