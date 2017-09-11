@@ -111,6 +111,15 @@
           <li><a href="#11">Tables</a></li>
           <li><a href="#12">Select Input</a></li>
           <li><a href="#13">SQL</a></li>
+          <li><a href="#14">DOM</a></li>
+          <li><a href="#15">Events</a></li>
+          <li><a href="#16">Forms</a></li>
+          <li><a href="#17">Validation</a></li>
+          <li><a href="#18">API</a></li>
+          <li><a href="#19">Includes</a></li>
+          <li><a href="#20">Animations</a></li>
+          <li><a href="#21">Routing</a></li>
+          <li><a href="#22">Application</a></li>
         </ul>
     </aside>
 
@@ -178,6 +187,42 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#13'>SQL</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#14'>DOM</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#15'>Events</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#16'>Forms</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#17'>Validation</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#18'>API</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#19'>Includes</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#20'>Animations</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#21'>Routing</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#22'>Application</a>
                                 </p>
                             </li>
                         </ul>
@@ -1861,6 +1906,1229 @@
             outp ="{" + c + "records" + c + ":[" + outp + "]}"
             @outp
             </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='14'>
+    <h2>DOM</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS has directives for binding application data to the attributes of HTML DOM elements.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The ng-disabled Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-disabled</b> directive binds AngularJS application data to the disabled attributte of HTML elements.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="mySwitch=true">
+                &lt;p>&lt;button ng-disabled="mySwitch">Click Me!&lt;/button>&lt;/p>
+                
+                &lt;p>&lt;input type="checkbox" ng-model="mySwitch">Button&lt;/p>
+                
+                &lt;p>{{ mySwitch }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Application Explained:</b>
+                <br> &nbsp; &bull; The <b>ng-disabled</b> directive binds the application data <b>mySwitch</b> to the HTML button's <b>disabled</b> attribute.
+                <br> &nbsp; &bull; The <b>ng-model</b> directive binds the value of the HTML checkbox element to the value of <b>mySwitch</b>.
+                <br> &nbsp; &bull; If the value of <b>mySwitch</b> evaluated to <b>true</b>, the button will be disabled.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The ng-show Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-show</b> directive shows or hides an HTML element.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="">
+                &lt;p ng-show="true">I am visible.&lt;/p>
+                
+                &lt;p ng-show="false">I am not visible.&lt;/p>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The ng-show directive shows (or hides) an HTML element based on the <b>value</b> of ng-show.</p>
+            <p><span class='glyphicon-remove'></span>You can use any expression that evaluates to true or false:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="" ng-init="hour=13">
+                &lt;p ng-show="hour > 12">I am visible.&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The ng-hide Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-hide</b> directive hides or shows an HTML element.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-app="">
+                &lt;p ng-hide="true">I am not visible.&lt;/p>
+                &lt;p ng-hide="false">I am visible.&lt;/p>
+            &lt;/div>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='15'>
+    <h2>Events</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS has its own HTML events directives.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Events</h3>
+            <p><span class='glyphicon-remove'></span>You can add AngularJS event listeners to your HTML elements by using one or more of these directives:
+                <br> &nbsp; &bull; ng-blur
+                <br> &nbsp; &bull; ng-change
+                <br> &nbsp; &bull; ng-click
+                <br> &nbsp; &bull; ng-copy
+                <br> &nbsp; &bull; ng-cut
+                <br> &nbsp; &bull; ng-dblclick
+                <br> &nbsp; &bull; ng-focus
+                <br> &nbsp; &bull; ng-keydown
+                <br> &nbsp; &bull; ng-keypress
+                <br> &nbsp; &bull; ng-keyup
+                <br> &nbsp; &bull; ng-mousedown
+                <br> &nbsp; &bull; ng-mouseenter
+                <br> &nbsp; &bull; ng-mouseleave
+                <br> &nbsp; &bull; ng-mousemove
+                <br> &nbsp; &bull; ng-mouseover
+                <br> &nbsp; &bull; ng-mouseup
+                <br> &nbsp; &bull; ng-paste</p>
+            <p><span class='glyphicon-remove'></span>The event directives allow us to run AngularJS functions at certain user events.</p>
+            <p><span class='glyphicon-remove'></span>An AngularJS event will not overwrite an HTML event, both events will be executed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Mouse Events</h3>
+            <p><span class='glyphicon-remove'></span>Mouse events occur when the cursor moves over an element, in this order:
+                <br> &nbsp; 1. ng-mouseenter
+                <br> &nbsp; 2. ng-mouseover
+                <br> &nbsp; 3. ng-mousemove
+                <br> &nbsp; 4. ng-mouseleave</p>
+            <p><span class='glyphicon-remove'></span>Or when a mouse button is clicked on an element, in this order:
+                <br> &nbsp; 1. ng-mousedown
+                <br> &nbsp; 2. ng-mouseup
+                <br> &nbsp; 3. ng-click</p>
+            <p><span class='glyphicon-remove'></span>You can add mouse events on any HTML element.</p>
+            <p><span class='glyphicon-remove'></span>Increase the count variable when the mouse moves over the H1 element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;h1 ng-mousemove="count = count + 1">Mouse over me!&lt;/h1>
+                &lt;h2>{{ count }}&lt;/h2>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.count = 0;
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The ng-click Directive</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-click</b> directive defines AngularJS code that will be executed when the element is clicked.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;button ng-click="count = count + 1">Click me!&lt;/button>
+                &lt;p>{{ count }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.count = 0;
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can also refer to a function:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;button ng-click="myFunction()">Click me!&lt;/button>
+                &lt;p>{{ count }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.count = 0;
+                $scope.myFunction = function() {
+                    $scope.count++;
+                }
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Toggle, True/False</h3>
+            <p><span class='glyphicon-remove'></span>If you want to show a section of HTML code when a button is clicked, and hide when the button is clicked again, like a dropdown menu, make the button behave like a toggle switch:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;button ng-click="myFunc()">Click Me!&lt;/button>
+                
+                &lt;div ng-show="showMe">
+                    &lt;h1>Menu:&lt;/h1>
+                    &lt;div>Pizza&lt;/div>
+                    &lt;div>Pasta&lt;/div>
+                    &lt;div>Pesce&lt;/div>
+                &lt;/div>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.showMe = false;
+                $scope.myFunc = function() {
+                    $scope.showMe = !$scope.showMe;
+                }
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <b>showMe</b> variable starts out as the Boolean value <i>false</i>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>myFunc</b> function set the <b>showMe</b> variable to the opposite of what it is, by using the <i>!</i> operator.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>$event Object</h3>
+            <p><span class='glyphicon-remove'></span>You can pass the <b>$event</b> object as an argument when calling the function.</p>
+            <p><span class='glyphicon-remove'></span>The <b>$event</b> object contains the browser's event object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;h1 ng-mousemove="myFunc($event)">Mouse Over Me!&lt;/h1>
+                &lt;p>Coordinates: {{x + ', ' + y}}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.myFunc = function(myE) {
+                    $scope.x = myE.clientX;
+                    $scope.y = myE.clientY;
+                }
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='16'>
+    <h2>Forms</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Forms in AngularJS provides data-binding and validation of input controls.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Input Controls</h3>
+            <p><span class='glyphicon-remove'></span>Input controls are the HTML input elements:
+                <br> &nbsp; &bull; input elements
+                <br> &nbsp; &bull; select elements
+                <br> &nbsp; &bull; button elements
+                <br> &nbsp; &bull; textarea elements</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Data-Binding</h3>
+            <p><span class='glyphicon-remove'></span>Input controls provides data-binding by using the <b>ng-model</b> directive.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input type="text" ng-model="firstname">
+            </pre>
+            <p><span class='glyphicon-remove'></span>The application does not have a property name <i>firstname</i>.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds the input controller to the rest of your application.</p>
+            <p><span class='glyphicon-remove'></span>The property <i>firstname</i> can be referred to in a controller:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module('myApp', []);
+            app.controller('formCtrl', function($scope) {
+                $scope.firstname = "John";
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>It can also be referred to elsewhere in the application:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form>
+                First Name: &lt;input type="text" ng-model="firstname">
+            &lt;/form>
+                
+            &lt;h1>You entered: {{firstname}}&lt;/h1>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Checkbox</h3>
+            <p><span class='glyphicon-remove'></span>A checkbox has the value <i>true</i> or <i>false</i>. Apply the <b>ng-model</b> directive to a checkbox, and use its value in your application.</p>
+            <p><span class='glyphicon-remove'></span>Show the header if the checkbox is checked:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form>
+                Check to show a header:
+                &lt;input type="checkbox" ng-model="myVar">
+            &lt;/form>
+            
+            &lt;h1 ng-show="myVar">My Header&lt;/h1>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Radiobuttons</h3>
+            <p><span class='glyphicon-remove'></span>Bind radio buttons to your application with the <b>ng-model</b> directive.</p>
+            <p><span class='glyphicon-remove'></span>Radio buttons with the same <b>ng-model</b> can have different values, but only the selected one will be used.</p>
+            <p><span class='glyphicon-remove'></span>Display some text, based on the value of the selected radio buttons:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form>
+                Pick a topic:
+                &lt;input type="radio" ng-model="myVar" value="dogs">Dogs
+                &lt;input type="radio" ng-model="myVar" value="tuts">Tutorials
+                &lt;input type="radio" ng-model="myVar" value="cars">Cars
+            &lt;/form>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The value of <b>myVar</b> will either be <i>dogs</i>, <i>tuts</i>, or <i>cars</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Selectbox</h3>
+            <p><span class='glyphicon-remove'></span>Bind select boxes to your application with the <b>ng-model</b> directive.</p>
+            <p><span class='glyphicon-remove'></span>This property defined in the <b>ng-model</b> attribute will have the value of the selected option in the selectbox.</p>
+            <p><span class='glyphicon-remove'></span>Display some text, based on the value of the selected option:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form>
+                Select a topic:
+                &lt;select ng-model="myVar">
+                    &lt;option value="">
+                    &lt;option value="dogs">Dogs
+                    &lt;option value="tuts">Tutorials
+                    &lt;option value="cars">Cars
+                &lt;/select>
+            &lt;/form>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The value of <b>myVar</b> will either be <i>dogs</i>, <i>tuts</i>, or <i>cars</i>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Form Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="formCtrl">
+                &lt;form novalidate>
+                  First Name:&lt;br>
+                  &lt;input type="text" ng-model="user.firstName">&lt;br>
+                  Last Name:&lt;br>
+                  &lt;input type="text" ng-model="user.lastName">
+                  &lt;br>&lt;br>
+                  &lt;button ng-click="reset()">RESET&lt;/button>
+                &lt;/form>
+                &lt;p>form = {{user}}&lt;/p>
+                &lt;p>master = {{master}}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('formCtrl', function($scope) {
+                $scope.master = {firstName: "John", lastName: "Doe"};
+                $scope.reset = function() {
+                    $scope.user = angular.copy($scope.master);
+                };
+                $scope.reset();
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - The <b>novalidate</b> attribute is new in HTML5. It disables any default browser validation.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example Explained</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ng-app</b> directive defines the AngularJS application.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-controller</b> directive defines the application controller.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-model</b> directive binds two input elements to the <b>user</b> object in the model.</p>
+            <p><span class='glyphicon-remove'></span>The <b>formCtrl</b> controller sets initial values to the <b>master</b> object, and defines the <b>reset()</b> method.</p>
+            <p><span class='glyphicon-remove'></span>The <b>reset()</b> method sets the <b>user</b> object equal to the <b>master</b> object.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-click</b> directive invokes the <b>reset()</b> method, only if the button is clicked.</p>
+            <p><span class='glyphicon-remove'></span>The <b>novalidate</b> attribute is not needed for this application, but normally you will use it in AngularJS forms, to override standard HTML5 validation.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='17'>
+    <h2>Validation</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS can validate input data.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Form Validation</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS offers client-side form validation.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS monitors the state of the form and input fields (input, text area, select), and lets you notify the user about the current state.</p>
+            <p><span class='glyphicon-remove'></span>AngularJS also holds information about whether they have been touched, or modified, or not.</p>
+            <p><span class='glyphicon-remove'></span>You can use standard HTML5 attributes to validate input, or you can make your own validation functions.</p>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Client-side validation cannot alone secure user input. Server-side validation is also necessary.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Required</h3>
+            <p><span class='glyphicon-remove'></span>Use the HTML5 attribute <b>required</b> to specify that the input field must be fileed out:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form name="myForm">
+                &lt;input name="myInput" ng-model="myInput" required>
+            &lt;/form>
+            
+            &lt;p>The input's valid state is:&lt;/p>
+            &lt;h1>{{myForm.myInput.$valid}}&lt;/h1>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>E-mail</h3>
+            <p><span class='glyphicon-remove'></span>Use the HTML5 type <b>email</b> to specify that the value must be an e-mail:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;form name="myForm">
+                &lt;input name="myInput" ng-model="myInput" type="email">
+            &lt;/form>
+            
+            &lt;p>The input's valid state is:&lt;/p>
+            &lt;h1>{{myForm.myInput.$valid}}&lt;/h1>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Form State &amp; Input State</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS is constantly updating the state of both the form and the input fields.</p>
+            <p><span class='glyphicon-remove'></span>Input fields have the following states:
+                <br> &nbsp; &bull; <b>$untouched</b> - The field has not been touched yet
+                <br> &nbsp; &bull; <b>$touched</b> - The field has been touched
+                <br> &nbsp; &bull; <b>$pristine</b> - The field has not been modified yet
+                <br> &nbsp; &bull; <b>$dirty</b> - The field has been modified
+                <br> &nbsp; &bull; <b>$invalid</b> - The field content is not valid
+                <br> &nbsp; &bull; <b>$valid</b> - The field content is valid</p>
+            <p><span class='glyphicon-remove'></span>They are all properties of the input field, and are either <i>true</i> or <i>false</i>.</p>
+            <p><span class='glyphicon-remove'></span>Forms have the following states:
+                <br> &nbsp; &bull; <b>$pristine</b> - No fields have been modified yet
+                <br> &nbsp; &bull; <b>$dirty</b> - One or more have been modified
+                <br> &nbsp; &bull; <b>$invalid</b> - The form content is not valid
+                <br> &nbsp; &bull; <b>$valid</b> - The form content is valid
+                <br> &nbsp; &bull; <b>$submitted</b> - The form is submitted</p>
+            <p><span class='glyphicon-remove'></span>They are all properties of the form, and are either <i>true</i> or <i>false</i>.</p>
+            <p><span class='glyphicon-remove'></span>You can use these states to show meaningful messages to the user. Example, if a field is required, and the user leaves it blank, you should give the user a warning.
+                <br> &nbsp; &bull; Show an error message if the field has been touched AND is empty:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input name="myName" ng-model="myName" required>
+            &lt;span ng-show="myForm.myName.$touched &amp;&amp; myForm.myName.$invalid">The name is required.&lt;/span>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Classes</h3>
+            <p><span class='glyphicon-remove'></span>AngularJS adds CSS classes to forms and input fields depending on their states.</p>
+            <p><span class='glyphicon-remove'></span>The following classes are added to, or removed from, input fields:
+                <br> &nbsp; &bull; <b>ng-untouched</b> - The field has not been touched yet
+                <br> &nbsp; &bull; <b>ng-touched</b> - The field has been touched
+                <br> &nbsp; &bull; <b>ng-pristine</b> - The field has not been modified yet
+                <br> &nbsp; &bull; <b>ng-dirty</b> - The field has been modified
+                <br> &nbsp; &bull; <b>ng-valid</b> - The field content is valid
+                <br> &nbsp; &bull; <b>ng-invalid</b> - The field content is not valid
+                <br> &nbsp; &bull; <b>ng-valid-<i>key</i></b> - One <i>key</i> for each validation. Example: <b>ng-valid-required</b>, useful when there are more than one thing that must be validated.
+                <br> &nbsp; &bull; <b>ng-invalid-<i>key</i></b> - Example: <b>ng-invalid-required</b></p>
+            <p><span class='glyphicon-remove'></span>The following classes are added to, or removed from, forms:
+                <br> &nbsp; &bull; <b>ng-pristine</b> - No fields have been modified yet
+                <br> &nbsp; &bull; <b>ng-dirty</b> - One or more fields has been modified
+                <br> &nbsp; &bull; <b>ng-valid</b> - The form content is valid
+                <br> &nbsp; &bull; <b>ng-invalid</b> - The form content is not valid
+                <br> &nbsp; &bull; <b>ng-valid-<i>key</i></b> - One <i>key</i> for each validation. Example: <b>ng-valid-required</b>, useful when there are more than one thing that must be validated.
+                <br> &nbsp; &bull; <b>ng-invalid-<i>key</i></b> - Example: <b>ng-invalid-required</b></p>
+            <p><span class='glyphicon-remove'></span>The classes are removed if the value they represent is <i>false</i>.</p>
+            <p><span class='glyphicon-remove'></span>Add styles for these classes gives your application a better and more intuitive user interface.</p>
+            <p><span class='glyphicon-remove'></span>Apply styles, using standard CSS:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>input.ng-invalid {
+                background-color: pink;
+            }
+            input.ng-valid {
+                background-color: lightgreen;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Apply styles for unmodified (pristine) forms, and for modified forms:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>form.ng-pristine {
+                background-color: lightblue;
+            }
+            form.ng-dirty {
+                background-color: pink;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Custom Validation</h3>
+            <p><span class='glyphicon-remove'></span>To create your own validation function is a bit more tricky. You have to add a new directive to your application, and deal with the validation inside a function with certain specified arguments.</p>
+            <p><span class='glyphicon-remove'></span>Create your own directive, containing a custom validation function, and refer to it by using <b>my-directive</b>.
+                 <br> &nbsp; &bull; The field will only be valid if the value contains the character "e":</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;form name="myForm">
+                &lt;input name="myInput" ng-model="myInput" required my-directive>
+            &lt;/form>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.directive('myDirective', function() {
+              return {
+                require: 'ngModel',
+                link: function(scope, element, attr, mCtrl) {
+                  function myValidation(value) {
+                    if (value.indexOf("e") > -1) {
+                      mCtrl.$setValidity('charE', true);
+                    } else {
+                      mCtrl.$setValidity('charE', false);
+                    }
+                    return value;
+                  }
+                  mCtrl.$parsers.push(myValidation);
+                }
+              };
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Example Explained</b> - 
+                <br> &nbsp; &bull; In HTML, the new directive will be referred to by using the attribute <b>my-directive</b>.
+                <br> &nbsp; &bull; In the JavaScript we start by adding a new directive name <b>myDirective</b>.
+                <br> &nbsp; &bull; Remember, when naming a directive, you must use camel case naming, <b>myDirective</b>, but when invoking it, you must use <b>-</b> separated name, <b>my-directive</b>.
+                <br> &nbsp; &bull; Then, return an object where you specify that we require <b>ngModel</b>, which is the <b>ngModelController</b>.
+                <br> &nbsp; &bull; Making a linking function which takes some arguments, where the fourth argument, <b>mCtrl</b>, is the <b>ngModelController</b>.
+                <br> &nbsp; &bull; Then specify a function, in this case name <b>myValidation</b>, which takes one argument, this argument is the value of the input element.
+                <br> &nbsp; &bull; Test if the value contains the letter "e", and set the validity of the model controller to either <i>true</i> or <i>false</i>.
+                <br> &nbsp; &bull; At last, <b>mCtrl.$parsers.push(myValidation);</b> will add the <b>myValidation</b> function to an array of other functions, which will be executed every time the input value changes.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Validation Example</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;h2>Validation Example&lt;/h2>
+            
+            &lt;form  ng-app="myApp"  ng-controller="validateCtrl"
+            name="myForm" novalidate>
+            
+                &lt;p>Username:&lt;br>
+                &lt;input type="text" name="user" ng-model="user" required>
+                &lt;span style="color:red" ng-show="myForm.user.$dirty &amp;&amp; myForm.user.$invalid">
+                &lt;span ng-show="myForm.user.$error.required">Username is required.&lt;/span>
+                &lt;/span>
+                &lt;/p>
+                
+                &lt;p>Email:&lt;br>
+                &lt;input type="email" name="email" ng-model="email" required>
+                &lt;span style="color:red" ng-show="myForm.email.$dirty &amp;&amp; myForm.email.$invalid">
+                &lt;span ng-show="myForm.email.$error.required">Email is required.&lt;/span>
+                &lt;span ng-show="myForm.email.$error.email">Invalid email address.&lt;/span>
+                &lt;/span>
+                &lt;/p>
+                
+                &lt;p>
+                &lt;input type="submit"
+                ng-disabled="myForm.user.$dirty &amp;&amp; myForm.user.$invalid ||
+                myForm.email.$dirty &amp;&amp; myForm.email.$invalid">
+                &lt;/p>
+            
+            &lt;/form>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('validateCtrl', function($scope) {
+                $scope.user = 'John Doe';
+                $scope.email = 'john.doe@gmail.com';
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Example Explained</h3>
+            <p><span class='glyphicon-remove'></span>The AngularJS directive <b>ng-model</b> binds the input elements to the model.</p>
+            <p><span class='glyphicon-remove'></span>The model object has two properties: <b>user</b> and <b>email</b>.</p>
+            <p><span class='glyphicon-remove'></span>Because of <b>ng-show</b>, the spans with color:red are displayed only when user or email is <b>$dirty</b> and <b>$invalid</b>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='18'>
+    <h2>API</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            API stands for <b>A</b>pplication <b>P</b>rogramming <b>I</b>nterface.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Global API</h3>
+            <p><span class='glyphicon-remove'></span>The AngularJS Global API is a set of global JavaScript functions for performing common tasks like:
+                <br> &nbsp; &bull; Comparing objects
+                <br> &nbsp; &bull; Iterating objects
+                <br> &nbsp; &bull; Converting data</p>
+            <p><span class='glyphicon-remove'></span>The Global API functions are accessed using the angular object.</p>
+            
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>API</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>angular.lowercase()</td>
+                        <td>Converts a string to lowercase</td>
+                    </tr>
+                    <tr>
+                        <td>angular.uppercase</td>
+                        <td>Converts a string to uppercase</td>
+                    </tr>
+                    <tr>
+                        <td>angular.isString()</td>
+                        <td>Returns true if the reference is a string</td>
+                    </tr>
+                    <tr>
+                        <td>angular.isNumber()</td>
+                        <td>Returns true if the reference is a number</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>angular.lowercase()</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;p>{{ x1 }}&lt;/p>
+                &lt;p>{{ x2 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+            $scope.x1 = "JOHN";
+            $scope.x2 = angular.lowercase($scope.x1);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>angular.uppercase()</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;p>{{ x1 }}&lt;/p>
+                &lt;p>{{ x2 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+            $scope.x1 = "John";
+            $scope.x2 = angular.uppercase($scope.x1);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>angular.isString()</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;p>{{ x1 }}&lt;/p>
+                &lt;p>{{ x2 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+            $scope.x1 = "JOHN";
+            $scope.x2 = angular.isString($scope.x1);
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>angular.isNumber()</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="myCtrl">
+                &lt;p>{{ x1 }}&lt;/p>
+                &lt;p>{{ x2 }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+            $scope.x1 = "JOHN";
+            $scope.x2 = angular.isNumber($scope.x1);
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='19'>
+    <h2>Includes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            With AngularJS, you can include HTML from an external file.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>AngularJS Includes</h3>
+            <p><span class='glyphicon-remove'></span>With AngularJS, you can include HTML content using the <b>ng-include</b> directive:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;body ng-app="">
+                &lt;div ng-include="'myFile.htm'">&lt;/div>
+            &lt;/body>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Include AngularJS Code</h3>
+            <p><span class='glyphicon-remove'></span>The HTML files you include with the <b>ng-include</b> directive, can also contain AngularJS code:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// myTable.htm
+            &lt;table>
+                &lt;tr ng-repeat="x in names">
+                &lt;td>{{ x.Name }}&lt;/td>
+                &lt;td>{{ x.Country }}&lt;/td>
+                &lt;/tr>
+            &lt;/table>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Include the file "myTable.html" in your web page, and all AngularJS code will be executed, even the code inside the include file:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myApp" ng-controller="customersCtrl"> 
+                &lt;div ng-include="'myTable.htm'">&lt;/div>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', []);
+            app.controller('customersCtrl', function($scope, $http) {
+                $http.get("customers.php").then(function (response) {
+                    $scope.names = response.data.records;
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Include Cross Domains</h3>
+            <p><span class='glyphicon-remove'></span>By default, the <b>ng-include</b> directive does not allow you to include files from other domains.</p>
+            <p><span class='glyphicon-remove'></span>To include files from another domain, you can add a whitelist of legal files and/or domains in the config function of your application:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;body ng-app="myApp">
+                &lt;div ng-include="'https://tryit.w3schools.com/angular_include.php'">&lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', [])
+            app.config(function($sceDelegateProvider) {
+                $sceDelegateProvider.resourceUrlWhitelist([
+                    'https://tryit.w3schools.com/**'
+                ]);
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Be sure that the server on the destination allows cross domain file access.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='20'>
+    <h2>Animations</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            AngularJS provides animated transitions, with help from CSS.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is an Animation?</h3>
+            <p><span class='glyphicon-remove'></span>An animation is when the transformation of an HTML element gives you an illusion of motion.</p>
+            <p><span class='glyphicon-remove'></span>Applications should not be filled with animations, but some animations can make the application easier to understand.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;body ng-app="ngAnimate">
+                &lt;h1>Hide the DIV: &lt;input type="checkbox" ng-model="myCheck">&lt;/h1>
+                &lt;div ng-hide="myCheck">&lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// CSS
+
+            div {
+                transition: all linear 0.5s;
+                background-color: lightblue;
+                height: 100px;
+                width: 100%;
+                position: relative;
+                top: 0;
+                left: 0;
+              }
+              
+              .ng-hide {
+                height: 0;
+                width: 0;
+                background-color: transparent;
+                top:-200px;
+                left: 200px;
+              }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What do I Need?</h3>
+            <p><span class='glyphicon-remove'></span>To make your applications ready for animations, you must include the AngularJS Animate library:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js">&lt;/script>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then you must refer to the ngAnimate module in your application:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;body ng-app="ngAnimate">
+            </pre>
+            <p><span class='glyphicon-remove'></span>Or if your application has a name, add <b>ngAnimate</b> as a dependency in your application module:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;body ng-app="myApp">
+                &lt;h1>Hide the DIV: &lt;input type="checkbox" ng-model="myCheck">&lt;/h1>
+                &lt;div ng-hide="myCheck">&lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module('myApp', ['ngAnimate']);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What Does ngAnimate Do?</h3>
+            <p><span class='glyphicon-remove'></span>The <b>ngAnimate</b> module adds and removes classes.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ngAnimate</b> module does not animate your HTML elements, but when ngAnimate notices certain events, like hide or show of an HTML element, the elements gets some pre-defined classes which can be used to make animations.</p>
+            <p><span class='glyphicon-remove'></span>The directives in AngularJS who add/remove classes are:
+                <br> &nbsp; &bull; ng-show
+                <br> &nbsp; &bull; ng-hide  
+                <br> &nbsp; &bull; ng-class
+                <br> &nbsp; &bull; ng-view
+                <br> &nbsp; &bull; ng-include
+                <br> &nbsp; &bull; ng-repeat
+                <br> &nbsp; &bull; ng-if
+                <br> &nbsp; &bull; ng-switch</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-show</b> and <b>ng-hide</b> directives adds or removes a <b>ng-hide</b> class value.</p>
+            <p><span class='glyphicon-remove'></span>The other directives adds a <b>ng-enter</b> class value when they enter the DOM, and a <b>ng-leave</b> attribute when they are removed from the DOM.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ng-repeat</b> directive also adds a <b>ng-remove</b> class value when the HTML element changes position.</p>
+            <p><span class='glyphicon-remove'></span>In addition, <i>during</i> the animation, the HTML element will have a set of class values, which will be removed when the animation has finished. Example: the <b>ng-hide</b> directive will add these class values:
+                <br> &nbsp; &bull; ng-animate
+                <br> &nbsp; &bull; ng-hide-animate
+                <br> &nbsp; &bull; ng-hide-add (if the element will be hidden)
+                <br> &nbsp; &bull; ng-hide-remove (if the element will be showed)
+                <br> &nbsp; &bull; ng-hide-add-active (if the element will be hidden)
+                <br> &nbsp; &bull; ng-hide-remove-active (if the element will be showed)</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Animations Using CSS</h3>
+            <p><span class='glyphicon-remove'></span>We can use CSS transitions or CSS animations to animate HTML elements.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Transitions</h3>
+            <p><span class='glyphicon-remove'></span>CSS transitions allows you to change CSS property values smoothly, from one value to another, over a given duration:</p>
+            <p><span class='glyphicon-remove'></span>When the DIV element gets the <b>.ng-hide</b> class, the transition will take 0.5 seconds, and the height will smoothly change from 100px to 0:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// CSS
+
+            div {
+                transition: all linear 0.5s;
+                background-color: lightblue;
+                height: 100px;
+            }
+            .ng-hide {
+                height: 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Animations</h3>
+            <p><span class='glyphicon-remove'></span>CSS Animations allows you to change CSS property values smoothly, from one value to another, over a given duration.</p>
+            <p><span class='glyphicon-remove'></span>When the DIV elements gets the <b>.ng-hide</b> class, the <b>myChange</b> animation will run, which will smoothly change the height from 100px to 0:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// CSS
+
+            @keyframes myChange {
+                from {
+                    height: 100px;
+                } to {
+                    height: 0;
+                }
+            }
+            div {
+                height: 100px;
+                background-color: lightblue;
+            }
+            div.ng-hide {
+                animation: 0.5s myChange;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='21'>
+    <h2>Routing</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The <b>ngRoute</b> module helps your application to become a Single Page Application.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is Routing in AngularJS?</h3>
+            <p><span class='glyphicon-remove'></span>If you want to navigate to different pages in your application, but you also want the application to be a SPA (Single Page Application), with no page reloading, you can use the <b>ngRoute</b> module.</p>
+            <p><span class='glyphicon-remove'></span>The <b>ngRoute</b> modules <i>routes</i> your application to different pages without reloading the entire application.</p>
+            <p><span class='glyphicon-remove'></span>Navigate to "red.htm", "green.htm", and "blue.htm":</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;body ng-app="myApp">
+                
+                &lt;p>&lt;a href="#/!">Main&lt;/a>&lt;/p>
+                
+                &lt;a href="#!red">Red&lt;/a>
+                &lt;a href="#!green">Green&lt;/a>
+                &lt;a href="#!blue">Blue&lt;/a>
+                
+                &lt;div ng-view>&lt;/div>
+            &lt;/body>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+                $routeProvider
+                .when("/", {
+                    templateUrl : "main.htm"
+                })
+                .when("/red", {
+                    templateUrl : "red.htm"
+                })
+                .when("/green", {
+                    templateUrl : "green.htm"
+                })
+                .when("/blue", {
+                    templateUrl : "blue.htm"
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What do I Need?</h3>
+            <p><span class='glyphicon-remove'></span>To make your applications ready for routing, you must include the AngularJS Route module:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js">&lt;/script>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then you must add the <b>ngRoute</b> as a dependency in the application modele:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", ["ngRoute"]);
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now your application has access to the route module, which provides the <b>$routeProvider</b>.</p>
+            <p><span class='glyphicon-remove'></span>Use the <b>$routeProvider</b> to configure different routes in your application:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>app.config(function($routeProvider) {
+                $routeProvider
+                .when("/", {
+                  templateUrl : "main.htm"
+                })
+                .when("/red", {
+                  templateUrl : "red.htm"
+                })
+                .when("/green", {
+                  templateUrl : "green.htm"
+                })
+                .when("/blue", {
+                  templateUrl : "blue.htm"
+                });
+              });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Where Does it Go?</h3>
+            <p><span class='glyphicon-remove'></span>Your application needs a container to put the content provided by the routing.</p>
+            <p><span class='glyphicon-remove'></span>This container is the <b>ng-view</b> directive.</p>
+            <p><span class='glyphicon-remove'></span>There are three different ways to include the <b>ng-view</b> directive in your application:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div ng-view>&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ng-view>&lt;/ng-view>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="ng-view">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Applications can only have one <b>ng-view</b> directive, and this will be the placeholder for all views provided by the route.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>$routeProvider</h3>
+            <p><span class='glyphicon-remove'></span>With the <b>$routeProvider</b> you can define what page to display when a user clicks a link.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+                $routeProvider
+                .when("/", {
+                    templateUrl : "main.htm"
+                })
+                .when("/london", {
+                    templateUrl : "london.htm"
+                })
+                .when("/paris", {
+                    templateUrl : "paris.htm"
+                });
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>Define the <b>$routeProvider</b> using the <b>config</b> method of your application. Work registered in the <b>config</b> method will be performed when the application is loading.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Controller</h3>
+            <p><span class='glyphicon-remove'></span>With the <b>$routeProvider</b> you can also define a controller for each "view".</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+                $routeProvider
+                .when("/", {
+                    templateUrl : "main.htm"
+                })
+                .when("/london", {
+                    templateUrl : "london.htm",
+                    controller : "londonCtrl"
+                })
+                .when("/paris", {
+                    templateUrl : "paris.htm",
+                    controller : "parisCtrl"
+                });
+            });
+            app.controller("londonCtrl", function ($scope) {
+                $scope.msg = "I love London";
+            });
+            app.controller("parisCtrl", function ($scope) {
+                $scope.msg = "I love Paris";
+            });
+            </pre>
+            <p><span class='glyphicon-remove'></span>The "london.htm" and "paris.htm" are normal HTML files, which you can add AngularJS expressions as you would with any other HTML sections of your AngularJS application.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// london.htm
+
+            &lt;h1>London&lt;/h1>
+            &lt;h3>London is the capital city of England.&lt;/h3>
+            &lt;p>It is the most populous city in the United Kingdom, with a metropolitan area of over 13 million inhabitants.&lt;/p>
+            &lt;p>{{msg}}&lt;/p>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// paris.htm
+
+            &lt;h1>Paris&lt;/h1>
+            &lt;h3>Paris is the capital city of France.&lt;/h3>
+            &lt;p>The Paris area is one of the largest population centers in Europe, with more than 12 million inhabitants.&lt;/p>
+            &lt;p>{{msg}}&lt;/p>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Template</h3>
+            <p><span class='glyphicon-remove'></span>In the previous examples, we have used the <b>templateUrl</b> property in the <b>$routeProvider.when</b> method.</p>
+            <p><span class='glyphicon-remove'></span>You can also use the <b>template</b> property, which allows you to write HTML directly in the property value, and not refer to a page.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+                $routeProvider
+                .when("/", {
+                    template : "&lt;h1>Main&lt;/h1>&lt;p>Click on the links to change this content&lt;/p>"
+                })
+                .when("/banana", {
+                    template : "&lt;h1>Banana&lt;/h1>&lt;p>Bananas contain around 75% water.&lt;/p>"
+                })
+                .when("/tomato", {
+                    template : "&lt;h1>Tomato&lt;/h1>&lt;p>Tomatoes contain around 95% water.&lt;/p>"
+                });
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The otherwise method</h3>
+            <p><span class='glyphicon-remove'></span>In the previous examples, we have used the <b>when</b> method of the <b>$routeProvider</b>.</p>
+            <p><span class='glyphicon-remove'></span>You can also use the <b>otherwise</b> method, which is the default route when none of the others get a match.</p>
+            <p><span class='glyphicon-remove'></span>If neither the "Banana" nor the "Tomato" link has been clicked, let them know:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var app = angular.module("myApp", ["ngRoute"]);
+            app.config(function($routeProvider) {
+               $routeProvider
+                .when("/banana", {
+                    template : "&lt;h1>Banana&lt;/h1>&lt;p>Bananas contain around 75% water.&lt;/p>"
+                })
+                .when("/tomato", {
+                    template : "&lt;h1>Tomato&lt;/h1>&lt;p>Tomatoes contain around 95% water.&lt;/p>"
+                })
+                .otherwise({
+                    template : "&lt;h1>None&lt;/h1>&lt;p>Nothing has been selected&lt;/p>"
+                });
+            });
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='22'>
+    <h2>Application</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Its time to create a real AngularJS Application.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Shopping List</h3>
+            <p><span class='glyphicon-remove'></span>Lets use some of the AngularJS features to make a shopping list, wher you can add or remove items.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Step 1: Getting Started</h3>
+            <p><span class='glyphicon-remove'></span>Start by making an application called <b>myShoppingList</b>, and add a controller name <b>myCtrl</b> to it.</p>
+            <p><span class='glyphicon-remove'></span>The controller adds an array named <b>products</b> to the current <b>$scope</b>.</p>
+            <p><span class='glyphicon-remove'></span>In the HTML, we use the <b>ng-repeat</b> directive to display a list using the items in the array.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myShoppingList" ng-controller="myCtrl">
+                &lt;ul>
+                    &lt;li ng-repeat="x in products">{{x}}&lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myShoppingList", []); 
+            app.controller("myCtrl", function($scope) {
+                $scope.products = ["Milk", "Bread", "Cheese"];
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Step 2: Adding Items</h3>
+            <p><span class='glyphicon-remove'></span>In the HTML, add a text field, and bind it to the application with the <b>ng-model</b> directive.</p>
+            <p><span class='glyphicon-remove'></span>In the controller, make a function named <b>addItem</b>, and use the value of the <b>addMe</b> input field to add an item to the <b>products</b> array.</p>
+            <p><span class='glyphicon-remove'></span>Add a button, and give it an <b>ng-click</b> directive that will run the <b>addItem</b> function when the button is clicked.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myShoppingList" ng-controller="myCtrl">
+                &lt;ul>
+                    &lt;li ng-repeat="x in products">{{x}}&lt;/li>
+                &lt;/ul>
+                &lt;input ng-model="addMe">
+                &lt;button ng-click="addItem()">Add&lt;/button>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myShoppingList", []); 
+            app.controller("myCtrl", function($scope) {
+                $scope.products = ["Milk", "Bread", "Cheese"];
+                $scope.addItem = function () {
+                    $scope.products.push($scope.addMe);
+                } 
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Step 3: Removing Items</h3>
+            <p><span class='glyphicon-remove'></span>We also want to be able to remove items from the shopping list.</p>
+            <p><span class='glyphicon-remove'></span>In the controller, make a function named <b>removeItem</b>, which takes the index of the item you want to remove, as a parameter.</p>
+            <p><span class='glyphicon-remove'></span>In the HTML, make a &lt;span> element for each item, and give them an <b>ng-click</b> directive which calls the <b>removeItem</b> function with the current <b>$index</b>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myShoppingList" ng-controller="myCtrl">
+                &lt;ul>
+                    &lt;li ng-repeat="x in products">
+                        {{x}}
+                        &lt;span ng-click="removeItem($index)">&times;&lt;/span>
+                    &lt;/li>
+                &lt;/ul>
+                &lt;input ng-model="addMe">
+                &lt;button ng-click="addItem()">Add&lt;/button>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myShoppingList", []); 
+            app.controller("myCtrl", function($scope) {
+                $scope.products = ["Milk", "Bread", "Cheese"];
+                $scope.addItem = function () {
+                    $scope.products.push($scope.addMe);
+                }
+                $scope.removeItem = function (x) {
+                    $scope.products.splice(x, 1);
+                } 
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Step 4: Error Handling</h3>
+            <p><span class='glyphicon-remove'></span>The application has some error, like if you try to add the same item twice, the application crashes. Also, it should not be allowed to add empty items.</p>
+            <p><span class='glyphicon-remove'></span>We will fix that by checking the value before adding new items.</p>
+            <p><span class='glyphicon-remove'></span>In the HTML, we will add a container for error messages, and write an error message when someone tries to add an existing item.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div ng-app="myShoppingList" ng-controller="myCtrl">
+                &lt;ul>
+                    &lt;li ng-repeat="x in products">
+                        {{x}}
+                        &lt;span ng-click="removeItem($index)">&times;&lt;/span>
+                    &lt;/li>
+                &lt;/ul>
+                &lt;input ng-model="addMe">
+                &lt;button ng-click="addItem()">Add&lt;/button>
+                &lt;p>{{errortext}}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Script
+
+            var app = angular.module("myShoppingList", []); 
+            app.controller("myCtrl", function($scope) {
+                $scope.products = ["Milk", "Bread", "Cheese"];
+                $scope.addItem = function () {
+                    $scope.errortext = "";
+                    if (!$scope.addMe) {return;}
+                    if ($scope.products.indexOf($scope.addMe) == -1) {
+                        $scope.products.push($scope.addMe);
+                    } else {
+                        $scope.errortext = "The item is already in your shopping list.";
+                    }
+                }
+                $scope.removeItem = function (x) {
+                    $scope.errortext = "";
+                    $scope.products.splice(x, 1);
+                } 
+            });
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Step 5: Design</h3>
+            <p><span class='glyphicon-remove'></span>The application works, but could use a better design. This is up to the developers imagination.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
