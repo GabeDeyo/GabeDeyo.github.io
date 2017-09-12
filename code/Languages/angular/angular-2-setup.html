@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Page Template</title>
+    <title>Angular 2</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -111,7 +111,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Page Template</h1>
+                    <h1 id="title">Angular 2</h1>
 
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
@@ -248,7 +248,7 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>The src Folder</h3>
-            <p><span class='glyphicon-remove'></span>Your app lives in the <i>src</i> folder. All Angular components, templates, styles, images, and anything else your app needs go here. Any files outside of this folder are meant to support building your app.</p>
+            <p><span class='glyphicon-remove'></span>Your app lives in the <code>src</code> folder. All Angular components, templates, styles, images, and anything else your app needs go here. Any files outside of this folder are meant to support building your app.</p>
             <pre>
             <span class='glyphicon-remove'></span>src
                 -app
@@ -271,7 +271,6 @@
                 tsconfig.app.json
                 tsconfig.spec.json
             </pre>
-            
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
@@ -282,17 +281,127 @@
                 <tbody>
                     <tr>
                         <td>app/app.component.<br>{ts,html,css,spec.ts}</td>
-                        <td>Defines the <i>AppComponent</i> along with an HTML template, CSS stylesheet, and a unit test. It is the root component of what will become a tree of nested components as the application evolves.</td>
+                        <td>Defines the <code>AppComponent</code> along with an HTML template, CSS stylesheet, and a unit test. It is the root component of what will become a tree of nested components as the application evolves.</td>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>app/app.module.ts</td>
+                        <td>Defines <code>AppModule</code>, the <b>root module</b> that tells Angular how to assemble the application. Right now it declares only the <i>AppComponent</i>. Soon there will be more components to declare.</td>
+                    </tr>
+                    <tr>
+                        <td>assets/*</td>
+                        <td>A folder where you can put <b>images</b> and anything else to be copied wholesale when you build your application.</td>
+                    </tr>
+                    <tr>
+                        <td>environments/*</td>
+                        <td>This folder contains one file for each of your destination environments, each exporting simple configuration variables to use in your application. The files are replaced on-the-fly when you build your app. You might use a different API endpoint for development than you do for production or maybe different analytic tokens. You might even use some mock services.</td>
+                    </tr>
+                    <tr>
+                        <td>favicon.ico</td>
+                        <td>Every site wants to look good on the bookmark bar. Get started with your very own Angular icon.</td>
+                    </tr>
+                    <tr>
+                        <td>index.html</td>
+                        <td>The main HTML page that is served when someone visits your site. Most of the time you'll never need to edit it. The CLI automatically adds all <code>js</code> and <code>css</code> files when building your app so you never need to add any <code>&lt;script></code> or <code>&lt;link></code> tags here manually.</td>
+                    </tr>
+                    <tr>
+                        <td>main.ts</td>
+                        <td>The main entry point for your app. Compiles the application with the <b>JIT compiler</b> and bootstraps the application's root module (<code>AppModule</code>) to run in the browser. You can also use the <b>AOT compiler</b> without changing any code by passing in <code>--aot</code> to <code>ng build</code> or <code>ng serve</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>polyfill.ts</td>
+                        <td>Different browsers have different levels of support of the web standards. Polyfill helps normalize those differences. You should be pretty safe with <code>core-js</code> and <code>zone.js</code>, but be sure to check out the <b>Browser Support guide</b> for more information.</td>
+                    </tr>
+                    <tr>
+                        <td>styles.css</td>
+                        <td>Your global styles go here. Most of the time you'll want to have local styles in your components for easier maintenance, but styles that affect all of your app need to be in a central place.</td>
+                    </tr>
+                    <tr>
+                        <td>test.ts</td>
+                        <td>This is the main entry point for your unity tests. It has some custom configuration that might be unfamiliar but it's not something you'll need to edit.</td>
+                    </tr>
+                    <tr>
+                        <td>tsconfig.<br>{app | spec}.json</td>
+                        <td>TypeScript compiler configuration for the Angular app (<code>tsconfig.app.json</code>) and for the unit tests (<code>tsconfig.spec.json</code>).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>The root Folder</h3>
+            <p><span class='glyphicon-remove'></span>The <code>src/</code> folder is just one of the items inside the project's root folder. Other files help you build, test, maintain, document, and deploy the app. These files go in the <b>root</b> folder next to <code>src/</code>.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>my-app
+                -e2e
+                    --app.e2e-spec.ts
+                    --app.po.ts
+                    --tsconfig.e2e.json
+                -node_modules/...
+                -src/...
+                -.angular-cli.json
+                -.editorconfig
+                -.gitignore
+                -karma.conf.js
+                -package.json
+                -protractor.conf.js
+                -README.md
+                -tsconfig.json
+                -tslint.json
+            </pre>
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>File</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>e2e/</td>
+                        <td>Inside <code>e2e/</code> live the end-to-end tests. They shouldn't be inside <code>src/</code> because e2e tests are really a separate app that just so happens to test your main app. That's also why they have their own <code>tsconfig.e2e.json</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>node_modules/</td>
+                        <td><code>Node.js</code> creates this folder and pusts all third party modules listed in <code>package.json</code> inside of it.</td>
+                    </tr>
+                    <tr>
+                        <td>.angular-cli.json</td>
+                        <td>Configuration for Angular CLI. In this file you can set several defaults and also configure what files are included when your project is built. Check out the official documentation for more information.</td>
+                    </tr>
+                    <tr>
+                        <td>.editorconfig</td>
+                        <td>Simple configuration for your editor to make sure everyone that uses your project has the same basic configuration. Most editors support an <code>.editorconfig</code> file. See http://editorconfig.org for more information.</td>
+                    </tr>
+                    <tr>
+                        <td>.gitignore</td>
+                        <td>Git configuration to make sure autogenerated files are not commited to source control.</td>
+                    </tr>
+                    <tr>
+                        <td>karma.conf.js</td>
+                        <td>Unit test configuration for the <b>Karma</b> test runner, used when running <code>ng test</code>.</td>
+                    </tr>
+                    <tr>
+                        <td>package.json</td>
+                        <td><code>npm</code> configuration listing the third party packages your project uses. You can also add your own <b>custom scripts</b> here.</td>
+                    </tr>
+                    <tr>
+                        <td>protractor.conf.js</td>
+                        <td>End-to-end test configuration for <b>Protractor</b>, used when running <b>ng e2e</b>.</td>
+                    </tr>
+                    <tr>
+                        <td>README.md</td>
+                        <td>Basic documentation for your project, pre-filled with CLI command information. Make sure to enhance it with project documentation so that anyone checking out the repo can build your app.</td>
+                    </tr>
+                    <tr>
+                        <td>tsconfig.json</td>
+                        <td>TypeScript compiler configuration for your IDE to pick up and give you helpful tooling.</td>
+                    </tr>
+                    <tr>
+                        <td>tslint.json</td>
+                        <td>Linting configuration for <b>TSLint</b> together with <b>Codelyzer</b>, used when running <code>ng lint</code>. Linting helps keep your code style consistent.</td>
                     </tr>
                 </tbody>
             </table>
             
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            XXX
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
