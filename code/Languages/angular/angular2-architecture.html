@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Angular 2 - Architecture</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Overview</a></li>
+          <li><a href="#1">Modules</a></li>
+          <li><a href="#2">Components</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Angular 2 - Architecture</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Overview</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Modules</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Components</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Overview</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Angular is a framework for building client applications in HTML and either JavaScript or a language like TypeScript that compiles to JavaScript.
+            <p><span class='glyphicon-remove'></span>The framework consists of several libraries, some of them core and some optional.</p>
+            <p><span class='glyphicon-remove'></span>You write Angular applications by composing HTML <i>tempaltes</i> with Angularized markup, writing <i>component</i> classes to manage those templates, adding application logic in <i>services</i>, and boxing components and services in <i>modules</i>.</p>
+            <p><span class='glyphicon-remove'></span>Then you launch the app by <i>bootstrapping</i> the <i>root modules</i>. Angular takes over, presenting your application content in a browser and responding to user interactions according to the instructions you're provided.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Modules</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Angular apps are <b>modular</b> and Angular has its own modularity system called <i>NgModules</i>.
+            <p><span class='glyphicon-remove'></span>Every Angular app has at least one NgModule class, <b>the root module</b>, conventionally named <code>AppModule</code>.</p>
+            <p><span class='glyphicon-remove'></span>While the <i>root module</i> may be the only module in a small application, most apps have many more <b>feature modules</b>, each a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities.</p>
+            <p><span class='glyphicon-remove'></span>An NgModule, whether a <b>root</b> or <b>feature</b>, is a class with an <code>@NgModule</code> decorator.</p>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Decorators are functions that modify JavaScript classes. Angular has many decorators that attach metadata to classes so that it knows what those classes mean and how they should work.</p>
+            <p><span class='glyphicon-remove'></span><code>NgModule</code> is a decorator function that takes a single metadata object whose properties describe the module. The most important properties are:
+                <br> &nbsp; &bull; <code>declarations</code> - the <i>view classes</i> that belong to this module. Angular has three kinds of view classes: <b>components</b>, <b>directives</b>, and <b>pipes</b>.
+                <br> &nbsp; &bull; <code>exports</code> - the subset of declarations that should be visible and usable in the component <b>templates</b> of other modules.
+                <br> &nbsp; &bull; <code>imports</code> - other modules whose exported classes are needed by component templates declared in <i>this</i> module.
+                <br> &nbsp; &bull; <code>providers</code> - creators of <b>services</b> that this module contributes to the global collection of services; they become accessible in all parts of the app.
+                <br> &nbsp; &bull; <code>bootstrap</code> - the main application view, called the <i>root component</i>, that hosts all other app views. Only the <i>root module</i> should set this <code>bootstrap</code> property.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// src/app/app.module.ts
+            
+            import { NgModule }      from '@anular/core';
+            import { BrowserModule } from '@angular/platform-browser';
+
+            @NgModule({
+                imports:      [ BrowserModule ],
+                providers:    [ Logger ],
+                declarations: [ AppComponent ],
+                exports:      [ AppComponent ],
+                bootstrap:    [ AppComponent ]
+            })
+            export class AppModule { }
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - The <code>export</code> of <code>AppComponent</code> is just to show how to export; it isn't actually necessary in this example. A root module has no reason to <i>export</i> anything because other components don't need to <i>import</i> the root module.</p>
+            <p><span class='glyphicon-remove'></span>Launch an application by <i>bootstrapping</i> its root module. During development you're likely to bootstrap the <code>AppModule</code> in a <code>main.ts</code> file like this one:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// src/main.ts
+            
+            import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+            import { AppModule } from './app/app.module';
+
+            platformBrowserDynamic().bootstrapModule(AppModule);
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>NgModules vs. JavaScript modules</h3>
+            <p><span class='glyphicon-remove'></span>The NgModule - a class decorated with <code>@NgModule</code> - is a fundamental feature of Angular.</p>
+            <p><span class='glyphicon-remove'></span>JavaScript also has its own module system for managing collections of JavaScript objects. It's completely different and unrelated to the NgModule system.</p>
+            <p><span class='glyphicon-remove'></span>In JavaScript each <i>file</i> is a module and all objects defined in the file belong to that module. The module declares some objects to be public by marking them with the <code>export</code> key word. Other JavaScript modules use <i>import statements</i> to access public objects from other modules.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>import { NgModule }  from '@angular/core';
+            import { AppComponent } from './app.component';
+
+            export class AppModule { }
+            </pre>
+            <p><span class='glyphicon-remove'></span>These are two different and <i>complementary</i> module systems. Use them both to write your apps.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Angular Libraries</h3>
+            <p><span class='glyphicon-remove'></span>Angular ships as a collection of JavaScript modules. You can think of them as library modules.</p>
+            <p><span class='glyphicon-remove'></span>Each Angular library name begins with the <code>@angular</code> prefix.</p>
+            <p><span class='glyphicon-remove'></span>You install them with the npm package manager and import parts of them with JavaScript <code>import</code> statements.</p>
+            <p><span class='glyphicon-remove'></span>For example, import Angular's <code>Component</code> decorator from the <code>@angular/core</code> libary like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>import { Component } from '@angular/core';
+            </pre>
+            <p><span class='glyphicon-remove'></span>You also import NgModules from Angular <i>libraries</i> using JavaScript import statements:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>import { BrowserModule } from '@angular/platform-browser';
+            </pre>
+            <p><span class='glyphicon-remove'></span>In the example of the simple root module above, the application module needs material from within that <code>BrowserModule</code>. To access that material, add it to the <code>@NgModule</code> metadata <code>imports</code> like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>imports: [ BrowserModule ],
+            </pre>
+            <p><span class='glyphicon-remove'></span>In this way you're using both the Angular and JavaScript module systems <i>together</i>.</p>
+            <p><span class='glyphicon-remove'></span>It's easy to consfuse the two systems because they share the common vocabulary of "imports" and "exports". The confusion yields to clarity with time and experience.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+ <div class='jumbotron col-md-12 heliList' id='2'>
+     <h2>Components</h2>
+     <ul>
+         <li><p><span class='glyphicon-remove'></span>
+             
+         </p></li>
+         <li><p><span class='glyphicon-remove'></span>
+             XXX
+         </p></li>
+         <li><p><span class='glyphicon-remove'></span>
+             XXX
+         </p></li>
+     </ul>
+     <a href='#title'><span class='glyphicon-menu-up'></span></a>
+ </div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

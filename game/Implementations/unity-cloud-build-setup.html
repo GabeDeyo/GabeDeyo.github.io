@@ -99,6 +99,7 @@
           <li><a href="#0">Introduction</a></li>
           <li><a href="#1">Repo Setup</a></li>
           <li><a href="#2">Unity Cloud Build</a></li>
+          <li><a href="#3">Manage Project Changes</a></li>
         </ul>
     </aside>
 
@@ -122,6 +123,10 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#2'>Unity Cloud Build</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Manage Project Changes</a>
                                 </p>
                             </li>
                         </ul>
@@ -240,13 +245,98 @@
     <h2>Unity Cloud Build</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            Head to the UCB website - <a href="https://build.cloud.unity3d.com/">Unity Cloud Build</a>
+            <p><span class='glyphicon-remove'></span>Login or Signup</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>Create</h3>
+            <p><span class='glyphicon-remove'></span>Click <i>"Create New Project"</i> from the Dashboard.</p>
+            <p><span class='glyphicon-remove'></span>We need to <b>connect</b> this to the <i>source control repo</i>.</p>
+            <p><span class='glyphicon-remove'></span>Grab the URL from the Bitbucket repo and paste into the <b>Server URL</b> field.</p>
+            <p><span class='glyphicon-remove'></span>Select "GIT" as the SCM Type.</p>
+            <p><span class='glyphicon-remove'></span>Move on to "Access".</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            XXX
+            <h3>SSH Key</h3>
+            <p><span class='glyphicon-remove'></span>Since this is the first time accessing the repo, UCB will generate a unique SSH Key for you.
+                <br> &nbsp; &bull; You won't have to do this if you've already set up a key.</p>
+            <p><span class='glyphicon-remove'></span>Copy the key contents, and got back to Bitbucket.</p>
+            <p><span class='glyphicon-remove'></span>Head to the Bitbucket Setting (not project settings) and go to SSH keys under "Security".</p>
+            <p><span class='glyphicon-remove'></span>Press Add Key and use <i>"Unity Cloud Build"</i> for the Label and paste in the SSH key.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Target Setup</h3>
+            <p><span class='glyphicon-remove'></span>Select your initial build, preferably WebGL, as your starting build.</p>
+            <p><span class='glyphicon-remove'></span>Next, fill out most of the obvious details to setup the project.</p>
+            <p><span class='glyphicon-remove'></span>An important field to get correct is the <b>Branch</b>.
+                UCB will monitor whichever branch is selected here. This enables UCB to start a build whenever changes are detected.</p>
+            <p><span class='glyphicon-remove'></span>It will be important down the road to make most changes in sub-branches which are then marged to the <i>master</i>. 
+                <br> &nbsp; &bull; If you always have UCB pointing to the <i>master</i> branch, it will only need to make builds when major changes are merged.</p>
+            <p><span class='glyphicon-remove'></span>After completing these, the next step will automatically <b>build</b> your project.</p>
+            <p><span class='glyphicon-remove'></span>If you're interested in more than just one target platform, head to the "Configure" tab.
+                <br> &nbsp; &bull; Here you can <i>edit</i> your current build, <i>add</i> a new build setup, or <i>build</i> to a new target.
+                <br> &nbsp; &bull; All the invidividual builds will have their own unique settings for building.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Run Project</h3>
+            <p><span class='glyphicon-remove'></span>If your game is built as a <b>WebGL</b> build, you can simply play the game in the browser by selecting "Play".
+                <br> &nbsp; &bull; There may be errors in Safari.</p>
+            <p><span class='glyphicon-remove'></span>Other build types will have their own options to download and play.</p>
+            <p><span class='glyphicon-remove'></span>In order to allow other people to play the build, simply click the "Share" button.
+                <br> &nbsp; &bull; This will generate a link that anybody can use to play the build.</p>
+            <p><span class='glyphicon-remove'></span>Make sure to test the shareable link to make sure the game is prepared for the build.
+                <br> &nbsp; &bull; If greeted with a black screen, you know there is some scene setup that still needs to be done.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Manage Project Changes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Branching</h3>
+            <p><span class='glyphicon-remove'></span>A <b>branch</b> is a copy of the master code that you can work in <i>safely</i>.</p>
+            <p><span class='glyphicon-remove'></span>Branches can be <b>merged</b> back into their master branch.</p>
+            <p><span class='glyphicon-remove'></span>Branches are a good way to experiment with ideas, add new features, or fix bugs.
+                <br> &nbsp; &bull; They are also useful when working in a team, where each member can work <i>concurrently</i> in the same project.
+                <br> &nbsp; &bull; This allows main developers to hand pick changes they need from other people's branches, and merge them into the master branch.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Create Branch</h3>
+            <p><span class='glyphicon-remove'></span>In order to create a new branch, open a terminal at the root of your project.</p>
+            <p><span class='glyphicon-remove'></span><code>git branch branch-name</code> - The branch name should usually start with a <i>version number</i> and end with the description.
+                <br> &nbsp; &bull; Example: <code>git branch v0.2.0-features</code></p>
+            <p><span class='glyphicon-remove'></span>Then each time you work on a new feature or fix a bug, create a new branch and increment the version.</p>
+            <p><span class='glyphicon-remove'></span>This will help organize the project into a logical progression.</p>
+            <p><span class='glyphicon-remove'></span>Check which branch you're in with <code>git branch</code>.</p>
+            <p><span class='glyphicon-remove'></span>Head to your new branch with <code>git checkout branch-name</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Merge Branch</h3>
+            <p><span class='glyphicon-remove'></span>Before merging a branch back into the master trunk, Quit Unity. This will prevent file corruption and Unity crashing.</p>
+            <p><span class='glyphicon-remove'></span>Make sure the changes you want are added and <b>committed</b>.</p>
+            <p><span class='glyphicon-remove'></span>Switch back to the master branch: <code>git checkout master</code>.</p>
+            <p><span class='glyphicon-remove'></span>When ready to merge: <code>git merge branch-name</code>.
+                <br> &nbsp; &bull; Check that there are no stray files with: <code>git status</code>.</p>
+            <p><span class='glyphicon-remove'></span>Push these changes to the repo. Remember - this will automatically trigger a build on UCB.
+                <br> &nbsp; &bull; You could always manually trigger UCB to build your project.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Tag Projects</h3>
+            <p><span class='glyphicon-remove'></span>A tag is a type of snapshot we can take of a project.</p>
+            <p><span class='glyphicon-remove'></span>Tags are generally used as a way of saving the state of a project that's finished or merged back to master.</p>
+            <p><span class='glyphicon-remove'></span>A typical time to create a tag is when features or fixes are merged into the master trunk of your project.</p>
+            <p><span class='glyphicon-remove'></span>It's standard for a new branch to be created with a new version number after a tag has been created.</p>
+            <p><span class='glyphicon-remove'></span>Tag a project with: <code>git tag version-number</code>.</p>
+            <p><span class='glyphicon-remove'></span>Push tags with: <code>git push --tags</code></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Workflow</h3>
+            <p><span class='glyphicon-remove'></span>The typical workflow is: <code>new branch</code> -> <code>game edits</code> -> <code>merge branch</code> -> <code>add tag</code> -> <code>repeat</code></p>
+            <p><span class='glyphicon-remove'></span>It's good practice to follow this workflow to have consistent and manageable version control from the beginning.</p>
+            <p><span class='glyphicon-remove'></span>It's also good practive to <b>never</b> work in the master branch. Always work in a separate branch which can safely be merged to the master branch.</p>
+            <p><span class='glyphicon-remove'></span>Whenever someone <i>pulls</i> from your repo, they will automatically pull the <b>master</b> branch. Help them approach the project easier by always providing a stable master branch.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

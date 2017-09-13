@@ -1,0 +1,8 @@
+{
+    "html.suggest.html5": false,
+    "editor.quickSuggestions": {
+        "other": false,
+        "comments": false,
+        "strings": false
+    }
+}
