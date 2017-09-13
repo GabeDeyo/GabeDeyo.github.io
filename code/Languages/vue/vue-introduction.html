@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js - Introduction</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">What is Vue.js?</a></li>
+          <li><a href="#1">Declarative Rendering</a></li>
+          <li><a href="#2">Conditionals and Loops</a></li>
+          <li><a href='#3'>Handle User Input</a></li>
+          <li><a href='#4'>Composing with Components</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Vue.js - Introduction</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">What is Vue.js?</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Declarative Rendering</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Conditionals and Loops</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Handle User Input</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Composing with Components</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>What is Vue.js?</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Vue (pronounced view) is a <b>progressive framework</b> for building user interfaces.
+            <p><span class='glyphicon-remove'></span>Unlike other monolithic frameworks, Vue is designed from the ground up to be incrementally adoptable.</p>
+            <p><span class='glyphicon-remove'></span>The core library is focused on the view layer only, and is very easy to pick up and integrate with other libraries or existing projects.</p>
+            <p><span class='glyphicon-remove'></span>On the other hand, Vue is also perfectly capable of powering sophisticated Single-Page Applications when used in combination with modern tooling and supporting libraries.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Declarative Rendering</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            At the core of Vue.js is a system than enables us to declaratively render data to the DOM using straightforward template synatx:
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            &lt;div id="app">
+                {{ message }}
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var app = new Vue({
+                el: '#app',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>We have already created our very first Vue app!</p>
+            <p><span class='glyphicon-remove'></span>This looks pretty similar to just rendering a string template, bu Vue has done a lot of work under the hood.</p>
+            <p><span class='glyphicon-remove'></span>The data and the DOM are now linked, and everying is now <b>reactive</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In addition to text interpolation, we can also bind element attributes like this:
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div id="app-2">
+                &lt;span v-bind:title="message">
+                    Hover your mouse over me for a few seconds to see my dynamically bound title!
+                &lt;/span>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var app2 = new Vue({
+                el: '#app-2',
+                data: {
+                    message: 'You loaded this page on ' + new Date().toLocaleString();
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Here we are encountering something new. The <code>v-bind</code> attribute you are seeing is called a <b>directive</b>.</p>
+            <p><span class='glyphicon-remove'></span>Directives are prefixed with <code>v-</code> to indicate that they are special attributes provided by Vue.</p>
+            <p><span class='glyphicon-remove'></span>Directives apply special reactive behaviors to the rendered DOM.</p>
+            <p><span class='glyphicon-remove'></span>This specific directive tells the elements <code>title</code> to keep up-to-date with the <code>message</code> property on the Vue instance.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Conditionals and Loops</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            It's quite simple to toggle the presece of an element, too:
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt;div id="app-3">
+                &lt;p v-if="seen"> Now you see me&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var app3 = new Vue({
+                el: '#app-3',
+                data: {
+                    seen: true
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>So not only can we bind data to text and attributes, but we can also <b>structure</b> the DOM.</p>
+            <p><span class='glyphicon-remove'></span>Vue also provides a powerful transition effect system that can automatically apply <b>transition effects</b> when elements are inserted/updated/removed by Vue.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            There are quite a few other directives, each with its own special functionality. For example, <code>v-for</code> directive can be used for displaying a list of items using the data from an Array:
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+            
+            &lt; id="app-4">
+                &lt;ol>
+                    &lt;li v-for="todo in todos">
+                        {{ todo.text }}
+                    &lt;/li>
+                &lt;/ol>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'>var app4 = new Vue({
+                el: '#app-4',
+                data: {
+                    todos: [
+                        { text: 'Learn JavaScript' },
+                        { text: 'Learn Vue' },
+                        { text: 'Build something awesome' }
+                    ]
+                }    
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Handle User Input</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            To let users interact with your app, we can use the <code>v-on</code> directive to attach event listeners that invoke methods on our Vue instances:
+            <pre>
+            <span class='glyphicon-remove'>// HTML
+
+            &lt;div id="app-5">
+                &lt;p>{{ message }}&lt;/p>
+                &lt;button v-on:click="reverseMessage">Reverse Message&lt;/button>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'>// JS
+
+            var app5 = new Vue({
+                el: '#app-5',
+                data: {
+                    message: 'Hello Vue.js'
+                },
+                methods: {
+                    reverseMessage: function() {
+                        this.message =  this.message.split('').reverse().join('');
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'>Note in the method we simply update the state of our app without touching the DOM - all DOM manipulations are handled by Vue, and the code you write is focused on the underlying logic.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Vue also provides the <code>v-model</code> directive that makes two-way binding between form input and app state a breeze:
+            <pre>
+            <span class='glyphicon-remove'>// HTML
+
+            &lt;div id="app-6">
+                &lt;p>{{ message }}&lt;/p>
+                &lt;input v-model="message">
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'>// JS
+
+            var app6 = new Vue({
+                el: '#app-6',
+                data: {
+                    message: 'Hello Vue!'
+                }
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Composing with Components</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The <b>component system</b> is another important concept in Vue, because it's an abstraction that allows us to build large-scale applications composed of small, self-contained, and often reusable components.
+            <p><span class='glyphicon-remove'></span>Almost any type of application <i>interface</i> can be abstracted into a tree of components.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In Vue, a component is essentially a Vue instance with pre-defined options.
+            <p><span class='glyphicon-remove'>Registering a component in Vue is straightforward:</p>
+            <pre>
+            <span class='glyphicon-remove'>// JS
+            
+            //Define a new component called todo-item
+            Vue.component('todo-item', {
+                template: '&lt;li>This is a todo&lt;/li>'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'>Now you can compose it in another component's tempalte:</p>
+            <pre>
+            <span class='glyphicon-remove'>// HTML
+
+            &lt;ol>
+                &lt;!-- Create an instance of the todo-item component -->
+                &lt;todo-item>&lt;/todo-item>
+            &lt;/ol>
+            </pre>
+            <p><span class='glyphicon-remove'>But this would render the same text for every todo, which is not super interesting.</p>
+            <p><span class='glyphicon-remove'>We should be able to pass data from the parent scope into child components.</p>
+            <p><span class='glyphicon-remove'>Let's modify the component definition to make it accept a <b>prop</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'>// JS
+
+            Vue.component('todo-item', {
+                //The todo-item component now accepts a 
+                // "prop", which is like a custom attribute.
+                //This prop is called todo
+                props: ['todo'],
+                template: '&lt;li>{{ todo.text }}&lt;/li>'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'>Now we can pass the todo into each repeated component using <code>v-bind:</code></p>
+            <pre>
+            <span class='glyphicon-remove'>// HTML
+
+            &lt;div id="app-7">
+                &lt;ol>
+                    &lt;!-- Now we provide each todo-item with the todo object
+                    it's representing, so that its content can be dynamic.
+                    We also need to provide each component with a key",
+                    which will be explained later.
+                    -->
+                    &lt;todo-item
+                        v-for="item in groceryList"
+                        v-bind:todo="item"
+                        v-bind:key="item.id">
+                    &lt;/todo-item>
+                &lt;/ol>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'>// JS
+
+            Vue.component('todo-item', {
+                props: ['todo'],
+                template: '&lt;li>{{ todo.text }}&lt;/li>'
+            })
+
+            var app7 = new Vue({
+                el: '#app-7',
+                data: {
+                    groceryList: [
+                        { id: 0, text: 'Vegetables' },
+                        { id: 1, text: 'Cheese' },
+                        { id: 2, text: 'Milk' }
+                    ]
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'>This is a contrived example, but we've managed to separate our app into two smaller units, and the child is reasonably well-decoupled from the parent via the props interface.</p>
+            <p><span class='glyphicon-remove'>We can now further improve our <code>&lt;todo-item></code> component with more complex template and logic without affecting the parent app.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In a large application, it is necessary to divide the whole app into components to make development manageable.
+            <p><span class='glyphicon-remove'>We'll go over this later, but here's an (imaginary) example of what an app's template might look like with components:</p>
+            <pre>
+            <span class='glyphicon-remove'>// HTML
+
+            &lt;div id="app">
+                &lt;app-nav>&lt;/app-nav>
+                &lt;app-view>
+                    &lt;app-sidebar>&lt;/app-sidebar>
+                    &lt;app-content>&lt;/app-content>
+                &lt;/app-view>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'>
+            <h3>Relation to Custom Elements</h3>
+            <p><span class='glyphicon-remove'>You may have noticed that Vue components are very similar to <b>Custom Elements</b>, which are part of the <i>Web Components Spec</i>.</p>
+            <p><span class='glyphicon-remove'>This is simply because Vue's component syntax is loosely modeled after the spec. For example, Vue components implement the <b>Slot API</b> and the <code>is</code> special attribute.</p>
+            <p><span class='glyphicon-remove'>However, there are a few key differences.
+                <br> &nbsp; &bull; The Web Components Spec is still in draft status, and is not natively implemented in every browser. In comparison, Vue components don't require any polyfills and work consistently in all supported browsers (IE9 and above). When needed, Vue components can also be wrapped inside a native custom element.
+                <br> &nbsp; &bull; Vue components provide important features that are not available in plain custom elements, most notably cross-component data flow, custom event communication and build tool integrations. 
+            </p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
