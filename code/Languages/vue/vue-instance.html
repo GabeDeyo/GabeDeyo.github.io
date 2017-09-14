@@ -97,7 +97,9 @@
         <ul>
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
-          <li><a href="#0">XXX</a></li>
+          <li><a href="#0">Creating a Vue Instance</a></li>
+          <li><a href='#1'>Data and Methods</a></li>
+          <li><a href='#2'>Instance Lifecycle Hooks</a></li>
         </ul>
     </aside>
 
@@ -112,26 +114,169 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">XXX</a>
+                                <a href="#0">Creating a Vue Instance</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Data and Methods</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Instance Lifecycle Hooks</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2>XXX</h2>
+    <h2>Creating a Vue Instance</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Every Vue application starts by creating a new <b>Vue instance</b> with the <code>Vue</code> function:
+            <pre>
+            <span class='glyphicon-remove'>var vm = new Vue({
+                //options
+            })
+            </pre>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            Although not strictly associated with the <b>MVVM pattern</b>, Vue's design was partly inspired by it.
+            <p><span class='glyphicon-remove'>As a convention, it often uses the variable <code>vm</code> (short for ViewModel) to refer to the Vue instance.</p>
         </p></li>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            When you create a Vue instance, you pass in an <b>options object</b>.
+            <p><span class='glyphicon-remove'>For reference, an important resource is the Vue <a href="https://vuejs.org/v2/api/#Options-Data">API reference</a>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'>
+            A Vue application consists of a <b>root Vue instance</b> created with <code>new Vue</code>, optionally organized into a tree of nested, reusable components.
+            <p><span class='glyphicon-remove'>For example, a todo app's component tree might look like this:</p>
+            <pre>
+            <span class='glyphicon-remove'>Root Instance
+                -TodoList
+                    --TodoItem
+                        ---DeleteTodoButton
+                        ---EditTodoButton
+                    --TodoListFooter
+                        ---ClearTodosButton
+                        ---TodoListStatistics
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'>
+            We'll go over the <b>component system</b> in detail soon. For now, just know that all Vue components are also Vue instances, and so accept the same options object (except for a few root-specific options).
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Data and Methods</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When a Vue instance is created, it adds all the properties found in its <code>data</code> object to Vue's <b>reactivity system</b>.
+            <p><span class='glyphicon-remove'>When the values of those properties change, the view will "react", updating to match the new values.</p>
+            <pre>
+            <span class='glyphicon-remove'>
+            // Our data object
+            var data = { a: 1 }
+
+            // The object is added to a Vue instance
+            var vm = new Vue({
+                data: data
+            })
+
+            // These reference the same object
+            va.a === data.a // true
+
+            //Setting the property on the instance
+            // also affects the original state
+            vm.a = 2;
+            data.a; // 2
+
+            //.. and vice-versa
+            data.3 = 3;
+            vm.a; // 3
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            When this data changes, the view will <i>re-render</i>.
+            <p><span class='glyphicon-remove'>It should be noted that properties in <code>data</code> are only <b>reactive</b> if they existed when the instance was created.</p>
+            <p><span class='glyphicon-remove'>So if you add a new property like so:</p>
+            <pre>
+            <span class='glyphicon-remove'>vm.b = 'hi';
+            </pre>
+            <p><span class='glyphicon-remove'>Then changes to <code>b</code> will not trigger any view updates.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            If you know you'll need a property later, but it starts out empty or non-existent, you'll just need to set some initial value. For example:
+            <pre>
+            <span class='glyphicon-remove'>data: {
+                newTodoText: '',
+                visitCount: 0,
+                hideCompletedTodo: false,
+                todos: [],
+                error: null
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'>
+            In addition to data properties, Vue instances expose a number of useful instance properties and methods.
+            <p><span class='glyphicon-remove'>These are prefixed with a <code>$</code> to differentiate them from user-defined properties. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'>var data = { a: 1 }
+            var vm = new Vue({
+                el: '#example',
+                data: data
+            })
+
+            vm.$data === data // true
+            vm.$el === document.getElementById('example') // true
+
+            // $watch is an instance method
+            vm.$watch('a', function(newValue, oldValue) {
+                // This callback will be called when 'vm.a' changes
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Instance Lifecycle Hooks</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Each Vue instance goes through a series of initialization steps when it's created.
+            <p><span class='glyphicon-remove'>For example:
+                <br> &nbsp; &bull; setup data observation
+                <br> &nbsp; &bull; compile the template
+                <br> &nbsp; &bull; mount the instance to the DOM
+                <br> &nbsp; &bull; and update the DOM when data changes
+            </p>
+            <p><span class='glyphicon-remove'>Along the way, it will also run functions called <b>lifecycle hooks</b>, giving users the opportunity to aadd their own code at specific stages.</p>
+            <p><span class='glyphicon-remove'>For example, the <code>created</code> hook can be used to run code after an instance is created:</p>
+                <pre>
+                <span class='glyphicon-remove'>new Vue({
+                    data: {
+                        a: 1
+                    },
+                    created: function() {
+                        // 'this' points to the vm instance
+                        console.log('a is: ' + this.a)
+                    }
+                })
+                // 'a is: 1'
+                </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            There are also hooks which will be called at different stages of the instance's lifecycle, such as <code>mounted</code>, <code>updated</code>, and <code>destroyed</code>. All lifecycle hooks are called with their <code>this</code> context pointing to the Vue instance invoking it.
+            <p><span class='glyphicon-remove'><b>Note</b> - Dont use <b>arrow functions</b> on an options property or callback. Since arrow functions are bound to the parent context, <code>this</code> will not be the Vue instance as you'd expect and <code>this.a</code> or <code>this.myMethod</code> will be undefined.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Lifecycle Diagram</h3>
+            <a href="https://vuejs.org/images/lifecycle.png">Diagram</a>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

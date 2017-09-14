@@ -135,6 +135,14 @@
                                 <a href='#7'>Remove the Minimum</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Reverse the String</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'>String to Array</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -422,6 +430,68 @@
                 numbers.splice(numbers.indexOf(min),1);
                 return numbers;
               }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Reverse the String</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'>You need to write a function that reverses the words in a given string. A word can also fit an empty string.</p>
+            <p><span class='glyphicon-remove'>As the input may have trailing spaces, you will also need to ignore unneccesary whitespace.</p>
+            <pre>
+            <span class='glyphicon-remove'>reverse('Hello World') === 'World Hello'
+            reverse('Hi There.') === 'There. Hi'
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'>function reverse(string){
+                return string.split(' ').reverse().join(' ');
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'>function reverse(string){
+                return string.split(' ').reverse().join(' ');
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2>String to Array</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'>Write a function to split a string and convert it into an array of words.</p>
+            <pre>
+            <span class='glyphicon-remove'>string_to_array("I love arrays they are my favorite") => ["I", "love", "arrays", "they", "are", "my", "favorite"]
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'>function stringToArray(string){
+                return string.split(' ');
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'>function stringToArray(string){
+                return string.split(' ');
+            }
             </pre>
         </p></li>
     </ul>
