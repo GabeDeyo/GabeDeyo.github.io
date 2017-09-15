@@ -143,6 +143,10 @@
                                 <a href='#9'>String to Array</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#10'>Sum without Highest/Lowest</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -441,17 +445,17 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Details</h3>
-            <p><span class='glyphicon-remove'>You need to write a function that reverses the words in a given string. A word can also fit an empty string.</p>
-            <p><span class='glyphicon-remove'>As the input may have trailing spaces, you will also need to ignore unneccesary whitespace.</p>
+            <p><span class='glyphicon-remove'></span>You need to write a function that reverses the words in a given string. A word can also fit an empty string.</p>
+            <p><span class='glyphicon-remove'></span>As the input may have trailing spaces, you will also need to ignore unneccesary whitespace.</p>
             <pre>
-            <span class='glyphicon-remove'>reverse('Hello World') === 'World Hello'
+            <span class='glyphicon-remove'></span>reverse('Hello World') === 'World Hello'
             reverse('Hi There.') === 'There. Hi'
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>My Solution</h3>
             <pre>
-            <span class='glyphicon-remove'>function reverse(string){
+            <span class='glyphicon-remove'></span>function reverse(string){
                 return string.split(' ').reverse().join(' ');
             }
             </pre>
@@ -459,7 +463,7 @@
         <li><p><span class='glyphicon-remove'></span>
             <h3>Best Solution</h3>
             <pre>
-            <span class='glyphicon-remove'>function reverse(string){
+            <span class='glyphicon-remove'></span>function reverse(string){
                 return string.split(' ').reverse().join(' ');
             }
             </pre>
@@ -473,15 +477,15 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Details</h3>
-            <p><span class='glyphicon-remove'>Write a function to split a string and convert it into an array of words.</p>
+            <p><span class='glyphicon-remove'></span> a function to split a string and convert it into an array of words.</p>
             <pre>
-            <span class='glyphicon-remove'>string_to_array("I love arrays they are my favorite") => ["I", "love", "arrays", "they", "are", "my", "favorite"]
+            <span class='glyphicon-remove'></span>string_to_array("I love arrays they are my favorite") => ["I", "love", "arrays", "they", "are", "my", "favorite"]
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>My Solution</h3>
             <pre>
-            <span class='glyphicon-remove'>function stringToArray(string){
+            <span class='glyphicon-remove'></span>function stringToArray(string){
                 return string.split(' ');
             }
             </pre>
@@ -489,9 +493,71 @@
         <li><p><span class='glyphicon-remove'></span>
             <h3>Best Solution</h3>
             <pre>
-            <span class='glyphicon-remove'>function stringToArray(string){
+            <span class='glyphicon-remove'></span>function stringToArray(string){
                 return string.split(' ');
             }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='10'>
+    <h2>Sum without Highest/Lowest</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Sum all the numbers of the array except the highest and the lowest element (the value, not the index!).</p>
+            <p><span class='glyphicon-remove'></span>If array is empty, null or None, or if only 1 Element exists, return 0.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Example
+
+            { 6, 2, 1, 8, 10 } => 16
+            { 1, 1, 11, 2, 3 } => 6
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumArray(array) {
+                
+                // return if null or contains 0 or 1 items
+                if(array == null || array.length &lt;= 1)
+                  return 0
+              
+                // take out lowest and highest elements
+                array.splice(array.indexOf(Math.min.apply(null, array)), 1);
+                array.splice(array.indexOf(Math.max.apply(null, array)), 1);
+              
+                // start summation
+                var result = 0;
+                for(i in array) {
+                  result += array[i];
+                }
+              
+                return result;
+              }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumArray(array) {
+                // return if null or contains 0 or 1 items
+                if (array == null || array.length &lt; 2) {
+                  return 0;
+                } else {
+                  // sort array lowest -> heighest
+                  array = array.sort(function(a,b) {return a - b;});
+
+                  // start summation (excluding first and last index)
+                  var total = 0;
+                  for (var i = 1; i &lt; array.length - 1; i++) {
+                    total += array[i];
+                  }
+                  return total;
+                }
+              }
             </pre>
         </p></li>
     </ul>

@@ -138,13 +138,13 @@
     <ul>
         <li><p><span class="glyphicon-remove"></span>
             Vue.js uses an HTML-based template syntax that allows you to declaratively bind the rendered DOM to the underlying Vue instance's data.
-            <p><span class='glyphicon-remove'>All Vue.js templates are valid HTML that can be parsed by spec-compliant browsers and HTML parsers.</p>
+            <p><span class='glyphicon-remove'></span>All Vue.js templates are valid HTML that can be parsed by spec-compliant browsers and HTML parsers.</p>
         </p></li>
-        <li><p><span class='glyphicon-remove'>
+        <li><p><span class='glyphicon-remove'></span>
             Under the hood, Vue compiles the templates into Virtual DOM render functions.
-            <p><span class='glyphicon-remove'>Combined with the reactivity system, Vue is able to intelligently figure out the minimal amount of component to re-render and apply the minimal amount of DOM manipulations when the app state changes.</p>
+            <p><span class='glyphicon-remove'></span>Combined with the reactivity system, Vue is able to intelligently figure out the minimal amount of component to re-render and apply the minimal amount of DOM manipulations when the app state changes.</p>
         </p></li>
-        <li><p><span class='glyphicon-remove'>
+        <li><p><span class='glyphicon-remove'></span>
             If you are familiar with Virtual DOM concepts and prefer the raw power of JavaScript, you can also <b>directly write render functions</b> instead of templates, with optional JSX support.
         </p></li>
     </ul>
@@ -156,34 +156,34 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Text</h3>
-            <p><span class='glyphicon-remove'>The most basic form of data binding is text interpolation using the "Mustache" syntax (double curly braces):</p>
+            <p><span class='glyphicon-remove'></span>The most basic form of data binding is text interpolation using the "Mustache" syntax (double curly braces):</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;span>Message: {{ msg }}&lt;/span>
+            <span class='glyphicon-remove'></span>&lt;span>Message: {{ msg }}&lt;/span>
             </pre>
-            <p><span class='glyphicon-remove'>The mustache tag will be replaced with the value of the <code>msg</code> property on the corresponding data object.</p>
-            <p><span class='glyphicon-remove'>It will also be updated whenever the data object's <code>msg</code> property changes.</p>
-            <p><span class='glyphicon-remove'>You can also perform one-time interpolations that do not update on data change by using the <code>v-once</code> directive, but keep in mind this will also affect any binding on the same node:</p>
+            <p><span class='glyphicon-remove'></span>The mustache tag will be replaced with the value of the <code>msg</code> property on the corresponding data object.</p>
+            <p><span class='glyphicon-remove'></span>It will also be updated whenever the data object's <code>msg</code> property changes.</p>
+            <p><span class='glyphicon-remove'></span>You can also perform one-time interpolations that do not update on data change by using the <code>v-once</code> directive, but keep in mind this will also affect any binding on the same node:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;span v-once>This will never change: {{ msg }}&lt;/span>
+            <span class='glyphicon-remove'></span>&lt;span v-once>This will never change: {{ msg }}&lt;/span>
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Raw HTML</h3>
-            <p><span class='glyphicon-remove'>The double mustaches interprets the data as plain text, not HTML.</p>
-            <p><span class='glyphicon-remove'>In order to output real HTML, you will need to use the <code>v-html</code> directive:</p>
+            <p><span class='glyphicon-remove'></span>The double mustaches interprets the data as plain text, not HTML.</p>
+            <p><span class='glyphicon-remove'></span>In order to output real HTML, you will need to use the <code>v-html</code> directive:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;div v-html="rawHtml">&lt;/div>
+            <span class='glyphicon-remove'></span>&lt;div v-html="rawHtml">&lt;/div>
             </pre>
-            <p><span class='glyphicon-remove'>The contents of this <code>div</code> will be replaced with the value of the <code>rawHtml</code> property, interpreted as plain HTML - data bindings are ignored.</p>
-            <p><span class='glyphicon-remove'>Note that you cannot use <code>v-html</code> to compose template partials, because Vue is not a string-based templating engine.</p>
-            <p><span class='glyphicon-remove'>Instead, components are preferred as the fundamental unit for UI reuse and composition.</p>
-            <p><span class='glyphicon-remove'><b>Warning</b> - Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to <b>XSS vulnerabilities</b>. Only use HTML interpolation on trusted content and <b>never</b> on user-provided content.</p>
+            <p><span class='glyphicon-remove'></span>The contents of this <code>div</code> will be replaced with the value of the <code>rawHtml</code> property, interpreted as plain HTML - data bindings are ignored.</p>
+            <p><span class='glyphicon-remove'></span>Note that you cannot use <code>v-html</code> to compose template partials, because Vue is not a string-based templating engine.</p>
+            <p><span class='glyphicon-remove'></span>Instead, components are preferred as the fundamental unit for UI reuse and composition.</p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Dynamically rendering arbitrary HTML on your website can be very dangerous because it can easily lead to <b>XSS vulnerabilities</b>. Only use HTML interpolation on trusted content and <b>never</b> on user-provided content.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Using JavaScript Expressions</h3>
-            <p><span class='glyphicon-remove'>So far we've only been binding to simple property keys in our template. But Vue.js actually supports the full power of JavaScript expressions inside all data bindings:</p>
+            <p><span class='glyphicon-remove'></span>So far we've only been binding to simple property keys in our template. But Vue.js actually supports the full power of JavaScript expressions inside all data bindings:</p>
             <pre>
-            <span class='glyphicon-remove'>{{ number + 1 }}
+            <span class='glyphicon-remove'></span>{{ number + 1 }}
 
             {{ ok ? 'YES' : 'NO' }}
 
@@ -191,16 +191,16 @@
 
             &lt;div v-bind:id="'list-' + id">&lt;/div>
             </pre>
-            <p><span class='glyphicon-remove'>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance.</p>
-            <p><span class='glyphicon-remove'>One restriction is that each binding can only contain <b>one single expression</b>, so this would <b>not</b> work:</p>
+            <p><span class='glyphicon-remove'></span>These expressions will be evaluated as JavaScript in the data scope of the owner Vue instance.</p>
+            <p><span class='glyphicon-remove'></span>One restriction is that each binding can only contain <b>one single expression</b>, so this would <b>not</b> work:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;!-- this is a statement, not an expression -->
+            <span class='glyphicon-remove'></span>&lt;!-- this is a statement, not an expression -->
             {{ var a = 1 }}
 
             &lt;!-- flow control won't work either, use ternary expressions -->
             {{ if(ok) { return message } }}
             </pre>
-            <p><span class='glyphicon-remove'><b>Warning</b> - Template expressions are sandboxed and only have access to a whitelist of globals such as <code>Math</code> and <code>Date</code>. You should not attempt to access user defined globals in template expressions.</p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Template expressions are sandboxed and only have access to a whitelist of globals such as <code>Math</code> and <code>Date</code>. You should not attempt to access user defined globals in template expressions.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
@@ -211,35 +211,35 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             Directives are special attributes with the <code>v-</code> prefix.
-            <p><span class='glyphicon-remove'>Directive attribute values are expected to be a <b>single JavaScript expression</b> (with the exception for <code>v-for</code>)</p>
-            <p><span class='glyphicon-remove'>A directive's job is to reactively apply side effects to the DOM when the value of its expression changes. Let's review the example we saw in the introduction:</p>
+            <p><span class='glyphicon-remove'></span>Directive attribute values are expected to be a <b>single JavaScript expression</b> (with the exception for <code>v-for</code>)</p>
+            <p><span class='glyphicon-remove'></span>A directive's job is to reactively apply side effects to the DOM when the value of its expression changes. Let's review the example we saw in the introduction:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;p v-if="seen">Now you see me&lt;/p>
+            <span class='glyphicon-remove'></span>&lt;p v-if="seen">Now you see me&lt;/p>
             </pre>
-            <p><span class='glyphicon-remove'>Here, the <code>v-if</code> directive would remove/insert the <code>&lt;p></code> element based on the truthiness of the value of the expression <code>seen</code>.</p>
+            <p><span class='glyphicon-remove'></span>Here, the <code>v-if</code> directive would remove/insert the <code>&lt;p></code> element based on the truthiness of the value of the expression <code>seen</code>.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Arguments</h3>
-            <p><span class='glyphicon-remove'>Some directives can take an "argument", denoted by a colon after the directive name.</p>
-            <p><span class='glyphicon-remove'>For example, the <code>v-bind</code> directive is used to reactively update an HTML attribute:</p>
+            <p><span class='glyphicon-remove'></span>Some directives can take an "argument", denoted by a colon after the directive name.</p>
+            <p><span class='glyphicon-remove'></span>For example, the <code>v-bind</code> directive is used to reactively update an HTML attribute:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;a v-bind:href="url">&lt;/a>
+            <span class='glyphicon-remove'></span>&lt;a v-bind:href="url">&lt;/a>
             </pre>
-            <p><span class='glyphicon-remove'>Here, <code>href</code> is the argument, which tells the <code>v-bind</code> directive to bind the element's <code>href</code> attribute to the value of the expression <code>url</code>.</p>
-            <p><span class='glyphicon-remove'>Another example is the <code>v-on</code> directive, which listens to DOM events:</p>
+            <p><span class='glyphicon-remove'></span>Here, <code>href</code> is the argument, which tells the <code>v-bind</code> directive to bind the element's <code>href</code> attribute to the value of the expression <code>url</code>.</p>
+            <p><span class='glyphicon-remove'></span>Another example is the <code>v-on</code> directive, which listens to DOM events:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;a v-on:click="doSomething">&lt;/a>
+            <span class='glyphicon-remove'></span>&lt;a v-on:click="doSomething">&lt;/a>
             </pre>
-            <p><span class='glyphicon-remove'>Here the argument is the event name to listen to.</p>
+            <p><span class='glyphicon-remove'></span>Here the argument is the event name to listen to.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             <h3>Modifiers</h3>
-            <p><span class='glyphicon-remove'>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.</p>
-            <p><span class='glyphicon-remove'>For example, the <code>.prevent</code> modifier tells the <code>v-on</code> directive to call <code>event.preventDefault()</code> on the triggered event:</p>
+            <p><span class='glyphicon-remove'></span>Modifiers are special postfixes denoted by a dot, which indicate that a directive should be bound in some special way.</p>
+            <p><span class='glyphicon-remove'></span>For example, the <code>.prevent</code> modifier tells the <code>v-on</code> directive to call <code>event.preventDefault()</code> on the triggered event:</p>
             <pre>
-            <span class='glyphicon-remove'>&lt;form v-on:submit.prevent="onSubmit">&lt;/form>
+            <span class='glyphicon-remove'></span>&lt;form v-on:submit.prevent="onSubmit">&lt;/form>
             </pre>
-            <p><span class='glyphicon-remove'>We will see more use of modifiers later when we take a more thorough look at <code>v-on</code> and <code>v-model</code>.</p>
+            <p><span class='glyphicon-remove'></span>We will see more use of modifiers later when we take a more thorough look at <code>v-on</code> and <code>v-model</code>.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
@@ -250,11 +250,11 @@
     <ul>
         <li><p><span class='glyphicon-remove'></span>
             The <code>v-</code> prefix serves as a visual cue for identifying Vue-specific attributes in your templates.
-            <p><span class='glyphicon-remove'>This is useful when you are using Vue.js to apply dynamic behavior to some existing markup, but can feel verbose for some frequently used directives.</p>
-            <p><span class='glyphicon-remove'>At the same time, the need for the <code>v-</code> prefix becomes less important when you are building an SPA where Vue.js manages every template.</p>
-            <p><span class='glyphicon-remove'>Therefore, Vue.js provides special shorthands for two of the most often used directives, <code>v-bind</code> and <code>v-on</code>:</p>
+            <p><span class='glyphicon-remove'></span>This is useful when you are using Vue.js to apply dynamic behavior to some existing markup, but can feel verbose for some frequently used directives.</p>
+            <p><span class='glyphicon-remove'></span>At the same time, the need for the <code>v-</code> prefix becomes less important when you are building an SPA where Vue.js manages every template.</p>
+            <p><span class='glyphicon-remove'></span>Therefore, Vue.js provides special shorthands for two of the most often used directives, <code>v-bind</code> and <code>v-on</code>:</p>
             <pre>
-            <span class='glyphicon-remove'>// v-bind Shorthand
+            <span class='glyphicon-remove'></span>// v-bind Shorthand
 
             &lt;!-- full syntax -->
             &lt;a v-bind:href="url">&lt;/a>
@@ -263,7 +263,7 @@
             &lt;a :href="url">&lt;/a>
             </pre>
             <pre>
-            <span class='glyphicon-remove'>// v-on Shorthand
+            <span class='glyphicon-remove'></span>// v-on Shorthand
 
             &lt;!-- full syntax -->
             &lt;a v-on:click="doSomething">&lt;/a>
@@ -271,7 +271,7 @@
             &lt;!-- shorthand -->
             &lt;a @click="doSomething">&lt;/a>
             </pre>
-            <p><span class='glyphicon-remove'>They may look a bit different from normal HTML, but <code>:</code> and <code>@</code> are valid chars for attribute names and all Vue.js supported browsers can parse it correctly.</p>
+            <p><span class='glyphicon-remove'></span>They may look a bit different from normal HTML, but <code>:</code> and <code>@</code> are valid chars for attribute names and all Vue.js supported browsers can parse it correctly.</p>
             <p><span class='glyphicon-remove'></span>In addition, they do not appear in the final rendered markup. The shorthand syntax is totally optional, but you will likely appreciate it when you learn more about its usage later.</p>
         </p></li>
     </ul>

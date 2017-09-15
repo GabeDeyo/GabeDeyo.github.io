@@ -202,9 +202,6 @@
             <p><span class='glyphicon-remove'></span>Directives apply special reactive behaviors to the rendered DOM.</p>
             <p><span class='glyphicon-remove'></span>This specific directive tells the elements <code>title</code> to keep up-to-date with the <code>message</code> property on the Vue instance.</p>
         </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            XXX
-        </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
@@ -248,7 +245,7 @@
             &lt;/div>
             </pre>
             <pre>
-            <span class='glyphicon-remove'>var app4 = new Vue({
+            <span class='glyphicon-remove'></span>var app4 = new Vue({
                 el: '#app-4',
                 data: {
                     todos: [
@@ -270,7 +267,7 @@
         <li><p><span class='glyphicon-remove'></span>
             To let users interact with your app, we can use the <code>v-on</code> directive to attach event listeners that invoke methods on our Vue instances:
             <pre>
-            <span class='glyphicon-remove'>// HTML
+            <span class='glyphicon-remove'></span>// HTML
 
             &lt;div id="app-5">
                 &lt;p>{{ message }}&lt;/p>
@@ -278,7 +275,7 @@
             &lt;/div>
             </pre>
             <pre>
-            <span class='glyphicon-remove'>// JS
+            <span class='glyphicon-remove'></span>// JS
 
             var app5 = new Vue({
                 el: '#app-5',
@@ -292,12 +289,12 @@
                 }
             })
             </pre>
-            <p><span class='glyphicon-remove'>Note in the method we simply update the state of our app without touching the DOM - all DOM manipulations are handled by Vue, and the code you write is focused on the underlying logic.</p>
+            <p><span class='glyphicon-remove'></span>Note in the method we simply update the state of our app without touching the DOM - all DOM manipulations are handled by Vue, and the code you write is focused on the underlying logic.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             Vue also provides the <code>v-model</code> directive that makes two-way binding between form input and app state a breeze:
             <pre>
-            <span class='glyphicon-remove'>// HTML
+            <span class='glyphicon-remove'></span>// HTML
 
             &lt;div id="app-6">
                 &lt;p>{{ message }}&lt;/p>
@@ -305,7 +302,7 @@
             &lt;/div>
             </pre>
             <pre>
-            <span class='glyphicon-remove'>// JS
+            <span class='glyphicon-remove'></span>// JS
 
             var app6 = new Vue({
                 el: '#app-6',
@@ -328,29 +325,29 @@
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             In Vue, a component is essentially a Vue instance with pre-defined options.
-            <p><span class='glyphicon-remove'>Registering a component in Vue is straightforward:</p>
+            <p><span class='glyphicon-remove'></span>Registering a component in Vue is straightforward:</p>
             <pre>
-            <span class='glyphicon-remove'>// JS
+            <span class='glyphicon-remove'></span>// JS
             
             //Define a new component called todo-item
             Vue.component('todo-item', {
                 template: '&lt;li>This is a todo&lt;/li>'
             })
             </pre>
-            <p><span class='glyphicon-remove'>Now you can compose it in another component's tempalte:</p>
+            <p><span class='glyphicon-remove'></span>Now you can compose it in another component's tempalte:</p>
             <pre>
-            <span class='glyphicon-remove'>// HTML
+            <span class='glyphicon-remove'></span>// HTML
 
             &lt;ol>
                 &lt;!-- Create an instance of the todo-item component -->
                 &lt;todo-item>&lt;/todo-item>
             &lt;/ol>
             </pre>
-            <p><span class='glyphicon-remove'>But this would render the same text for every todo, which is not super interesting.</p>
-            <p><span class='glyphicon-remove'>We should be able to pass data from the parent scope into child components.</p>
-            <p><span class='glyphicon-remove'>Let's modify the component definition to make it accept a <b>prop</b>:</p>
+            <p><span class='glyphicon-remove'></span>But this would render the same text for every todo, which is not super interesting.</p>
+            <p><span class='glyphicon-remove'></span>We should be able to pass data from the parent scope into child components.</p>
+            <p><span class='glyphicon-remove'></span>Let's modify the component definition to make it accept a <b>prop</b>:</p>
             <pre>
-            <span class='glyphicon-remove'>// JS
+            <span class='glyphicon-remove'></span>// JS
 
             Vue.component('todo-item', {
                 //The todo-item component now accepts a 
@@ -360,9 +357,9 @@
                 template: '&lt;li>{{ todo.text }}&lt;/li>'
             })
             </pre>
-            <p><span class='glyphicon-remove'>Now we can pass the todo into each repeated component using <code>v-bind:</code></p>
+            <p><span class='glyphicon-remove'></span>Now we can pass the todo into each repeated component using <code>v-bind:</code></p>
             <pre>
-            <span class='glyphicon-remove'>// HTML
+            <span class='glyphicon-remove'></span>// HTML
 
             &lt;div id="app-7">
                 &lt;ol>
@@ -380,7 +377,7 @@
             &lt;/div>
             </pre>
             <pre>
-            <span class='glyphicon-remove'>// JS
+            <span class='glyphicon-remove'></span>// JS
 
             Vue.component('todo-item', {
                 props: ['todo'],
@@ -398,14 +395,14 @@
                 }
             })
             </pre>
-            <p><span class='glyphicon-remove'>This is a contrived example, but we've managed to separate our app into two smaller units, and the child is reasonably well-decoupled from the parent via the props interface.</p>
-            <p><span class='glyphicon-remove'>We can now further improve our <code>&lt;todo-item></code> component with more complex template and logic without affecting the parent app.</p>
+            <p><span class='glyphicon-remove'></span>This is a contrived example, but we've managed to separate our app into two smaller units, and the child is reasonably well-decoupled from the parent via the props interface.</p>
+            <p><span class='glyphicon-remove'></span>We can now further improve our <code>&lt;todo-item></code> component with more complex template and logic without affecting the parent app.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
             In a large application, it is necessary to divide the whole app into components to make development manageable.
-            <p><span class='glyphicon-remove'>We'll go over this later, but here's an (imaginary) example of what an app's template might look like with components:</p>
+            <p><span class='glyphicon-remove'></span>We'll go over this later, but here's an (imaginary) example of what an app's template might look like with components:</p>
             <pre>
-            <span class='glyphicon-remove'>// HTML
+            <span class='glyphicon-remove'></span>// HTML
 
             &lt;div id="app">
                 &lt;app-nav>&lt;/app-nav>
@@ -416,11 +413,11 @@
             &lt;/div>
             </pre>
         </p></li>
-        <li><p><span class='glyphicon-remove'>
+        <li><p><span class='glyphicon-remove'></span>
             <h3>Relation to Custom Elements</h3>
-            <p><span class='glyphicon-remove'>You may have noticed that Vue components are very similar to <b>Custom Elements</b>, which are part of the <i>Web Components Spec</i>.</p>
-            <p><span class='glyphicon-remove'>This is simply because Vue's component syntax is loosely modeled after the spec. For example, Vue components implement the <b>Slot API</b> and the <code>is</code> special attribute.</p>
-            <p><span class='glyphicon-remove'>However, there are a few key differences.
+            <p><span class='glyphicon-remove'></span>You may have noticed that Vue components are very similar to <b>Custom Elements</b>, which are part of the <i>Web Components Spec</i>.</p>
+            <p><span class='glyphicon-remove'></span>This is simply because Vue's component syntax is loosely modeled after the spec. For example, Vue components implement the <b>Slot API</b> and the <code>is</code> special attribute.</p>
+            <p><span class='glyphicon-remove'></span>However, there are a few key differences.
                 <br> &nbsp; &bull; The Web Components Spec is still in draft status, and is not natively implemented in every browser. In comparison, Vue components don't require any polyfills and work consistently in all supported browsers (IE9 and above). When needed, Vue components can also be wrapped inside a native custom element.
                 <br> &nbsp; &bull; Vue components provide important features that are not available in plain custom elements, most notably cross-component data flow, custom event communication and build tool integrations. 
             </p>

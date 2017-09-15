@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Vue.js - The Vue Instance</title>
+    <title>Vue.js - List Rendering</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
@@ -97,9 +97,10 @@
         <ul>
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
-          <li><a href="#0">Creating a Vue Instance</a></li>
-          <li><a href='#1'>Data and Methods</a></li>
-          <li><a href='#2'>Instance Lifecycle Hooks</a></li>
+          <li><a href="#0">v-for</a></li>
+          <li><a href='#1'>v-for with an Object</a></li>
+          <li><a href='#2'>key</a></li>
+          <li><a href='#3'>Array Change Detection</a></li>
         </ul>
     </aside>
 
@@ -108,172 +109,162 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h1 id="title">Vue.js - The Vue Instance</h1>
+                    <h1 id="title">Vue.js - List Rendering</h1>
 
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0">Creating a Vue Instance</a>
+                                <a href="#0">Mapping an Array to Elements with <code>v-for</code></a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#1'>Data and Methods</a>
+                                <a href='#1'><code>v-for</code> with an Object</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#2'>Instance Lifecycle Hooks</a>
+                                <a href='#2'>key</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2>Creating a Vue Instance</h2>
+    <h2>Mapping an Array to Elements with <code>v-for</code></h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            Every Vue application starts by creating a new <b>Vue instance</b> with the <code>Vue</code> function:
+            We can use the <code>v-for</code> directive to render a list of items based on an array.
+            <p><span class='glyphicon-remove'></span>The <code>v-for</code> directive requires a special syntax in the form of <code>item in items</code>, where <code>item</code> is the source data array and <code>item</code> is an <b>alias</b> for the array element being iterated on:</p>
             <pre>
-            <span class='glyphicon-remove'></span>var vm = new Vue({
-                //options
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;ul id="example-1">
+                &lt;li v-for="item in items">
+                    {{ item.message }}
+                &lt;/li>
+            &lt;/ul>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var example1 = new Vue({
+                el: '#example-1',
+                data: {
+                    items: [
+                        { message: 'Foo' },
+                        { message: 'Bar' }
+                    ]
+                }
             })
             </pre>
         </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            Although not strictly associated with the <b>MVVM pattern</b>, Vue's design was partly inspired by it.
-            <p><span class='glyphicon-remove'></span>As a convention, it often uses the variable <code>vm</code> (short for ViewModel) to refer to the Vue instance.</p>
-        </p></li>
-        <li><p><span class="glyphicon-remove"></span>
-            When you create a Vue instance, you pass in an <b>options object</b>.
-            <p><span class='glyphicon-remove'></span>For reference, an important resource is the Vue <a href="https://vuejs.org/v2/api/#Options-Data">API reference</a>.</p>
-        </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            A Vue application consists of a <b>root Vue instance</b> created with <code>new Vue</code>, optionally organized into a tree of nested, reusable components.
-            <p><span class='glyphicon-remove'></span>For example, a todo app's component tree might look like this:</p>
+            Inside <code>v-for</code> blocks we have access to parent scope properties.
+            <p><span class='glyphicon-remove'></span><code>v-for</code> also supports an optional second argument for the index of the current item.</p>
             <pre>
-            <span class='glyphicon-remove'></span>Root Instance
-                -TodoList
-                    --TodoItem
-                        ---DeleteTodoButton
-                        ---EditTodoButton
-                    --TodoListFooter
-                        ---ClearTodosButton
-                        ---TodoListStatistics
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;ul id="example-2">
+                &lt;li v-for="(item, index) in items">
+                    {{ parentMessage }} - {{ index }} - {{ item.message }}
+                &lt;/li>
+            &lt;/ul>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var example2 = new Vue({
+                el: '#example-2',
+                data: {
+                    parentMessage: 'Parent',
+                    items: [
+                        { message: 'Foo' },
+                        { message: 'Bar' }
+                    ]
+                }
+            })
             </pre>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            We'll go over the <b>component system</b> in detail soon. For now, just know that all Vue components are also Vue instances, and so accept the same options object (except for a few root-specific options).
+            You can also use <code>of</code> as the delimiter instead of <code>in</code>, so that it is closer to JavaScript's syntax for iterators:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-for="item of items">&lt;/div>
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='1'>
-    <h2>Data and Methods</h2>
+    <h2><code>v-for</code> with an Object</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            When a Vue instance is created, it adds all the properties found in its <code>data</code> object to Vue's <b>reactivity system</b>.
-            <p><span class='glyphicon-remove'></span>When the values of those properties change, the view will "react", updating to match the new values.</p>
+            You can also use <code>v-for</code> to iterate through the properties of an object.
             <pre>
-            <span class='glyphicon-remove'></span>
-            // Our data object
-            var data = { a: 1 }
+            <span class='glyphicon-remove'></span>// HTML
 
-            // The object is added to a Vue instance
-            var vm = new Vue({
-                data: data
-            })
-
-            // These reference the same object
-            va.a === data.a // true
-
-            //Setting the property on the instance
-            // also affects the original state
-            vm.a = 2;
-            data.a; // 2
-
-            //.. and vice-versa
-            data.3 = 3;
-            vm.a; // 3
+            &lt;ul id="v-for-object" class="demo">
+                &lt;li v-for="value in object">
+                    {{ value }}
+                &lt;/li>
+            &lt;/ul>
             </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            When this data changes, the view will <i>re-render</i>.
-            <p><span class='glyphicon-remove'></span>It should be noted that properties in <code>data</code> are only <b>reactive</b> if they existed when the instance was created.</p>
-            <p><span class='glyphicon-remove'></span>So if you add a new property like so:</p>
             <pre>
-            <span class='glyphicon-remove'></span>vm.b = 'hi';
-            </pre>
-            <p><span class='glyphicon-remove'></span>Then changes to <code>b</code> will not trigger any view updates.</p>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            If you know you'll need a property later, but it starts out empty or non-existent, you'll just need to set some initial value. For example:
-            <pre>
-            <span class='glyphicon-remove'></span>data: {
-                newTodoText: '',
-                visitCount: 0,
-                hideCompletedTodo: false,
-                todos: [],
-                error: null
-            }
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            In addition to data properties, Vue instances expose a number of useful instance properties and methods.
-            <p><span class='glyphicon-remove'></span>These are prefixed with a <code>$</code> to differentiate them from user-defined properties. For example:</p>
-            <pre>
-            <span class='glyphicon-remove'></span>var data = { a: 1 }
-            var vm = new Vue({
-                el: '#example',
-                data: data
-            })
+            <span class='glyphicon-remove'></span>// JS
 
-            vm.$data === data // true
-            vm.$el === document.getElementById('example') // true
-
-            // $watch is an instance method
-            vm.$watch('a', function(newValue, oldValue) {
-                // This callback will be called when 'vm.a' changes
+            new Vue({
+                el: '#v-for-object',
+                data: {
+                    object: {
+                        firstName: 'Gabe',
+                        lastName: 'Doe',
+                        age: 30
+                    }
+                }
             })
             </pre>
+            <p><span class='glyphicon-remove'></span>You can also provide a second argument for the key:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-for="(value, key) in object">
+                {{ key }}: {{ value }}
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>And another for the index:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-for="(value, key, index) in object">
+                {{ index }}. {{ key }}: {{ value }}
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - When iterating over an object, the order is based on the key enumeration order of <code>Object.keys()</code>, which is <b>not</b> gauranteed to be consistent across JavaScript engine implementations.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class='jumbotron col-md-12 heliList' id='2'>
-    <h2>Instance Lifecycle Hooks</h2>
+    <h2>key</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            Each Vue instance goes through a series of initialization steps when it's created.
-            <p><span class='glyphicon-remove'></span>For example:
-                <br> &nbsp; &bull; setup data observation
-                <br> &nbsp; &bull; compile the template
-                <br> &nbsp; &bull; mount the instance to the DOM
-                <br> &nbsp; &bull; and update the DOM when data changes
-            </p>
-            <p><span class='glyphicon-remove'></span>Along the way, it will also run functions called <b>lifecycle hooks</b>, giving users the opportunity to aadd their own code at specific stages.</p>
-            <p><span class='glyphicon-remove'></span>For example, the <code>created</code> hook can be used to run code after an instance is created:</p>
-                <pre>
-                <span class='glyphicon-remove'></span>new Vue({
-                    data: {
-                        a: 1
-                    },
-                    created: function() {
-                        // 'this' points to the vm instance
-                        console.log('a is: ' + this.a)
-                    }
-                })
-                // 'a is: 1'
-                </pre>
+            When Vue is updating a list of elements rendered with <code>v-for</code>, by default it uses an "in-place-patch" strategy.
+            <p><span class='glyphicon-remove'></span>If the order of the data items has changed, instead of moving the DOM elements to match the order of the items, Vue simply patch each element in-place and make sure it reflects what should be rendered at that particular index.</p>
+            <p><span class='glyphicon-remove'></span>This is similar to the behavior of <code>track-by="$index"</code> in Vue 1.x.</p>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            There are also hooks which will be called at different stages of the instance's lifecycle, such as <code>mounted</code>, <code>updated</code>, and <code>destroyed</code>. All lifecycle hooks are called with their <code>this</code> context pointing to the Vue instance invoking it.
-            <p><span class='glyphicon-remove'></span><b>Note</b> - Dont use <b>arrow functions</b> on an options property or callback. Since arrow functions are bound to the parent context, <code>this</code> will not be the Vue instance as you'd expect and <code>this.a</code> or <code>this.myMethod</code> will be undefined.</p>
+            This default mode is efficient, but only suitable <b>when your list render output does not rely on child component state or temporary DOM state (e.g. form input values)</b>
         </p></li>
         <li><p><span class='glyphicon-remove'></span>
-            <h3>Lifecycle Diagram</h3>
-            <a href="https://vuejs.org/images/lifecycle.png">Diagram</a>
+            To give Vue a hint so that it can track each node's identity, and thus reuse and reorder existing element, you need to provide a unique <code>key</code> attribute for each item.
+            <p><span class='glyphicon-remove'></span>An ideal value for <code>key</code> would be the unique id of each item.</p>
+            <p><span class='glyphicon-remove'></span>This special attribute is a rough equivalent to <code>track-by</code> in 1.x, but it works like an attribute, so you need to use <code>v-bind</code> to bind it to dynamic values (using shorthand here):</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-for="item in items" :key="item.id">
+                &lt;!-- content -->
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            It is recommended to provide a <code>key</code> with <code>v-for</code> whenever possible, unless the iterated DOM content is simple, or you are intentianally relying on the default behavior for performance gains.
+            <p><span class='glyphicon-remove'></span>Since it's a generic mechanism for Vue to identify nodes, the <code>key</code> also has other uses that are not specifically tied to <code>v-for</code>.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

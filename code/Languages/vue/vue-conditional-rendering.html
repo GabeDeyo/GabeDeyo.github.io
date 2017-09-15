@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js - Conditional Rendering</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">v-if</a></li>
+          <li><a href='#1'>v-show</a></li>
+          <li><a href='#2'>v-if vs. v-show</a></li>
+          <li><a href='#3'>v-if with v-for</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Vue.js - Conditional Rendering</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">v-if</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>v-show</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>v-if vs. v-show</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>v-if with v-for</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>v-if</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            In string templates, for example Handlebars, we could write a conditional block like this:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- Handlebars template -->
+            {{#if ok}}
+                &lt;h1>Yes&lt;/h1>
+            {{/if}}
+            </pre>
+            <p><span class='glyphicon-remove'></span>In Vue, we use the <code>v-if</code> directive to achieve the same:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;h1 v-if="ok">Yes&lt;/h1>
+            </pre>
+            <p><span class='glyphicon-remove'></span>It is also possible to add an "else" block with <code>v-else</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;h1 v-if="ok">Yes&lt;/h1>
+            &lt;h1 v-else>No&lt;/h1>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Conditional Groups (v-if on &lt;tempalte>)</h3>
+            <p><span class='glyphicon-remove'></span>Because <code>v-if</code> is a directive, it has to be attached to a single element.</p>
+            <p><span class='glyphicon-remove'></span>But what if we want to toggle more than one element?</p>
+            <p><span class='glyphicon-remove'></span>In this case we can use <code>v-if</code> on a <code>&lt;template></code> element, which serves as an invisible wrapper.</p>
+            <p><span class='glyphicon-remove'></span>The final rendered result will not include the <code>&lt;template></code> element.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;template v-if="ok">
+                &lt;h1>Title&lt;/h1>
+                &lt;p>Paragraph 1&lt;/p>
+                &lt;p>Paragraph 2&lt;/p>
+            &lt;/template>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>v-else</h3>
+            <p><span class='glyphicon-remove'></span>You can use the <code>v-else</code> directive to indicate an "else block" for <code>v-if</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-if="Math.random() > 0.5">
+                Now you see me
+            &lt;/div>
+            &lt;div v-else>
+                Now you don't
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>A <code>v-else</code> element must immediately follow a <code>v-if</code> or a <code>v-else-if</code> element - otherwise it will not be recognized.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>v-else-if</h3>
+            <p><span class='glyphicon-remove'></span>The <code>v-else-if</code>, as the name suggests, serves as an "else if block" for <code>v-if</code>.</p>
+            <p><span class='glyphicon-remove'></span>It can also be chained multiple times:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-if="type === 'A'">
+                A
+            &lt;/div>
+            &lt;div v-else-if="type === 'B'">
+                B
+            &lt;/div>
+            &lt;div v-else>
+                C
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Similar to <code>v-else</code>, a <code>v-else-if</code> element must immediately follow a <code>v-if</code> or a <code>v-else-if</code> element.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Controlling Reusable Elements with <code>key</code></h3>
+            <p><span class='glyphicon-remove'></span>Vue tries to render elements as efficiently as possible, often re-using them instead of rendering from scratch.</p>
+            <p><span class='glyphicon-remove'></span>Beyond helping make Vue very fast, this can have some useful advantages.</p>
+            <p><span class='glyphicon-remove'></span>For example, if you allow users to toggle between multiple login types:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;template v-if="loginType === 'username'">
+                &lt;label>Username&lt;/label>
+                &lt;input placeholder="Enter your username">
+            &lt;/template>
+            &lt;template>
+                &lt;label>Email&lt;/label>
+                &lt;input placeholder="Enter your email address">
+            &lt;/template>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then switching the <code>loginType</code> in the code above will not erase what the user has already entered.</p>
+            <p><span class='glyphicon-remove'></span>Since both templates use the same elements, the <code>&lt;input></code> is not replaced - just its <code>placeholder</code>.</p>
+            <p><span class='glyphicon-remove'></span>This isn't always desirable though, so Vue offers a way for you to say, "These two elements are completely separate - don't re-use them", just add a <code>key</code> attribute with unique values:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;template v-if="loginType === 'username'">
+                &lt;label>Username&lt;/label>
+                &lt;input placeholder="Enter your username" key="username-input">
+            &lt;/template>
+            &lt;template>
+                &lt;label>Email&lt;/label>
+                &lt;input placeholder="Enter your email address" key="email-input">
+            &lt;/template>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now those inputs will be rendered from scratch each time you toggle.</p>
+            <p><span class='glyphicon-remove'></span>Note that the <code>&lt;label></code> elements are still efficiently re-used, because they don't have <code>key</code> attributes.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>v-show</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <p><span class='glyphicon-remove'></span>Another option for conditionally displaying an element is the <code>v-show</code> directive.</p>
+            <p><span class='glyphicon-remove'></span>The usage is laregly the same:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;h1 v-show="ok">Hello&lt;/h1>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The difference is that an element with <code>v-show</code> will always be rendered and remain in the DOM; <code>v-show</code> simply toggles the <code>display</code> CSS property of the element.</p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - <code>v-show</code> doesn't support the <code>&lt;template></code> syntax, nor does it work with <code>v-else</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            XXX
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>v-if vs. v-show</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <code>v-if</code> is "real" conditional rendering because it ensures that event listeners and child components inside the conditional block are properly destroyed and re-created during toggles.
+            <p><span class='glyphicon-remove'></span><code>v-if</code> is also <b>lazy</b>; if the condition is false on initial render, it will not do anything - the conditional block won't be rendered until the condition becomes true for the first time.</p>
+            <p><span class='glyphicon-remove'></span>In comparison, <code>v-show</code> is much simpler - the element is always rendering regardless of initial condition, with just simple CSS-based toggling.</p>
+            <p><span class='glyphicon-remove'></span>Generally speaking, <code>v-if</code> has higher toggle costs while <code>v-show</code> has higher initial render costs. So prefer <code>v-show</code> if you need to toggle something very often, and prefer <code>v-if</code> if the condition is unlikely to change at runtime.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>v-if with v-for</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When used together with <code>v-if</code>, <code>v-for</code> has a higher priority than <code>v-if</code>.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

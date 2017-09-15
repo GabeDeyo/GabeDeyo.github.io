@@ -97,7 +97,12 @@
         <ul>
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
-          <li><a href="#0"></a></li>
+          <li><a href="#0">Computed Properties</a></li>
+          <li><a href='#1'>Basic Example</a></li>
+          <li><a href='#2'>Computed Caching vs. Methods</a></li>
+          <li><a href='#3'>Computed vs. Watched Property</a></li>
+          <li><a href='#4'>Computed Setter</a></li>
+          <li><a href='#5'>Watchers</a></li>
         </ul>
     </aside>
 
@@ -112,20 +117,313 @@
                         <h2>Index</h2>
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
-                                <a href="#0"></a>
+                                <a href="#0">Computed Properties</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Basic Example</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Computed Caching vs. Methods</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Computed vs. Watched Property</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Computed Setter</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Watchers</a>
                                 </p>
                             </li>
                         </ul>
                     </div>
 
 <div class="jumbotron col-md-12 heliList" id="0">
-    <h2></h2>
+    <h2>Computed Properties</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            XXX
+            In-template expressions are very conventient, but they are really only meant for simple operations.
+            <p><span class='glyphicon-remove'></span>Putting too much logic into your template can make them bloated and hard to maintain. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example">
+                {{ message.split(' ').reverse().join(' ') }}    
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>At this point, the template is no longer simple and declarative.
+                <br> &nbsp; &bull; You have to look at it for a second before realizing that it displays <code>message</code> in <i>reverse</i>.
+            </p>
+            <p><span class='glyphicon-remove'></span>The problem is made worse when you want to include the reversed message in your template more than once.</p>
+            <p><span class='glyphicon-remove'></span>That's why for any complex logic, you should use a <b>computed property</b>.</p>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Basic Example</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div id="example">
+                &lt;p>Original message: "{{ message }}&lt;/p>
+                &lt;p>Computed reversed message: "{{ reversedMessage }}"&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            var vm = new Vue({
+                el: '#example',
+                data: {
+                    message: 'Hello'
+                },
+                computed: {
+                    //a computed getter
+                    reversedMessage: function() {
+                        // 'this' points to the vm instance
+                        return this.message.split(' ').reverse().join(' ');
+                    }
+                }
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In this example, we have declared a computed property <code>reversedMessage</code>.
+            <p><span class='glyphicon-remove'></span>The function we provided will be used as the getter function for the property <code>vm.reversedMessage</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>console.log(vm.reversedMessage) // olleH
+            vm.message = 'Goodbye'
+            console.log(vm.reversedMessage) //eybdooG
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can open the console and play with the example vm yourself. The value of <code>vm.reversedMessage</code> is always <i>dependent</i> on the value of <code>vm.message</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            You can data-bind to computed properties in templates just like a normal property.
+            <p><span class='glyphicon-remove'></span>Vue is aware that <code>vm.reversedMessage</code> depends on <code>vm.message</code>, so it will update any bindings that depend on <code>vm.reversedMessage</code> when <code>vm.message</code> changes.</p>
+            <p><span class='glyphicon-remove'></span>The best part is that we've created this dependency relationship declaratively: the computed getter function has no side effects, which makes it easy to test and reason about.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Computed Caching vs. Methods</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You may have noticed we can achieve the same result by invoking a method in the expression:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p>Reversed message: "{{ reverseMessage() }}"&lt;/p>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// in component
+            methods: {
+                reverseMessage: function() {
+                    return this.message.split(' ').reverse().join(' ');
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Instead of a computed property, we can define the same function as a method instead.
+            <p><span class='glyphicon-remove'></span>For the end result, the two approaches are indeed exactly the same.</p>
+            <p><span class='glyphicon-remove'></span>However, the <i>difference</i> is that <b>computed properties are cached based on their dependencies</b>.</p>
+            <p><span class='glyphicon-remove'></span>A computed property will only re-evaulate when some of its dependencies have changed.</p>
+            <p><span class='glyphicon-remove'></span>This means as long as <code>message</code> has not changed, multiple access to <code>reverseMessage</code> computed property will immediately return the previously computed result without having to run the function again.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            This also means the following computed property will never update, because <code>Date.now()</code> is not a reactive dependency:
+            <pre>
+            <span class='glyphicon-remove'></span>computed: {
+                now: function() {
+                    return Date.now()
+                }    
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>In comparison, a method invocation will <b>always</b> run the function whenever a re-render happens.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Why do we need caching?
+                <br> &nbsp; &bull; Imagine we have an expensive computed property <b>A</b>, which requires looping through a huge Array and doing a lot of computations.
+                <br> &nbsp; &bull; Then we may have other computed properties that in turn depend on <b>A</b>. Without caching, we would be executing <b>A</b>'s getter many more times than necesasary.
+            <p><span class='glyphicon-remove'></span>In cases where you do not want cachin, use a method instead.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Computed vs. Watched Property</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Vue does provide a more generic way to observe and react to data changes on a Vue instance: <b>watch properties</b>.
+            <p><span class='glyphicon-remove'></span>When you have some data that needs to change based on some other data, it is tempting to overuse <code>watch</code> - especially if you are coming from an AngularJS background.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            However, it is often a better idea to use a computed property rather than an imperative <code>watch</code> callback. Consider:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="demo">{{ fullName }}&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>var vm = new Vue({
+                el: '#demo',
+                data: {
+                    firstName: 'Foo',
+                    lastName: 'Bar',
+                    fullName: 'Foo Bar'
+                },
+                watch: {
+                    firstName: function(val) {
+                        this.fullName = val + ' ' + this.lastName;
+                    },
+                    lastName: function val) {
+                        this.fullName = this.firstName + ' ' + val;
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The code here is imperative and repetitive. Compare it with a computed property version:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var vm = new Vue({
+                el: '#demo',
+                data: {
+                    firstName: 'Foo',
+                    lastName: 'Bar',
+                },
+                computed: {
+                    fullName: function() {
+                        return this.firstName + ' ' + this.lastName;
+                    }
+                }
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Computed Setter</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Computed properties are by default getter-only, but you can also provide a setter when you need it:
+            <pre>
+            <span class='glyphicon-remove'></span>computed: {
+                fullName: {
+                    //getter
+                    get: function() {
+                        return this.firstName + ' ' this.lastName;
+                    },
+                    //setter
+                    set: function(newValue) {
+                        var names = newValue.split(' ');
+                        this.firstName = names[0];
+                        this.lastName = names[names.length-1];
+                    }
+                }    
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>When you run <code>vm.fullName = 'John Doe'</code>, the setter will be invoked and <code>vm.firstName</code> and <code>vm.lastName</code> will be updated accordingly.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Watchers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            While computed properties are more appropriate in most cases, there are times when a custom watcher is necessary.
+            <p><span class='glyphicon-remove'></span>This is why Vue provides a more generic way to react to data changes through the <code>watch</code> option.</p>
+            <p><span class='glyphicon-remove'></span>This is most useful when you want to perform <i>asynchronous</i> or <i>expensive</i> operations in response to <b>changing data</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            For example:
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div id="watch-example">
+                &lt;p>
+                    Ask a yes/no question:
+                    &lt;input v-model="question">
+                &lt;/p>
+                &lt;p>
+                    {{ answer }}
+                &lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;!-- Since there is already a rich ecosystem of ajax libraries
+            and collections of general-purpose utility methods, Vue core
+            is able to remain small by not reinventing them. This also
+            gives you the freedom to just use what you're familiar with-->
+            &lt;script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js">&lt;/script>
+            &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js">&lt;/script>
+            &lt;script>
+            var watchExampleVM = new Vue({
+                el: '#watch-example',
+                data: {
+                    question: '',
+                    answer: 'I cannot give you an answer until you ask a question!'
+                },
+                watch: {
+                    // whenever question changes, this function will run
+                    question: function (newQuestion) {
+                        this.answer = 'Waiting for you to stop typic...';
+                        this.getAnswer();
+                    }
+                },
+                methods {
+                    /* _.debounce is a function provided by lodash to limit how
+                    often a particularly expensive operation can be run.
+                    In this case, we want to limit how often we access
+                    yesno.wtf/api, waiting until the user has completely
+                    finished typing before making the ajax request. */
+
+                    getAnswer: _.debounce(
+                        function() {
+                            if(this.question.indexOf('?') == -1) {
+                                this.answer = 'Qestions usually contain a question mark.';
+                                return;
+                            }
+
+                            this.answer = 'Thinking...';
+                            var vm = this;
+                            axios.get('https://yesno.wtf/api')
+                                .then(function(response) {
+                                    vm.answer = _.capitalize(response.data.answer)
+                                })
+                                .catch(function(error) {
+                                    vm.answer = 'Error! Could not read the API. ' + error
+                                })
+                        },
+                        //This is the number of milliseconds we wait for the 
+                        // user to stop typing
+                        500
+                    )
+                }
+            })
+            &lt;/script>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <p><span class='glyphicon-remove'></span>In this case, the <code>watch</code> option allows us to:
+                <br> &nbsp; &bull; perform an asynchronous operation (accessing an API)
+                <br> &nbsp; &bull; limit how often we perform that operation
+                <br> &nbsp; &bull; and set intermediary states until we get a final answer</p>
+            <p><span class='glyphicon-remove'></span>None of that would be possible with a computed property.</p>
+            <p><span class='glyphicon-remove'></span>In addition to the <code>watch</code> option, you can also use the imperative <b>vm.$watch API</b>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

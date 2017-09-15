@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js - Class and Style Bindings</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href='#1'>Binding HTML Classes</a></li>
+          <li><a href='#2'>Binding Inline Styles</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Vue.js - Class and Style Bindings</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Binding HTML Classes</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Binding Inline Styles</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            A common need for data binding is manipulating an element's class list and its inline styles.
+            <p><span class='glyphicon-remove'></span>Since they are both attributes, we can use <code>v-bind</code> to handle them: we just need to calculate a final string with our expression.</p>
+            <p><span class='glyphicon-remove'></span>However, meddling with string concatenation is annoying and error-prone.</p>
+            <p><span class='glyphicon-remove'></span>For this reason, Vue provides special enhancements when <code>v-bind</code> is used with <code>class</code> and <code>style</code>.</p>
+            <p><span class='glyphicon-remove'></span>In addition to strings, the expressions can also evaluate to objects or arrays.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Binding HTML Classes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Object Syntax</h3>
+            <p><span class='glyphicon-remove'></span>We can pass an object to <code>v-bind:class</code> to dynamically toggle classes:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:class="{ active: isActive }">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This syntax means the presence of the <code>active</code> class will be determined by the <b>truthiness</b> of the data property <code>isActive</code>.</p>
+            <p><span class='glyphicon-remove'></span>You can have multiple classes toggled by having more fields in the object. In addition, the <code>v-bind:class</code> directive can also co-exist with the plain <code>class</code> attribute.</p>
+            <p><span class='glyphicon-remove'></span>So given the following template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="static">
+                v-bind:class="{ active: isActive, 'text-danger': hasError }"
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>And the following data:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>data: {
+                isActive: true,
+                hasError: false    
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It will render:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="static active">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When <code>isActive</code> or <code>hasError</code> changes, the class list will be updated accordingly. For example, if <code>hasError</code> becomes <code>true</code>, the class list will become <code>'static active text-danger'</code>.</p>
+            <p><span class='glyphicon-remove'></span>The bound object doesn't have to be inline:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div v-bind:class="classObject">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+            
+                data: {
+                    classObject: {
+                        active: true,
+                        'text-danger': false
+                    }
+                }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This will render the same result.</p>
+            <p><span class='glyphicon-remove'></span>We can also bind to a <b>computed property</b> that returns an object.</p>
+            <p><span class='glyphicon-remove'></span>This is a common and powerful patter:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+                
+            &lt;div v-bind:class="classObject">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            data: {
+                isActive: true,
+                error: null
+            },
+            computed: {
+                classObject: function() {
+                    return {
+                        active: this.isActive &amp;&amp; !this.error,
+                        'text-danger': this.error &amp;&amp; this.error.type === 'fatal'
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Array Syntax</h3>
+            <p><span class='glyphicon-remove'></span>We can pass an array to <code>v-bind:class</code> to apply a list of classes:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// HTML
+
+            &lt;div v-bind:class="[activeClass, errorClass]">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// JS
+
+            data: {
+                activeClass: 'active',
+                errorClass: 'text-danger'
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>This will render:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="active text-danger">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>If you would like to also toggle a class in the list conditionally, you can do it with a ternary expression:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:class="[isActive ? activeClass : '', errorClass]">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This will always apply <code>errorClass</code>, but will only apply <code>activeClass</code> when <code>isActive</code> is <code>true</code>.</p>
+            <p><span class='glyphicon-remove'></span>However, this can be a bit verbose if you have multiple conditional classes. That's why it's also possible to use the object syntax inside array syntax:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:class="[{ active: isActive }, errorClass]">&lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>With Components</h3>
+            <p><span class='glyphicon-remove'></span>When you use the <code>class</code> attribute on a custom component, those classes will be added to the component's root element.</p>
+            <p><span class='glyphicon-remove'></span>Existing classes on this element will not be overwritten.</p>
+            <p><span class='glyphicon-remove'></span>For example, if you declare this <b>component</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('my-component', {
+                template: '&lt;p class="foo bar">Hi&lt;/p>'    
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then add some classes when using it:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component class="baz boo">&lt;/my-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The rendered HTML will be:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p class="foo bar baz boo">Hi&lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same is true for class bindings:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component v-bind:class="{ active: isActive }">&lt;/my-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When <code>isActive</code> is truthy, the rendered HTML will be:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p class="foo bar active">Hi&lt;/p>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Binding Inline Styles</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Object Syntax</h3>
+            <p><span class='glyphicon-remove'></span>The object syntax for <code>v-bind:style</code> is pretty straightforward - it looks almost like CSS, except it's a JavaScript object.</p>
+            <p><span class='glyphicon-remove'></span>You can use either camelCase or kebab-case (use quotes with kebab-case) for the CSS property names:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>data: {
+                activeColor: 'red',
+                fontSize: 30    
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It is often a good idea to bind a style object directly so that the template is cleaner:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:style="styleObject">&lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>data: {
+                styleObject: {
+                    color: 'red',
+                    fontSize: '13px'
+                }    
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Again, the object syntax is often used in conjunction with computed properties that return objects.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Array Syntax</h3>
+            <p><span class='glyphicon-remove'></span>The array syntax for <code>v-bind:style</code> allows you to apply multiple style objects to the same element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:style="[baseStyles, overridingStyles]">&lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Auto-prefixing</h3>
+            <p><span class='glyphicon-remove'></span>When you use a CSS property that requires <b>vendor prefixes</b> in <code>v-bind:style</code>, for example <code>transform</code>, Vue will automatically detect and add appropriate prefixes to the applied styles.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Multiple Values</h3>
+            <p><span class='glyphicon-remove'></span>Starting in 2.3.0+, you can provide an array of multiple (prefixed) values to a style property, for example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div v-bind:style="{ display: ['-webkit-box', '-ms-flexbox', 'flex'] }">&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This will only render the last value in the array which the browser supports. In this example, it will render <code>display: flex</code> for browsers that support the unprefixed version of flexbox.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
