@@ -101,6 +101,12 @@
           <li><a href='#1'>v-for with an Object</a></li>
           <li><a href='#2'>key</a></li>
           <li><a href='#3'>Array Change Detection</a></li>
+          <li><a href='#4'>Object Change Detection Caveats</a></li>
+          <li><a href='#5'>Filtered/Sorted Results</a></li>
+          <li><a href='#6'>v-for - Range</a></li>
+          <li><a href='#7'>v-for - Template</a></li>
+          <li><a href='#8'>v-for - v-if</a></li>
+          <li><a href='#9'>v-for - Component</a></li>
         </ul>
     </aside>
 
@@ -124,6 +130,34 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#2'>key</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Array Change Detection</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Object Change Detection Caveats</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Displaying Filtered/Sorted Results</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'><code>v-for</code> with a Range</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'><code>v-for</code> on a <code>&lt;template></code></a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'><code>v-for</code> with <code>v-if</code></a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#9'><code>v-for</code> with a Component</a>
                                 </p>
                             </li>
                         </ul>
@@ -265,6 +299,305 @@
         <li><p><span class='glyphicon-remove'></span>
             It is recommended to provide a <code>key</code> with <code>v-for</code> whenever possible, unless the iterated DOM content is simple, or you are intentianally relying on the default behavior for performance gains.
             <p><span class='glyphicon-remove'></span>Since it's a generic mechanism for Vue to identify nodes, the <code>key</code> also has other uses that are not specifically tied to <code>v-for</code>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Array Change Detection</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Mutation Methods</h3>
+            <p><span class='glyphicon-remove'></span>Vue wraps an observed array's mutation methods so they will also trigger view updates.</p>
+            <p><span class='glyphicon-remove'></span>The wrapped methods are:
+                <br> &nbsp; &bull; <code>push()</code>
+                <br> &nbsp; &bull; <code>pop()</code>
+                <br> &nbsp; &bull; <code>shift()</code>
+                <br> &nbsp; &bull; <code>unshift()</code>
+                <br> &nbsp; &bull; <code>splice()</code>
+                <br> &nbsp; &bull; <code>sort()</code>
+                <br> &nbsp; &bull; <code>reverse()</code></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Replacing an Array</h3>
+            <p><span class='glyphicon-remove'></span>Mutation methods, as the name suggests, <i>mutate</i> the original array they are called on.</p>
+            <p><span class='glyphicon-remove'></span>In comparison, there are also non-mutating methods, e.g. <code>filter()</code>, <code>concat()</code> and <code>splice()</code>, which do not mutate the orignal array but <b>always return a new array</b>.</p>
+            <p><span class='glyphicon-remove'></span>When woring with non-mutating methods, you can just replace the old array with the new one:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>example1.items = example1.items.filter(function (item) {
+                return item.message.match(/Foo/)
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>You might think this will cause Vue to throw away the existing DOM and re-render the entire list - <i>luckily</i>, this is not the case.</p>
+            <p><span class='glyphicon-remove'></span>Vue implements some smart heuristics to maximize DOM elemet reuse, so replacing an array with another array containing overlapping objects is a very efficient operation.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Caveats</h3>
+            <p><span class='glyphicon-remove'></span>Due to limitations in JavaScript, Vue <b>cannot</b> detect the following changes to an array:
+                <br> &nbsp; 1. When you directly set an item with the index, e.g. <code>vm.items[indexOfItem] = newValue</code>
+                <br> &nbsp; 2. When you modify the length of the array, e.g. <code>vm.items.length = newLength</code></p>
+            <p><span class='glyphicon-remove'></span>To overcome caveat 1, both of the following will accomplish the same as <code>vm.items[indexOfItem] = newValue</code>, but will also trigger state updates in the reactivity system:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// Vue.set
+            Vue.set(example1.items, indexOfItem, newValue)
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// Array.prototype.splice
+            example1.items.splice(indexOfItem, 1, newValue)
+            </pre>
+            <p><span class='glyphicon-remove'></span>To deal with caveat 2, you can use <code>splice</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>example1.items.splice(newLength)
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Object Change Detection Caveats</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Again, due to limitations of modern JavaScript, <b>Vue cannot detect property addition or deletion</b>. For example:
+            <pre>
+            <span class='glyphicon-remove'></span>var vm = new Vue({
+                data: {
+                    a: 1
+                }
+            })          // vm.a is now reactive
+
+            vm.b = 2    //vm.b is NOT reactive
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Vue does not allow dynamically adding new root-level reactive properties to an already created instance.
+            <p><span class='glyphicon-remove'></span>However, it's possible to add reactive properties to a nested object using the <code>Vue.set(object, key, value)</code> method. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var vm = new Vue({
+                data: {
+                    userProfile: {
+                        name: 'Gabe'
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>You could add a new <code>age</code> property to the nested <code>userProfile</code> object with:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.set(vm.userProfile, 'age', 27)
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can also use the <code>vm.$set</code> instance method, which is just an alias for the global <code>Vue.set</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>this.$set(this.userProfile, 'age', 27)
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Sometimes you may want to assign a number of new properties to an existing object, for example, using <code>Object.assign()</code> or <code>_.extend()</code>.
+            <p><span class='glyphicon-remove'></span>In such cases, you should create a fresh object with properties from both objects. So instead of:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Object.assign(this.userProfile, {
+                age: 27,
+                favoriteColor: 'Vue Green'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>You would add a new, reactive properties with:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>this.userProfile = Object.assign({}, this.userProfile, {
+                age: 27,
+                favoriteColor: 'Vue Green'
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Displaying Filtered/Sorted Results</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Sometimes we want to display a filtered or sorted version of an array without actually mutating or resetting the original data.
+            <p><span class='glyphicon-remove'></span>In this case, you can create a computed property that returns the filtered or sorted array. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;li v-for="n in evenNumbers">{{ n }}&lt;/li>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            computed: {
+                evenNumbers: function() {
+                    return this.numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>In situations where computed properties are not feasible (e.g. inside nested <code>v-for</code> loops), you can just use a method:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;li v-for="n in even(numbers)">{{ n }}&lt;/li>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>data: {
+                numbers: [1, 2, 3, 4, 5]
+            },
+            methods: {
+                even: function(numbers) {
+                    return numbers.filter(function (number) {
+                        return number % 2 === 0
+                    })
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2><code>v-for</code> with a Range</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <code>v-for</code> can also take an integer. 
+            <p><span class='glyphicon-remove'></span>In this case, it will repeat the template that many times.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div>
+                &lt;span v-for="n in 10">{{ n }}&lt;/span>
+            &lt;/div>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2><code>v-for</code> on a <code>&lt;template></code></h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Similar to template <code>v-if</code>, you can also use a <code>&lt;template></code> tag with <code>v-for</code> to render a block of multiple elements. For example:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ul>
+                &lt;template v-for="item in items">
+                    &lt;li>{{ item.msg }}&lt;/li>
+                    &lt;li class="divider">&lt;/li>
+                &lt;/template>
+            &lt;/ul>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2><code>v-for</code> with <code>v-if</code></h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When they exist on the same node, <code>v-for</code> has a higher priority than <code>v-if</code>.
+            <p><span class='glyphicon-remove'></span>This means the <code>v-if</code> will be run on each iteration of the loop separately.</p>
+            <p><span class='glyphicon-remove'></span>This can be useful when you want to render nodes for only <i>some</i> items, like below:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;li v-for"todo in todos" v-if="!todo.isComplete">
+                {{ todo }}
+            &lt;/li>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This only renders the todos that are not complete.</p>
+            <p><span class='glyphicon-remove'></span>If instead, your intent is to conditionally skip execution of a loop, you can place the <code>v-if</code> on a wrapper element (or <code>&lt;template>)</code>. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ul v-if="todos.length">
+                &lt;li v-for="todo in todos">
+                    {{ todo }}
+                &lt;/li>
+            &lt;/ul>
+            &lt;p v-else>No todos left!&lt;/p>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='9'>
+    <h2><code>v-for</code> with a Component</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You can directly use <code>v-for</code> on a custom component, like any normal element:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component v-for="item in items" :key="item.id">&lt;/my-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - When using <code>v-for</code> with a component, a <code>key</code> is now required.</p>
+            <p><span class='glyphicon-remove'></span>However, this won't automatically pass any data to the component, because components have isolated scopes of their own.</p>
+            <p><span class='glyphicon-remove'></span>In order to pass the iterated data into the component, we should also use props:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component
+                v-for="(item, index) in items"
+                v-bind:item="item"
+                v-bind:index="index"
+                v-bind:key="item.id"    
+            >&lt;/my-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The reason for not automatically injecting <code>item</code> into the component is because that makes the component tightly coupled to how <code>v-for</code> works.</p>
+            <p><span class='glyphicon-remove'></span>Being explicit about where its data comes from makes the component reusable in other situations.</p>
+            <p><span class='glyphicon-remove'></span>Here's a complete example of a simple todo list:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="todo-list-example">
+                &lt;input 
+                    v-model="newTodoText"
+                    v-on:keyup.enter="addNewTodo"
+                    placeholder="Add a todo"
+                >
+                &lt;ul>
+                    &lt;li 
+                    is="todo-item"
+                    v-for="(todo, index) in todos"
+                    v-bind:key="todo.id"
+                    v-bind:title="todo.title"
+                    v-on:remove="todos.splice(index, 1)"
+                >&lt;/li>
+                &lt;/ul>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - the <code>is="todo-item"</code> attribute is necesary in DOM templates, because only an <code>&lt;li></code> element is valid inside a <code>&lt;ul></code>. It does the same thing as <code>&lt;todo-item></code>, but works around a potential browser parsing error.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('todo-item', {
+                template: '\
+                    &lt;li>\
+                        {{ title }}\
+                        &lt;button v-on:click="$emit(\'remove\')">X&lt;/button>\
+                    &lt;/li>\
+                ',
+                props: ['title']
+            })
+
+            new Vue({
+                el: '#todo-list-example',
+                data: {
+                    newTodoText: '',
+                    todos: [
+                        {
+                            id: 1,
+                            title: 'Do the dishes',
+                        },
+                        {
+                            id: 2,
+                            title: 'Take out the trash',
+                        },
+                        {
+                            id: 3,
+                            title: 'Mow the lawn'
+                        }
+                    ],
+                    nextTodoId: 4
+                },
+                methods: {
+                    addNewTodo: function() {
+                        this.todo.push({
+                            id: this.nextTodoId++,
+                            title: this.newTodoText
+                        })
+                        this.newTodoText = ''
+                    }
+                }
+            })
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>

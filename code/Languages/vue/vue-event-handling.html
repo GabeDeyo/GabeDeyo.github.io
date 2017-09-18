@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js - Event Handling</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Listening to Events</a></li>
+          <li><a href='#1'>Event Handlers</a></li>
+          <li><a href='#2'>Inline Handlers</a></li>
+          <li><a href='#3'>Event Modifiers</a></li>
+          <li><a href='#4'>Key Modifiers</a></li>
+          <li><a href='#5'>Modifier Keys</a></li>
+          <li><a href='#6'>Listeners in HTML?</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Vue.js - Event Handling</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Listening to Events</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Method Event Handlers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Methods in Inline Handlers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Event Modifiers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Key Modifiers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Modifier Keys</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Why Listeners in HTML?</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Listening to Events</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            We can use the <code>v-on</code> directive to listen to DOM events and run some JavaScript when they're triggered. For example:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-1">
+                &lt;button v-on:click="counter += 1">Add 1&lt;/button>
+                &lt;p>The button above has been clicked {{ counter }} times.&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>var example1 = new Vue({
+                el: '#example-1',
+                data: {
+                    counter: 0
+                }
+            })
+            </pre>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Method Event Handlers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The logic for many event handlers will be more complex though, so keeping your JavaScript in the value of the <code>v-on</code> attribute simply isn't feasible.
+            <p><span class='glyphicon-remove'></span>That's why <code>v-on</code> can also accept the name of a method you'd like to call.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-2">
+                &lt;button v-on:click="greet">Greet&lt;/button>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>var example2 = new Vue({
+                el: '#example-2',
+                data: {
+                    name: 'Gabe'
+                },
+                methods: {
+                    greet: function(event) {
+                        alert('Hello ' + this.name + '!')
+                        if(event) {
+                            alert(event.target.tagName)
+                        }
+                    }
+                }
+            })
+
+            example2.greet() // 'Hello Gabe!'
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Methods in Inline Handlers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Instead of binding directly to a method name, we can also use methods in an inline JavaScript statement:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-3">
+                &lt;button v-on:click="say('hi')">Say Hi&lt;/button>
+                &lt;button v-on:click="say('what?')">Say What?&lt;/button>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#example-3',
+                methods: {
+                    say: function (message) {
+                        alert(message)
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Sometimes we also need to access the original DOM event in an inline statement handler. You can pass it into a method using the special <code>$event</code> variable:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit&lt;/button>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// ...
+            methods: {
+                warn: function(message, event) {
+                    // now we have access to the native event
+                    if(event) event.preventDefault()
+                    alert(message)
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Event Modifiers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            It is a very common need to call <code>event.preventDefault()</code> or <code>event.stopPropagation()</code> inside event handlers.
+            <p><span class='glyphicon-remove'></span>Although we can do this easily inside methods, it would be better if the methods can be purely about data logic rather than having to deal with DOM event details.</p>
+            <p><span class='glyphicon-remove'></span>To address this problem, Vue provides <b>event modifiers</b> for <code>v-on</code>.</p>
+            <p><span class='glyphicon-remove'></span>Recall that modifiers are directive postfixes denoted by a dot.
+                <br> &nbsp; &bull; <code>.stop</code>
+                <br> &nbsp; &bull; <code>.prevent</code>
+                <br> &nbsp; &bull; <code>.capture</code>
+                <br> &nbsp; &bull; <code>.self</code>
+                <br> &nbsp; &bull; <code>.once</code></p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- the click event's propagation will be stoped -->
+            &lt;a v-on:click.stop="doThis">&lt;/a>
+
+            &lt;!-- the submit event will no longer reload the page -->
+            &lt;form v-on:submit.prevent="onSubmit">&lt;/form>
+
+            &lt;!-- modifiers can be chained -->
+            &lt;a v-on:click.stop.prevent="doThat">&lt;/a>
+
+            &lt;!-- just the modifier -->
+            &lt;form v-on:submit.prevent>&lt;/form>
+
+            &lt;!-- use capture mode when adding the event listener -->
+            &lt;!-- i.e. an event targeting an inner element is handled here before handled by that element -->
+            &lt;div v-on:click.capture="doThis">&lt;/div>
+
+            &lt;!-- only trigger handler if event target is the element itself -->
+            &lt;!-- i.e. not from a child element -->
+            &lt;div v-on:click.self="doThat">&lt;/div>
+
+            &lt;!-- the click event will be triggered at most once -->
+            &lt;a v-on:click.once="doThis">&lt;/a>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - Order matters when using modifiers because the relevant code is generated in the same order. Therefore using <code>@click.prevent.self</code> will prevent <b>all clicks</b> while <code>@click.self.prevent</code> will only prevent clicks on the element itself.</p>
+            <p><span class='glyphicon-remove'></span>Unlike the other modifiers, which are exclusive to the native DOM elements, the <code>.once</code> modifier can also be used on <b>component events</b>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Key Modifiers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When listening for keyboard events, we often need to check for common key codes.
+            <p><span class='glyphicon-remove'></span>Vue also allows adding key modifiers for <code>v-on</code> when listening for key events:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- only call vm.submit() when the keyCode is 13 -->
+            &lt;input v-on:keyup.13="submit">
+            </pre>
+            <p><span class='glyphicon-remove'></span>Remembering all the keyCodes is a hassle, so Vue provides aliases for the most commonly used keys:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- same as above -->
+            &lt;input v-on:keyup.enter="submit">
+
+            &lt;!-- also works for shorthand -->
+            &lt;input @keyup.enter="submit">
+            </pre>
+            <p><span class='glyphicon-remove'></span>Here's the full list of key modifier aliases:
+                <br> &nbsp; &bull; <code>.enter</code>
+                <br> &nbsp; &bull; <code>.tab</code>
+                <br> &nbsp; &bull; <code>.delete</code> (captures both "Delete" and "Backspace")
+                <br> &nbsp; &bull; <code>.esc</code>
+                <br> &nbsp; &bull; <code>.space</code>
+                <br> &nbsp; &bull; <code>.up</code>
+                <br> &nbsp; &bull; <code>.down</code>
+                <br> &nbsp; &bull; <code>.left</code>
+                <br> &nbsp; &bull; <code>.right</code></p>
+            <p><span class='glyphicon-remove'></span>You can also <b>define custom key modifier aliases</b> via the global <code>config.keyCode</code> object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// enable v-on:keyup.f1
+            Vue.config.keycodes.f1 = 112
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Modifier Keys</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You can use the following modifiers to trigger mouse or keyboard event listeners only when the corresponsing modifier key is pressed:
+                <br> &nbsp; &bull; <code>.ctrl</code>
+                <br> &nbsp; &bull; <code>.alt</code>
+                <br> &nbsp; &bull; <code>.shift</code>
+                <br> &nbsp; &bull; <code>.meta</code>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- Alt + C -->
+            &lt;input @keyup.alt.67="clear">
+
+            &lt;!-- Ctrl + Click -->
+            &lt;div @click.ctrl="doSomething">Do something&lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - modifier keys are different from regular keys and when used with <code>keyup</code> events, they have to be pressed when the event is emitted. In other words, <code>keyup.ctrl</code> will only trigger if you release a key while holding down <code>ctrl</code>. It won't trigger if you release the <code>ctrl</code> key alone.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Mouse Button Modifiers</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>These modifiers restrict the handler to events triggered by a specific mouse button:
+                <br> &nbsp; &bull; <code>.left</code>
+                <br> &nbsp; &bull; <code>.right</code>
+                <br> &nbsp; &bull; <code>.middle</code>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Why Listeners in HTML?</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You might be concerned that this whole event listening approach violates the good old rules about "separation of concerns".
+            <p><span class='glyphicon-remove'></span>Rest assured - since all Vue handler functions and expressions are strictly bound to the ViewModel that's handling the current vew, it won't cause any maintenance difficulty. In fact, there are several benefits in using <code>v-on</code>:</p>
+            <p><span class='glyphicon-remove'></span>1. It's easier to locate the handler function implementations within your JS code by simply skimming the HTML template.</p>
+            <p><span class='glyphicon-remove'></span>2. Since you don't have to manually attach event listeners in JS, your ViewModel code can be pure logic and DOM-free. This makes it easier to test.</p>
+            <p><span class='glyphicon-remove'></span>When a ViewModel is destroyed, all event listeners are automatically removed. You don't need to worry about cleaning it up yourself.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

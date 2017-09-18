@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>CSS3 - W3Schools</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href='#1'>Syntax &amp; Selectors</a></li>
+          <li><a href='#2'>How to Use</a></li>
+          <li><a href='#3'>Colors</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">CSS3 - W3Schools</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Syntax &amp; Selectors</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>How to Use</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Colors</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            CSS is a language that describes the style of an HTML document.
+            <p><span class='glyphicon-remove'></span>CSS describes how HTML elements should be displayed.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>What is CSS?</h3>
+            <p><span class='glyphicon-remove'></span>CSS stands for <b>C</b>ascading <b>S</b>tyle <b>S</b>heets</p>
+            <p><span class='glyphicon-remove'></span>CSS describes <b>how HTML elements are to be displayed on screen, paper, or in other media</b></p>
+            <p><span class='glyphicon-remove'></span>CSS can control the layout of multiple web pages all at once.</p>
+            <p><span class='glyphicon-remove'></span>External stylesheets are stored in <b>.css files</b></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Why CSS?</h3>
+            <p><span class='glyphicon-remove'></span>CSS is used to define styles for your web pages, including the design, layout and variations in display for different devices and screen sizes.</p>
+            <p><span class='glyphicon-remove'></span>HTML was NEVER intended to contain tags for formatting a web page!</p>
+            <p><span class='glyphicon-remove'></span>HTML was created to <b>describe content </b>of a web page.</p>
+            <p><span class='glyphicon-remove'></span>When tags like &lt;font> and color attributes were added to the HTML 3.2 specification, it started a nightmare for web devs.
+                <br> &nbsp; &bull; Development of large websites, where fonts and color information were added to every single page, became long and expensive processes.</p>
+            <p><span class='glyphicon-remove'></span>To solve the problem, the World Wide Web Consortium (W3C) created CSS.
+                <br> &nbsp; &bull; This resulted in the removal of style formatting from the HTML page.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Syntax &amp; Selectors</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Syntax</h3>
+            <p><span class='glyphicon-remove'></span>A CSS rule-set consists of a selector and a declaration block:
+                <br> &nbsp; &bull; The <b>selector</b> points to the HTML element you want to style.
+                <br> &nbsp; &bull; The <b>declaration block</b> contains one or more declarations separated by semicolons.
+                <br> &nbsp; &bull; Each declaration includes a CSS property name and a value, separated by a colon.</p>
+            <p><span class='glyphicon-remove'></span>A CSS declaration always ends with a semicolon, and declaration blocks are surrounded by curly braces.</p>
+            <p><span class='glyphicon-remove'></span>In this example, all &lt;p> elements will be center-aligned, with a red text color:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>p {
+                color: red;
+                text-align: center;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Selectors</h3>
+            <p><span class='glyphicon-remove'></span>cSS selectors are used to "find" HTML elements based on their element name, id, class, attribute, and more.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Elements Selector</h3>
+            <p><span class='glyphicon-remove'></span>The element selector selects elements based on the element name.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>p {
+                color: red;
+                text-align: center;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Id Selector</h3>
+            <p><span class='glyphicon-remove'></span>The id selector uses the id attribute of an HTML element to select a specific element.</p>
+            <p><span class='glyphicon-remove'></span>The id of an element should be unique within a page, so the id selector is used to select one unique element.</p>
+            <p><span class='glyphicon-remove'></span>To select an element with a specific id, write a hash (#) character, followed by the id of the element.</p>
+            <p><span class='glyphicon-remove'></span>The style rule below will be applied to the HTML element with id="para1":</p>
+            <pre>
+            <span class='glyphicon-remove'></span>#para1 {
+                text-align: center;
+                color: red;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - An id name cannot start with a number.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Class Selector</h3>
+            <p><span class='glyphicon-remove'></span>The class selector selects elements with a specific class attribute.</p>
+            <p><span class='glyphicon-remove'></span>To select elements with a specific class, write a period (.) character, followed by the name of the class.</p>
+            <p><span class='glyphicon-remove'></span>In this example, all HTML elements with class="center" will be red and center-aligned:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>.center {
+                text-align: center;
+                color: red;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can also specify that only specific HTML elements should be affected by a class.</p>
+            <p><span class='glyphicon-remove'></span>In this example, only &lt;p> elements with class="center" will be center-aligned:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>p.center {
+                text-aligne: center;
+                color: red;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>HTML elements can also refer to more than one class.</p>
+            <p><span class='glyphicon-remove'></span>In this example, the &lt;p> element will be styled according to class="center" and to class="large":</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p class="center large"> this paragraph refers to two classes.&lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - A class name cannot start with a number.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Grouping Selectors</h3>
+            <p><span class='glyphicon-remove'></span>If you have elements with the same style definitions, like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>h1 {
+                text-align: center;
+                color: red;
+            }
+            
+            h2 {
+                text-align: center;
+                color: red;
+            }
+            
+            p {
+                text-align: center;
+                color: red;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It will be better to group the selectors, to minimize the code.</p>
+            <p><span class='glyphicon-remove'></span>To group selectors, separate each selector with a comma.</p>
+            <p><span class='glyphicon-remove'></span>In the example below, we have grouped the selectors from the code above:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>h1, h2, p {
+                text-align: center;
+                color: red;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Comments</h3>
+            <p><span class='glyphicon-remove'></span>Comments are used to exaplain code, and may help you when you edit the source code at a later date.</p>
+            <p><span class='glyphicon-remove'></span>Comments are ignored by browsers.</p>
+            <p><span class='glyphicon-remove'></span>A CSS comment starts with /* and ends with */. They can span multiple lines.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>How to Use</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There are three ways to insert a style sheet:
+                <br> &nbsp; &bull; External style sheet
+                <br> &nbsp; &bull; Internal style sheet
+                <br> &nbsp; &bull; Inline style
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>External Style Sheet</h3>
+            <p><span class='glyphicon-remove'></span>With an external style sheet, you can change the look of an entire website by changing just one file.</p>
+            <p><span class='glyphicon-remove'></span>Each page must include a reference to the external style sheet file inside the &lt;link> element. The &lt;link> element goes inside the head section:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;head>
+                &lt;link rel="stylesheet" type="text/css" href="mystyle.css">
+            &lt;/head>
+            </pre>
+            <p><span class='glyphicon-remove'></span>An external style sheet can be written in any text editor.</p>
+            <p><span class='glyphicon-remove'></span>The file name should not contain any html tags.</p>
+            <p><span class='glyphicon-remove'></span>The style sheet must be saved with a .css extension.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Internal Style Sheet</h3>
+            <p><span class='glyphicon-remove'></span>An internal style sheet may be used if one single page has a unique style.</p>
+            <p><span class='glyphicon-remove'></span>Internal styles are defined within the &lt;style> element, inside the &lt;head> section of an HTML page:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;head>
+                &lt;style>
+                    &lt;!-- Styles here -->
+                &lt;/style>
+            &lt;/head>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Inline Styles</h3>
+            <p><span class='glyphicon-remove'></span>An inline style may be used to apply a unique stle for a single element.</p>
+            <p><span class='glyphicon-remove'></span>To use inline styles, add the style attribute to the relevent element.
+                <br> &nbsp; &bull; The style attribute can contain any CSS property.</p>
+            <p><span class='glyphicon-remove'></span>This example shows how to change the color and the left margin of a &lt;h1> element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;h1 style="color: blue; margin-left: 30px;">This is a heading&lt;/h1>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - An inline style loses many of the advantages of a style sheet (by mixing content with presentation). Use this method sparingly.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Multiple Style Sheets</h3>
+            <p><span class='glyphicon-remove'></span>If some properties have been defined for the same selector in different style sheets, the value from the last style sheet will be used.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Cascading Order</h3>
+            <p><span class='glyphicon-remove'></span>What style will be used when there is more than one style specified for an HTML element?</p>
+            <p><span class='glyphicon-remove'></span>Generally speaking we can say that all the styles will "cascade" into a new "virtual" style sheet by the following rules, where number one has the highest priority:
+                <br> &nbsp; 1. Inline style (inside an HTML element)
+                <br> &nbsp; 2. External and internal style sheets (in head section)
+                <br> &nbsp; 3. Browser default</p>
+            <p><span class='glyphicon-remove'></span>So, an inline style (inside a specific HTML element) has the highest priority, which means that it will override a style defined inside the &lt;head> tag, or in an external style sheet, or a browser default value.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Colors</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Colors in CSS are most often specified by:
+                <br> &nbsp; &bull; a valid color name - like 'red'
+                <br> &nbsp; &bull; an RGB value - like 'rgb(255, 0, 0)'
+                <br> &nbsp; &bull; a HEX value - like '#ff0000'
+            <p><span class='glyphicon-remove'></span>Color names are not case-sensitive: "Red" is the same as "red" or "RED"</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>RGB (Red, Green, Blue)</h3>
+            <p><span class='glyphicon-remove'></span>RGB color values can be specified using this formula: rgb(red, green, blue)</p>
+            <p><span class='glyphicon-remove'></span>Each parameter defines the intensity of the color between 0 and 255.</p>
+            <p><span class='glyphicon-remove'></span>Shades of grey are often defined using <b>equal</b> values for all the 3 light sources.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Hexadecimal Colors</h3>
+            <p><span class='glyphicon-remove'></span>RGB values can also be specified using <b>hexadecimal</b> color values in the form: #RRGGBB, where RR(red), GG(green), BB(blue) are hexadecimal values between 00 and FF (same as decimal 0-255)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
