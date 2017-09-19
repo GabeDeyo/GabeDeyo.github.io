@@ -98,6 +98,9 @@
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
           <li><a href="#0">Basic Usage</a></li>
+          <li><a href='#1'>Value Bindings</a></li>
+          <li><a href='#2'>Modifiers</a></li>
+          <li><a href='#3'>v-model - Components</a></li>
         </ul>
     </aside>
 
@@ -115,6 +118,18 @@
                                 <a href="#0">Basic Usage</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Value Bindings</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Modifiers</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'><code>v-model</code> with Components</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -122,10 +137,235 @@
     <h2>Basic Usage</h2>
     <ul>
         <li><p><span class="glyphicon-remove"></span>
-            
+            You can use the <code>v-model</code> directive to create two-way data bindings on form input and textarea elements.
+            <p><span class='glyphicon-remove'></span>It automatically picks the correct way to update the element basaed on the input type.</p>
+            <p><span class='glyphicon-remove'></span>Although a bit magical, <code>v-model</code> is essentially syntax sugar for updating data on user input events, plus special care for some edge cases.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Warning</b> - <code>v-model</code> will ignore the initial <code>value</code>, <code>checked</code> or <code>selected</code> attributes found on any form elements. It will always treat the Vue instance data as the source of truth. You should declare the initial value on the JavaScript side, inside the data option of your component.
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - For languages that require an <b>IME</b> (Chinese, Japanese, Korean, etc.), you'll notice that <code>v-model</code> doesn't get updated during IME composition. If you want to cater for those updates as well, use <code>input</code> event instead.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Text</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input v-model="message" placeholder="edit me">
+            &lt;p>Message is: {{ message }}&lt;/p>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Multiline text</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;span>Multiline message is:&lt;/span>
+            &lt;p style="white-space: pre-line">{{ message }}&lt;/p>
+            &lt;br>
+            &lt;textarea v-model="message" placeholder="add multiple lines">&lt;/textarea>
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Interpolation on textareas (<code>&lt;textarea>{{text}}&lt;/textarea></code>) won't work. Use <code>v-model</code> instead.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Checkbox</h3>
+            <p><span class='glyphicon-remove'></span>Single checkbox, boolean value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input type="checkbox" id="checkbox" v-model="checked">
+            &lt;label for="checkbox">{{ checked }}&lt;/label>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Multiple checkboxes, bound to the same Array:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-3">
+                &lt;input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+                &lt;label for="jack">Jack&lt;/label>
+                &lt;input type="checkbox" id="john" value="John" v-model="checkedNames">
+                &lt;label for="john">John&lt;/label>
+                &lt;input type="checkbox" id="mike" value="mike" v-model="checkedNames">
+                &lt;label for="mike">Mike&lt;/label>
+                &lt;br>
+                &lt;span>Checked names: {{ checkedNames }}&lt;/span>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#example-3',
+                data: {
+                    checkedNames: []
+                }
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Radio</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input type="radio" id="one" value="One" v-model="picked">
+            &lt;label for="one">One&lt;/label>
+            &lt;br>
+            &lt;input type="radio" id="two" value="Two" v-model="picked">
+            &lt;label for="two">Two&lt;/label>
+            &lt;br>
+            &lt;span>Picked: {{ picked }}&lt;/span>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Select</h3>
+            <p><span class='glyphicon-remove'></span>Single select:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select v-model="selected">
+                &lt;option disabled value="">Please select one&lt;/option>
+                &lt;option>A&lt;/option>
+                &lt;option>B&lt;/option>
+                &lt;option>C&lt;/option>
+            &lt;/select>
+            &lt;span>Selected: {{ selected }}&lt;/span>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '...',
+                data: {
+                    selected: ''
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - If the initial value of your <code>v-model</code> expression does not match any of the options the <code>&lt;select></code> element will render in an "unselected" state. On iOS this will cause the user not being able to select the first item because iOS does not fire a change event in this case. It is therefore recommended to provide a disabled option with an empty value, as demonstrated in the example above.</p>
+            <p><span class='glyphicon-remove'></span>Multiple select (bound to Array):</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select v-model="selected" multiple>
+                &lt;option disabled value="">Please select one&lt;/option>
+                &lt;option>A&lt;/option>
+                &lt;option>B&lt;/option>
+                &lt;option>C&lt;/option>
+            &lt;/select>
+            &lt;br>
+            &lt;span>Selected: {{ selected }}&lt;/span>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Dynamic options rendered with <code>v-for</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select v-model="selected">
+                &lt;option v-for="option in options" v-bind:value="option.value">
+                    {{ option.text }}
+                &lt;/option>
+            &lt;/select>
+            &lt;span>Selected: {{ selected }}&lt;/span>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '...',
+                data: {
+                    selected: 'A',
+                    options: [
+                        { text: 'One', value: 'A' },
+                        { text: 'Two', value: 'B' },
+                        { text: 'Three', value: 'C' }
+                    ]
+                }
+            })
+            </pre>
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Value Bindings</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            For radio, checkbox and select options, the <code>v-model</code> binding values are usually static strings (or booleans for checkboxes):
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- 'picked' is a string "a" when checked -->
+            &lt;input type="radio" v-model="picked" value="a">
+
+            &lt;!-- 'toggle' is either true or false -->
+            &lt;input type="checkbox" v-model="toggle">
+
+            &lt;!-- 'selected' is a string "abc" when selected -->
+            &lt;select v-model="selected">
+                &lt;option value="abc">ABC&lt;/option>
+            &lt;/selected>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Checkbox</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input 
+                type="checkbox"
+                v-model="toggle"
+                v-bind:true-value="a"
+                v-bind:false-value="b"
+            >
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// when checked:
+            vm.toggle === vm.a
+
+            // when unchecked:
+            vm.toggle === vm.b
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Radio</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input type="radio" v-model="pick" v-bind:value="a">
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// when checked
+            vm.pick === vm.a
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Select Options</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;select v-model="selected">
+                &lt;option v-bind:value="{ number: 123 }">123&lt;/option>
+            &lt;/select>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// when selected
+            typeof vm.selected // 'object'
+            vm.selected.number // 123
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Modifiers</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>.lazy</h3>
+            <p><span class='glyphicon-remove'></span>By default, <code>v-model</code> syncs the input with the data after each <code>input</code> event (with the exception of IME composition).</p>
+            <p><span class='glyphicon-remove'></span>You can add the <code>lazy</code> modifier to instead sync after <code>change</code> events:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- synced after 'change' instead of 'input' -->
+            &lt;input v-model.lazy="msg" >
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>.number</h3>
+            <p><span class='glyphicon-remove'></span>If you want user input to be automatically typecast as a number, you can add the <code>number</code> modifier to your <code>v-model</code> managed inputs:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input v-model.number="age" type="number">
+            </pre>
+            <p><span class='glyphicon-remove'></span>This is often useful, because even with <code>type="number"</code>, the value of HTML input elements always returns a string.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>.trim</h3>
+            <p><span class='glyphicon-remove'></span>If you want user input to be trimmed automatically, you can add the <code>trim</code> modifier to your <code>v-model</code> managed inputs:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input v-model.trim="msg">
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2><code>v-model</code> with Components</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            HTML's built-in input types won't always meet your needs.
+            <p><span class='glyphicon-remove'></span>Fortunately, Vue components allow you to build reusable inputs with competely customized behavior.</p>
+            <p><span class='glyphicon-remove'></span>These inputs even work with <code>v-model</code>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

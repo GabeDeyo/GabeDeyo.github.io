@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vue.js - Components</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../../../game/Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../../../game/Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../../../game/Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">What are Components?</a></li>
+          <li><a href='#1'>Using Components</a></li>
+          <li><a href='#2'>Props</a></li>
+          <li><a href='#3'>Non-Prop Attributes</a></li>
+          <li><a href='#4'>Custom Events</a></li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Vue.js - Components</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">What are Components?</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Using Components</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Props</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Non-Prop Attributes</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Custom Events</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>What are Components?</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            Components are one of the most powerful features of Vue.
+            <p><span class='glyphicon-remove'></span>They help you extend basic HTML elements to encapsulate reusable code.</p>
+            <p><span class='glyphicon-remove'></span>At a high level, components are custom elements that Vue's compiler attaches behavior to.</p>
+            <p><span class='glyphicon-remove'></span>In some cases, they may also appear as a native HTML element extended with the special <code>is</code> attribute.</p>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Using Components</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Registration</h3>
+            <p><span class='glyphicon-remove'></span>We've learned in previous sections that we can create a new Vue instance with:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#some-element',
+                //options
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>To register a global component, you can use <code>Vue.component(tagName, options)</code>. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('my-component', {
+                //options
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Note that Vue does not enforce the W3C rules for custom tag names (all-lowercase, must contain a hyphen) though following this convention is considered good practice.</p>
+            <p><span class='glyphicon-remove'></span>Once registered, a component can be used in an instances' template as a custom element, <code>&lt;my-component>&lt;/my-component></code>.</p>
+            <p><span class='glyphicon-remove'></span>Make sure the component is registered <b>before</b> you instantiate the root Vue instance. Like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example">
+                &lt;my-component>&lt;/my-component>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// register
+            Vue.component('my-component', {
+                template: '&lt;div>Acustom component!&lt;/div>'
+            })
+
+            // create a root instance
+            new Vue({
+                el: '#example'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Which will render:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example">
+                &lt;div>A custom component!&lt;/div>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Local Registration</h3>
+            <p><span class='glyphicon-remove'></span>You don't have to register every component globally.</p>
+            <p><span class='glyphicon-remove'></span>You can make a component available only in the scope of another instance/component by registering it with the <code>components</code> instance option:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var Child = {
+                tempalte: '&lt;div>A custom component!&lt;/div>'
+            }
+
+            new Vue({
+                //...
+                components: {
+                    // &lt;my-component> will only be available in parent's tempalte
+                    'my-component': Child
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The same encapsulation applies for other registerable Vue features, such as directives.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>DOM Template Parsing Caveats</h3>
+            <p><span class='glyphicon-remove'></span>When using the DOM as your tempalte (e.g. using the <code>el</code> option to mount an element with existing content), you will be subject to some restrictions that are inherent to how HTML works, because Vue can only retrieve the template content <b>after</b> the browser has parsed and normalized it.</p>
+            <p><span class='glyphicon-remove'></span>Most notably, some lements such as <code>&lt;ul></code>, <code>&lt;ol></code>, <code>&lt;table></code> and <code>&lt;select></code> have restrictions on what elements can appear inside them, and some elements such as <code>&lt;option></code> can only appear inside certain other elements.</p>
+            <p><span class='glyphicon-remove'></span>This will lead to issues when using custom components with elements that have such restrictions, for example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;my-row>...&lt;/my-row>
+            &lt;/table>
+            </pre>
+            <p><span class='glyphicon-remove'></span>A custom component <code>&lt;my-row></code> will be hoisted out as invalid content, thus causing errors in the eventual rendered output. A workaround is to use the <code>is</code> special attribute:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;table>
+                &lt;tr id="my-row>&lt;/tr>
+            &lt;/table>
+            </pre>
+            <p><span class='glyphicon-remove'></span>It should be <b>noted</b> that these limitations do not apply if you are using string templates from one of the following sources:
+                <br> &nbsp; &bull; <code>&lt;script type="text/x-template"></code>
+                <br> &nbsp; &bull; JavaScript inline template strings
+                <br> &nbsp; &bull; <code>.vue</code> components</p>
+            <p><span class='glyphicon-remove'></span>Therefore, prefer using string templates whenever possible.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3><code>data</code> Must be a Function</h3>
+            <p><span class='glyphicon-remove'></span>Most of the options that can be passed into the Vue constructor can be used in a component, with one special case: <code>data</code> must be a function.</p>
+            <p><span class='glyphicon-remove'></span>In fact, if you try like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('my-component', {
+                template: '&lt;span>{{ message }}&lt;/span>',
+                data: {
+                    message: 'hello'
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then Vue will halt and emit warnings in the console, telling you that <code>data</code> must be a function for component instances.</p>
+            <p><span class='glyphicon-remove'></span>It's good to understand why the rules exist though, so let's cheat.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-2">
+                &lt;simple-counter>&lt;/simplecounter>
+                &lt;simple-counter>&lt;/simplecounter>
+                &lt;simple-counter>&lt;/simplecounter>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>var data = { counter: 0 }
+
+            Vue.component('simple-counter', {
+                template: '&lt;button v-on:click="counter += 1">{{ counter }}&lt;/button>',
+                // data is technically a function, so Vue won't complain,
+                // but we return the same object reference for each component instance.
+                data: function() {
+                    return data
+                }
+            })
+
+            new Vue({
+                el: '#example-2'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Since all three component instances share the same <code>data</code> object, incrementing one counter increments them all!</p>
+            <p><span class='glyphicon-remove'></span>Let's fix this by instead returning a fresh data object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>data: function() {
+                return {
+                    counter: 0
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Now all our counters each have their own internal state:</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Composing Components</h3>
+            <p><span class='glyphicon-remove'></span>Components are meant to be used together, most commonly in parent-child relationships: 
+                <br> &nbsp; component A may use component B in its own template.</p>
+            <p><span class='glyphicon-remove'></span>They inevitably need to communicate to one another:
+                <br> &nbsp; the parent may need to pass data down to the child, and the child may need to inform the parent of something that happened in the child.</p>
+            <p><span class='glyphicon-remove'></span>However, it is also very important to keep the parent and the child as decoupled as possible via a clearly-defined interface.</p>
+            <p><span class='glyphicon-remove'></span>This ensures each component's code can be written and reasoned about in relative isolation, thus making them more maintainable and potentially easier to reuse.</p>
+            <p><span class='glyphicon-remove'></span>In Vue, the parent-child component relationship can be summarized as <b>props down</b>, <b>events up</b>.</p>
+            <p><span class='glyphicon-remove'></span>The parent passes data down to the child via <b>props</b>, and the child sends messages to the parent via <b>events</b>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Props</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Passing Data with Props</h3>
+            <p><span class='glyphicon-remove'></span>Every component instance has its own <b>isolated scope</b>.</p>
+            <p><span class='glyphicon-remove'></span>This means you cannot (and should not) directly reference parent data in a child component's template.</p>
+            <p><span class='glyphicon-remove'></span>Data can be passed down to a child component using <b>props</b>.</p>
+            <p><span class='glyphicon-remove'></span>A <b>prop</b> is a custom attribute for passing information from parent components.</p>
+            <p><span class='glyphicon-remove'></span>A child component needs to explicitly declare the props it expects to receive using the <code>props</code> option:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('child', {
+                // declare the props
+                props: ['message'],
+                // just like data, the prop can be used inside templates
+                // and is also made available in the vm as this.message
+                template: '&lt;span>{{ message }}&lt;/span>'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then we can pass a plain string to it like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;child message="hello!">&lt;/child>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>camelCase vs. kebab-case</h3>
+            <p><span class='glyphicon-remove'></span>HTML attributes are case-insensitive, so when using non-string templates, camelCased prop names need to use their kebab-case equivalents:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('child', {
+                //camelCase in JavaScript
+                props: ['myMessage'],
+                template: '&lt;span>{{ myMessage }}&lt;/span>'
+            })
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- kebab-case in HTML -->
+            &lt;child my-message="hello">&lt;/child>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Again, if you're using string templates, then this limitation does not apply.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Dynamic Props</h3>
+            <p><span class='glyphicon-remove'></span>Similar to binding a normal attribute to an expression, we can also use <code>v-bind</code> for dynamically binding props to data on the parent.</p>
+            <p><span class='glyphicon-remove'></span>Whenever the data is updated in the parent, it will also flow down to the child:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div>
+                &lt;input v-model="parentMsg">
+                &lt;br>
+                &lt;child v-bind:my-message="parentMsg">&lt;/child>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>It's often simpler to use the shorthand syntax for <code>v-bind</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;child :my-message="parentMsg">&lt;/child>
+            </pre>
+            <p><span class='glyphicon-remove'></span>If you want to pass all the properties in an object as props, you can use <code>v-bind</code> without an argument (<code>v-bind</code> instead of <code>v-bind:prop-name</code>). For example, given a <code>todo</code> object:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>todo: {
+                text: 'Learn Vue', 
+                isComplete: false
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;todo-item v-bind="todo">&lt;/todo-item>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Will be equivalent to:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;todo-item 
+                v-bind:text="todo.text"
+                v-bind:is-complete="todo.isComplete"
+            >&lt;/todo-item>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Literal vs. Dynamic</h3>
+            <p><span class='glyphicon-remove'></span>A common mistake beginners tend to make is attempting to pass down a number using the literal syntax:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- this passes down a plain string "1" -->
+            &lt;comp some-prop="1">&lt;/comp>
+            </pre>
+            <p><span class='glyphicon-remove'></span>However, since this is a literal prop, its value is passed down as a plain string <code>"1"</code> instead of an actual number.</p>
+            <p><span class='glyphicon-remove'></span>If we want to pass down an actual JavaScript number, we need to use <code>v-bind</code> so that its value is evaluated as a JavaScript expression:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- this passes down an actual number -->
+            &lt;comp v-bind:some-prop="1">&lt;/comp>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>One-Way Data Flow</h3>
+            <p><span class='glyphicon-remove'></span>All props form a <b>one-way-down</b> binding between the child property and the parent one:
+                <br> &nbsp; &bull; when the parent property updates, it will flow down to the child, but not the other way around.</p>
+            <p><span class='glyphicon-remove'></span>This prevents child components from accidentally mutating the parent's state, which can make your app's data flow harder to reason about.</p>
+            <p><span class='glyphicon-remove'></span>In addition, every time the parent component is updated, all props in the child component will be refreshed with the latest value.</p>
+            <p><span class='glyphicon-remove'></span>This means you should <b>not</b> attempt to mutate a prop inside a child component. 
+                <br> &nbsp; &bull; If you do, Vue will warn you in the console.</p>
+            <p><span class='glyphicon-remove'></span>There are usually two cases wher it's tempting to mutate a prop:
+                <br> &nbsp; 1. The prop is used to only pass in an initial value, the child component simply wants to use it as a local data property afterwards;
+                <br> &nbsp; 2. The prop is passed in as a raw value that needs to be transformed.</p>
+            <p><span class='glyphicon-remove'></span>The proper answer to these cases are:</p>
+            <p><span class='glyphicon-remove'></span>1. Define a local data property that uses the prop's initial value as its initial value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>props: ['initialCounter'],
+            data: function() {
+                return { counter: this.initialCounter }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>2. Define a computed property that is computed from the prop's value:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>props: ['size'],
+            computed: {
+                normalizedSize: function() {
+                    return this.size.trim().toLowerCase()
+                }
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Note that objects and arrays in JavaScript are passed by reference, so if the prop is an array or object, mutating the object or array itself inside the child <b>will</b> affect parent state.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Prop Validation</h3>
+            <p><span class='glyphicon-remove'></span>It is possible for a component to specify requirements for the props it is receiving.</p>
+            <p><span class='glyphicon-remove'></span>If a requirement is not met, Vue will emit warnings. This is especially useful when you are authoring a component that is intended to be used by others.</p>
+            <p><span class='glyphicon-remove'></span>Instead of defining the props as an array of string, you can use an object with validation requirements:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('example', {
+                props: {
+                    // basic type check ('null' means accept any type)
+                    propA: Number,
+                    // multiple possible types
+                    propB: [String, Number],
+                    // a required string
+                    propC: {
+                        type: String
+                        required: true
+                    },
+                    // a number with a default value
+                    propD: {
+                        type: Number,
+                        default: 180
+                    },
+                    // object/array defaults should be returned from a 
+                    // factory function
+                    propE: {
+                        type: Object,
+                        default: function() {
+                            return { message: 'hello' }
+                        }
+                    },
+                    // custom validator function
+                    propF: {
+                        validator: function(value) {
+                            return value > 10
+                        }
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The <code>type</code> can be one of the following native constructors:
+                <br> &nbsp; &bull; String
+                <br> &nbsp; &bull; Number
+                <br> &nbsp; &bull; Boolean
+                <br> &nbsp; &bull; Function
+                <br> &nbsp; &bull; Object
+                <br> &nbsp; &bull; Array
+                <br> &nbsp; &bull; Symbol</p>
+            <p><span class='glyphicon-remove'></span>In addition, <code>type</code> can also be a custom constructor function and the assertion will be made with an <code>instanceof</code> check.</p>
+            <p><span class='glyphicon-remove'></span>When prop validation fails, Vue will produce a console warning (if using the development build).</p>
+            <p><span class='glyphicon-remove'></span>Note that props are validated <b>before</b> a component instance is created, so within <code>default</code> or <code>validator</code> functions, instance properties such as from <code>data</code>, <code>computed</code>, or <code>methods</code> will not be available.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Non-Prop Attributes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            A non-prop attribute is an attribute that is passed to a component, but does not have a corresponding prop defined.
+            <p><span class='glyphicon-remove'></span>While explicitly defined props are preferred for passing information to a child component, authors of component libraries can't always foresee the contexts in which their components might be used. 
+                <br> &nbsp; &bull; That's why components can accept arbitrary attributes, which are added to the component's root element.</p>
+            <p><span class='glyphicon-remove'></span>For example, imagine we're using a 3rd-party <code>bs-date-input</code> component with a Bootstrap plugin that requires a <code>data-3d-date-picker</code> attribute on the <code>input</code>.
+                <br> &nbsp; &bull; We can add this attribute to our component instance:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;bs-date-input data-3d-date-picker="true">&lt;/bs-date-input>
+            </pre>
+            <p><span class='glyphicon-remove'></span>And the <code>data-3d-date-picker="true"</code> attribute will automatically be added to the root element of <code>bs-date-input</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Replacing/Merging with Existing Attributes</h3>
+            <p><span class='glyphicon-remove'></span>Imagine this is the template for <code>bs-date-input</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input type="date" class="form-control">
+            </pre>
+            <p><span class='glyphicon-remove'></span>To specify a theme for our date picker plugin, we might need to add a specific class, like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;bs-date-input 
+                data-3d-date-picker="true"
+                class="date-picker-theme-dark"
+            >&lt;/bs-date-input>
+            </pre>
+            <p><span class='glyphicon-remove'></span>In this case, two different values for <code>class</code> defined:
+                <br> &nbsp; &bull; <code>form-control</code>, which is set by the component in its template
+                <br> &nbsp; &bull; <code>date-picker-theme-dark</code>, which is passed to the component by its parent</p>
+            <p><span class='glyphicon-remove'></span>For most attributes, the value provided to the component will replace the value set by the component.</p>
+            <p><span class='glyphicon-remove'></span>So for example, passing <code>type="large"</code> will replace <code>type="date"</code> and probably break it!</p>
+            <p><span class='glyphicon-remove'></span>Fortunately, the <code>class</code> and <code>style</code> attributes are a little smarter, so both values are marged, making the final value: <code>form-control date-picker-theme-dark</code>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Custom Events</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            We have learned that the parent can pass data down to the child using props, but how do we communicate back to the parent when something happens?
+            <p><span class='glyphicon-remove'></span>This is where Vue's custom event system comes in.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Using <code>v-on</code> with Custom Events</h3>
+            <p><span class='glyphicon-remove'></span>Every Vue instance implements an <b>event interface</b>, which means it can:
+                <br> &nbsp; &bull; Listen to an event using <code>$on(eventName)</code>
+                <br> &nbsp; &bull; Trigger an event using <code>$emit(eventName)</code></p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - Note that Vue's event system is different from the browser's <b>EventTarget API</b>. Though they work similarly, <code>$on</code> and <code>$emit</code> are <b>not</b> aliases for <code>addEventListener</code> and <code>dispatchEvent</code>.</p>
+            <p><span class='glyphicon-remove'></span>In addition, a parent component can listen to the events emitted from a child component using <code>v-on</code> directly in the template where the child component is used.</p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - You cannot use <code>$on</code> to listen to events emitted by children. You must use <code>v-on</code> directly in the template, as in the example below.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="counter-event-example">
+                &lt;p>{{ total }}&lt;/p>
+                &lt;button-counter v-on:increment="incrementTotal">&lt;/button-counter>
+                &lt;button-counter v-on:increment="incrementTotal">&lt;/button-counter>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('button-counter', {
+                template: '&lt;button v-on:click="incrementCounter">{{ counter }}&lt;/button>',
+                data: function() {
+                    return {
+                        counter: 0
+                    }
+                },
+                methods: {
+                    incrementCounter: function() {
+                        this.counter += 1
+                        this.$emit('increment')
+                    }
+                }
+            })
+
+            new Vue({
+                el: '#counter-event-example',
+                data: {
+                    total: 0
+                },
+                methods: {
+                    incrementTotal: function() {
+                        this.total += 1
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>In this example, it's important to note that the child component is still completely decoupled from what happens outside of it.</p>
+            <p><span class='glyphicon-remove'></span>All it does is report information about its own activity, just in case a parent component might care.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Binding Native Events to Components</h3>
+            <p><span class='glyphicon-remove'></span>There may be times when you want to listen for a native event on the root element of a component.</p>
+            <p><span class='glyphicon-remove'></span>In these cases, you can use the <code>.native</code> modifier for <code>v-on</code>. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component v-on:click.native="doTheThing">&lt;/my-component>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>.sync Modifier</h3>
+            <p><span class='glyphicon-remove'></span>In some cases we may need "two-way binding" for a prop - in fact, in Vue 1.x this is exactly what the <code>.sync</code> modifier provided.</p>
+            <p><span class='glyphicon-remove'></span>When a child component mutates a prop that has <code>.sync</code>, the value change will be reflected in the parent.</p>
+            <p><span class='glyphicon-remove'></span>This is conventient, however it leads to maintenance issues in the long run because it breaks the one-way data flow assumption:
+                <br> &nbsp; &bull; the code that mutates child props are implicitly affecting parent state.</p>
+            <p><span class='glyphicon-remove'></span>This is why the <code>.sync</code> modifier was removed in the 2.0 release.</p>
+            <p><span class='glyphicon-remove'></span>However, it's been found that there are indeed cases where it can be useful, especially when shipping reusable components.</p>
+            <p><span class='glyphicon-remove'></span>What we need to change is <b>making the code in the child that affects parent state more consistent and explicit.</b></p>
+            <p><span class='glyphicon-remove'></span>In Vue 2.3.0+ the <code>.sync</code> modifier is re-introduced for props, but this time, it is just syntax sugar that automatically exapnds into an additional <code>v-on</code> listener:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;comp :foo.sync="bar">&lt;/comp>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This is expanded into:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;comp :foo="bar" @update:foo="val => bar = val">&lt;/comp>
+            </pre>
+            <p><span class='glyphicon-remove'></span>For the child component to update <code>foo</code>'s value, it needs to explicitly emit an event instead of mutating the prop:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>this.$emit('update:foo', newValue)
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Form Input Components using Custom Events</h3>
+            <p><span class='glyphicon-remove'></span>Custom events can also be used to create custom inputs that work with <code>v-model</code>. Remember:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input v-model="something">
+            </pre>
+            <p><span class='glyphicon-remove'></span>is just syntactic sugar for:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;input
+                v-bind:value="something"
+                v-on:input="something = $event.target.value">
+            </pre>
+            <p><span class='glyphicon-remove'></span>When used with a component, it instead simplifies to:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;custom-input 
+                :value="something"
+                @input="value => { something = value }"    
+            >&lt;/custom-input>
+            </pre>
+            <p><span class='glyphicon-remove'></span>So for a component to work with <code>v-model</code>, it should:
+                <br> &nbsp; &bull; accept a <code>value</code> prop
+                <br> &nbsp; &bull; emit an <code>input</code> event with the new value</p>
+            <p><span class='glyphicon-remove'></span>Let's see it in action with a very simple currency input:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;currency-input v-model="price">&lt;/currency-input>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('currency-input', {
+                tempalte: '\
+                    &lt;span>\
+                        $\
+                        &lt;input\
+                            ref="input"\
+                            v-bind:value="value"\
+                            v-on:input="updateValue($event.target.value)">\
+                    &lt;/span>\
+                ',
+                props: ['value'],
+                methods: {
+                    // Instead of updating the value directly, this
+                    // method is used to format and place constraints
+                    // on the input's value
+                    updateValue: function (value) {
+                        var formattedValue = value
+                            //Remove whitespace on either side
+                            .trim()
+                        //Shorten to 2 decimal places
+                            .slice(
+                                0,
+                                value.indexOf('.') === -1
+                                    ? value.length
+                                    : value.indexOf('.') + 3
+                            )
+                        // If the value was not already normalized,
+                        // manually override it to conform
+                        if(formattedValue !== value) {
+                            this.$refs.input.value = formattedValue
+                        }
+                        //Emit the number value through the input event
+                        this.$emit('input', Number(formattedValue))
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The implementation above is pretty naive though.</p>
+            <p><span class='glyphicon-remove'></span>For example, users are allowed to enter multiple periods and even letter sometimes.
+                <br> &nbsp; &bull; So for an extended and robust currency filter, here it is:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="app">
+            &lt;currency-input 
+                label="Price" 
+                v-model="price"
+            >&lt;/currency-input>
+            &lt;currency-input 
+                label="Shipping" 
+                v-model="shipping"
+            >&lt;/currency-input>
+            &lt;currency-input 
+                label="Handling" 
+                v-model="handling"
+            >&lt;/currency-input>
+            &lt;currency-input 
+                label="Discount" 
+                v-model="discount"
+            >&lt;/currency-input>
+            
+            &lt;p>Total: ${{ total }}&lt;/p>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('currency-input', {
+                template: '\
+                    &lt;div>\
+                    &lt;label v-if="label">{{ label }}&lt;/label>\
+                    $\
+                    &lt;input\
+                        ref="input"\
+                        v-bind:value="value"\
+                        v-on:input="updateValue($event.target.value)"\
+                        v-on:focus="selectAll"\
+                        v-on:blur="formatValue"\
+                    >\
+                    &lt;/div>\
+                ',
+                props: {
+                    value: {
+                        type: Number,
+                        default: 0
+                    },
+                    label: {
+                        type: String,
+                        default: ''
+                    }
+                },
+                mounted: function () {
+                    this.formatValue()
+                },
+                methods: {
+                    updateValue: function (value) {
+                        var result = currencyValidator.parse(value, this.value)
+                        if (result.warning) {
+                            this.$refs.input.value = result.value
+                        }
+                        this.$emit('input', result.value)
+                    },
+                    formatValue: function () {
+                        this.$refs.input.value = currencyValidator.format(this.value)
+                    },
+                    selectAll: function (event) {
+                        // Workaround for Safari bug
+                        // http://stackoverflow.com/questions/1269722/selecting-text-on-focus-using-jquery-not-working-in-safari-and-chrome
+                        setTimeout(function () {
+                            event.target.select()
+                        }, 0)
+                    }
+                }
+            })
+            
+            new Vue({
+                el: '#app',
+                data: {
+                    price: 0,
+                    shipping: 0,
+                    handling: 0,
+                    discount: 0
+                },
+                computed: {
+                    total: function () {
+                        return ((
+                            this.price * 100 + 
+                            this.shipping * 100 + 
+                            this.handling * 100 - 
+                            this.discount * 100
+                        ) / 100).toFixed(2)
+                    }
+                }
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Customizing Component <code>v-model</code></h3>
+            <p><span class='glyphicon-remove'></span>By default, <code>v-model</code> on a component uses <code>value</code> as the prop and <code>input</code> as the event, but some input types such as checkboxes and radio buttons may want to use the <code>value</code> prop for a different purpose.</p>
+            <p><span class='glyphicon-remove'></span>Using the <code>modle</code> option can avoid the conflict in such cases:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('my-checkbox', {
+                model: {
+                    prop: 'checked',
+                    event: 'change'
+                },
+                props: {
+                    checked: Boolean,
+                    // this allows using the 'value' prop for a different purpose
+                    value: String
+                },
+                // ...
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The above will be equivalent to:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-checkbox 
+                :checked="foo"
+                @change="val => { foo = val }"
+                value="some value"
+            >&lt;/my-checkbox>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that you still have to declare the <code>checked</code> prop explicitly.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>

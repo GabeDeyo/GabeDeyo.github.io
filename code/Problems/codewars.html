@@ -147,6 +147,14 @@
                                 <a href='#10'>Sum without Highest/Lowest</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#11'>Number of Occurrences</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#12'>Sum of Two Lowest</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -170,7 +178,7 @@
             <pre>
             <span class="glyphicon-remove"></span>public static string Maskify(string cc) {
                 int len = cc.Length;
-                if(len <= 4)
+                if(len &lt;= 4)
                     return cc;
 
                 return cc.Substring(len-4).PadLeft(len, '#');
@@ -558,6 +566,84 @@
                   return total;
                 }
               }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='11'>
+    <h2>Number of Occurrences</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>The numberOfOccurrences function must return the number of occurrences of an element in an array.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var arr = [0,1,2,2,3];
+            arr.numberOfOccurrences(0) === 1;
+            arr.numberOfOccurrences(4) === 0;
+            arr.numberOfOccurrences(2) === 2;
+            arr.numberOfOccurrences("a") === 0;
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>Array.prototype.numberOfOccurrences = function(x) {
+                
+                var result = 0;
+                  
+                for(i in this) {
+                    if(this[i]===x){
+                      result++;
+                    }
+                }
+                  
+                return result;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>Array.prototype.numberOfOccurrences = function(search) {
+                return this.filter( function(num){ return search === num } ).length;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='12'>
+    <h2>Sum of Two Lowest</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Create a function that returns the sum of the two lowest positive numbers given an array of minimum 4 integers. No floats or empty arrays will be passed.</p>
+            <p><span class='glyphicon-remove'></span>For example, when an array is passed like [19,5,42,2,77], the output should be 7.</p>
+            <p><span class='glyphicon-remove'></span>Hint: Do not modify the original array.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumTwoSmallestNumbers(numbers) {  
+                numbers.sort(sortNum);
+                return numbers[0] + numbers[1]; 
+            };
+            
+            function sortNum(a,b){
+                return a-b;   
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumTwoSmallestNumbers(numbers){  
+                numbers = numbers.sort(function(a, b){return a - b; });
+                return numbers[0] + numbers[1];
+            };
             </pre>
         </p></li>
     </ul>

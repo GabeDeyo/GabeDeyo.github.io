@@ -101,6 +101,7 @@
           <li><a href='#1'>Syntax &amp; Selectors</a></li>
           <li><a href='#2'>How to Use</a></li>
           <li><a href='#3'>Colors</a></li>
+          <li><a href='#4'>Backgrounds</a></li>
         </ul>
     </aside>
 
@@ -128,6 +129,10 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#3'>Colors</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Backgrounds</a>
                                 </p>
                             </li>
                         </ul>
@@ -353,6 +358,97 @@
         <li><p><span class='glyphicon-remove'></span>
             <h3>Hexadecimal Colors</h3>
             <p><span class='glyphicon-remove'></span>RGB values can also be specified using <b>hexadecimal</b> color values in the form: #RRGGBB, where RR(red), GG(green), BB(blue) are hexadecimal values between 00 and FF (same as decimal 0-255)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Backgrounds</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The CSS background properties are used to define the background effects for elements.
+            <p><span class='glyphicon-remove'></span>CSS background properties:
+                <br> &nbsp; &bull; background-color
+                <br> &nbsp; &bull; background-image
+                <br> &nbsp; &bull; background-repeat
+                <br> &nbsp; &bull; background-attachment
+                <br> &nbsp; &bull; background-position</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Color</h3>
+            <p><span class='glyphicon-remove'></span>The <code>background-color</code> property specifies the background color of an element.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background-color: lightblue;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>With CSS, a color is most often specified by:
+                <br> &nbsp; &bull; a valid color name - like "red"
+                <br> &nbsp; &bull; a HEX value - like "#ff0000"
+                <br> &nbsp; &bull; an RGB value - like "rgb(255, 0, 0)</p>
+            <p><span class='glyphicon-remove'></span>In this example, the h1, p, and div elements have different background colors:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>h1 {
+                background-color: green;
+            }
+            div {
+                background-color: lightblue;
+            }
+            p {
+                background-color: yellow;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Image</h3>
+            <p><span class='glyphicon-remove'></span>The <code>background-image</code> property specifies an image to use as the background of an element.</p>
+            <p><span class='glyphicon-remove'></span>By default, the image is repeated so it coveres the entire element.</p>
+            <p><span class='glyphicon-remove'></span>The background image for a page can be set like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background-image: url("paper.gif");
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - When using a background image, use an image that does not disturb the text.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Image - Repeat Horizontally/Vertically</h3>
+            <p><span class='glyphicon-remove'></span>By default, the <code>background-image</code> property repeats an image both horizontally and vertically.</p>
+            <p><span class='glyphicon-remove'></span>Some images should be repeated only horizontally or vertically, or they will look strange.</p>
+            <p><span class='glyphicon-remove'></span>Images can be repeated strictly horizontally with <code>background-repeat: repeat-x</code>.</p>
+            <p><span class='glyphicon-remove'></span>Images can be repeated strictly vertically with <code>background-repeat: repeat-y</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Image - Set Position and No-Repeat</h3>
+            <p><span class='glyphicon-remove'></span>Showing the background image only once is also specified by the <code>background-repeat</code> property:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background-image: url('someimage.jpg');
+                background-repeat: no-repeat;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>In this example, the background image is shown in the same place as the text. We want to change the position of the image, so that it does not disturb under the text too much.</p>
+            <p><span class='glyphicon-remove'></span>The position of the image is specified by the <code>background-position</code> property:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background-image: url('someimage.jpg');
+                background-repeat: no-repeat;
+                background-position: right top;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background Image - Fixed Position</h3>
+            <p><span class='glyphicon-remove'></span>To specify that the background image should be fixed (will not scroll with the rest of the page), use the <code>background-attachement</code> property:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background-image: url('someimage.jpg');
+                background-repeat: no-repeat;
+                background-position: right top;
+                background-attachement: fixed;
+            }
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
