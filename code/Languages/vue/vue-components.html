@@ -102,6 +102,9 @@
           <li><a href='#2'>Props</a></li>
           <li><a href='#3'>Non-Prop Attributes</a></li>
           <li><a href='#4'>Custom Events</a></li>
+          <li><a href='#5'>Content Distribution with Slots</a></li>
+          <li><a href='#6'>Dynamic Components</a></li>
+          <li><a href='#7'>Misc</a></li>
         </ul>
     </aside>
 
@@ -133,6 +136,18 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#4'>Custom Events</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Content Distribution with Slots</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Dynamic Components</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Misc</a>
                                 </p>
                             </li>
                         </ul>
@@ -778,6 +793,526 @@
             >&lt;/my-checkbox>
             </pre>
             <p><span class='glyphicon-remove'></span>Note that you still have to declare the <code>checked</code> prop explicitly.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Non Parent-Child Communication</h3>
+            <p><span class='glyphicon-remove'></span>Sometimes two components may need to communicate with one-another but they are not parent/child to each other.</p>
+            <p><span class='glyphicon-remove'></span>In simple scenarios, you can use an empty Vue instance as a central event bus:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var bus = new Vue()
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// in component A's method
+            bus.$emit('id-selected', 1)
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>// in component B's created hook
+            bus.$on('id-selected', function(id) {
+                //
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>In more complex cases, you should consider employing a dedicated <b>state-management pattern</b>.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Content Distribution with Slots</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            When using components, it is often desired to compose them like this:
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;app>
+                &lt;app-header>&lt;/app-header>
+                &lt;app-footer>&lt;/app-footer>
+            &lt;/app>
+            </pre>
+            <p><span class='glyphicon-remove'></span>There are two things to note here:
+                <br> &nbsp; 1. The <code>&lt;app></code> component does not know what content it will receive. It is decided by the component using <code>&lt;app></code>.
+                <br> &nbsp; 2. The <code>&lt;app></code> component very likely has its own tempalte.</p>
+            <p><span class='glyphicon-remove'></span>To make the composition work, we need a way to interweave the parent "content" and the component's own template. This is a process called <b>content distribution</b> (or "transclusion" if you're familiar with Angular).</p>
+            <p><span class='glyphicon-remove'></span>Vue.js implements a content distribution API that is modeled after the current <b>Web Components</b> spec draft, using the special  <code>&lt;slot></code> element to serve as distribution outlets for the original content.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Compilation Scope</h3>
+            <p><span class='glyphicon-remove'></span>Before we dig into the API, let's first clarify which scope the contents are compiled in. Imagine a template like this:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;child-component>
+                {{ message }}
+            &lt;/child-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Consider if the <code>message</code> should be bound to the parent's data or the child data?</p>
+            <p><span class='glyphicon-remove'></span>A simple rule of thumb for component scope is:
+                <br>&bull; <b>Everything in the parent template is compiled in parent scope; everything in the child template is compiled in child scope.</b></p>
+            <p><span class='glyphicon-remove'></span>A common mistake is trying to bind a directive to a child property/method in the parent template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- does NOT work -->
+            &lt;child-component v-show="someChildProperty">&lt;/child-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Assuming <code>someChildProperty</code> is a property on the child component, the example above would not work.
+                <br> &nbsp; &bull; The parent's template is not aware of the state of a child component.</p>
+            <p><span class='glyphicon-remove'></span>If you need to bind child-scope directives on a component root node, you should do so in the child component's own template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('child-component', {
+                // this does work, because we are in the right scope
+                tempalte: '&lt;div v-show="someChildProperty">Child&lt;/div>',
+                data: function() {
+                    return {
+                        someChildProperty: true
+                    }
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Similarly, distributed content will be compiled in the parent scope.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Single Slot</h3>
+            <p><span class='glyphicon-remove'></span>Parent content will be <b>discarded</b> unless the child component template contains at least one <code>&lt;slot></code> outlet.
+                <br> &nbsp; &bull; When there is only one slot with no attributes, the entire content fragment will be inserted at its position in the DOM, replacing the slot itself.</p>
+            <p><span class='glyphicon-remove'></span>Anything originally inside the <code>&lt;slot></code> tags is considered <b>fallback content</b>.
+                <br> &nbsp; &bull; Fallback content is compiled in the child scope and will only be displayed if the hoisting element is empty and has no content to be inserted.</p>
+            <p><span class='glyphicon-remove'></span>Suppose we have a component called <code>my-component</code> with the following template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div>
+                &lt;h2>I'm the child title&lt;/h2>
+                &lt;slot>
+                    This will only be displayed if there is no content to be distributed.
+                &lt;/slot>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>And a parent that uses the component:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div>
+                &lt;h1>I'm the parent title&lt;/h1>
+                &lt;my-component>
+                    &lt;p>This is some original content&lt;/p>
+                    &lt;p>This is some original content&lt;/p>
+                &lt;/my-component>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The rendered result will be:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div>
+                &lt;h1>I'm the parent title&lt;/h1>
+                &lt;div>
+                    &lt;h2>I'm the child title&lt;/h2>
+                    &lt;p>This is some original content&lt;/p>
+                    &lt;p>This is some original content&lt;/p>
+                &lt;/div>
+            &lt;/div>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Named Slots</h3>
+            <p><span class='glyphicon-remove'></span><code>&lt;slot></code> elements have a special attribute, <code>name</code>, which can be used to further customize how content should be distributed.
+                <br> &nbsp; &bull; You can have multiple slots with different names.
+                <br> &nbsp; &bull; A named slot will match any element that has a corresponsing <code>slot</code> attribute in the content fragment.</p>
+            <p><span class='glyphicon-remove'></span>There can still be one unnamed slot, which is the <b>default slot</b> that serves as a catch-all outlet for any unmatched content.
+                <br> &nbsp; &bull; If there no default slot, unmatched content will be discarded.</p>
+            <p><span class='glyphicon-remove'></span>For example, suppose we have an <code>app-layout</code> component with the following template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="container">
+                &lt;header>
+                    &lt;slot name="header">&lt;/slot>
+                &lt;/header>
+                &lt;main>
+                    &lt;slot>&lt;/slot>
+                &lt;/main>
+                &lt;footer>
+                    &lt;slot name="footer">&lt;/slot>
+                &lt;/footer>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Parent markup:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;app-layout>
+                &lt;h1 slot="header">Here might be a page title&lt;/h1>
+
+                &lt;p>A paragraph for the main contnet.&lt;/p>
+                &lt;p>And another one.&lt;/p>
+
+                &lt;p slot="footer">Here's some contact info&lt;/p>
+            &lt;/app-layout>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The rendered result will be:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="container>
+                &lt;header>
+                    &lt;h1>Here might be a page title&lt;/h1>
+                &lt;/header>
+                &lt;main>
+                    &lt;p>A paragraph for the main contnet.&lt;/p>
+                    &lt;p>And another one.&lt;/p>
+                &lt;/main>
+                &lt;footer>
+                    &lt;p>Here's some contact info&lt;/p>
+                &lt;/footer>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>The content distribution API is a very useful mechanism when desigining component that are meant to be composed together.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Scoped Slots</h3>
+            <p><span class='glyphicon-remove'></span>A scoped slot is a special type of slot that functions as a reusable template (that can be passed data to) instead of already-rendered-elements.</p>
+            <p><span class='glyphicon-remove'></span>In a child component, simply pass data into a slot as if you are passing props to a component:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="child">
+                &lt;slot text="hello from child">&lt;/slot>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>In the parent, a <code>&lt;template></code> element with a special attribute <code>scope</code> must exist, indicating that is a template for a scoped slot.
+                <br> &nbsp; &bull; The value of <code>scope</code> is the name of a temporary variable that holds the props object passed from the child:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="parent">
+                &lt;child>
+                    &lt;template scope="props">
+                        &lt;span>hello from parent&lt;/span>
+                        &lt;span>{{ props.text }}&lt;/span>
+                    &lt;/template>
+                &lt;/child>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>If we render the above, the output will be:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div class="parent">
+                &lt;div class="child">
+                    &lt;span>hello from parent&lt;/span>
+                    &lt;span>hello from child&lt;/span>
+                &lt;/div>
+            &lt;/div>
+            </pre>
+            <p><span class='glyphicon-remove'></span>A more typical use case for scoped slots would be a list component that allows the component consumer to customize how each item in the list should be rendered:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-awesome-list :items="items">
+                &lt;!-- scoped slot can be named too -->
+                &lt;template slot="item" scope="props">
+                    &lt;li class="my-fancy-item">{{ props.text }}&lt;/li>
+                &lt;/template>
+            &lt;/my-awesome-list>
+            </pre>
+            <p><span class='glyphicon-remove'></span>And the tempalte for the list component:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ul>
+                &lt;slot name="item"
+                    v-for="item in items"
+                    :text="item.text">
+                    &lt;!-- fallback content here -->
+                &lt;/slot>
+            &lt;/ul>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Dynamic Components</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            You can use the same mount point and dynamically switch between multiple components using the reserved <code>&lt;component></code> element and dyncamically bind to its <code>is</code> attribute:
+            <pre>
+            <span class='glyphicon-remove'></span>var vm = new Vue({
+                el: '#example',
+                data: {
+                    currentView: 'home'
+                },
+                components: {
+                    home: {/* ... */},
+                    posts: {/* ... */},
+                    archive: {/* ... */}
+                }
+            })
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;component v-bind:is="currentView">
+                &lt;!-- component changes when vm.currentView changes! -->
+            &lt;/component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>If you prefer, you can also bind directly to component objects:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>var Home = {
+                template: '&lt;p>Welcome home!&lt;/p>'
+            }
+
+            var vm = new Vue({
+                el: '#example',
+                data: {
+                    currentView: Home
+                }
+            })
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3><code>keep-alive</code></h3>
+            <p><span class='glyphicon-remove'></span>If you want to keep the switched-out components in memory so that you can preserve their state or avoid re-rendering, you can wrap a dynamic component in a <code>&lt;keep-alive></code> element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;keep-alive>
+                &lt;component :is="currentView">
+                    &lt;!-- inactive components will be cached! -->
+                &lt;/component>
+            &lt;/keep-alive>
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Misc</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Authoring Reusable Components</h3>
+            <p><span class='glyphicon-remove'></span>When authoring components, it's good to keep in mind whether you intend to reuse it somewhere else later.
+                <br> &nbsp; &bull; It's OK for one-off components to be tightly-coupled, but reusable components should define a clean public interface and make no assumptions about the context it's used in.</p>
+            <p><span class='glyphicon-remove'></span>The API for a Vue component comes in three parts - props, events, and slots:
+                <br> &nbsp; &bull; <b>Props</b> allow the external environment to pass data into the component
+                <br> &nbsp; &bull; <b>Events</b> allow the component to trigger side effects in the external environment
+                <br> &nbsp; &bull; <b>Slots</b> allow the external environment to compose the component with extra content.</p>
+            <p><span class='glyphicon-remove'></span>With the dedicated shorthand syntaxes for <code>v-bind</code> and <code>v-on</code>, the intents can be clearly and succinctly conveyed in the template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component 
+                :foo="baz"
+                :bar="qux"
+                @event-a="doThis"
+                @event-b="doThat">
+                    &lt;img slot="icon" src="...">
+                    &lt;p slot="main-text">Hello!&lt;/p>
+            &lt;/my-component>
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Child Component Refs</h3>
+            <p><span class='glyphicon-remove'></span>Despite the existence of props and events, sometimes you might still need to directly access a child component in JavaScript.
+                <br> &nbsp; &bull; To achieve this you have to assign a reference ID to the child component using <code>ref</code>. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="parent">
+                &lt;user-profile ref="profile">&lt;/user-profile>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>var parent = new Vue({ el: '#parent' })
+            // access child component instance
+            var child = parent.$refs.profile
+            </pre>
+            <p><span class='glyphicon-remove'></span>When <code>ref</code> is used together with <code>v-for</code>, the ref you get will be an array containing the child components mirroring the data source.</p>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - <code>$refs</code> are only populated after the component has been rendered, and it is not reactive. It is only meant as an escape hatch for direct child manipulation - you should avoid using <code>$refs</code> in templates or computed properties.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Async Components</h3>
+            <p><span class='glyphicon-remove'></span>In large applications, we may need to divide the app into smaller chunks and only load a component from the server when it's actually needed.
+                <br> &nbsp; &bull; To make that easier, Vue allows you to define your component as a factory function that asynchronously resolves your component definition.
+                <br> &nbsp; &bull; Vue will only trigger the factory function when the component actually needs to be rendered and will cache the result for future re-renders. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('async-example', function(resolve, reject) {
+                setTimeout(function() {
+                    //Pass the component definition to the resolve callback
+                    resolve({
+                        template: '&lt;div>I am async!&lt;/div>'
+                    })
+                }, 1000)
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>The factory function receives a <code>resolve</code> callback, which should be called when you have retrieved your component definition from the server.
+                <br> &nbsp; &bull; You can also call <code>reject(reason)</code> to indicate the load has failed.
+                <br> &nbsp; &bull; The <code>setTimeout</code> here is simply for demonstration; How to retrieve the component is entirely up to you.
+                <br> &nbsp; &bull; One recommended approach is to use async components together with <b>Webpack's code-splitting feature</b>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('async-webpack-example', function(resolve) {
+                // This special require syntax will instruct Webpack to
+                // automatically split your built code into bundles which
+                // are loaded over Ajax requests.
+                require(['./my-async-component'], resolve)
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>You can also return a <code>Promise</code> in the factory function, so with Webpack 2 + ES2015 syntax you can do:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component(
+                'async-webpack-example',
+                () => import('./my-async-component')
+            )
+            </pre>
+            <p><span class='glyphicon-remove'></span>When using <b>local registration</b>, you can also directly provide a function that returns a <code>Promise</code>:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                // ...
+                components: {
+                    'my-component': () => import('./my-async-component')
+                }
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Warning</b> - If you're a <b>Browserify</b> user that would like to use async components, its creator has unfortunately made it clear that async loading "is not something that Browserify will ever support." Officially, at least. The Browserify community has found some workarounds, which may be helpful for existing and complex application. For all other scenarios, it is recommended simply using Webpack for built-in, first-class async support.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Advanced Async Components</h3>
+            <p><span class='glyphicon-remove'></span>Starting in 2.3.0+ the async component factory can also return an object of the following format:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>const AsyncComp = () => ({
+                // The component to laod. Should be a Promise
+                component: import('./MyComp.vue'),
+                // A component to use while the async component is laoding
+                loading: LoadingComp,
+                // A component to use if the load fails
+                error: ErrorComp,
+                // Delay before showing the loading component. Default 200ms;
+                delay: 200,
+                // The error component will be displayed if a timeout is
+                // provided and exceeded. Default: Infinity
+                timeout: 3000
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>Note that when used as a route component in <code>vue-router</code>, these properties will be ignored because async components are resolved upfront before the route navigation happens.
+                <br> &nbsp; &bull; You also need to use <code>vue-router</code> 2.4.0+ if you wish to use the above syntax for route components.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Component Naming Conventions</h3>
+            <p><span class='glyphicon-remove'></span>When registering components (or props), you can use kebab-case, camelCase, or PascalCase.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// in a component definition
+            components: {
+                // register using kebab-case
+                'kebab-cased-component': {/*...*/},
+                // register using camelCase
+                'camelCasedComponent': {/*...*/},
+                // register using PascalCase
+                'PascalCasedComponent': {/*...*/}
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Within HTML templates though, you have to use the kebab-case equivalents:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;!-- always use kebab-case in HTML tempaltes -->
+            &lt;kebab-cased-component>&lt;/kebab-cased-component>
+            &lt;camel-cased-component>&lt;/camel-cased-component>
+            &lt;pascal-cased-component>&lt;/pascal-cased-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When using <i>string</i> templates however, we're not bound by HTML's case-insensitive restrictions.</p>
+            <p><span class='glyphicon-remove'></span>That means even in the template, you can reference your components using:
+                <br> &nbsp; &bull; kebab-case
+                <br> &nbsp; &bull; camelCase or kebab-case if the component has been defined using camelCase
+                <br> &nbsp; &bull; kebab-case, cameCase or PascaleCase if the component has been defined using PascalCase</p>
+            <pre>
+            <span class='glyphicon-remove'></span>components: {
+                'kebab-cased-component': {/*...*/},
+                camelCasedComponent: {/*...*/},
+                PascalCasedComponent: {/*...*/}
+            }
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;kebab-cased-component>&lt;/kebab-cased-component>
+
+            &lt;camel-cased-component>&lt;/camel-cased-component>
+            &lt;camelCasedComponent>&lt;/camelCasedComponent>
+
+            &lt;pascal-cased-component>&lt;/pascal-cased-component>
+            &lt;pascalCasedComponent>&lt;/pascalCasedComponent>
+            &lt;PascalCasedComponent>&lt;/PascalCasedCompoent>
+            </pre>
+            <p><span class='glyphicon-remove'></span>This means that the PascalCase is the most universal <i>declaration convention</i> and kebab-case is the most universal <i>usafe convention</i>.</p>
+            <p><span class='glyphicon-remove'></span>If your component isn't passed content via <code>slot</code> elements, you can even make it self-closing with a <code>/</code> after the name:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component/>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Again, this <i>only</i> works within string templates, as self-closing custom elements are not valid HTML and your browser's native parser will not understand them.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Recursive Components</h3>
+            <p><span class='glyphicon-remove'></span>Components can recursively invoke themselves in their own template.
+                <br> &nbsp; &bull; However, they can only do so with the <code>name</code> option:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>name: 'unique-name-of-my-component'
+            </pre>
+            <p><span class='glyphicon-remove'></span>When you register a component globally using <code>Vue.component</code>, the global ID is automatically set as the component's <code>name</code> option.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('unique-name-of-my-component', {
+                // ...
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>If you're not careful, recursive components can also lead to infinite loops:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>name: 'stack-overflow',
+            tempalte: '&lt;div>&lt;stack-overflow>&lt;/stack-overflow>&lt;/div>'
+            </pre>
+            <p><span class='glyphicon-remove'></span>A component like the above will result in a "max stack size exceeded" error, so make sure recursive invocation is conditional (i.e. uses a <code>v-if</code> that will eventually be <code>false</code>).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Circular References Between Components</h3>
+            <p><span class='glyphicon-remove'></span>Let's say you're building a file directory tree, like in Finder or File Explorer. You might have a <code>tree-folder</code> component with this tempalte:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;p>
+                &lt;span>{{ folder.name }}&lt;/span>
+                &lt;tree-folder-contents :children="folder.children"/>
+            &lt;/p>
+            </pre>
+            <p><span class='glyphicon-remove'></span>Then a <code>tree-folder-contents</code> component with this template:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;ul>
+                &lt;li v-for="child in children">
+                    &lt;tree-folder v-if="child.children" :folder="child"/>
+                    &lt;span v-else>{{ child.name }}&lt;/span>
+                &lt;/li>
+            &lt;/ul>
+            </pre>
+            <p><span class='glyphicon-remove'></span>When you look closely, you'll see that these components will actually be each other's descendent <i>and</i> ancestor in the render tree - a paradox!</p>
+            <p><span class='glyphicon-remove'></span>When registering components globally with <code>Vue.component</code>, this paradox is resolved for you automatically.</p>
+            <p><span class='glyphicon-remove'></span>If you're requiring/importing components using a <b>modular system</b>, e.g. via Webpack or Browserify, you'll get an error:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Failed to mount component: tempalte or render function not defined.
+            </pre>
+            <p><span class='glyphicon-remove'></span>To examplain what's happening, let's call our components A and B. 
+                <br> &nbsp; &bull; The module system sees that it needs A, but first A needs B, but B needs A, but A needs B, etc., etc.
+                <br> &nbsp; &bull; It's stuck in a loop, not knowing how to fully resolve either component without first resolving the other.</p>
+            <p><span class='glyphicon-remove'></span>To fix this, we need to give the module system a point at which it can say, "A needs B <i>eventually</i>, but there's no need to resolve B first."</p>
+            <p><span class='glyphicon-remove'></span>In our case, let's make the point the <code>tree-folder</code> component.
+                <br> &nbsp; &bull; We know the child that creates the paradox is the <code>tree-folder-contents</code> component, so we'll wait until the <code>beforeCreate</code> lifecycle hook to register it:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>beforeCreate: function() {
+                this.$options.components.TreeFolderContents = require('./tree-folder-contents.vue').default
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Inline Templates</h3>
+            <p><span class='glyphicon-remove'></span>When the <code>inline-template</code> special attribute is present on a child component, the component will use its inner context as its template, rather than treating it as distributed content. This allows more flexible template-authoring.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;my-component inline-tempalte>
+                 &lt;div>
+                    &lt;p>These are compiled as the component's own template.&lt;/p>
+                    &lt;p>Not parent's transclusion content.&lt;/p>
+                 &lt;/div>
+            &lt;/my-component>
+            </pre>
+            <p><span class='glyphicon-remove'></span>However, <code>inline-template</code> makes the scope of your templates harder to reason about.
+                <br> &nbsp; &bull; As a best practice, prefer defining tempaltes inside the component using the <code>template</code> option for in a <code>template</code> element in a <code>.vue</code> file.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>X-Templates</h3>
+            <p><span class='glyphicon-remove'></span>Another way to define templates is inside of a script element with the type <code>text/x-template</code>, then referencing the template by an id. For example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;script type="text/x-template" id="hello-world-template">
+                &lt;p>Hello hello hello&lt;/p>
+            &lt;/script>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('hello-world', {
+                tempalte: '#hello-world-template'
+            })
+            </pre>
+            <p><span class='glyphicon-remove'></span>These can be useful for demos with large tempaltes or in extremely small applications, but should otherwise be avoided, because they separate templates from the rest of the component definition.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Cheap Static Components with <code>v-once</code></h3>
+            <p><span class='glyphicon-remove'></span>Rendering plain HTML elements is very fast in Vue, but sometimes you might have a component that contains <b>a lot</b> of static content.</p>
+            <p><span class='glyphicon-remove'></span>In these cases, you can ensure the it's only evaluated once and then cached by adding the <code>v-once</code> directive to the root element, like so:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Vue.component('terms-of-service', {
+                template: '\
+                    &lt;div v-once>\
+                        &lt;h1>Terms of Service&lt;/h1>\
+                        ... a lot of static content ...\
+                    &lt;/div>\
+                '
+            })
+            </pre>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
