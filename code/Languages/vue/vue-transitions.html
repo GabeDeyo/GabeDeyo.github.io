@@ -98,6 +98,7 @@
           <li><a href="#header">Top</a></li>
           <li class="separator"></li>
           <li><a href="#0">Overview</a></li>
+          <li><a href='#1'>Transition Singles</a></li>
         </ul>
     </aside>
 
@@ -113,6 +114,10 @@
                         <ul>
                             <li><p><span class="glyphicon-remove"></span>
                                 <a href="#0">Overview</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Transitioning Single Elements/Components</a>
                                 </p>
                             </li>
                         </ul>
@@ -132,6 +137,139 @@
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Transitioning Single Elements/Components</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Vue provides a <code>transition</code> wrapper component, allowing you to add entering/leaving transitions for any element or component in the following contexts:
+                <br> &nbsp; &bull; Conditional rendering (using <code>v-if</code>)
+                <br> &nbsp; &bull; Conditional display (using <code>v-show</code>)
+                <br> &nbsp; &bull; Dynamic components
+                <br> &nbsp; &bull; Component root nodes
+            <p><span class='glyphicon-remove'></span>This is what a simple example looks like in action:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="demo">
+                &lt;button v-on:click="show = !show">
+                    Toggle
+                &lt;/button>
+                &lt;transition name="fade">
+                    &lt;p v-if="show">hello&lt;/p>
+                &lt;/transition>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#demo',
+                data: {
+                    show: true
+                }
+            })
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>.fade-enter-active, .fade-leave-active {
+                transition: opacity .5s
+            }
+            .fade-enter, .fade-leave-to {
+                opacity: 0
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>When an element wrapped in a <code>transition</code> component is inserted or removed, this is what happens:</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; 1. Vue will automatically sniff whether the target element has CSS transitions or animations applied. If it does, CSS transition classes will be added/removed at appropriate timings.</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; 2. If the transition component provided <b>JavaScript hooks</b>, these hooks will be called at appropriate timings.</p>
+            <p><span class='glyphicon-remove'></span> &nbsp; 3. If no CSS transitions/animations are detected and no JavaScript hooks are provided, the DOM operations for insertion and/or/ removal will be executed immediately on the next frame.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Transition Classes</h3>
+            <p><span class='glyphicon-remove'></span>These are six classes applied for enter/leave transitions.</p>
+            <p><span class='glyphicon-remove'></span>1. <code>v-enter</code>: Starting state for enter. Added before element is inserted, removed one frame after element is inserted.</p>
+            <p><span class='glyphicon-remove'></span>2. <code>v-enter-active</code>: Activate state for enter. Applied during the entire entering phase. Added before element is inserted, removed when transition/animation finishes. This class can be used to define the duration, delay and easing curve for the entering transition.</p>
+            <p><span class='glyphicon-remove'></span>3. <code>v-enter-to</code>: Ending state for enter. Adding one frame after element is inserted (at the same time <code>v-enter</code> is removed), removed when transition/animation finishes.</p>
+            <p><span class='glyphicon-remove'></span>4. <code>v-leave</code>: Starting state for leave. Added immediately when a leaving transition is triggered, removed after one frame.</p>
+            <p><span class='glyphicon-remove'></span>5. <code>v-leave-active</code>: Active state for leave. Applied during the entire leaving phase. Added immediately when leave transition is triggered, removed when the transition/animation finishes. This class can be used to define the duration, delay and easing curve for the leaving transition.</p>
+            <p><span class='glyphicon-remove'></span>6. <code>v-leave-to</code>: Ending state for leave. Added one frame after a leaving transition is triggered (at the same time <code>v-leave</code> is removed), removed when the transition/animation finishes.</p>
+            <p><span class='glyphicon-remove'></span>Each of these classes will be prefixed with the name of the transition. Here the <code>v-</code> prefix is the default when you use a <code>&lt;transition></code> element with no name. If you use <code>&lt;transition name="my-transition"></code> for example, then the <code>v-enter</code> class would instead be <code>my-transition-enter</code>.</p>
+            <p><span class='glyphicon-remove'></span><code>v-enter-active</code> and <code>v-leave-active</code> give you the ability to specify different easing curves for enter/leave transitions.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Transitions</h3>
+            <p><span class='glyphicon-remove'></span>One of the most common transition types uses CSS transitions. Here is a quick example:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-1">
+                &lt;button @click="show = !show">
+                    Toggle render
+                &lt;/button>
+                &lt;transition name="slide-fade">
+                    &lt;p v-if="show">hello&lt;/p>
+                &lt;/transition>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#example-1',
+                data: {
+                    show: true
+                }
+            })
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>/* Enter and leave animations can use different
+             durations and timing functions */
+            .slide-fade-enter-active {
+                transition: all .3s ease;
+            }
+            .slide-fade-leave-active {
+                transition: all .8s cubic-bezier(1,0, 0.5, 0.8, 1.0);
+            }
+            .slide-fade-enter, .slide-fade-leave-to {
+                transform: translateX(10px);
+                opacity: 0;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>CSS Animations</h3>
+            <p><span class='glyphicon-remove'></span>CSS animations are applied in the same way as CSS transitions, the difference being that <code>v-enter</code> is not removed immediately after the element is inserted, but on an <code>animationend</code> event.</p>
+            <p><span class='glyphicon-remove'></span>Here's an example, omitting prefixed CSS rules for the sake of brevity:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>&lt;div id="example-2">
+                &lt;button @click="show = !show">Toggle show&lt;/button>
+                &lt;transition name="bounce">
+                    &lt;p v-if="show">Look at me!&lt;/p>
+                &lt;/transition>
+            &lt;/div>
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>new Vue({
+                el: '#example-2',
+                data: {
+                    show: true
+                }
+            })
+            </pre>
+            <pre>
+            <span class='glyphicon-remove'></span>.bounce-enter-active {
+                animation: bounce-in .5s;
+            }
+            .bounce-leave-active {
+                animation: bounce-in .5s reverse;
+            }
+            @keyframes bounce-in {
+                0% {
+                    transform: scale(0);
+                }
+                50% {
+                    transform: scale(1.5);
+                }
+                100% {
+                    transform: scale(1);
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
                     <!-------------------------------------->

@@ -163,6 +163,10 @@
                                 <a href='#14'>Average Score (no loop)</a>
                                 </p>
                             </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#15'>Missing Sheep</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -746,6 +750,44 @@
             <pre>
             <span class='glyphicon-remove'></span>function average(scores) {
                 return Math.round(scores.reduce((x, y) => x+y, 0) / scores.length);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='15'>
+    <h2>Missing Sheep</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Every week (Friday and Saturday night), the farmer and his son count amount of sheep returned to the yard of their farm.</p>
+            <p><span class='glyphicon-remove'></span>They count sheep on Friday night, the same goes for Saturday (suppose that sheep returned on Friday are not feeding back on hills on Saturday).</p>
+            <p><span class='glyphicon-remove'></span>As sheep are not coming in one flock, you will be given two arrays (one for each night) representing number of sheep as they were returning to the yard during the evenings (entries are positive ints, higher than zero).</p>
+            <p><span class='glyphicon-remove'></span>Farmer and his son know the total amount of their sheep, you will be given this number as third parameter.</p>
+            <p><span class='glyphicon-remove'></span>Your goal is to calculate the amount of sheep lost (not returned) to the farm after Saturday night counting.</p>
+            <p><span class='glyphicon-remove'></span>Example 1: Input: {1, 2}, {3, 4}, 15 --> Output: 5</p>
+            <p><span class='glyphicon-remove'></span>Example 2: Input: {3, 1, 2}, {4, 5}, 21 --> Output: 6</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function lostSheep(friday,saturday,total){
+                var sheep = friday.reduce((a,b) => a+b, 0) + saturday.reduce((a,b) => a+b, 0);
+                return total - sheep;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function lostSheep(friday,saturday,total){
+                return friday.concat(saturday).reduce((s,l)=>s-l,total)
+
+                // array1.concat(array2) => combine friday &amp; saturday
+
+                // array.reduce((x,y)=>x-y, total) subtract values array starting at total
             }
             </pre>
         </p></li>

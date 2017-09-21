@@ -102,6 +102,8 @@
           <li><a href='#2'>How to Use</a></li>
           <li><a href='#3'>Colors</a></li>
           <li><a href='#4'>Backgrounds</a></li>
+          <li><a href='#5'>Borders</a></li>
+          <li><a href='#6'>Margin</a></li>
         </ul>
     </aside>
 
@@ -133,6 +135,14 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#4'>Backgrounds</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Borders</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Margin</a>
                                 </p>
                             </li>
                         </ul>
@@ -449,6 +459,142 @@
                 background-attachement: fixed;
             }
             </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Background - Shorthand Property</h3>
+            <p><span class='glyphicon-remove'></span>To shorten the code, it is also possible to specify all the background properties in one single property.</p>
+            <p><span class='glyphicon-remove'></span>This is called a shorthand property.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>body {
+                background: #ffffff url("img.png") no-repeat right top;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>When using the shorthand property, the order of the property values is:
+                <br> &nbsp; &bull; <code>background-color</code>
+                <br> &nbsp; &bull; <code>background-image</code>
+                <br> &nbsp; &bull; <code>background-repeat</code>
+                <br> &nbsp; &bull; <code>background-attachement</code>
+                <br> &nbsp; &bull; <code>background-position</code>
+            </p>
+            <p><span class='glyphicon-remove'></span>It does not matter if one property is missing, as long as the other ones are in this order.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>All CSS Background Properties</h3>
+            
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Property</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>background</td>
+                        <td>Sets all the background properties in one declaration</td>
+                    </tr>
+                    <tr>
+                        <td>background-attachment</td>
+                        <td>Sets whether a background image is fixed or scrolls with the rest of the page</td>
+                    </tr>
+                    <tr>
+                        <td>background-color</td>
+                        <td>Sets the background color of an elemnet</td>
+                    </tr>
+                    <tr>
+                        <td>background-image</td>
+                        <td>Sets the background image for an element</td>
+                    </tr>
+                    <tr>
+                        <td>background-position</td>
+                        <td>Sets the starting position of a background image</td>
+                    </tr>
+                    <tr>
+                        <td>background-repeat</td>
+                        <td>Sets how the background image will be repeated</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Borders</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            The CSS <code>border</code> properties allow you to specify the style, width, and color of an element's border.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Border Style</h3>
+            <p><span class='glyphicon-remove'></span>The <code>border-style</code> property specifies what kind of border to display.</p>
+            <p><span class='glyphicon-remove'></span>The following values are allowed:</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>dotted</code> - Defines a dotted border</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>dashed</code> - Defines a dashed border</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>solid</code> - Defines a solid border</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>double</code> - Defines a double border</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>groove</code> - Defines a 3D grooved border. Effect depends on border-color.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>ridge</code> - Defines a 3D ridged border. Effect depends on border-color.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>inset</code> - Defines a 3D inset border. Effect depends on border-color.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>outset</code> - Defines a 3D outset border. Effect depends on border-color.</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>none</code> - Defines no border</p>
+            <p><span class='glyphicon-remove'></span> &bull; <code>hidden</code> - Defines a hidden border</p>
+            <p><span class='glyphicon-remove'></span>The <code>border-style</code> property can have from one to four values (for the top border, right border, bottom border, and the left border).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Border Width</h3>
+            <p><span class='glyphicon-remove'></span>The <code>border-width</code> property specifies the width of the four borders.</p>
+            <p><span class='glyphicon-remove'></span>The width can be set as a specific size (in px, pt, cm, em, etc.) or by using one of the three pre-defined values: thin, medium, or thick.</p>
+            <p><span class='glyphicon-remove'></span>The <code>border-width</code> property can have from one to four values (for the top border, right border, bottom border, and left border).</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Border Color</h3>
+            <p><span class='glyphicon-remove'></span>The <code>border-color</code> property is used to set the color of the four borders.</p>
+            <p><span class='glyphicon-remove'></span>The <code>border-color</code> property can have from one to four values (top, right, bottom, left).</p>
+            <p><span class='glyphicon-remove'></span>If <code>border-color</code> is not set, it inherits the color of the element.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Individual Border Sides</h3>
+            <p><span class='glyphicon-remove'></span>In CSS, there are properties for specifying each of the borders (top, right, bottom, and left)</p>
+            <p><span class='glyphicon-remove'></span>If the <code>border-style</code> property has four values:
+                <br> &nbsp; &bull; border-style: dotted(top) solid(right) double(bottom) dashed(left);</p>
+            <p><span class='glyphicon-remove'></span>If the <code>border-style</code> property has three values:
+                <br> &nbsp; &bull; border-style: dotted(top) solid(right/left) double(bottom)</p>
+            <p><span class='glyphicon-remove'></span>If the <code>border-style</code> has two values:
+                <br> &nbsp; &bull; border-style: dotted(top/bottom) solid(right/left)</p>
+            <p><span class='glyphicon-remove'></span>If the <code>border-style</code> property has one value:
+                <br> &nbsp; &bull; border-style: dotted(top/right/bottom/left)</p>
+            <p><span class='glyphicon-remove'></span>This syntax also works with <code>border-width</code> and <code>border-color</code>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Border - Shorthand Property</h3>
+            <p><span class='glyphicon-remove'></span>To shorten the code, it is also possible to specify all the individual border properties in one property.</p>
+            <p><span class='glyphicon-remove'></span>The <code>border</code> property is shorthand for the following individual border properties:
+                <br> &nbsp; &bull; <code>border-width</code>
+                <br> &nbsp; &bull; <code>border-style</code> (required)
+                <br> &nbsp; &bull; <code>border-color</code></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Rounded Borders</h3>
+            <p><span class='glyphicon-remove'></span>The <code>border-radius</code> property is used to add rounded borders to an element:</p>
+            <pre>
+            <span class='glyphicon-remove'></span>p {
+                border: 2px solid red;
+                border-radius: 5px;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Margin</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
