@@ -99,16 +99,20 @@
                 <div class="col-md-12">
                     <h1 id="title">CodeWars</h1>
 
-                    <aside>
-                        <button type="button" class="btn btn-default" name="button" id="selectAll">Select All</button>
-                        <button type="button" class="btn btn-default" name="button" id="clearAll">Clear All</button>
-                    </aside>
-
                     <div class="jumbotron heliList">
                         <h2>Index</h2>
                         <ul>
+                            <h4><b><i>8 kyu</i></b></h4>
                             <li><p><span class="glyphicon-remove"></span>
                                 <a href="#1">Credit Card Mask</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Number of People in the Bus</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#10'>Sum without Highest/Lowest</a>
                                 </p>
                             </li>
                             <li><p><span class="glyphicon-remove"></span>
@@ -117,10 +121,6 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#3'>0-9 -> String</a>
-                                </p>
-                            </li>
-                            <li><p><span class='glyphicon-remove'></span>
-                                <a href='#4'>Number of People in the Bus</a>
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
@@ -144,10 +144,6 @@
                                 </p>
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
-                                <a href='#10'>Sum without Highest/Lowest</a>
-                                </p>
-                            </li>
-                            <li><p><span class='glyphicon-remove'></span>
                                 <a href='#11'>Number of Occurrences</a>
                                 </p>
                             </li>
@@ -165,6 +161,34 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#15'>Missing Sheep</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#16'>Sum of nth term in Series</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#17'>List Filtering (numbers)</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#18'>Sum of Sequence</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#19'>Categorize New Member</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#20'>Highest profit wins</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#21'>Index of Middle</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#22'>Ones and Zeros</a>
                                 </p>
                             </li>
                         </ul>
@@ -199,6 +223,125 @@
         </p></li>
     </ul>
     <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Number of People in the Bus</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            There is a bus moving in the city, and it takes and drop some people in each bus stop.
+            <br>You are provided a list (or array in JS) of integer arrays. Each integer array has two items which represent number of people get into bus (The first item) and number of people get off the bus (The second item).
+            <br>The second value in the first integer array is 0, since the bus is empty in the first bus stop.
+            <br>Your task is to return number of people who are still in the bus after the last bus station (after the last array).
+            <br>Please keep in mind that the test cases ensure that the number of people in the bus is always >= 0. So the return integer can't be negative.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Notes</b>
+            <br> &bull; Need to understand what data we have. There is a single <b>List</b>. It contains an number of <b>integer arrays</b>.
+            <br> &bull; Need to <b>loop through</b> the list, in order to work with the data in the integer arrays.
+            <br> &bull; Once we access the first element of each array, add that number to the final result.
+            <br> &bull; Once we access the second element of each array, subtract that number from the final result.
+            <br> &bull; Seems like most practical solutions involve using LINQ.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>My Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List&lt;int[]> peopleListInOut) {
+                int peopleOn = 0;
+                
+                foreach(int[] intArray in peopleListInOut){
+                    peopleOn += intArray[0];
+                    peopleOn -= intArray[1];
+                }
+                
+                return peopleOn;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Best LINQ Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
+                return peopleListInOut.Sum(Item => Item[0] - Item[1]);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Best Non-LINQ Solution</b>
+            <pre>
+            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
+                int result = 0;
+                
+                foreach(int[] onOff in peopleListInOut) result += onOff[0] - onOff[1];
+                
+                return result;
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='10'>
+    <h2>Sum without Highest/Lowest</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Sum all the numbers of the array except the highest and the lowest element (the value, not the index!).</p>
+            <p><span class='glyphicon-remove'></span>If array is empty, null or None, or if only 1 Element exists, return 0.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Example
+
+            { 6, 2, 1, 8, 10 } => 16
+            { 1, 1, 11, 2, 3 } => 6
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumArray(array) {
+                
+                // return if null or contains 0 or 1 items
+                if(array == null || array.length &lt;= 1)
+                    return 0
+                
+                // take out lowest and highest elements
+                array.splice(array.indexOf(Math.min.apply(null, array)), 1);
+                array.splice(array.indexOf(Math.max.apply(null, array)), 1);
+                
+                // start summation
+                var result = 0;
+                for(i in array) {
+                    result += array[i];
+                }
+                
+                return result;
+                }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function sumArray(array) {
+                // return if null or contains 0 or 1 items
+                if (array == null || array.length &lt; 2) {
+                    return 0;
+                } else {
+                    // sort array lowest -> heighest
+                    array = array.sort(function(a,b) {return a - b;});
+
+                    // start summation (excluding first and last index)
+                    var total = 0;
+                    for (var i = 1; i &lt; array.length - 1; i++) {
+                    total += array[i];
+                    }
+                    return total;
+                }
+                }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
 <div class="jumbotron col-md-12 heliList" id="2">
@@ -259,63 +402,6 @@
                 };
                 //Return Value at <i>dict</i> Key
                 return dict[number];
-            }
-            </pre>
-        </p></li>
-    </ul>
-    <a href='#title'><span class='glyphicon-menu-up'></span></a>
-</div>
-
-<div class='jumbotron col-md-12 heliList' id='4'>
-    <h2>Number of People in the Bus</h2>
-    <ul>
-        <li><p><span class='glyphicon-remove'></span>
-            There is a bus moving in the city, and it takes and drop some people in each bus stop.
-            <br>You are provided a list (or array in JS) of integer arrays. Each integer array has two items which represent number of people get into bus (The first item) and number of people get off the bus (The second item).
-            <br>The second value in the first integer array is 0, since the bus is empty in the first bus stop.
-            <br>Your task is to return number of people who are still in the bus after the last bus station (after the last array).
-            <br>Please keep in mind that the test cases ensure that the number of people in the bus is always >= 0. So the return integer can't be negative.
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <b>Notes</b>
-            <br> &bull; Need to understand what data we have. There is a single <b>List</b>. It contains an number of <b>integer arrays</b>.
-            <br> &bull; Need to <b>loop through</b> the list, in order to work with the data in the integer arrays.
-            <br> &bull; Once we access the first element of each array, add that number to the final result.
-            <br> &bull; Once we access the second element of each array, subtract that number from the final result.
-            <br> &bull; Seems like most practical solutions involve using LINQ.
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <b>My Solution</b>
-            <pre>
-            <span class='glyphicon-remove'></span>public static int Number(List&lt;int[]> peopleListInOut) {
-                int peopleOn = 0;
-                
-                foreach(int[] intArray in peopleListInOut){
-                    peopleOn += intArray[0];
-                    peopleOn -= intArray[1];
-                }
-                
-                return peopleOn;
-            }
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <b>Best LINQ Solution</b>
-            <pre>
-            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
-                return peopleListInOut.Sum(Item => Item[0] - Item[1]);
-            }
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <b>Best Non-LINQ Solution</b>
-            <pre>
-            <span class='glyphicon-remove'></span>public static int Number(List<int[]> peopleListInOut) { 
-                int result = 0;
-                
-                foreach(int[] onOff in peopleListInOut) result += onOff[0] - onOff[1];
-                
-                return result;
             }
             </pre>
         </p></li>
@@ -516,68 +602,6 @@
             <span class='glyphicon-remove'></span>function stringToArray(string){
                 return string.split(' ');
             }
-            </pre>
-        </p></li>
-    </ul>
-    <a href='#title'><span class='glyphicon-menu-up'></span></a>
-</div>
-
-<div class='jumbotron col-md-12 heliList' id='10'>
-    <h2>Sum without Highest/Lowest</h2>
-    <ul>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Details</h3>
-            <p><span class='glyphicon-remove'></span>Sum all the numbers of the array except the highest and the lowest element (the value, not the index!).</p>
-            <p><span class='glyphicon-remove'></span>If array is empty, null or None, or if only 1 Element exists, return 0.</p>
-            <pre>
-            <span class='glyphicon-remove'></span>//Example
-
-            { 6, 2, 1, 8, 10 } => 16
-            { 1, 1, 11, 2, 3 } => 6
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>My Solution</h3>
-            <pre>
-            <span class='glyphicon-remove'></span>function sumArray(array) {
-                
-                // return if null or contains 0 or 1 items
-                if(array == null || array.length &lt;= 1)
-                  return 0
-              
-                // take out lowest and highest elements
-                array.splice(array.indexOf(Math.min.apply(null, array)), 1);
-                array.splice(array.indexOf(Math.max.apply(null, array)), 1);
-              
-                // start summation
-                var result = 0;
-                for(i in array) {
-                  result += array[i];
-                }
-              
-                return result;
-              }
-            </pre>
-        </p></li>
-        <li><p><span class='glyphicon-remove'></span>
-            <h3>Best Solution</h3>
-            <pre>
-            <span class='glyphicon-remove'></span>function sumArray(array) {
-                // return if null or contains 0 or 1 items
-                if (array == null || array.length &lt; 2) {
-                  return 0;
-                } else {
-                  // sort array lowest -> heighest
-                  array = array.sort(function(a,b) {return a - b;});
-
-                  // start summation (excluding first and last index)
-                  var total = 0;
-                  for (var i = 1; i &lt; array.length - 1; i++) {
-                    total += array[i];
-                  }
-                  return total;
-                }
-              }
             </pre>
         </p></li>
     </ul>
@@ -795,6 +819,295 @@
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
 
+<div class='jumbotron col-md-12 heliList' id='16'>
+    <h2>Sum of nth term in Series</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Your task is to write a function which returns the sum of following series upto nth term(parameter).</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Series: 1 + 1/4 + 1/7 + 1/10 + 1/13 + 1/16 +...
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Rules</b>: 
+                <br> &nbsp; &bull; You need to round the answer to 2 decimal places and return it as String.
+                <br> &nbsp; &bull; If the given value is 0 then it should return 0.00
+                <br> &nbsp; &bull; You will only be given Natural Numbers as arguments.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Examples
+            SeriesSum(1) => 1 = "1.00"
+            SeriesSum(2) => 1 + 1/4 = "1.25"
+            SeriesSum(5) => 1 + 1/4 + 1/7 + 1/10 + 1/13 = "1.57"
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function SeriesSum(n) {
+                var iterator = 1;
+                var denominator = 3;
+                var result = 0;
+            
+                for(var i = 1; iterator &lt;= n; i+=3) {
+                    result += 1/i;
+                    iterator++;
+                }
+                return result.toFixed(2);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function SeriesSum(n) {
+                for (var s = 0, i = 0; i &lt; n; i++) {
+                  s += 1 / (1 + i * 3)
+                }
+                
+                return s.toFixed(2)
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='17'>
+    <h2>List Filtering (numbers)</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>In this kata you will create a function that takes a list of non-negative integers and strings and returns a new list with the strings filtered out.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//Example
+            filter_list([1,2,'a','b']) == [1,2]
+            filter_list([1,'a','b',0,15]) == [1,0,15]
+            filter_list([1,2,'aasf','1','123',123]) == [1,2,123]
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function filter_list(l) {
+                return l.filter( x => typeof(x) === typeof(0));
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function filter_list(l) {
+                return l.filter(function(v) {return typeof v == 'number'})
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='18'>
+    <h2>Sum of Sequence</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Your task is to make function, which returns the sum of a sequence of integers.</p>
+            <p><span class='glyphicon-remove'></span>The sequence is defined by 3 non-negative values: begin, end, step.</p>
+            <p><span class='glyphicon-remove'></span>If begin value is greater than the end, function should returns 0</p>
+            <pre>
+            <span class='glyphicon-remove'></span>sequenceSum(2,2,2) === 2
+            sequenceSum(2,6,2) === 12 // 2 + 4 + 6
+            sequenceSum(1,5,1) === 15 // 1 + 2 + 3 + 4 + 5
+            sequenceSum(1,5,3) === 5 // 1 + 4
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>const sequenceSum = (begin, end, step) => {
+                var result=0;
+                for(var i = begin; i &lt;=end; i+=step) {
+                  result += i;
+                }
+                return result;
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>const sequenceSum = (begin, end, step) => {
+                if (begin > end) {
+                  return 0;
+                }
+                return begin + sequenceSum(begin + step, end, step);
+            };
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='19'>
+    <h2>Categorize New Member</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>The Western Suburbs Croquet Club has two categories of membership, Senior and Open. They would like your help with an application form that will tell prospective members which category they will be placed.</p>
+            <p><span class='glyphicon-remove'></span>To be a senior, a member must be at least 55 years old and have a handicap greater than 7. In this croquet club, handicaps range from -2 to +26; the better the player the lower the handicap.</p>
+            <p><span class='glyphicon-remove'></span><b>Input</b>:
+            <br> &nbsp; &bull; Input will consist of a list of lists containing two items each. Each list contains information for a single potential member. Information consists of an integer for the person's age and an integer for the person's handicap.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[[18, 20],[45, 2],[61, 12],[37, 6],[21, 21],[78, 9]]
+            </pre>
+            <p><span class='glyphicon-remove'></span><b>Output</b>:
+                <br> &nbsp; &bull; Output will consist of a list of string values (in Haskell: Open or Senior) stating whether the respective member is to be placed in the senior or open category.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>["Open", "Open", "Senior", "Open", "Open", "Senior"]
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function openOrSenior(data){
+                var result = new Array();
+                for(i in data) {
+                    if(data[i][0] >= 55 &amp;&amp; data[i][1] > 7) {
+                        result.push("Senior");
+                    } else {
+                        result.push("Open");
+                    }
+                }
+                return result;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function openOrSenior(data){
+                function determineMembership(member){
+                  return (member[0] >= 55 &amp;&amp; member[1] > 7) ? 'Senior' : 'Open';
+                }
+                return data.map(determineMembership);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='20'>
+    <h2>Highest profit wins</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Ben has a very simple idea to make some profit: he buys something and sells it again. Of course, this wouldn't give him any profit at all if he was simply to buy and sell it at the same price. Instead, he's going to buy it for the lowest possible price and sell it at the highest.</p>
+            <p><span class='glyphicon-remove'></span>Write a function that returns both the minimum and maximum number of the given list/array.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>minMax([1,2,3,4,5])   == [1,5]
+            minMax([2334454,5])   == [5, 2334454]
+            minMax([1])           == [1, 1]
+            </pre>
+            <p><span class='glyphicon-remove'></span>All arrays or lists will always have at least one element, so you don't need to check the length. Also, your function will always get an array or a list, you don't have to check for null, undefined or similar.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function minMax(arr){
+                return [Math.min.apply(null, arr),Math.max.apply(null, arr)];
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function minMax(arr){
+                return [Math.min(...arr), Math.max(...arr)];
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='21'>
+    <h2>Index of Middle</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>As a part of this Kata, you need to create a function that when provided with a triplet, returns the index of the numerical element that lies between the other two elements.</p>
+            <p><span class='glyphicon-remove'></span>The input to the function will be an array of three distinct numbers (Haskell: a tuple).</p>
+            <pre>
+            <span class='glyphicon-remove'></span>gimme([2, 3, 1]) => 0
+            gimme([5, 10, 14]) => 1
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>var gimme = function (inputArray) {
+                var input = inputArray.indexOf(Math.min.apply(null, inputArray)) + inputArray.indexOf(Math.max.apply(null, inputArray));
+                switch(input) {
+                    case 1: {
+                        return 2;
+                    }
+                    case 2: {
+                        return 1;
+                    }
+                    case 3: {
+                        return 0;
+                    }
+                }
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>function gimme(a) {
+                return a.indexOf(a.concat().sort(function(a, b) { return a - b })[1]);
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='22'>
+    <h2>Ones and Zeros</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>Given an array of one's and zero's convert the equivalent binary value to an integer.</p>
+            <p><span class='glyphicon-remove'></span>Eg: [0, 0, 0, 1] is treated as 0001 which is the binary representation of 1</p>
+            <pre>
+            <span class='glyphicon-remove'></span>Testing: [0, 0, 0, 1] ==> 1
+            Testing: [0, 0, 1, 0] ==> 2
+            Testing: [0, 1, 0, 1] ==> 5
+            Testing: [1, 0, 0, 1] ==> 9
+            Testing: [0, 0, 1, 0] ==> 2
+            Testing: [0, 1, 1, 0] ==> 6
+            Testing: [1, 1, 1, 1] ==> 15
+            Testing: [1, 0, 1, 1] ==> 11
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>const binaryArrayToNumber = arr => {
+                return parseInt(arr.join(""), 2)
+            };
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>const binaryArrayToNumber = arr => parseInt(arr.join(''), 2);
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
                     <!-------------------------------------->
                 </div>
             </div>
@@ -826,5 +1139,4 @@
 
     <script src="../../js/selection.js" charset="utf-8"></script>
 </body>
-
 </html>
