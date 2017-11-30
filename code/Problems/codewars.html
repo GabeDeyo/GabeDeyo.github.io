@@ -191,6 +191,15 @@
                                 <a href='#22'>Ones and Zeros</a>
                                 </p>
                             </li>
+                            <h4><b><i>6 kyu</i></b></h4>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#23'>Decode Morse Code</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#24'>Equal Sides of an Array</a>
+                                </p>
+                            </li>
                         </ul>
                     </div>
 
@@ -1107,6 +1116,76 @@
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
+
+<div class='jumbotron col-md-12 heliList' id='23'>
+    <h2>Decode Morse Code</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>In this kata you have to write a simple Morse code decoder. While the Morse code is now mostly superceded by voice and digital data communication channels, it still has its use in some applications around the world.</p>
+            <p><span class='glyphicon-remove'></span>The Morse code encodes every character as a sequence of "dots" and "dashes". For example, the letter A is coded as <code>·−</code>, letter Q is coded as <code>−−·−</code>, and digit 1 is coded as <code>·−−−</code>. The Morse code is case-insensitive, traditionally capital letters are used. When the message is written in Morse code, a single space is used to separate the character codes and 3 spaces are used to separate words. For example, the message HEY JUDE in Morse code is <code>···· · −·−−   ·−−− ··− −·· ·</code>.</p>
+            <p><span class='glyphicon-remove'></span><b>NOTE:</b> Extra spaces before or after the code have no meaning and should be ignored.</p>
+            <p><span class='glyphicon-remove'></span>In addition to letters, digits and some punctuation, there are some special service codes, the most notorious of those is the international distress signal SOS (that was first issued by Titanic), that is coded as <code>···−−−···</code>. These special codes are treated as single special characters, and usually are transmitted as separate words.</p>
+            <p><span class='glyphicon-remove'></span>Your task is to implement a function decodeMorse(morseCode), that would take the morse code as input and return a decoded human-readable string.</p>
+            <p><span class='glyphicon-remove'></span>The Morse code table is preloaded for you as a dictionary, feel free to use it. In CoffeeScript, C++, JavaScript, PHP, Python, Ruby and TypeScript, the table can be accessed like this: MORSE_CODE['.--'], in Java it is MorseCode.get('.--'), in C# it is MorseCode.Get('.--'), in Haskell the codes are in a Map String String and can be accessed like this: morseCodes ! ".--", in Elixir it is morse_codes variable.</p>
+            <p><span class='glyphicon-remove'></span>All the test strings would contain valid Morse code, so you may skip checking for errors and exceptions. In C#, tests will fail if the solution code throws an exception, please keep that in mind. This is mostly because otherwise the engine would simply ignore the tests, resulting in a "valid" solution.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>My Solution</h3>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Best Solution</h3>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='24'>
+    <h2>Equal Sides of an Array</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Details</h3>
+            <p><span class='glyphicon-remove'></span>You are going to be given an array of integers.</p>
+            <p><span class='glyphicon-remove'></span>Your job is to take that array and find an index N where the sum of the integers to the left of N is equal to the sum of the integers to the right of N.</p>
+            <p><span class='glyphicon-remove'></span>If there is no index that would make this happen, return <code>-1</code>.</p>
+            <p><span class='glyphicon-remove'></span>Let's say you are given the array <code>{1,2,3,4,3,2,1}:</code> 
+                <br> &nbsp; &bull; Your function will return the index 3, because at the 3rd position of the array, the sum of left side of the index ({1,2,3}) and the sum of the right side of the index ({3,2,1}) both equal 6.</p>
+            <p><span class='glyphicon-remove'></span>You are given the array <code>{1,100,50,-51,1,1}:</code>
+                <br> &nbsp; &bull; Your function will return the index 1, because at the 1st position of the array, the sum of left side of the index ({1}) and the sum of the right side of the index ({50,-51,1,1}) both equal 1.</p>
+            <p><span class='glyphicon-remove'></span>You are given the array <code>{20,10,-80,10,10,15,35}</code>
+                <br> &nbsp; &bull; At index 0 the left side is {}
+                The right side is {10,-80,10,10,15,35}
+                They both are equal to 0 when added. (Empty arrays are equal to 0 in this problem)
+                Index 0 is the place where the left side and right side are equal.</p>
+            <p><span class='glyphicon-remove'></span><b>Input:</b>
+                <br> &nbsp; &bull; An integer array of length 0 &lt; arr &lt; 1000. The numbers in the array can be any integer positive or negative.</p>
+            <p><span class='glyphicon-remove'></span><b>Output:</b>
+                <br> &nbsp; &bull; The lowest index N where the side to the left of N is equal to the side to the right of N. If you do not find an index that fits these rules, then you will return -1.</p>
+            <p><span class='glyphicon-remove'></span><b>Note:</b>
+                <br> &nbsp; &bull; If you are given an array with multiple answers, return the lowest correct index.
+                An empty array should be treated like a 0 in this problem.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<script>
+    function sumPortion(portion) {
+        if(portion.length <= 0) 
+         return 0;
+        return portion.reduce((a,b) => a+b);
+    }
+    function findEvenIndex(arr) {
+
+        for(i in arr) {
+            var temp = sumPortion(arr.slice(0, i));
+            console.log(temp);
+        }
+
+        return -1;
+    }
+    findEvenIndex([1,100,50,-51,1,1]);
+</script>
 
                     <!-------------------------------------->
                 </div>

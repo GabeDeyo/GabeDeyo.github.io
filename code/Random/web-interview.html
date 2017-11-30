@@ -105,9 +105,11 @@
           <li><a href="#5">Absolute vs. Relative Positioning</a></li>
           <li><a href="#6">Callbacks</a></li>
           <li><a href="#7">Flexbox - Control Horizontal Alignment</a></li>
-          <li><a href="#7">Constructor</a></li>
-          <li><a href='#8'>Sass</a></li>
-          <li><a href='#9'>Arrow Functions</a></li>
+          <li><a href="#8">Constructor</a></li>
+          <li><a href='#9'>Sass</a></li>
+          <li><a href='#10'>Arrow Functions</a></li>
+          <li><a href='#11'>CSS Variables</a></li>
+          <li><a href='#12'>AJAX</a></li>
         </ul>
     </aside>
 
@@ -163,6 +165,14 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#10'>Arrow Functions</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#11'>CSS Variables</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#12'>AJAX</a>
                                 </p>
                             </li>
                         </ul>
@@ -750,6 +760,89 @@
             <p><span class='glyphicon-remove'></span>Arrow Functions and ES6 (Lynda)</p>
             <p><span class='glyphicon-remove'></span>JavaScript Functions (Lynda)</p>
             <p><span class='glyphicon-remove'></span>JavaScript Essential Training (Lynda)</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='11'>
+    <h2>CSS Variables</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            One of the latest features upcoming in CSS is <b>variables</b>.
+            <p><span class='glyphicon-remove'></span>The feature is supported in most browsers, except for IE.
+                <br> &nbsp; &bull; However, with a PostCSS plug-in, CSS can be converted into regular CSS readable by any browser.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In order to create your variables, you need to create them in <code>:root</code>.
+            <p><span class='glyphicon-remove'></span>Then define them inside that rule using <code>--yellow, @custom</code>.
+            <br> &nbsp; &bull; Regular variables have two dashes in front of the name.
+            <br> &nbsp; &bull; Or you can create custom variables with the @ sign.</p>
+            <p><span class='glyphicon-remove'></span>In order to <i>use</i> the variables, use <code>var(--yellow), @apply</code></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <pre>
+            <span class='glyphicon-remove'></span>//CSS
+
+            :root {
+                --green: hsl(175, 49%, 42%);
+                --red: #f00;
+
+                @custom-media --min(width &lt;= 600px);
+                @custom-media --max(width > 600px);
+                @custom-selector :--headings h1, h2, h3, h4, h5, h6;
+            }
+
+            :--headings {
+                margin-top: 0;
+                margin-bottom: 1rem;
+                color: var(--red);
+            }
+
+            .btn {
+                background-color: var(--green);
+            }
+            .nav {
+                color: color(var(--red) shade(20%));
+
+                @media (--min) {
+                    display: block;
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='12'>
+    <h2>AJAX</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Every developer should know how to make <b>asynchronous requests</b> to a server using <b>AJAX</b>.
+            <br> &nbsp; &bull; AJAX: Asynchronous JavaScript and XML.
+            <br> &nbsp; &bull; Essentially provides the ability to make requests to a server and then <i>not</i> wait for an immediate response.
+            <br> &nbsp; &bull; Once requests are completed, data is sent to the browser and your application can do something with it.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In order to create requests, we need to use the <b>XMLHttpRequest</b> constructor. Then two main methods are the most important.
+            <br> &nbsp; &bull; open(): lets us prepare the original request for the server.
+            <br> &nbsp; &bull; send(): sends the request to the server.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            If the request has been sent, we can track a special event called <b>readystatechange</b>.
+            <br> &nbsp; &bull; The server will send us data about the request through this event by returning a request object.
+            <br> &nbsp; &bull; When we receive that request object, it will have some codes that you can use to verify the request.
+            <br> &nbsp; &bull; If everything looks good, we'll get the data which can then be parsed into a JS object.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Additional Resources</h3>
+            <p><span class='glyphicon-remove'></span>MDN AJAX</p>
+            <p><span class='glyphicon-remove'></span>JavaScript and AJAX: Integration Techniques (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>Building Web Applications with AJAX (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>jQuery Data with AJAX (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>JavaScript and JSON: Integration Techniques (Lynda)</p>
+            <p><span class='glyphicon-remove'></span>AJAX with PHP: Add Dynamic Content to Websites (Lynda)</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
