@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Implementations</title>
+    <title>Pluggable AI with Scriptable Objects</title>
 
     <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/section.css">
+    <link rel="stylesheet" href="../../css/page.css">
 </head>
 
 <body>
 
     <!-- Top Navigation -->
-    <header>
+    <header id="header">
         <nav class="navbar navbar-inverse">
             <div class="container">
                 <div class="navbar-header">
@@ -30,18 +30,19 @@
 
                 <div class="collapse navbar-collapse" id="collapsemenu">
                     <ul class="nav navbar-nav">
+
                         <!-- GAME DEVELOMENT -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- CONCEPTS -->
-                                <li><a href="concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- ENGINE -->
-                                <li><a href="engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
 
                                 <!-- IMPLEMENTATIONS -->
-                                <li><a href="implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                                <li><a href="../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
                             </ul>
                         </li>
 
@@ -90,79 +91,79 @@
 
     <!-------------------------------------------------------------------------->
 
-    <!-- MAIN -->
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href='#1'>Finite State AI</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
     <main>
         <div class="container">
             <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Pluggable AI with Scriptable Objects</h1>
 
-                <div class="jumbotron">
-                    <h1>Implementations</h1>
-                    <ul class="list-group">
-                        <!-- Roller Ball (Unity) -->
-                        <a href="../Implementations/roller-ball.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Roller Ball (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Roller Ball style game.</p>
-                        </a>
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Finite State AI</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
 
-                        <!-- FLAPPY BIRD -->
-                        <a href="../Implementations/flappy-bird.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Flappy Bird (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of 2D Flappy Bird style game.</p>
-                        </a>
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Project Goals</h3>
+            <p><span class='glyphicon-remove'></span> &bull; Learn how to create a finite state machine based AI system.</p>
+            <p><span class='glyphicon-remove'></span>Learn how to author actions, decisions and transitions for our state machine.</p>
+            <p><span class='glyphicon-remove'></span>Learn how to modify agent behavior by plugging in ScriptableObject assets.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            <h3>Agent Types</h3>
+            <p><span class='glyphicon-remove'></span><b>Chaser</b> - Patrols, once they see an enemy they chase until it's dead.</p>
+            <p><span class='glyphicon-remove'></span><b>Scanner</b> - Patrols, once they see an enemy they chase until it loses line of sight, then scan in a circle for a new target and either chase or patrol.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            Download asset files here: <a href="http://bit.ly/unitypluggableAI">Pluggable AI</a>
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
 
-                        <!-- SPACE SHOOTER (Unity) -->
-                        <a href="../Implementations/space-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Space Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Space Shooter style game.</p>
-                        </a>
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Finite State AI</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Narrow AI vs. General AI</h3>
+            <p><span class='glyphicon-remove'></span> &bull; Our AI is <b>narrow</b> or 'weak' AI, it is non-sentient artificial intelligence that is focused on one narrow task.</p>
+            <p><span class='glyphicon-remove'></span> &bull; We're not making Skynet here.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Finite State Machine</h3>
+            <p><span class='glyphicon-remove'></span> &bull; An abstract machine that can be in exactly one of a finite number of states at any given time.</p>
+            <p><span class='glyphicon-remove'></span> &bull; The finite state machine can change from one state to another in response to some external inputs; the change from one state to another is called a transition.</p>
+            <p><span class='glyphicon-remove'></span> &bull; A finite state machine is defined by a list of its states, its initial state and the conditions for each transition.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
 
-                        <!-- SURVIVAL SHOOTER (Unity) -->
-                        <a href="../Implementations/survival-shooter.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Survival Shooter (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of Survival Shooting style game.</p>
-                        </a>
-
-                        <!-- TANKS! (Unity) -->
-                        <a href="../Implementations/tanks.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Tanks! (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of two player Tank fighting game.</p>
-                        </a>
-
-                        <!-- ADVENTURE GAME (Unity) -->
-                        <a href="../Implementations/adventure.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Adventure Game (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of a Point &amp; Click adventure game.</p>
-                        </a>
-
-                        <!-- ADVENTURE GAME (Unity) -->
-                        <a href="../Implementations/controlling-particles.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Controlling Particles (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of how to control the shuriken particle system in Unity.</p>
-                        </a>
-
-                        <!-- Quiz Game (JSON) (Unity) -->
-                        <a href="../Implementations/quiz-game.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Quiz Game (JSON) (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of a Quiz Game, ft. JSON data!</p>
-                        </a>
-                        
-                        <!-- WRITING A SHADER (Unity) -->
-                        <a href="../Implementations/first-shader.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Writing a Shader (Unity Tutorial)</h3>
-                            <p class="list-group-item-text">Quick implementation of writing a simple glitch shader.</p>
-                        </a>
-                        
-                        <!-- PLUGGABLE AI WITH SCRIPTABLE OBJECTS (Unity) -->
-                        <a href="../Implementations/pluggable-ai.html" class="list-group-item">
-                            <h3 class="list-group-item-heading"><span class="glyphicon-chevron-right"></span> Pluggable AI with Scriptable Objects (Unity Tutorial) (Tanks Add-On)</h3>
-                            <p class="list-group-item-text">Quick implementation of using Scriptable Objects to create custom AI behaviors.</p>
-                        </a>
-                        
-                    </ul>
+                    <!-------------------------------------->
                 </div>
-
             </div>
-        </div>
     </main>
 
     <!-------------------------------------------------------------------------->
