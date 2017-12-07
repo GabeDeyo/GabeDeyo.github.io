@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Writing a Shader</title>
+
+    <meta name="viewport" content="width=device-width,initial-scale=1.0, shrink-to-fit=no" />
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="../../css/page.css">
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <header id="header">
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapsemenu" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a href="../../index.html" class="navbar-brand">Personal Notes</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="collapsemenu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- GAME DEVELOMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Game Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- CONCEPTS -->
+                                <li><a href="../Categories/concepts.html">Concepts <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ENGINE -->
+                                <li><a href="../Categories/engine.html">Engine <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- IMPLEMENTATIONS -->
+                                <li><a href="../Categories/implementations.html">Implementations <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- PROGRAMMING -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Programming <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- LANGUAGES -->
+                                <li><a href="../../code/Categories/languages.html">Languages <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- ALGORITHMS -->
+                                <li><a href="../../code/Categories/algorithms.html">Algorithms <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PROBLEMS -->
+                                <li><a href="../../code/Categories/problems.html">Problems <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- RANDOM -->
+                                <li><a href="../../code/Categories/random.html">Random <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                        <!-- GABE DEVELOPMENT -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gabe Development <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <!-- FITNESS PAGE -->
+                                <li><a href="../../gabe/Categories/fitness.html">Fitness <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- STYLE & GROOMING PAGE -->
+                                <li><a href="../../gabe/Categories/style.html">Style <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- FINANCE PAGE -->
+                                <li><a href="../../gabe/Categories/finance.html">Finance <span class="glyphicon-chevron-right"></span></a></li>
+
+                                <!-- PHILOSOPHY PAGE -->
+                                <li><a href="../../gabe/Categories/philosophy.html">Philosophy <span class="glyphicon-chevron-right"></span></a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- Side Navigation -->
+    <aside id="side-nav">
+        <ul>
+          <li><a href="#header">Top</a></li>
+          <li class="separator"></li>
+          <li><a href="#0">Introduction</a></li>
+          <li><a href='#1'>Shader Overview</a></li>
+          <li><a href='#2'>Anatomy of an Unlit Shader</a></li>
+          <li><a href='#3'>Vertex Function</a></li>
+          <li><a href='#4'>Fragment Function and Color Tint</a></li>
+          <li><a href='#5'>Transparency</a></li>
+          <li><a href='#6'>Displacing Vertices and Clipping Pixels</a></li>
+        </ul>
+    </aside>
+
+    <!-- Main -->
+    <main>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 id="title">Writing a Shader</h1>
+
+                    <div class="jumbotron heliList">
+                        <h2>Index</h2>
+                        <ul>
+                            <li><p><span class="glyphicon-remove"></span>
+                                <a href="#0">Introduction</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#1'>Shader Overview</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Anatomy of an Unlit Shader</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Vertex Function</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Fragment Function and Color Tint</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Transparency</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Displacing Vertices and Clipping Pixels</a>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+
+<div class="jumbotron col-md-12 heliList" id="0">
+    <h2>Introduction</h2>
+    <ul>
+        <li><p><span class="glyphicon-remove"></span>
+            <b>Note</b> - This project will require assets from the Asset Store
+            <br> &nbsp; &bull; <a href="http://bit.ly/firstshader">firstshader</a>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Session Goals</h3>
+            <p><span class='glyphicon-remove'></span> &bull; Learn the fundamentals of how Unity renders images to the screen.</p>
+            <p><span class='glyphicon-remove'></span> &bull; Learn how to control the rendering of of objects using custom shaders.</p>
+            <p><span class='glyphicon-remove'></span> &bull; Write a 'hologram' style unlit shader which allows us to control the color and transparency of the object, and manipulate its vertices during rendering.</p>
+        </p></li>
+        <li><p><span class="glyphicon-remove"></span>
+            The effect will have several features:
+            <br> &nbsp; &bull; Translucence
+            <br> &nbsp; &bull; Periodic Glitches (flicker the image, distort the vertices)
+            <br> &nbsp; &bull; C# script that handles random glitch timing
+        </p></li>
+    </ul>
+    <a href="#title"><span class="glyphicon-menu-up"></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='1'>
+    <h2>Shader Overview</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <b>Note</b> - The starting project should features a massive pink man.
+            <br> &nbsp; &bull; The pink effect is actually "Unity's Pink Error" shader.
+            <br> &nbsp; &bull; It is displayed anytime anything goes wrong with the <b>rendering process</b>.
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Rendering Process</h3>
+            <p><span class='glyphicon-remove'></span>A 3D Model contains <b>Vertices</b>, <b>Vertex Colors</b>, <b>UV data</b>, and <b>Normals</b>.</p>
+            <p><span class='glyphicon-remove'></span>A GameObject with a Mesh Renderer has a <b>Material</b> assigned.
+                <br> &nbsp; &bull; This Material uses a Shader and holds <b>textures</b>, <b>colors</b>, and <b>property values</b>.</p>
+            <p><span class='glyphicon-remove'></span>The Shader uses data from the 3D model and from the Material to draw pixels to the screen based on it's <b>CG / HLSL Code</b>.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Shader</h3>
+            <p><span class='glyphicon-remove'></span>A shader is a computer program that is used to do shading during the rendering proces.
+                <br> &nbsp; &bull; <b><i>Shading</i></b>: The production of appropriate levels of <b>light</b>, <b>darkness</b>, and <b>color</b> within an image, or, in the modern era, also to produce special effectts or do video post-processing (like image-effects).</p>
+            <p><span class='glyphicon-remove'></span>A shader is a program specifically made to run on a GPU.
+                <br> &nbsp; &bull; It is, ultimately, what draws the triangles of your 3D models.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>A New Shader</h3>
+            <p><span class='glyphicon-remove'></span>Create a new folder at the root called "Shaders"</p>
+            <p><span class='glyphicon-remove'></span>Inside, create a new Shader->Unlit Shader, called "Hologram"</p>
+            <p><span class='glyphicon-remove'></span>Create a Material for the Shader.
+                <br> &nbsp; &bull; Right click the Hologram shader.
+                <br> &nbsp; &bull; Create new Material.</p>
+            <p><span class='glyphicon-remove'></span>Apply the new "Unlit_Hologram" material to the statue in the scene.
+                <br> &nbsp; &bull; The statue should change from unlit pink to unlit white.</p>
+            <p><span class='glyphicon-remove'></span>Select the Unlit_Hologram Material.
+                <br> &nbsp; &bull; Set the Texture to "EnemyEmission" to be used as the albedo (main color channel) for our statue.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Types of Shaders in Unity</h3>
+            <p><span class='glyphicon-remove'></span><b>Surface Shaders</b> in Unity are a code generation approach that makes it much easier to write lit shaders than using low level vertex/pixel shader programs.</p>
+            <p><span class='glyphicon-remove'></span><b>Unlit Shaders</b> do not interact with <i>Unity Lights</i>, useful for special effects. The type created in this implementation.</p>
+            <p><span class='glyphicon-remove'></span><b>Image Effect Shaders</b> are typically a <i>postprocessing</i> effect that read the source image, do some calculations on it, and render the result into the provided destination (e.g using <code>Graphics.Blit</code>)</p>
+            <p><span class='glyphicon-remove'></span><b>Compute Shaders</b> are programs that run on the graphics card, outside of the normal rendering pipeline. They can be used for massively parallel GPGPU algorithms, or to accelerate parts of game rendering.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Anatomy of an Unlit Shader</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Open up the Hologram Shader.
+            <p><span class='glyphicon-remove'></span>It will automatically have a standard setup, just like the MonoBehavior scripts.</p>
+            <p><span class='glyphicon-remove'></span>The <b>language</b> shaders are written in is called "ShaderLab".</p>
+            <pre>
+            <span class='glyphicon-remove'></span>// Initial Shader Setup
+
+            Shader "Unlit/Hologram"
+            {
+                Properties
+                {
+                    _MainText ("Texture", 2D) = "white" {}
+                }
+                SubShader
+                {
+                    Tags { "RenderType"="Opaque" }
+                    // level of detail
+                    LOD 100
+
+                    Pass
+                    {
+                        CGPROGRAM
+                        #pragma vertex vert
+                        #pragma fragment frag
+                        // make fog work
+                        #pragma multi_compile_fog
+
+                        #include "UnityCG.cginc"
+
+                        struct appdata
+                        {
+                            float4 vertex : POSITION;
+                            float2 uv : TEXCOORD0;
+                        };
+
+                        struct v2f
+                        {
+                            float2 uv : TEXCOORD0;
+                            UNITY_FOG_COORDS(1)
+                            float4 vertex : SV_POSITION;
+                        }
+
+                        sampler2D _MainTex;
+                        float4 _MainTex_ST;
+
+                        v2f vert (appdata v)
+                        {
+                            v2f o;
+                            o.vertex = UnityObjectToClipPos(v.vertex);
+                            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                            UNITY_TRANSFER_FOG(o,o.vertex);
+                            return o;
+                        }
+
+                        fixed4 frag (v2f i) : SV_Target
+                        {
+                            // sample the texture
+                            fixed4 col = tex2D(_MainTex, i.uv);
+                            // apply fog
+                            UNITY_APPLY_FOG(i.fogCoord, col);
+                            return col;
+                        }
+                        ENDCG
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Shader</h3>
+            <p><span class='glyphicon-remove'></span>Defines a new shader in a specific folder.</p>
+            <p><span class='glyphicon-remove'></span>We can change the value to "Unlit/SpecialFX/Cool Hologram"</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Properties</h3>
+            <p><span class='glyphicon-remove'></span>Used to define public variables</p>
+            <p><span class='glyphicon-remove'></span>We can change the _MainText value to ("Albedo Texture", 2D) since this is the main albedo color.</p>
+            <p><span class='glyphicon-remove'></span>The "Albedo Texture" serves as the display name, and the "2D" serves as the value.</p>
+            <p><span class='glyphicon-remove'></span><b>Note</b> - No semicolons</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>SubShader</h3>
+            <p><span class='glyphicon-remove'></span>Contains instructions for Tags on how to setup the renderer and the Pass information.</p>
+            <p><span class='glyphicon-remove'></span>There can be <i>multiple</i> SubShader definitions.
+                <br> &nbsp; &bull; Could be used to define separate ways to render for mobile, dektop, platforms, etc.</p>
+            <p><span class='glyphicon-remove'></span>In the initial unlit shader, the SubShader contains two <code>struct</code> definitions. (appdata, v2f)
+                <br> &nbsp; &bull; These are passed to two functions (<code>v2f vert (appdata v)</code>, <code>fixed4 frag (v2f i) : SV_Target</code>)</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Unlit Shader</h3>
+            <p><span class='glyphicon-remove'></span><b>Vertex Function</b> - Takes the shape of model, potentially modifies it.</p>
+            <p><span class='glyphicon-remove'></span><b>Fragment Function</b> - Applies color to the shape output by the vert function.</p>
+            <p><span class='glyphicon-remove'></span><b>Property Data: </b> Colors, textures, values set by user in the Inspector.</p>
+            <p><span class='glyphicon-remove'></span>Mesh -> Vertex Function (Property Data) -> Fragment Function (Property Data) -> Image</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Vertex Function</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            We'll be looking initially at the <b>Pass</b> block.
+            <p><span class='glyphicon-remove'></span>The Pass block starts off with some <b>definitions</b> (preprocessor directives).
+                <br> &nbsp; &bull; Defines a vertex function called vert.
+                <br> &nbsp; &bull; Defines a fragment function called frag.
+                <br> &nbsp; &bull; We'll take out the fog definition which resides throughout the SubShader.</p>
+            <p><span class='glyphicon-remove'></span>The <code>#include "UnityCG.cginc"</code> brings in that class as a depencency at compile time.</p>
+            <p><span class='glyphicon-remove'></span>Two <code>struct</code> are created (appdata, v2f (vert 2 frag)) that contain their own struct data.
+                <br> &nbsp; &bull; After the colon, we define semantic binding. This tells the render how we're using the data.</p>
+            <p><span class='glyphicon-remove'></span>The struct data is then being passed to two functions.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Coordinate Systems</h3>
+            <p><span class='glyphicon-remove'></span>Local space (or Object space)</p>
+            <p><span class='glyphicon-remove'></span>World space</p>
+            <p><span class='glyphicon-remove'></span>View space (or Eye space)</p>
+            <p><span class='glyphicon-remove'></span>Clip space</p>
+            <p><span class='glyphicon-remove'></span>Screen space</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>vert Function</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>v2f vert (appdata v)
+            {
+                // Create new v2f struct o
+                v2f o;
+
+                // Set the o vertex to the apporpriate coordinate space (screen space)
+                o.vertex = UnityObjectToClipPos(v.vertex);
+
+                // Transform the texture onto the model
+                o.uv = TRANSFORM_TEX(v.uv, _MainText);
+
+                // Return the built up model
+                return o;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span></p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Fragment Function and Color Tint</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>frag Function</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>fixed4 frag (v2f i) : SV_Target
+            {
+                // sample the texture (colors) from the MainTex and uv data
+                fixed4 col = tex2D(_MainTex, i.uv);
+
+                // return Screen Space buffer information
+                return col;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Tint Color</h3>
+            <p><span class='glyphicon-remove'></span>In Properties, we'll add some variables.
+                <br> &nbsp; &bull; <code>_TintColor("Tint color", Color) = (1,1,1,1)</code></p>
+            <p><span class='glyphicon-remove'></span>Declare these variables in the Pass block.
+                <br> &nbsp; &bull; <code>float4  _TintColor;</code></p>
+            <p><span class='glyphicon-remove'></span>Use this variable by adding it to the <code>col</code> variable.
+                <br> &nbsp; &bull; <code>fixed4 col = text2D(_MainTex, i.uv) + _TintColor;</code></p>
+            <p><span class='glyphicon-remove'></span>In the Shader inspector, set this color to a nice dark blue.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated Shader Script</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>Shader "Unlit/SpecialFX/Cool Hologram"
+            {
+                Properties
+                {
+                    _MainTex ("Albedo Texture", 2D) = "white" {}
+                    _TintColor("Tint Color", Color) = (1,1,1,1)
+                }
+            
+                SubShader
+                {
+                    Tags {"RenderType"="Opaque" }
+                    LOD 100
+            
+                    Pass
+                    {
+                        CGPROGRAM
+                        #pragma vertex vert
+                        #pragma fragment frag
+            
+                        #include "UnityCG.cginc"
+            
+                        struct appdata
+                        {
+                            float4 vertex : POSITION;
+                            float2 uv : TEXCOORD0;
+                        };
+            
+                        struct v2f
+                        {
+                            float2 uv : TEXCOORD0;
+                            float4 vertex : SV_POSITION;
+                        };
+            
+                        sampler2D _MainTex;
+                        float4 _MainTex_ST;
+                        float4 _TintColor;
+                        
+                        v2f vert (appdata v)
+                        {
+                            v2f o;
+                            o.vertex = UnityObjectToClipPos(v.vertex);
+                            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                            return o;
+                        }
+                        
+                        fixed4 frag (v2f i) : SV_Target
+                        {
+                            // sample the texture
+                            fixed4 col = tex2D(_MainTex, i.uv) + _TintColor;
+                            return col;
+                        }
+                        ENDCG
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Transparency</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Head to <b>Tags</b> block in SubShader.
+                <br> &nbsp; &bull; Set the <b>RenderType</b> to "Transparent" rather than Opaque.
+                <br> &nbsp; &bull; In front the the RenderType, set "Queue" to "Transparent" as well.
+            <p><span class='glyphicon-remove'></span>Below the LOD, add these configurations:
+                <br> &nbsp; &bull; <code>ZWrite Off</code> - Don't render to depth buffer
+                <br> &nbsp; &bull; <code>Blend SrcAlpha OneMinusSrcAlpha</code> - Render in order and blend using alpha channel</p>
+            <p><span class='glyphicon-remove'></span>Add a public property to Properties:
+                <br> &nbsp; &bull; <code>_Transparency("Transparency", Range(0.0, 0.5)) = 0.25</code></p>
+            <p><span class='glyphicon-remove'></span>Declare Transparency in Pass block.
+                <br> &nbsp; &bull; <code>float _Transparency;</code></p>
+            <p><span class='glyphicon-remove'></span>Head to the frag function to add a line below the color declaration.
+                <br> &nbsp; &bull; Add: <code>col.a = _Transparency</code> // Sets color alpha channel to transparency</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated Shader Script</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>Shader "Unlit/SpecialFX/Cool Hologram"
+            {
+                Properties
+                {
+                    _MainTex ("Albedo Texture", 2D) = "white" {}
+                    _TintColor("Tint Color", Color) = (1,1,1,1)
+                    _Transparency("Transparency", Range(0.0,0.5)) = 0.25
+                }
+            
+                SubShader
+                {
+                    Tags {"Queue"="Transparent" "RenderType"="Transparent" }
+                    LOD 100
+            
+                    ZWrite Off
+                    Blend SrcAlpha OneMinusSrcAlpha
+            
+                    Pass
+                    {
+                        CGPROGRAM
+                        #pragma vertex vert
+                        #pragma fragment frag
+            
+                        #include "UnityCG.cginc"
+            
+                        struct appdata
+                        {
+                            float4 vertex : POSITION;
+                            float2 uv : TEXCOORD0;
+                        };
+            
+                        struct v2f
+                        {
+                            float2 uv : TEXCOORD0;
+                            float4 vertex : SV_POSITION;
+                        };
+            
+                        sampler2D _MainTex;
+                        float4 _MainTex_ST;
+                        float4 _TintColor;
+                        float _Transparency;
+                        
+                        v2f vert (appdata v)
+                        {
+                            v2f o;
+                            o.vertex = UnityObjectToClipPos(v.vertex);
+                            o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                            return o;
+                        }
+                        
+                        fixed4 frag (v2f i) : SV_Target
+                        {
+                            // sample the texture
+                            fixed4 col = tex2D(_MainTex, i.uv) + _TintColor;
+                            col.a = _Transparency;
+                            return col;
+                        }
+                        ENDCG
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Displacing Vertices and Clipping Pixels</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            In this section, we want to be able to throw away certain colors under certain conditions.
+            <p><span class='glyphicon-remove'></span>Add a property to the Properties block:
+                <br> &nbsp; &bull; <code>_CutoutThresh("Cutout Threshold", Range(0.0, 0.1)) = 0.2</code></p>
+            <p><span class='glyphicon-remove'></span>Remeber to declare this property in the Pass block:
+                <br> &nbsp; &bull; <code>float _CutoutThresh;</code></p>
+            <p><span class='glyphicon-remove'></span>Head to the frag function and add this line below the Transparency line.
+                <br> &nbsp; &bull; <code>clip(col.r - _CutoutThresh);</code>
+                <br> &nbsp; &bull; Could be understood better as (don't implement): <code>if (col.r &lt; _CutoutThresh) discard;</code></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            In this section, we want to displace verticies to create a glitch effect.
+            <p><span class='glyphicon-remove'></span>Add these properties to the Properties block:
+                <br> &nbsp; &bull; <code>_Distance("Distance", Float) = 1</code>
+                <br> &nbsp; &bull; <code>_Amplitude("Amplitude", Float) = 1 </code>
+                <br> &nbsp; &bull; <code>_Speed("Speed", Float) = 1</code>
+                <br> &nbsp; &bull; <code>_Amount("Amount", Range(0.0, 1.0)) = 1</code></p>
+            <p><span class='glyphicon-remove'></span>Then declare all of the properties in the Pass block:
+                <br> &nbsp; &bull; <code>float _Distance;</code>
+                <br> &nbsp; &bull; <code>float _Amplitude;</code>
+                <br> &nbsp; &bull; <code>float _Speed;</code>
+                <br> &nbsp; &bull; <code>float _Amount;</code></p>
+            <p><span class='glyphicon-remove'></span>Use these now in the vert function after the <code>o</code> declaration:
+                <br> &nbsp; &bull; <code>v.vertex.x += sin(_Time.y * _Speed * v.vertex.y * _Amplitude) * _Distance * _Amount;</code></p>
+            <p><span class='glyphicon-remove'></span>In Scene view, mess with the values until there is a sweet effect.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>HoloMan Glitcher</h3>
+            <p><span class='glyphicon-remove'></span>This is the script that handles the random glitching look.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public class HoloManGlitcher : MonoBehaviour {
+
+                public float glitchChance = 0.1f;
+
+                private Renderer holoRenderer;
+                private WaitForSeconds glitchLoopWait = new WaitForSeconds(0.1f);
+                private WaitforSeconds glitchDuration = new WaitForSeconds(0.1f);
+
+                void Awake() {
+                    holoRenderer = GetComponent&lt;Renderer>();
+                }
+
+                IEnumerator Start() {
+                    while (true) {
+                        float glitchText = Random.Range(0f, 1f);
+
+                        if (glitchTest &lt;= glitchChance) {
+                            StartCoroutine (Glitch ());
+                        }
+                        
+                        yield return glitchLoopWait;
+                    }
+                }
+
+                IEnumerator Glitch() {
+                    glitchDuration = new WaitForSeconds(Random.Range(0.05f, 0.25f));
+                    holoRenderer.material.SetFloat ("_Amount", 1f);
+                    holoRenderer.material.SetFloat ("_CutoutThresh", 0.29f);
+                    holoRenderer.material.SetFloat ("_Amplitude", Random.Range(100, 250));
+                    holoRenderer.material.SetFloat ("_Speed", Random.Range(1, 10));
+
+                    yield return glitchDuration;
+
+                    holoRenderer.material.SetFloat ("_Amount", 0f);
+                    holoRenderer.material.SetFloat ("_CutoutThresh", 0f);
+                }
+            }
+            </pre>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+                    <!-------------------------------------->
+                </div>
+            </div>
+    </main>
+
+    <!-------------------------------------------------------------------------->
+
+    <!-- FOOTER -->
+    <footer class="navbar navbar-inverse navbar-fixed-bottom">
+        <nav>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 col-sm-6 col-xs-12">
+                        <ul>
+                            <li>&copy; 2017 <a href="http://www.gabedeyo.com">Gabe Deyo</a></li>
+                            <li>|</li>
+                            <li><a href="mailto:gabedeyo@gmail.com?subject=Notes">gabedeyo@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="../../js/selection.js" charset="utf-8"></script>
+</body>
+
+</html>
