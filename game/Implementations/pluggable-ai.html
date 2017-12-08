@@ -98,6 +98,7 @@
           <li class="separator"></li>
           <li><a href="#0">Introduction</a></li>
           <li><a href='#1'>Finite State AI</a></li>
+          <li><a href='#2'>Action and State Base Classes</a></li>
         </ul>
     </aside>
 
@@ -117,6 +118,10 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#1'>Finite State AI</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#2'>Action and State Base Classes</a>
                                 </p>
                             </li>
                         </ul>
@@ -156,6 +161,37 @@
             <p><span class='glyphicon-remove'></span> &bull; An abstract machine that can be in exactly one of a finite number of states at any given time.</p>
             <p><span class='glyphicon-remove'></span> &bull; The finite state machine can change from one state to another in response to some external inputs; the change from one state to another is called a transition.</p>
             <p><span class='glyphicon-remove'></span> &bull; A finite state machine is defined by a list of its states, its initial state and the conditions for each transition.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>ScriptableObjects</h3>
+            <p><span class='glyphicon-remove'></span> &bull; Like MonoBehaviour but not attached to GameObjects.</p>
+            <p><span class='glyphicon-remove'></span> &bull; Can be used to create assets which store data or execute code. This implementation features both.</p>
+            <p><span class='glyphicon-remove'></span> &bull; Watch Richard "superpig" Fine's video on Overthrowing the MonoBehaviour Tyranny in a Glorious ScriptableObject Revolution.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Delegation or Delegate Pattern</h3>
+            <p><span class='glyphicon-remove'></span>In <b>Delegation</b>, an object handles a request by delegating to a second object (the delegate).</p>
+            <p><span class='glyphicon-remove'></span>We will delegate behavior to ScriptableObject assets and thereby create the <b>'pluggable'</b> aspect of the system.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Elements of Our Pluggable AI</h3>
+            <p><span class='glyphicon-remove'></span><b>Assets:</b>
+                <br> &nbsp; &bull; Actions
+                <br> &nbsp; &bull; Decisions
+                <br> &nbsp; &bull; Transitions
+                <br> &nbsp; &bull; States</p>
+            <p><span class='glyphicon-remove'></span><b>MonoBehaviour</b>
+                <br> &nbsp; &bull; StateController</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='2'>
+    <h2>Action and State Base Classes</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
