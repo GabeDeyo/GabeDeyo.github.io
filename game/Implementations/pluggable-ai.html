@@ -99,6 +99,9 @@
           <li><a href="#0">Introduction</a></li>
           <li><a href='#1'>Finite State AI</a></li>
           <li><a href='#2'>Action and State Base Classes</a></li>
+          <li><a href='#3'>Patrol Action</a></li>
+          <li><a href='#4'>Decisions and Looking</a></li>
+          <li><a href='#5'>Transition Between States</a></li>
         </ul>
     </aside>
 
@@ -122,6 +125,18 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#2'>Action and State Base Classes</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#3'>Patrol Action</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#4'>Decisions and Looking</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#5'>Transition Between States</a>
                                 </p>
                             </li>
                         </ul>
@@ -183,6 +198,67 @@
             <p><span class='glyphicon-remove'></span><b>MonoBehaviour</b>
                 <br> &nbsp; &bull; StateController</p>
         </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>EnemyStats</h3>
+            <p><span class='glyphicon-remove'></span>The first script to create is the <b>"EnemyStats"</b> script which provides a Scriptable Object.</p>
+            <p><span class='glyphicon-remove'></span>This script provides all stats that any enemy needs.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/EnemyStats")]
+            public class EnemyStats : ScriptableObject {
+                public float moveSpeed = 1;
+                public float lookRange = 40f;
+                public float lookSphereCastRadius = 1f;
+
+                public float attackRange = 1f;
+                public float attackRate = 1f;
+                public float attackForce = 15f;
+                public int attackDamage = 50;
+
+                public float searchDuration = 4f;
+                public float searchingTurnSpeed = 120f;
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>It then looks like we create a ScriptableObject called "DefaultEnemyStats".
+                <br> &nbsp; &bull; In the Scripts folder, create a sub-folder called <b>"ScriptableObjects"</b>.
+                <br> &nbsp; &bull; Use the Assets menu to create an EnemyStats object called <b>"DefaultEnemyStats"</b>.
+                <br> &nbsp; &bull; Down the line, the values are: [1, 80, 2, 40, 1, 15, 50, 8, 120]</p>
+            <p><span class='glyphicon-remove'></span>This script will not change throughout the project.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>StateController</h3>
+            <p><span class='glyphicon-remove'></span>Create a new C# script called <b>"StateController"</b>. This will be developed throughout the project.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+
+            public class StateController : MonoBehaviour {
+
+                public EnemyStats enemyStats;
+                public Transform eyes;
+
+                [HideInInspector] public NavMeshAgent navMeshAgent;
+                [HideInInspector] public Complete.TankShooting tankShooting;
+                [HideInInspector] public List&lt;Transform> wayPointList;
+
+                private bool aiActive;
+
+                void Awake() {
+                    tankShooting = GetComponent&lt;Complete.TankShooting>();
+                    navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                }
+
+                public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+                    wayPointList = wayPointsFromTankManager;
+                    aiActive = aiActivationFromTankManager;
+
+                    if (aiActive) {
+                        navMeshAgent.enabled = true;
+                    } else {
+                        navMeshAgent.enabled = false;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
 </div>
@@ -191,7 +267,430 @@
     <h2>Action and State Base Classes</h2>
     <ul>
         <li><p><span class='glyphicon-remove'></span>
-            
+            This section will focus on building our most simple features called <b>Actions</b> and <b>States</b>.
+            <p><span class='glyphicon-remove'></span>Start by creating a new C# script called "Action".</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public abstract class Action : ScriptableObject {
+
+                public abstract void Act (StateController controller);
+            }
+            </pre>
+            <p><span class='glyphicon-remove'></span>Create a new C# script called "State".</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/State")]
+            public class State : ScriptableObject {
+
+                public Action[] actions;
+                public Color sceneGizmoColor = Color.grey;
+
+                public void UpdateState(StateController controller) {
+                    DoActions(controller);
+                }
+
+                private void DoActions(StateController controller) {
+
+                    for (int i = 0; i &lt; actions.Length; i++) {
+                        actions[i].Act(controller);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated StateController</h3>
+            <pre>
+                <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+    
+                public class StateController : MonoBehaviour {
+    
+                    public State currentState;
+                    public EnemyStats enemyStats;
+                    public Transform eyes;
+    
+                    [HideInInspector] public NavMeshAgent navMeshAgent;
+                    [HideInInspector] public Complete.TankShooting tankShooting;
+                    [HideInInspector] public List&lt;Transform> wayPointList;
+    
+                    private bool aiActive;
+    
+                    void Awake() {
+                        tankShooting = GetComponent&lt;Complete.TankShooting>();
+                        navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                    }
+    
+                    public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+
+                        wayPointList = wayPointsFromTankManager;
+                        aiActive = aiActivationFromTankManager;
+    
+                        if (aiActive) {
+                            navMeshAgent.enabled = true;
+                        } else {
+                            navMeshAgent.enabled = false;
+                        }
+                    }
+
+                    void Update() {
+
+                        if (!aiActive)
+                            return;
+                        
+                        currentState.UpdateState(this);
+                    }
+
+                    void OnDrawGizmos() {
+                        if (currentState != null &amp;&amp; eyes != null) {
+                            Gizmos.color = currentState.sceneGizmoColor;
+                            Gizmos.DrawWireSphere(eyes.position, enemyStats.lookSphereCastRadius);
+                        }
+                    }
+                }
+                </pre>
+                <p><span class='glyphicon-remove'></span>May need to put an empty Eye object on the Tank prefab.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='3'>
+    <h2>Patrol Action</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This section will be focused on creating an action which allows an <i>agent</i> to patrol around a set of waypoints.
+            <p><span class='glyphicon-remove'></span>Create a new C# script called "PatrolAction".</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Actions/Patrol")]
+            public class PatrolAction : Action {
+
+                public override void Act(StateController controller) {
+
+                    Patrol(controller);
+                }
+
+                private void Patrol(StateController controller) {
+
+                    controller.navMeshAgent.destination = controller.wayPointList[controller.nextWayPoint].position;
+                    controller.navMeshAgent.Resume();
+
+                    if (controller.navMeshAgent.remainingDistance &lt;= controller.navMeshAgent.stoppingDistance
+                        &amp;&amp; !controller.NavMeshAgent.pathPending) 
+                    {
+                        controller.nextWayPoint = (controller.nextWayPoint + 1) % controller.wayPointList.Count;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated StateController</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+
+            public class StateController : MonoBehaviour {
+
+                public State currentState;
+                public EnemyStats enemyStats;
+                public Transform eyes;
+
+                [HideInInspector] public NavMeshAgent navMeshAgent;
+                [HideInInspector] public Complete.TankShooting tankShooting;
+                [HideInInspector] public List&lt;Transform> wayPointList;
+                [HideInInspector] public int nextWayPoint;
+
+                private bool aiActive;
+
+                void Awake() {
+                    tankShooting = GetComponent&lt;Complete.TankShooting>();
+                    navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                }
+
+                public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+
+                    wayPointList = wayPointsFromTankManager;
+                    aiActive = aiActivationFromTankManager;
+
+                    if (aiActive) {
+                        navMeshAgent.enabled = true;
+                    } else {
+                        navMeshAgent.enabled = false;
+                    }
+                }
+
+                void Update() {
+
+                    if (!aiActive)
+                        return;
+                    
+                    currentState.UpdateState(this);
+                }
+
+                void OnDrawGizmos() {
+                    if (currentState != null &amp;&amp; eyes != null) {
+                        Gizmos.color = currentState.sceneGizmoColor;
+                        Gizmos.DrawWireSphere(eyes.position, enemyStats.lookSphereCastRadius);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            We now can create an Action.
+                <br> &nbsp; &bull; Create a new folder in the Scriptable Objects folder called <b>"Actions"</b>.
+                <br> &nbsp; &bull; Also create a new folder in the Scriptable Objects folder called <b>"States"</b>.
+                <br> &nbsp; &bull; In the States folder, create a new State called <b>"Patrol Chaser"</b>.
+                <br> &nbsp; &bull; In the Actions folder, create a new Patrol Action called <b>"PatrolAction"</b>.
+                <br> &nbsp; &bull; Set the Actions of the Patrol Chaser to the new PatrolAction.
+                <br> &nbsp; &bull; Set the Scene Gizmo Color to Green.
+            <p><span class='glyphicon-remove'></span>On the Tank prefab, add the State Controller script.
+                <br> &nbsp; &bull; Add the Enemy Stats and Eye components.
+                <br> &nbsp; &bull; Set the Current State to the new "Patrol Chaser" state.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='4'>
+    <h2>Decisions and Looking</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This section will focus on the Decision object type.
+            <p><span class='glyphicon-remove'></span>Create a new script called "Decision"</p>
+            <pre>
+            <span class='glyphicon-remove'></span>public abstract class Decision : ScriptableObject {
+
+                public abstract bool Decide (StateController controller);
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Look Decision</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Decisions/Look")]
+            public class LookDecision : Decision {
+
+                public override bool Decide(StateController controller) {
+
+                    bool targetVisible = Look(controller);
+                    return targetVisible;
+                }
+
+                private bool Look(StateController controller) {
+
+                    RaycastHit hit;
+
+                    Debug.DrawRay(
+                        controller.eyes.position,
+                        controller.eyes.forward.normalized * controller.enemyStats.lookRange,
+                        Color.green
+                    );
+
+                    if (
+                        Physics.SphereCast(
+                            controller.eyes.position,
+                            controller.enemyStats.lookSphereCastRadius,
+                            controller.eyes.forward,
+                            out hit,
+                            controller.enemyStats.lookRange
+                        ) 
+                        &amp;&amp; hit.collider.CompareTag("Player")) 
+                    {
+                        controller.chaseTarget = hit.transform;
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated StateController</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+
+            public class StateController : MonoBehaviour {
+
+                public State currentState;
+                public EnemyStats enemyStats;
+                public Transform eyes;
+
+                [HideInInspector] public NavMeshAgent navMeshAgent;
+                [HideInInspector] public Complete.TankShooting tankShooting;
+                [HideInInspector] public List&lt;Transform> wayPointList;
+                [HideInInspector] public int nextWayPoint;
+                [HideInInspector] public Transform chaseTarget;
+
+                private bool aiActive;
+
+                void Awake() {
+                    tankShooting = GetComponent&lt;Complete.TankShooting>();
+                    navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                }
+
+                public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+
+                    wayPointList = wayPointsFromTankManager;
+                    aiActive = aiActivationFromTankManager;
+
+                    if (aiActive) {
+                        navMeshAgent.enabled = true;
+                    } else {
+                        navMeshAgent.enabled = false;
+                    }
+                }
+
+                void Update() {
+
+                    if (!aiActive)
+                        return;
+                    
+                    currentState.UpdateState(this);
+                }
+
+                void OnDrawGizmos() {
+                    if (currentState != null &amp;&amp; eyes != null) {
+                        Gizmos.color = currentState.sceneGizmoColor;
+                        Gizmos.DrawWireSphere(eyes.position, enemyStats.lookSphereCastRadius);
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Now we can apply this decision.
+                <br> &nbsp; &bull; Create a new folder under ScriptableObjects called <b>"Decisions"</b>.
+                <br> &nbsp; &bull; In this folder, create an instance of the Look Decision called <b>"LookDecision"</b>.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='5'>
+    <h2>Transition Between States</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            This section will focus on transitioning between the different states we have.
+            <p><span class='glyphicon-remove'></span>Create a new C# script called Transition.</p>
+            <pre>
+            <span class='glyphicon-remove'></span>[System.Serializable]
+            public class Transition {
+
+                public Decision decision;
+                public State trueState;
+                public State falseState;
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated State</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/State")]
+            public class State : ScriptableObject {
+
+                public Action[] actions;
+                public Transition[] transitions;
+                public Color sceneGizmoColor = Color.grey;
+
+                public void UpdateState(StateController controller) {
+                    DoActions(controller);
+                    CheckTransitions(controller)
+                }
+
+                private void DoActions(StateController controller) {
+
+                    for (int i = 0; i &lt; actions.Length; i++) {
+                        actions[i].Act(controller);
+                    }
+                }
+
+                private void CheckTransitions(StateController controller) {
+
+                    for (int i = 0; i &lt; transitions.Length; i++) {
+                        bool decisionSucceeded = transitions[i].decision.Decide(controller);
+
+                        if (decisionSucceeded) {
+                            controller.TransitionToState(transitions[i].trueState);
+                        } else {
+                            controller.TransitionToState(transitions[i].falseState);
+                        }
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated StateController</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+
+            public class StateController : MonoBehaviour {
+
+                public State currentState;
+                public EnemyStats enemyStats;
+                public Transform eyes;
+                public State remainState;
+
+                [HideInInspector] public NavMeshAgent navMeshAgent;
+                [HideInInspector] public Complete.TankShooting tankShooting;
+                [HideInInspector] public List&lt;Transform> wayPointList;
+                [HideInInspector] public int nextWayPoint;
+                [HideInInspector] public Transform chaseTarget;
+
+                private bool aiActive;
+
+                void Awake() {
+                    tankShooting = GetComponent&lt;Complete.TankShooting>();
+                    navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                }
+
+                public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+
+                    wayPointList = wayPointsFromTankManager;
+                    aiActive = aiActivationFromTankManager;
+
+                    if (aiActive) {
+                        navMeshAgent.enabled = true;
+                    } else {
+                        navMeshAgent.enabled = false;
+                    }
+                }
+
+                void Update() {
+
+                    if (!aiActive)
+                        return;
+                    
+                    currentState.UpdateState(this);
+                }
+
+                void OnDrawGizmos() {
+                    if (currentState != null &amp;&amp; eyes != null) {
+                        Gizmos.color = currentState.sceneGizmoColor;
+                        Gizmos.DrawWireSphere(eyes.position, enemyStats.lookSphereCastRadius);
+                    }
+                }
+
+                public void TransitionToState(State nextState) {
+                    if (nextState != remainState) {
+                        currentState = nextState;
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>New States</h3>
+            <p><span class='glyphicon-remove'></span>Create a new State called <b>"Chase Chaser"</b></p>
+            <p><span class='glyphicon-remove'></span>Create a new State called <b>"RemainInState"</b></p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Head to the Patrol Chaser State in the States folder.
+                <br> &nbsp; &bull; Add 1 to the new Transitions array.
+                <br> &nbsp; &bull; Set the Decision to LookDecision
+                <br> &nbsp; &bull; Set the True State to Chase Chaser state.
+                <br> &nbsp; &bull; Set Chase Chaser gimzo color to red.
+                <br> &nbsp; &bull; Set the False State to Remain In State state.
+                <br> &nbsp; &bull; Set the Remain State variable on State Controller to the Remain In State state.
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
