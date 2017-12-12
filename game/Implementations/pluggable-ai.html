@@ -102,6 +102,9 @@
           <li><a href='#3'>Patrol Action</a></li>
           <li><a href='#4'>Decisions and Looking</a></li>
           <li><a href='#5'>Transition Between States</a></li>
+          <li><a href='#6'>Chase Until Target Is Dead</a></li>
+          <li><a href='#7'>Attack Action</a></li>
+          <li><a href='#8'>Scan Decision</a></li>
         </ul>
     </aside>
 
@@ -137,6 +140,18 @@
                             </li>
                             <li><p><span class='glyphicon-remove'></span>
                                 <a href='#5'>Transition Between States</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#6'>Chase Until Target Is Dead</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#7'>Attack Action</a>
+                                </p>
+                            </li>
+                            <li><p><span class='glyphicon-remove'></span>
+                                <a href='#8'>Scan Decision</a>
                                 </p>
                             </li>
                         </ul>
@@ -691,6 +706,224 @@
                 <br> &nbsp; &bull; Set Chase Chaser gimzo color to red.
                 <br> &nbsp; &bull; Set the False State to Remain In State state.
                 <br> &nbsp; &bull; Set the Remain State variable on State Controller to the Remain In State state.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='6'>
+    <h2>Chase Until Target Is Dead</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new C# script called <b>"ChaseAction"</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Actions/Chase")]
+            public class ChaseAction : Action {
+
+                public override void Act (StateController controller) {
+                    Chase (controller);
+                }
+
+                private void Chase(StateController controller) {
+                    controller.navMeshAgent.destination = controller.chaseTarget.position;
+                    controller.navMeshAgent.Resume ();
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new C# script called <b>"ActiveStateDecision"</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Decisions/ActiveState")]
+            public class ActiveStateDecision : Decision {
+
+                public override bool Decide (StateController controller) {
+                    bool chaseTargetIsActive = controller.chaseTarget.gameObject.activeSelf;
+                    return chaseTargetIsActive;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new ScriptableObject action called <b>ChaseAction</b>.
+            <p><span class='glyphicon-remove'></span>Create a new ActiveState decision called <b>ActiveStateDecision</b>.</p>
+            <p><span class='glyphicon-remove'></span>Head to the Chase Chaser state.
+                <br> &nbsp; &bull; Set the Actions array to 1.
+                <br> &nbsp; &bull; Set the action to ChaseAction.
+                <br> &nbsp; &bull; Set the Transitions to 1.
+                <br> &nbsp; &bull; Set the Decision to ActiveStateDecision.
+                <br> &nbsp; &bull; Set the True State to RemainInState.
+                <br> &nbsp; &bull; Set the False State to Patrol Chaser.</p>
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='7'>
+    <h2>Attack Action</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            <h3>Updated StateController</h3>
+            <pre>
+            <span class='glyphicon-remove'></span>//using UnityEngine.AI; Complete;
+
+            public class StateController : MonoBehaviour {
+
+                public State currentState;
+                public EnemyStats enemyStats;
+                public Transform eyes;
+                public State remainState;
+
+                [HideInInspector] public NavMeshAgent navMeshAgent;
+                [HideInInspector] public Complete.TankShooting tankShooting;
+                [HideInInspector] public List&lt;Transform> wayPointList;
+                [HideInInspector] public int nextWayPoint;
+                [HideInInspector] public Transform chaseTarget;
+                [HideInInspector] public float stateTimeElapsed;
+
+                private bool aiActive;
+
+                void Awake() {
+                    tankShooting = GetComponent&lt;Complete.TankShooting>();
+                    navMeshAgent = GetComponent&lt;NavMeshAgent>();
+                }
+
+                public void SetupAI(bool aiActivationFromTankManager, List&lt;Transform> wayPointsFromTankManager) {
+
+                    wayPointList = wayPointsFromTankManager;
+                    aiActive = aiActivationFromTankManager;
+
+                    if (aiActive) {
+                        navMeshAgent.enabled = true;
+                    } else {
+                        navMeshAgent.enabled = false;
+                    }
+                }
+
+                void Update() {
+
+                    if (!aiActive)
+                        return;
+                    
+                    currentState.UpdateState(this);
+                }
+
+                void OnDrawGizmos() {
+                    if (currentState != null &amp;&amp; eyes != null) {
+                        Gizmos.color = currentState.sceneGizmoColor;
+                        Gizmos.DrawWireSphere(eyes.position, enemyStats.lookSphereCastRadius);
+                    }
+                }
+
+                public void TransitionToState(State nextState) {
+                    if (nextState != remainState) {
+                        currentState = nextState;
+                    }
+                }
+
+                public bool CheckIfCountDownElapsed(float duration) {
+                    stateTimeElapsed += Time.deltaTime;
+                    return (stateTimeElapsed >= duration);
+                }
+
+                private void OnExitState() {
+                    stateTimeElapsed = 0;
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new C# script called <b>AttackAction</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Actions/Attack")]
+            public class AttackAction : Action {
+
+                public override void Act (StateController controller) {
+                    Attack(controller);
+                }
+
+                private void Attack(StateController controller) {
+                    
+                    RaycastHit hit;
+
+                    Debug.DrawRay (
+                        controller.eyes.position,
+                        controller.eyes.forward.normalized * controller.enemyStats.attackRange, Color.red
+                    );
+
+                    if (Physics.SphereCast (
+                            controller.eyes.position,
+                            controller.enemyStats.lookSphereCastRadius,
+                            controller.eyes.forward,
+                            out hit,
+                            controller.enemyStats.attackRange
+                        ) &amp;&amp; hit.collider.CompareTag("Player"))
+                    {
+                        if (controller.CheckIfCountDownElapsed(controller.enemyStats.attackRate)) {
+                            controller.tankShooting.Fire(controller.enemyStats.attackForce, controller.enemyStats.attackRate);
+                        }
+                    }
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new Action called <b>Attack</b>.
+                <br> &nbsp; &bull; In Chase Chaser state, Add the AttackAction to the Actions.
+        </p></li>
+    </ul>
+    <a href='#title'><span class='glyphicon-menu-up'></span></a>
+</div>
+
+<div class='jumbotron col-md-12 heliList' id='8'>
+    <h2>Scan Decision</h2>
+    <ul>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new C# script called <b>ScanDecision</b>.
+            <pre>
+            <span class='glyphicon-remove'></span>[CreateAssetMenu (menuName = "PluggableAI/Decisions/Scan")]
+            public class ScanDecision : Decision {
+
+                public override bool Decide (StateController controller) {
+                    bool noEnemyInSight = Scan(controller);
+                    return noEnemyInSight;
+                }
+
+                private bool Scan(StateController controller) {
+                    controller.navMeshAgent.Stop();
+                    controller.transform.Rotate(0, controller.enemyStats.searchingTurnSpeed * Time.deltaTime, 0);
+                    return controller.CheckIfCountDownElapsed(controller.enemystats.searchDuration);
+
+                    //NavMeshAgent.Resume() is replaced by 
+                    // bool NavMeshAgent.isStopped in 5.6 and later
+                }
+            }
+            </pre>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new Scan decision called <b>ScanDecision</b>.
+            <p><span class='glyphicon-remove'></span>Duplicate both the Chase Chaser and Patrol Chaser states.
+                <br> &nbsp; &bull; Rename them Chase Scanner and Patrol Scanner.</p>
+            <p><span class='glyphicon-remove'></span>In Patrol Scanner, set the True State to Chase Scanner</p>
+            <p><span class='glyphicon-remove'></span>In Chase Scanner, set the Decision to the LookDecision.
+                <br> &nbsp; &bull; Create a new State called <b>Alert Scanner</b>.
+                <br> &nbsp; &bull; Set it's Scene Gizmo Color to a yellow warning color.
+                <br> &nbsp; &bull; Set the Chase Scanner False State to Alert Scanner.</p>
+            <p><span class='glyphicon-remove'></span>In Alert Scanner, make 2 Transitions.
+                <br> &nbsp; &bull; The first Decision should be the Scan Decision.
+                <br> &nbsp; &bull; It's True State is the Patrol Scanner.
+                <br> &nbsp; &bull; It's False State is RemainInState.
+                <br> &nbsp; &bull; The second Decision should be the Look Decision.
+                <br> &nbsp; &bull; It's True State is the Chase Scanner.
+                <br> &nbsp; &bull; It's False State is RemainInState.</p>
+        </p></li>
+        <li><p><span class='glyphicon-remove'></span>
+            Create a new prefab of the AI Tank Chaser, rename to AI Tank Scanner.
+                <br> &nbsp; &bull; All that needs to change is using the Patrol Scanner as the Current State.
+            <p><span class='glyphicon-remove'></span>Head to the GameManager in the Hierarchy.
+                <br> &nbsp; &bull; Add the AI Tank Scanner to the Tank Prefabs list.
+                <br> &nbsp; &bull; Add 1 to the Tanks array size.
+                <br> &nbsp; &bull; Change it's color to a green, and make it's spawn point to something not being used.</p>
         </p></li>
     </ul>
     <a href='#title'><span class='glyphicon-menu-up'></span></a>
